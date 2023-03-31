@@ -1,4 +1,4 @@
-function display_grid(grid, min_display_value, view_angle)
+function display_grid(grid, min_display_value)
 
     % create a new figure
     figure()
@@ -26,29 +26,5 @@ function display_grid(grid, min_display_value, view_angle)
             end
         end
     end
-
-    % add floor
-
-        % Define the x and y ranges
-        x = linspace(0, 1, size(grid,1))*size(grid,1);
-        y = linspace(0, 1, size(grid,2))*size(grid,2);
-        
-        % Create a grid of points from x and y
-        [X,Y] = meshgrid(x,y);
-        
-        % Define the function to plot
-        Z = zeros(size(grid,1),size(grid,2));
-            
-        % Plot the surface
-        surf(X,Y,Z, 'FaceAlpha',0.5, 'FaceColor','y');
-%         set(hSurface,'FaceColor',[1 0 0],'FaceAlpha',0.5);
-
-
-    % set fixed axis size
-    axis([0 size(grid,1) 0 size(grid,2) 0 size(grid,3)])
-
-    % set viewing angle
-    view(view_angle);
-
 
 end
