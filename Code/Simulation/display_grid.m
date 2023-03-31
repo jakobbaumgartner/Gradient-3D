@@ -1,27 +1,34 @@
 function display_grid(grid, min_display_value)
+    % This function displays a 3D space matrix as a 3D plot, where each voxel 
+    % is represented by a cube. Only voxels with a value above the 
+    % min_display_value threshold are displayed.
 
     % create a new figure
     figure()
 
-    % view - uses the default line of sight for 2-D or 3-D plots. Specify dim as 2 for the default 2-D view or 3 for the default 3-D view.
+    % set the default line of sight for the 3D plot
     view(3)
 
     % loop through every element of the space matrix
     for x = 1:size(grid, 1)
         for y = 1:size(grid, 2)
             for z = 1:size(grid, 3)
-                % get the start position and size of the voxel
+                % get the start position of the voxel (bottom left corner)
                 start = [(x-1), (y-1), (z-1)];
                 
-                % value of current voxel
+                % get the value of the current voxel
                 voxel_value = grid(x,y,z);
 
-                % draw the voxel (if its value is above min display value)
+                % draw the voxel as a cube if its value is above the 
+                % min_display_value threshold
                 if voxel_value > min_display_value
+                    % draw a cube at the position defined by start, with 
+                    % dimensions [1 1 1] and color black ('k'). The value 
+                    % of the voxel is used to set the color of the cube.
                     voxel(start, [1 1 1], 'k', voxel_value);
                 end
                 
-                % keep same plot
+                % keep the same plot for subsequent voxel cubes
                 hold on
             end
         end
