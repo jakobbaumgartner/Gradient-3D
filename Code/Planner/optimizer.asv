@@ -1,0 +1,33 @@
+function [joint_velocities] = optimizer(joint_angles, distances, force_grid)
+
+  
+
+
+
+    J_= jacobianNumeric(joint_angles);
+
+    % Sb - <global - base KS>
+    Sb=[cos(qBase(3)) 0;
+        sin(qBase(3)) 0;
+        0             1];
+
+    S=[Sb         zeros(3,7);
+       zeros(7,2) eye(7)];
+
+    J=J_*S;
+
+    % pseudo inverse
+    pinv_J = pinv(J);
+
+
+
+
+
+
+
+
+
+
+
+
+end

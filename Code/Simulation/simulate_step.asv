@@ -1,0 +1,58 @@
+function [robot_angles] = simulate_step(robot_angles, q_vel)
+
+    time_step = 0.1;
+
+    % vw to xy and phi
+    states(1:3) = startingState(1:3) + [ param(1) * cos(startingState(10) + param(2) * time_step / 2);
+                                           param(1) * sin(startingState(10) + param(2) * time_step / 2);
+                                           param(2) ]' * time_step;
+
+    % calculate new joint angles 
+    states(8:10) = startingState(1:7) + param(3:9)' * time_step;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+end
