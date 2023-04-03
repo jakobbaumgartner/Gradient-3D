@@ -69,12 +69,12 @@ view(view_angle);
 % -------------------------------------------------------------------------------------------
 
 % Create three sets of points
-points1 = [(130:0.6:160)' (80:1.6:160)' ones(51,1)*80]
-points2 = [(180:5.4:310)' (230:1.21:260)' ones(25,1)*80]
-points3 = [(315:5:450)' ones(28,1)*260 ones(28,1)*100]
+points1 = [(130:0.6:160)' (80:1.6:160)' ones(51,1)*80];
+points2 = [(180:5.4:310)' (230:1.21:260)' ones(25,1)*80];
+points3 = [(315:5:450)' ones(28,1)*260 ones(28,1)*100];
 
 % Combine the three sets of points into a single matrix
-points = [points1 ; points2; points3]
+points = [points1 ; points2; points3];
 
 % Call the polyfit_xyz_trajectory function to fit a polynomial curve to the points
 [X, Y, Z] = polyfit_xyz_trajectory(points);
