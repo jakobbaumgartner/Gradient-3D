@@ -41,20 +41,20 @@ voxel([210 110 0],[70 70 50],'g',0.5)
 voxel([0 110 0],[80 290 50],'g',0.5)
 voxel([100 310 0],[280 90 50],'g',0.5)
 
-%     % add floor
-
-        % Define the x and y ranges
-        x = linspace(0, 1, size(grid_occupancy,1)) * size(grid_occupancy,1) * space_resolution;
-        y = linspace(0, 1, size(grid_occupancy,2)) * size(grid_occupancy,2) * space_resolution;
-        
-        % Create a grid of points from x and y
-        [X,Y] = meshgrid(x,y);
-        
-        % Define the function to plot
-        Z = zeros(size(grid_occupancy,1),size(grid_occupancy,2));
-            
-        % Plot the surface
-        surf(X,Y,Z, 'FaceAlpha',0.5, 'FaceColor',"#EDB120");
+% %     % add floor
+% 
+%         % Define the x and y ranges
+%         x = linspace(0, 1, size(grid_occupancy,1)) * size(grid_occupancy,1) * space_resolution;
+%         y = linspace(0, 1, size(grid_occupancy,2)) * size(grid_occupancy,2) * space_resolution;
+%         
+%         % Create a grid of points from x and y
+%         [X,Y] = meshgrid(x,y);
+%         
+%         % Define the function to plot
+%         Z = zeros(size(grid_occupancy,1),size(grid_occupancy,2));
+%             
+%         % Plot the surface
+%         surf(X,Y,Z, 'FaceAlpha',0.5, 'FaceColor',"#EDB120");
 
 
 % set fixed axis size
@@ -90,13 +90,28 @@ axis equal;
 
 %  -------------------------------------------------------------------------------------------
 
+%% ONE POINT
+% -------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+% -------------------------------------------------------------------------------------------
 
 %% OPTIMIZATION
 % -------------------------------------------------------------------------------------------
 
 robot_angles = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
 [Abase, A01, A12, A23, A34, A45, A56, A67, T] = GeometricRobot(robot_angles);
+hold on
 showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
+
+
 
 
 

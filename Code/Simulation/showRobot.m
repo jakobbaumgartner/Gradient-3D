@@ -39,6 +39,15 @@ function showRobot(Abase, A01, A12, A23, A34, A45, A56, A67, space_resolution, r
     scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, 0, 'filled', 'MarkerFaceColor', robotColor); % plot base position
     hold on
     plotTransforms(TT(1:3,4)'*space_resolution,rotm2quat(TT(1:3,1:3)),'FrameSize',0.1) % plot base coordinate frame
+
+        % Define the center and radius of the circle
+        center_x = TT(1,4)*space_resolution;
+        center_y = TT(2,4)*space_resolution;
+        radius = 0.27*space_resolution;
+                
+        % Draw the circle
+        rectangle('Position',[center_x-radius,center_y-radius,radius*2,radius*2],'Curvature',[1,1],'LineWidth',2, 'FaceColor',"#D95319");
+
     
     % Draw robot arm
     scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor');
