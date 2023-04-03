@@ -1,4 +1,4 @@
-function [Abase, A01, A12, A23, A34, A45, A56, A67, T] = GeometricRobot(robot_angles)
+function [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_angles)
 
 
         % calculates direct geometric model of panda arm and tiago base

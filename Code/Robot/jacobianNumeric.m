@@ -18,8 +18,8 @@
             qq2=q+dq;
             qq1=q-dq;
             
-            [~, ~, ~, ~, ~, ~, ~, ~, T1] = GeometricRobot(qq1(4:10), qq1(1:3));
-            [~, ~, ~, ~, ~, ~, ~, ~, T2] = GeometricRobot(qq2(4:10), qq2(1:3));
+            [T1] = GeometricRobot(qq1);
+            [T2] = GeometricRobot(qq2);
             
             % parcialni odvodi za pozicije
             J(1:3,i)= ( T2(1:3,4)-T1(1:3,4) )/ (qq2(i)-qq1(i));

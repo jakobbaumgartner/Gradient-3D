@@ -93,7 +93,20 @@ axis equal;
 %% ONE POINT
 % -------------------------------------------------------------------------------------------
 
+goal = [130 73 100 0 0 0];
 
+robot_angles = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
+
+while true
+
+    % THERE AS SOME BUGS IN ONE OF THESE >>> !!!
+
+   [T] = GeometricRobot(robot_angles);
+   diff = [goal - [T(1:3,4)' 0 0 0]]
+   [q_vel] = optimizer(robot_angles, diff, []);
+   [robot_angles] = simulate_step(robot_angles, q_vel);
+
+end
 
 
 
@@ -107,7 +120,7 @@ axis equal;
 % -------------------------------------------------------------------------------------------
 
 robot_angles = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
-[Abase, A01, A12, A23, A34, A45, A56, A67, T] = GeometricRobot(robot_angles);
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_angles);
 hold on
 showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
 

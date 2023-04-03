@@ -16,5 +16,5 @@ function [robot_angles] = simulate_step(robot_angles, q_vel)
                                               q_vel(2) ]' * time_step;
 
     % Calculate new joint angles 
-    robot_angles(4:10) = robot_angles(4:10) + q_vel(4:10)' * time_step;
+    robot_angles(4:10) = robot_angles(4:10) + q_vel(3:9)' * time_step;
 end
