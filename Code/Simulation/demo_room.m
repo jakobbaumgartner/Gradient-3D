@@ -90,7 +90,8 @@ axis equal;
 
 %  -------------------------------------------------------------------------------------------
 
-%% ONE POINT
+
+%% PATH OPTIMIZATION
 % -------------------------------------------------------------------------------------------
 
 % Define maksimal distance from goal at which optimization stops
@@ -112,11 +113,8 @@ robot_ee_positions = [];
 diff_hist = [];
 norm_diff_hist = [];
 
-% Initiate diff value to 10 (so that loop runs)
-diff = 10;
 
-% Create a loop that will continue indefinitely
-while norm(diff) > max_dist
+for i=1:1:length(X)
 
    % Calculate the transformation matrix for the robot's current position
    [T] = GeometricRobot(robot_states);
@@ -141,39 +139,6 @@ while norm(diff) > max_dist
    norm_diff_hist = [norm_diff_hist ; norm(diff)];
 
 end
-
-plot3(robot_ee_positions(:,1)*100,robot_ee_positions(:,2)*100,robot_ee_positions(:,3)*100)
-
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(5,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(10,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(15,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(20,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(25,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(30,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
-
-figure()
-plot(robot_states_hist)
-
-
-
-
-% -------------------------------------------------------------------------------------------
-
-%% OPTIMIZATION
-% -------------------------------------------------------------------------------------------
-
-robot_states = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
-hold on
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
-
-
 
 
 
