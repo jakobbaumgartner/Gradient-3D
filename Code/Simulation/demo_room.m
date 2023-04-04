@@ -93,23 +93,72 @@ axis equal;
 %% ONE POINT
 % -------------------------------------------------------------------------------------------
 
-goal = [130 73 100 0 0 0];
+% Define maksimal distance from goal at which optimization stops
+max_dist = 0.01;
 
-robot_angles = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
+% Define goal position for the robot to reach
+goal = [130 73 100 0 0 0]/100;
 
-while true
+% Define initial robot states
+robot_states = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
 
-    % THERE AS SOME BUGS IN ONE OF THESE >>> !!!
+% Create a history of robot states
+robot_states_hist = [robot_states];
 
-   [T] = GeometricRobot(robot_angles);
-   diff = [goal - [T(1:3,4)' 0 0 0]]
-   [q_vel] = optimizer(robot_angles, diff, []);
-   [robot_angles] = simulate_step(robot_angles, q_vel);
+% Create a history of robot end effector positions
+robot_ee_positions = [];
+
+% Create a history of robot the differences between goal and robot position
+diff_hist = [];
+norm_diff_hist = [];
+
+% Initiate diff value to 10 (so that loop runs)
+diff = 10;
+
+% Create a loop that will continue indefinitely
+while norm(diff) > max_dist
+
+   % Calculate the transformation matrix for the robot's current position
+   [T] = GeometricRobot(robot_states);
+
+   % Save EE positions
+   robot_ee_positions = [robot_ee_positions ; T(1:3,4)'];
+
+   % Calculate the difference between the goal and the robot's current position
+   diff = [goal - [T(1:3,4)' 0 0 0]];
+
+   % Use an optimizer to determine the optimal velocities for the robot
+   [q_vel] = optimizer(robot_states, diff, []);
+
+   % Simulate a step for the robot using the optimal velocities
+   [robot_states] = simulate_step(robot_states, q_vel);
+
+   % Add the current robot state to the history list
+   robot_states_hist = [robot_states_hist; robot_states];
+
+   % Add the current difference to the difference history list
+   diff_hist = [diff_hist; diff];
+   norm_diff_hist = [norm_diff_hist ; norm(diff)];
 
 end
 
+plot3(robot_ee_positions(:,1)*100,robot_ee_positions(:,2)*100,robot_ee_positions(:,3)*100)
 
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(5,:));
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(10,:));
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(15,:));
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(20,:));
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(25,:));
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(30,:));
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
 
+figure()
+plot(robot_states_hist)
 
 
 
@@ -119,8 +168,8 @@ end
 %% OPTIMIZATION
 % -------------------------------------------------------------------------------------------
 
-robot_angles = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
-[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_angles);
+robot_states = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
 hold on
 showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F")
 
