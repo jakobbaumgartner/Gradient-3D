@@ -31,7 +31,7 @@ grid_occupancy = add_box(grid_occupancy, space_resolution, 390, 400, 300, 400, 1
 %% ONLY VISUALIZATION
 % -------------------------------------------------------------------------------------------
 min_voxel_display_value = 0.05; % min value to draw voxel, to avoid rendering of empty voxels
-view_angle = [25, 65]; % angle at which we look at plot
+view_angle = [45, 65]; % angle at which we look at plot
 display_grid(grid_occupancy, min_voxel_display_value, space_resolution)
 
 hold on
@@ -69,9 +69,9 @@ view(view_angle);
 % -------------------------------------------------------------------------------------------
 
 % Create three sets of points
-points1 = [(130:0.6:160)' (80:1.6:160)' ones(51,1)*100];
-points2 = [(180:5.4:310)' (230:1.21:260)' ones(25,1)*110];
-points3 = [(315:5:450)' ones(28,1)*260 ones(28,1)*120];
+points1 = [(130:0.6:160)' (80:1.6:160)' ones(51,1)*100]/100;
+points2 = [(180:5.4:310)' (230:1.21:260)' ones(25,1)*110]/100;
+points3 = [(315:5:450)' ones(28,1)*260 ones(28,1)*120]/100;
 
 % Combine the three sets of points into a single matrix
 points = [points1 ; points2; points3];
@@ -80,7 +80,7 @@ points = [points1 ; points2; points3];
 [X, Y, Z] = polyfit_xyz_trajectory(points);
 
 % Plot the polynomial curve in 3D space
-plot3(X, Y, Z, 'r-', 'LineWidth', 2);
+plot3(X*100, Y*100, Z*100, 'r-', 'LineWidth', 2);
 xlabel('X');
 ylabel('Y');
 zlabel('Z');
@@ -90,15 +90,8 @@ axis equal;
 
 %  -------------------------------------------------------------------------------------------
 
-
 %% PATH OPTIMIZATION
 % -------------------------------------------------------------------------------------------
-
-% Define maksimal distance from goal at which optimization stops
-max_dist = 0.01;
-
-% Define goal position for the robot to reach
-goal = [130 73 100 0 0 0]/100;
 
 % Define initial robot states
 robot_states = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
@@ -111,10 +104,13 @@ robot_ee_positions = [];
 
 % Create a history of robot the differences between goal and robot position
 diff_hist = [];
-norm_diff_hist = [];
+diff_hist_norm = [];
 
 
 for i=1:1:length(X)
+
+   % Select goal point
+   goal = [X(i) Y(i) Z(i) 0 0 0];
 
    % Calculate the transformation matrix for the robot's current position
    [T] = GeometricRobot(robot_states);
@@ -123,7 +119,7 @@ for i=1:1:length(X)
    robot_ee_positions = [robot_ee_positions ; T(1:3,4)'];
 
    % Calculate the difference between the goal and the robot's current position
-   diff = [goal - [T(1:3,4)' 0 0 0]];
+   diff = 10*[goal - [T(1:3,4)' 0 0 0]];
 
    % Use an optimizer to determine the optimal velocities for the robot
    [q_vel] = optimizer(robot_states, diff, []);
@@ -136,7 +132,14 @@ for i=1:1:length(X)
 
    % Add the current difference to the difference history list
    diff_hist = [diff_hist; diff];
-   norm_diff_hist = [norm_diff_hist ; norm(diff)];
+   diff_hist_norm = [diff_hist_norm ; norm(diff)];
+
+   % Every few points draw robot
+   if ~mod(i,10)
+        [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
+        showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+        drawnow;
+   end
 
 end
 
