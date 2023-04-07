@@ -1,13 +1,13 @@
-function J = jacobianAnalitic(fi_base, q)
+function J = jacobianGeometric(q)
 
-
-    fi1 = q(1);
-    fi2 = q(2);
-    fi3 = q(3);
-    fi4 = q(4);
-    fi5 = q(5);
-    fi6 = q(6);
-    fi7 = q(7);
+    fi_base = q(3);
+    fi1 = q(4);
+    fi2 = q(5);
+    fi3 = q(6);
+    fi4 = q(7);
+    fi5 = q(8);
+    fi6 = q(9);
+    fi7 = q(10);
 
 
   % baza wheels

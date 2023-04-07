@@ -59,19 +59,19 @@ hold on
 % different time steps in the robot's movement, and display the robot at those
 % time steps using the showRobot function
 [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(1,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "#A2142F", true)
 [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(5,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "#A2142F", true)
 [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(10,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "#A2142F", true)
 [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(15,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "#A2142F", true)
 [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(20,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "#A2142F", true)
 [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(25,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "#A2142F", true)
 [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states_hist(30,:));
-showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "#A2142F", true)
 
 % Plot the robot's states over time (to see joints movement)
 figure()
