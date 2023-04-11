@@ -17,6 +17,9 @@ function [Je, Jgea, Jgep] = jacobianAnalitic(angles)
 q = angles(4:10);
 phi = angles(3);
 
+% NOT ACTUALLY SURE IF THIS ONE IS ANALITIC OR GEOMETRIC - CHECK DIFFERENT
+% ANGLE ERROR INPUTS
+
 
 %% Calculate the Panda arm Jacobian
 

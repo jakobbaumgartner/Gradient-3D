@@ -50,7 +50,6 @@ function [q_vel] = optimizer(robot_angles, diff, force_grid)
 
     end
 
-    % pseudo inverse
 
     % calculate joint velocities
     q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
