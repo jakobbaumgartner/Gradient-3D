@@ -11,18 +11,9 @@ function [q_vel] = optimizer(robot_angles, diff, force_grid)
 
     jacobian_option = 'analitic';
 
-    if strcmp(jacobian_option, 'geometric')
+    if strcmp(jacobian_option, 'analitic')
 
-       % NOT WORKING
-
-        J = jacobianGeometric(robot_angles); % Calculate the Jacobian matrix analitically
-
-        damping_factor = 10;
-
-        pinv_J = J'*(J*J' + damping_factor^2 * eye(6))^-1;
-
-    elseif strcmp(jacobian_option, 'analitic')
-
+   
         J = jacobianAnalitic(robot_angles); % Calculate the Jacobian matrix analitically
 
         pinv_J = pinv(J);
@@ -43,6 +34,18 @@ function [q_vel] = optimizer(robot_angles, diff, force_grid)
         J=J_*S; % Multiply the Jacobian by the S matrix
 
         pinv_J = pinv(J); % Calculate the pseudo-inverse of the Jacobian
+
+   
+    elseif strcmp(jacobian_option, 'geometric')
+
+        % NOT WORKING
+
+        J = jacobianGeometric(robot_angles); % Calculate the Jacobian matrix analitically
+
+        damping_factor = 10;
+
+        pinv_J = J'*(J*J' + damping_factor^2 * eye(6))^-1;
+
 
 
     end
