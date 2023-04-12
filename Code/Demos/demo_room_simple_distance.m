@@ -120,7 +120,7 @@ for i=1:1:length(X)
    [alpha, d] = line_angle_distance([100 290], [400 290], robot_states(1:2), robot_states(3));
 
    % calculate joint velocities
-   q_vel = pinv_J * diff' %+ N*[-d/50*alpha -50/(d+0.0001) 0 0 0 0 0 0 0]';
+   q_vel = pinv_J *diff' + N*[-1/d/50*alpha -50/(d+0.0001) 0 0 0 0 0 0 0]';
 
    % Simulate a step for the robot using the optimal velocities
    [robot_states] = simulate_step(robot_states, q_vel);

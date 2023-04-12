@@ -10,18 +10,6 @@ space_length = 500;
 % create grid obstacle
 grid_occupancy = create_3d_grid(space_resolution, space_height, space_width, space_length);
 
-% add square table
-grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 210, 100, 200, 1, 50);
-grid_occupancy = add_box(grid_occupancy, space_resolution, 290, 300, 100, 200, 1, 50);
-grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 300, 100, 110, 1, 50);
-grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 300, 190, 200, 1, 50);
-
-
-% add counter 1
-grid_occupancy = add_box(grid_occupancy, space_resolution, 90, 100, 100, 400, 1, 50);
-grid_occupancy = add_box(grid_occupancy, space_resolution, 1, 100, 100, 110, 1, 50);
-
-
 % add counter 2
 grid_occupancy = add_box(grid_occupancy, space_resolution, 100, 400, 300, 310, 1, 50);
 grid_occupancy = add_box(grid_occupancy, space_resolution, 390, 400, 300, 400, 1, 50);
@@ -37,11 +25,9 @@ display_grid(grid_occupancy, min_voxel_display_value, space_resolution)
 hold on
 
 % display obstacles (with big patches for faster rendering)
-voxel([210 110 0],[70 70 50],'g',0.5)
-voxel([0 110 0],[80 290 50],'g',0.5)
 voxel([100 310 0],[280 90 50],'g',0.5)
 
-% %     % add floor
+%      % add floor
 % 
 %         % Define the x and y ranges
 %         x = linspace(0, 1, size(grid_occupancy,1)) * size(grid_occupancy,1) * space_resolution;
@@ -130,13 +116,12 @@ for i=1:1:length(X)
    % calculate N-space projection matrix
    N = eye(9,9)-pinv_J*J;
 
-   % calculate joint velocities
-   q_vel = pinv_J * diff' + N*ones(9,1);
+   % calculate cost function for distance from line
+   [alpha, d] = line_angle_distance([100 290], [400 290], robot_states(1:2), robot_states(3));
 
-   
-   
-   
-   
+   % calculate joint velocities
+   q_vel = pinv_J * 10diff' + N*[-d/50*alpha -50/(d+0.0001) 0 0 0 0 0 0 0]';
+
    % Simulate a step for the robot using the optimal velocities
    [robot_states] = simulate_step(robot_states, q_vel);
 
@@ -148,7 +133,7 @@ for i=1:1:length(X)
    diff_hist_norm = [diff_hist_norm ; norm(diff)];
 
    % Every few points draw robot
-   if ~mod(i,10)
+   if ~mod(i,10) || i == 1
         [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
         showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "#A2142F", true)
         drawnow;
