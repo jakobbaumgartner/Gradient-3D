@@ -1,4 +1,4 @@
-function [alpha, d] = base_angle_distance(p1, p2, robot, theta)
+function [alpha, d] = line_angle_distance(p1, p2, robot, theta)
    
 % This function calculates the angle and distance for a robot to turn perpendicularly away from a line
 % Inputs:
@@ -21,6 +21,13 @@ d = abs(m * robot(1) - robot(2) + b) / sqrt(m^2 + 1);
 gamma = atan(m) - theta;
 
 % Calculate angle for robot to turn perpendicularly away from line
-alpha = pi/2 - gamma;
+% alpha = pi/2 - gamma;
+if gamma >= 0
+    alpha = pi/2 - gamma;
+else
+    alpha = -pi/2 - gamma;
+end
 
+% turn for pi
+alpha = alpha + pi;
 end

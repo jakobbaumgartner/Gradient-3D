@@ -48,7 +48,13 @@ function showRobot(Abase, A01, A12, A23, A34, A45, A56, A67, space_resolution, r
         radius = 0.27*space_resolution;
                 
         % Draw the circle
-        rectangle('Position',[center_x-radius,center_y-radius,radius*2,radius*2],'Curvature',[1,1],'LineWidth',2, 'FaceColor',"#D95319");
+%         base_color = "#D95319";
+        base_color = "#EFE69F";
+        rectangle('Position',[center_x-radius,center_y-radius,radius*2,radius*2],'Curvature',[1,1],'LineWidth',2, 'FaceColor', base_color);
+    
+        % Draw base orientation
+        plotTransforms([Abase(1,4), Abase(2,4), 0.1]*space_resolution, rotm2quat(Abase(1:3,1:3)),'FrameSize', 20);
+    
     end
 
     
