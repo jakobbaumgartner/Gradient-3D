@@ -32,7 +32,7 @@ grid_occupancy = add_box(grid_occupancy, space_resolution, 390, 400, 300, 400, 1
 [grid_distance] = convolution_offline_3D(grid_occupancy);
 %% ONLY VISUALIZATION
 % -------------------------------------------------------------------------------------------
-min_voxel_display_value = 0.01; % min value to draw voxel, to avoid rendering of empty voxels
+min_voxel_display_value = 0.001; % min value to draw voxel, to avoid rendering of empty voxels
 view_angle = [45, 65]; % angle at which we look at plot
 display_grid(grid_distance, min_voxel_display_value, space_resolution)
 

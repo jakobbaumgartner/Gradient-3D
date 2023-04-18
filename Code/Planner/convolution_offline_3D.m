@@ -21,7 +21,7 @@ function [grid_distance] = convolution_offline_3D(grid_obstacles)
     % The density values represent the distance of each point from the obstacles 
     % present in the input grid.
 
-    kernel_dimenion = 10;
+    kernel_dimenion = 25;
     sigma = 1;
 
     kernel = gaussian_kernel_3d(kernel_dimenion, kernel_dimenion, kernel_dimenion, sigma);
