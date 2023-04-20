@@ -1,0 +1,30 @@
+function q_avoid = avoidance_velocities(robot_angles, space_resolution, grid_distance)
+
+    % calculate EE position
+    [T] = GeometricRobot(robot_angles);
+
+    % get EE position
+    point = T(1:3,4);
+     
+    X = [floor(point(1)*space_resolution) floor(point(1)*space_resolution)+1];
+    Y = [floor(point(2)*space_resolution) floor(point(2)*space_resolution)+1];
+    Z = [floor(point(3)*space_resolution) floor(point(3)*space_resolution)+1];
+     
+    V = ones(2,2,2);
+    for x = X
+        for y = Y
+            for z = Z
+
+                V(y,x,z) = grid_distance(y,x,z);
+
+            end
+        end
+    end
+
+
+    % Perform trilinear interpolation using interp3
+    Vq = interp3(X,Y,Z,V,point(1),point(2),point(3))
+
+
+
+end

@@ -9,15 +9,18 @@ function [q_vel] = optimizer(robot_angles, diff, force_grid)
     % Output:
     % q_vel: a vector of the calculated joint velocities
 
-    jacobian_option = 'analitic';
+    jacobian_option = 'analitic'; % analitic, numeric, geometric
+    secondary_option = 'avoidance'; % none, avoidance
+
+    % JACOBIAN CALCULATION
 
     if strcmp(jacobian_option, 'analitic')
 
+   
         J = jacobianAnalitic(robot_angles); % Calculate the Jacobian matrix analitically
 
-        damping_factor = 0.01;
+        pinv_J = pinv(J);
 
-        pinv_J = J'*(J'*J + damping_factor * eye(size(J)))^-1;
     
     elseif strcmp(jacobian_option,'numeric')
 
@@ -35,12 +38,34 @@ function [q_vel] = optimizer(robot_angles, diff, force_grid)
 
         pinv_J = pinv(J); % Calculate the pseudo-inverse of the Jacobian
 
+   
+    elseif strcmp(jacobian_option, 'geometric')
+
+        % NOT WORKING
+
+        J = jacobianGeometric(robot_angles); % Calculate the Jacobian matrix analitically
+
+        damping_factor = 10;
+
+        pinv_J = J'*(J*J' + damping_factor^2 * eye(6))^-1;
 
     end
 
-    % pseudo inverse
 
-    % calculate joint velocities
-    q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+    % VELOCITIES CALCULATION
+
+    if strcmp(jacobian_option, 'avoidance')
+
+        % calculate joint velocities with accounting for obstacles density grid
+        q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+
+        % add secondary task
+        q_vel = q_vel +  + (eye(8) - pinv_J * J )
+
+
+    else
+        % calculate joint velocities, without secondary task
+        q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+    end
 
 end

@@ -1,4 +1,4 @@
-function [q_vel] = optimizer(robot_angles, diff, force_grid)
+function [q_vel] = optimizer(robot_angles, diff, grid_distance, space_resolution)
     % This function calculates the joint velocities for a robot given its angles and other parameters.
     %
     % Inputs:
@@ -9,7 +9,10 @@ function [q_vel] = optimizer(robot_angles, diff, force_grid)
     % Output:
     % q_vel: a vector of the calculated joint velocities
 
-    jacobian_option = 'analitic';
+    jacobian_option = 'analitic'; % analitic, numeric, geometric
+    secondary_option = 'avoidance'; % none, avoidance
+
+    % JACOBIAN CALCULATION
 
     if strcmp(jacobian_option, 'analitic')
 
@@ -46,12 +49,26 @@ function [q_vel] = optimizer(robot_angles, diff, force_grid)
 
         pinv_J = J'*(J*J' + damping_factor^2 * eye(6))^-1;
 
-
-
     end
 
 
-    % calculate joint velocities
-    q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+    % VELOCITIES CALCULATION
+
+    if strcmp(secondary_option, 'avoidance')
+        % calculate joint velocities with accounting for obstacles density grid
+
+        q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+
+        % calculate secondary velocities
+        q_avoid = avoidance_velocities(robot_angles, space_resolution, grid_distance);
+
+        % add secondary task
+        q_vel = q_vel + (eye(9) - pinv_J * J ) * q_avoid;
+
+
+    else
+        % calculate joint velocities, without secondary task
+        q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+    end
 
 end

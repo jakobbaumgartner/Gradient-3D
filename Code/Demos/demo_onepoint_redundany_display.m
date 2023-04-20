@@ -39,7 +39,7 @@ while norm(diff) > max_dist
    diff = [goal - [T(1:3,4)' 0 0 0]];
 
    % Use an optimizer to determine the optimal velocities for the robot
-   [q_vel] = optimizer(robot_states, diff, []);
+   [q_vel] = optimizer(robot_states, diff, [], space_resolution);
 
    % Simulate a step for the robot using the optimal velocities
    [robot_states] = simulate_step(robot_states, q_vel);

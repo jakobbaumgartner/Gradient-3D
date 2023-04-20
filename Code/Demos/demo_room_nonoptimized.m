@@ -1,8 +1,8 @@
 % call the create_3d_space function with the desired dimensions
 space_resolution = 10; % 10x10x10 cm voxels
-space_height = 200; 
-space_width = 500;
-space_length = 500;
+space_height = 2; 
+space_width = 5;
+space_length = 5;
 
 % create grid obstacle
 grid = create_3d_grid(space_resolution, space_height, space_width, space_length);

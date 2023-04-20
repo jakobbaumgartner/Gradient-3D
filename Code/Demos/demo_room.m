@@ -3,9 +3,9 @@
 
 % call the create_3d_space function with the desired dimensions
 space_resolution = 10; % 10x10x10 cm voxels
-space_height = 200; 
-space_width = 500;
-space_length = 500;
+space_height = 2; 
+space_width = 5;
+space_length = 5;
 
 % create grid obstacle
 grid_occupancy = create_3d_grid(space_resolution, space_height, space_width, space_length);
@@ -122,7 +122,7 @@ for i=1:1:length(X)
    diff = 10*[goal - [T(1:3,4)' 0 0 0]];
 
    % Use an optimizer to determine the optimal velocities for the robot
-   [q_vel] = optimizer(robot_states, diff, []);
+   [q_vel] = optimizer(robot_states, diff, [], space_resolution);
 
    % Simulate a step for the robot using the optimal velocities
    [robot_states] = simulate_step(robot_states, q_vel);
