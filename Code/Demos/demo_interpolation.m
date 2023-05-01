@@ -99,12 +99,9 @@ for x = x_coords
                 % plot the arrow
                 quiver3(start_point(1)*100, start_point(2)*100, start_point(3)*100, -dx * arrow_length, -dy * arrow_length, -dz * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
             end
-
+            
         end
     end
-
-
-
 end
 
 
