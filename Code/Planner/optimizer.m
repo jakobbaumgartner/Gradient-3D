@@ -10,7 +10,7 @@ function [q_vel] = optimizer(robot_angles, diff, grid_distance, space_resolution
     % q_vel: a vector of the calculated joint velocities
 
     jacobian_option = 'analitic'; % analitic, numeric, geometric
-    secondary_option = 'none'; % none, avoidance
+    secondary_option = 'avoidance'; % none, avoidance
 
 
     % JACOBIAN CALCULATION
