@@ -16,13 +16,15 @@ grid_occupancy = add_box(grid_occupancy, space_resolution, 100, 400, 300, 310, 1
 % -------------------------------------------------------------------------------------------
 
 %% DENSITY GRID
-[grid_distance] = convolution_offline_3D(grid_occupancy,25,5)*10;
+kernel_size = 15; % how far should obstacles exert effect
+sigma = 5; % how quickly should effect exerted by obstacles fall
+[grid_distance] = convolution_offline_3D(grid_occupancy,kernel_size,2);
 
 %% OBSTACLES VISUALIZATION
 % -------------------------------------------------------------------------------------------
 min_voxel_display_value = 0.001; % min value to draw voxel, to avoid rendering of empty voxels
 view_angle = [45, 65]; % angle at which we look at plot
-display_grid(grid_occupancy, min_voxel_display_value, space_resolution) 
+% display_grid(grid_occupancy, min_voxel_display_value, space_resolution) 
 
 hold on
 
