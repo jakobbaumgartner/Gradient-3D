@@ -29,7 +29,9 @@ grid_occupancy = add_box(grid_occupancy, space_resolution, 390, 400, 300, 400, 1
 % -------------------------------------------------------------------------------------------
 
 %% DENSITY GRID
-[grid_distance] = convolution_offline_3D(grid_occupancy,25,1)*10;
+kernel_size = 15; % how far should obstacles exert effect
+sigma = 5; % how quickly should effect exerted by obstacles fall
+[grid_distance] = convolution_offline_3D(grid_occupancy,kernel_size,2);
 
 %% ONLY VISUALIZATION
 % -------------------------------------------------------------------------------------------
@@ -44,20 +46,20 @@ voxel([210 110 0],[70 70 50],'g',0.5)
 voxel([0 110 0],[80 290 50],'g',0.5)
 voxel([100 310 0],[280 90 50],'g',0.5)
 
-%     % add floor
-
-        % Define the x and y ranges
-        x = linspace(0, 1, size(grid_occupancy,1)) * size(grid_occupancy,1) * space_resolution;
-        y = linspace(0, 1, size(grid_occupancy,2)) * size(grid_occupancy,2) * space_resolution;
-        
-        % Create a grid of points from x and y
-        [X,Y] = meshgrid(x,y);
-        
-        % Define the function to plot
-        Z = zeros(size(grid_occupancy,1),size(grid_occupancy,2));
-            
-        % Plot the surface 
-        surf(X,Y,Z, 'FaceAlpha',0.5, 'FaceColor',"#EDB120");
+% %     % add floor
+% 
+%         % Define the x and y ranges
+%         x = linspace(0, 1, size(grid_occupancy,1)) * size(grid_occupancy,1) * space_resolution;
+%         y = linspace(0, 1, size(grid_occupancy,2)) * size(grid_occupancy,2) * space_resolution;
+%         
+%         % Create a grid of points from x and y
+%         [X,Y] = meshgrid(x,y);
+%         
+%         % Define the function to plot
+%         Z = zeros(size(grid_occupancy,1),size(grid_occupancy,2));
+%             
+%         % Plot the surface 
+%         surf(X,Y,Z, 'FaceAlpha',0.5, 'FaceColor',"#EDB120");
 
 
 % set fixed axis size
@@ -67,7 +69,43 @@ axis([0 size(grid_occupancy,1)*space_resolution 0 size(grid_occupancy,2)*space_r
 % view(view_angle);
 % -------------------------------------------------------------------------------------------
 
+%% GRADIENT FIELD VISUALIZATION
+% -------------------------------------------------------------------------------------------
 
+arrow_length = 30; % adjust the length to your preference
+
+% multiple points
+
+% define the x, y, and z coordinates of the grid
+x_coords = 1:0.25:4.5;
+y_coords = 1:0.25:2.9;
+z_coords = 0.1:0.25:1.5;
+
+for x = x_coords
+
+    for y = y_coords
+
+        for z = z_coords
+
+            % select point
+            start_point = [x y z];
+
+            % skip points inside a box
+            if (~(x > 1.9 && x < 3 && y > 0.9 && y < 2))
+
+                % calculate partial derivatives
+                [dx, dy, dz] = interpolate_derivative(start_point, grid_distance, space_resolution);
+    
+                % plot the arrow
+                quiver3(start_point(1)*100, start_point(2)*100, start_point(3)*100, -dx * arrow_length, -dy * arrow_length, -dz * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
+            end
+
+        end
+    end
+
+
+
+end
 
 
 
