@@ -1,4 +1,4 @@
-function [q_vel] = optimizer(robot_angles, diff, grid_distance, space_resolution)
+function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_resolution)
     % This function calculates the joint velocities for a robot given its angles and other parameters.
     %
     % Inputs:
@@ -8,10 +8,15 @@ function [q_vel] = optimizer(robot_angles, diff, grid_distance, space_resolution
     %
     % Output:
     % q_vel: a vector of the calculated joint velocities
+    % q_avoid: a vector of the calculated secondary task joint velocities
 
     jacobian_option = 'analitic'; % analitic, numeric, geometric
-    secondary_option = 'avoidance'; % none, avoidance
+    secondary_option = 'avoidance_base'; % none, avoidance_base
 
+    q_avoid = [];
+
+    % P - regulator EE task
+    Kpee = 10;
 
     % JACOBIAN CALCULATION
 
@@ -55,21 +60,21 @@ function [q_vel] = optimizer(robot_angles, diff, grid_distance, space_resolution
 
     % (SECONDARY) VELOCITIES CALCULATION
 
-    if strcmp(secondary_option, 'avoidance')
+    if strcmp(secondary_option, 'avoidance_base')
         % calculate joint velocities with accounting for obstacles density grid
 
-        q_vel = pinv_J * diff' % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+        q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
 
         % calculate secondary velocities
-        q_avoid = -avoidance_velocities(robot_angles, space_resolution, grid_distance) 
+        q_avoid = avoidance_base(robot_angles, space_resolution, grid_distance);
 
         % add secondary task
-        q_vel = q_vel + (eye(9) - pinv_J * J ) * q_avoid .* [100 100 1 1 1 1 1 1 1]' * 100000;
+        q_vel = q_vel * Kpee + (eye(9) - pinv_J * J ) * q_avoid .* [0 1 0 0 0 0 0 0 0]' * 1;
 
 
     else
         % calculate joint velocities, without secondary task
-        q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+        q_vel = pinv_J * diff' * Kpee; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
     end
 
 
