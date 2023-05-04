@@ -16,7 +16,7 @@ function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_r
     q_avoid = [];
 
     % P - regulator EE task
-    Kpee = 10;
+    Kpee = 15;
 
     % JACOBIAN CALCULATION
 

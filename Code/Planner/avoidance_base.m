@@ -16,10 +16,10 @@ function q_avoid = avoidance_base(robot_angles, space_resolution, grid_distance)
     phi_error = phi_grad - phi_base;
 
     phi_error = atan2(sin(phi_error), cos(phi_error)); % constrain error to [-pi, pi]
-    phi_error = wrapToPi(phi_error)
+    phi_error = wrapToPi(phi_error);
     
     % get angular velocity (P - regulator of angle error)
-    Kp = -0.6;
+    Kp = 5; %0.6;
     w = Kp * phi_error;
 
     
@@ -27,7 +27,7 @@ function q_avoid = avoidance_base(robot_angles, space_resolution, grid_distance)
     v = sqrt(dx^2+dy^2);
     
     % construct vector of joint velocities
-    q_avoid = [v w zeros(1,7)]';
+    q_avoid = [v w zeros(1,7)]'
 
     % limit the array values to between -1 and 1
 %     q_avoid(q_avoid < -1) = -1;

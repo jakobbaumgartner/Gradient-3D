@@ -1,3 +1,4 @@
+close all
 %% OCCUPANCY GRID
 % -------------------------------------------------------------------------------------------
 
@@ -18,8 +19,8 @@ grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 300, 190, 200, 1
 % 
 % 
 % % add counter 1
-grid_occupancy = add_box(grid_occupancy, space_resolution, 90, 100, 100, 400, 1, 50);
-grid_occupancy = add_box(grid_occupancy, space_resolution, 1, 100, 100, 110, 1, 50);
+grid_occupancy = add_box(grid_occupancy, space_resolution, 90, 100, 1, 300, 1, 50);
+grid_occupancy = add_box(grid_occupancy, space_resolution, 1, 100, 1, 10, 1, 50);
 
 
 % add counter 2
@@ -30,20 +31,22 @@ grid_occupancy = add_box(grid_occupancy, space_resolution, 390, 400, 300, 400, 1
 
 %% DENSITY GRID
 kernel_size = 25; % how far should obstacles exert effect
-sigma = 15; % how quickly should effect exerted by obstacles fall
-[grid_distance] = convolution_offline_3D(grid_occupancy,kernel_size,2);
+sigma = 5; % how quickly should effect exerted by obstacles fall
+[grid_distance] = convolution_offline_3D(grid_occupancy,kernel_size,sigma);
 
 %% ONLY VISUALIZATION
 % -------------------------------------------------------------------------------------------
 min_voxel_display_value = 0.001; % min value to draw voxel, to avoid rendering of empty voxels
 view_angle = [45, 65]; % angle at which we look at plot
 % display_grid(grid_occupancy, min_voxel_display_value, space_resolution)
+display_grid(grid_distance, min_voxel_display_value, space_resolution)
+
 
 hold on
 
 % display obstacles (with big patches for faster rendering)
 voxel([210 110 0],[70 70 50],'g',0.5)
-voxel([0 110 0],[80 290 50],'g',0.5)
+voxel([0 0 0],[80 290 50],'g',0.5)
 voxel([100 310 0],[280 90 50],'g',0.5)
 
 % %     % add floor
@@ -191,7 +194,7 @@ for i=1:1:length(X)
 
         % plot the arrow
         arrow_length = 50;
-        quiver3(robot_states(1)*100, robot_states(2)*100, 20, -dx * arrow_length, -dy * arrow_length, -dz * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
+%         quiver3(robot_states(1)*100, robot_states(2)*100, 20, -dx * arrow_length, -dy * arrow_length, -dz * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
 
         drawnow;
    end
