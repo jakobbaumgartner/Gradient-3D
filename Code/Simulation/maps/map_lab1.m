@@ -1,5 +1,12 @@
 function [grid_occupancy, space_resolution] = map_lab1()
 
+    % Function name: map_lab1
+    % Description: This function creates a 3D occupancy grid map of with obstacles.
+    % Inputs: None
+    % Outputs:
+    % - grid_occupancy: a 3D binary occupancy grid of the laboratory environment.
+    % - space_resolution: the size of each voxel in centimeters.
+
     % call the create_3d_space function with the desired dimensions
     space_resolution = 10; % 10x10x10 cm voxels
     space_height = 2; 
@@ -23,10 +30,5 @@ function [grid_occupancy, space_resolution] = map_lab1()
     % add counter 2
     grid_occupancy = add_box(grid_occupancy, space_resolution, 100, 400, 300, 310, 1, 50);
     grid_occupancy = add_box(grid_occupancy, space_resolution, 390, 400, 300, 400, 1, 50);
-
-
-
-
-
 
 end
