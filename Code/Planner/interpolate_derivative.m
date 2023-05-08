@@ -1,5 +1,17 @@
 function [dx,dy,dz] = interpolate_derivative(point, grid_distance, space_resolution)
 
+    % interpolate_derivative - calculates the numerical partial derivative at a point in 3D space
+    % 
+    % Inputs:
+    %   point - 3-element vector specifying the coordinates of the point at which the derivative is calculated
+    %   grid_distance - matrix of the distance density from nearby obstacles
+    %   space_resolution - scalar value specifying the distance between voxels in physical space
+    %
+    % Outputs:
+    %   dx - partial derivative with respect to x
+    %   dy - partial derivative with respect to y
+    %   dz - partial derivative with respect to z
+
     % numerical step
     d0 = 0.01;    
 

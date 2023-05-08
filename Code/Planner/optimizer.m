@@ -1,4 +1,5 @@
 function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_resolution)
+   
     % This function calculates the joint velocities for a robot given its angles and other parameters.
     %
     % Inputs:
@@ -16,7 +17,7 @@ function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_r
     q_avoid = [];
 
     % P - regulator EE task
-    Kpee = 15;
+    Kpee = 10;
 
     % JACOBIAN CALCULATION
 

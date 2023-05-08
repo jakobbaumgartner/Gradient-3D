@@ -1,5 +1,20 @@
 function q_avoid = avoidance_base(robot_angles, space_resolution, grid_distance)
 
+    % avoidance_base - function that calculates the joint velocities for a robot
+    % to avoid obstacles.
+    %
+    % Inputs:
+    %   robot_angles - 1x9 vector of the robot's current position 
+    %   [ x y phi fi1 ... fi7]
+    %
+    %   space_resolution - scalar value of the resolution of the gradient
+    %   grid
+    %
+    %   grid_distance - matrix of the distance density from nearby obstacles
+    %
+    % Outputs:
+    %   q_avoid - 8x1 vector of joint velocities
+
     % base point pose
     x = robot_angles(1);
     y = robot_angles(2);
@@ -19,7 +34,7 @@ function q_avoid = avoidance_base(robot_angles, space_resolution, grid_distance)
     phi_error = wrapToPi(phi_error);
     
     % get angular velocity (P - regulator of angle error)
-    Kp = 5; %0.6;
+    Kp = 0.4;
     w = Kp * phi_error;
 
     
