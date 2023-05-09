@@ -17,7 +17,7 @@ function [grid_occupancy, space_resolution] = map_lab1()
     grid_occupancy = create_3d_grid(space_resolution, space_height, space_width, space_length);
     
     % add square table
-    grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 210, 100, 200, 1, 50);
+    grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 210, 1, 200, 1, 50);
     grid_occupancy = add_box(grid_occupancy, space_resolution, 290, 300, 100, 200, 1, 50);
     grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 300, 100, 110, 1, 50);
     grid_occupancy = add_box(grid_occupancy, space_resolution, 200, 300, 190, 200, 1, 50); 
@@ -30,5 +30,11 @@ function [grid_occupancy, space_resolution] = map_lab1()
     % add counter 2
     grid_occupancy = add_box(grid_occupancy, space_resolution, 100, 400, 300, 310, 1, 50);
     grid_occupancy = add_box(grid_occupancy, space_resolution, 390, 400, 300, 400, 1, 50);
+
+%     grid_occupancy(1,:,:)=1;
+%     grid_occupancy(end,:,:)=1;
+%     grid_occupancy(:,1,:)=1;
+%     grid_occupancy(:,end,:)=1;
+
 
 end

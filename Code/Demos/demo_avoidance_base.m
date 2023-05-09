@@ -3,9 +3,24 @@ close all
 [grid_occupancy, space_resolution] = map_lab1();
 
 %% DENSITY GRID
-kernel_size = 25; % how far should obstacles exert effect
-sigma = 5; % how quickly should effect exerted by obstacles fall
-[grid_distance] = convolution_offline_3D(grid_occupancy,kernel_size,sigma)*0.5;
+kernel_size = 10; % how far should obstacles exert effect
+sigma = 4; % how quickly should effect exerted by obstacles fall
+[grid_distance] = convolution_offline_3D(grid_occupancy,kernel_size,sigma)*1;
+
+figure()
+
+% create a 50x50 matrix with random ones and zeros to represent occupied and empty cells
+matrix = flip(rot90(grid_distance(:,:,2)))
+
+matrix = repelem(matrix, 10, 10);
+
+
+% plot the matrix with occupied cells in red and empty cells in blue
+imagesc(matrix);
+colormap(flipud(gray)); % use gray colormap with flipped order
+% axis equal; % set equal scales for x and y axes
+% axis off; % turn off axis labels and ticks
+% hold on;
 
 %% ONLY VISUALIZATION
 
@@ -48,6 +63,8 @@ diff_hist_norm = [];
 % Create a history of secondary task velocities
 q_avoid_hist = [];
 
+[T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
+showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "blue", true)
 
 for i=1:1:length(X)
 
@@ -64,7 +81,11 @@ for i=1:1:length(X)
    diff = [goal - [T(1:3,4)' 0 0 0]];
    
    % Use an optimizer to determine the optimal velocities for the robot
-   [q_vel, q_avoid] = optimizer(robot_states, diff, grid_distance, space_resolution);
+   [q_vel, q_avoid, q_prim] = optimizer(robot_states, diff, grid_distance, space_resolution);
+
+   if i < 5
+       q_vel = q_prim;
+   end
 
    % Simulate a step for the robot using the optimal velocities
    [robot_states] = simulate_step(robot_states, q_vel);
@@ -82,7 +103,7 @@ for i=1:1:length(X)
    % Every few points draw robot
    if ~mod(i,5)
         [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
-        showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,space_resolution*10, "blue", true)
+        showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "yellow", true)
 
 
         % calculate partial derivatives
@@ -97,7 +118,7 @@ for i=1:1:length(X)
 
 end
 
-plot3(robot_ee_positions(:,1)*100, robot_ee_positions(:,2)*100, robot_ee_positions(:,3)*100,'LineWidth',2,'Color','b')
+plot3(robot_ee_positions(:,1)*100, robot_ee_positions(:,2)*100, robot_ee_positions(:,3)*100,'LineWidth',2,'Color','magenta')
 % -------------------------------------------------------------------------------------------
 
 %% PLOT DATA

@@ -1,4 +1,4 @@
-function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_resolution)
+function [q_vel, q_avoid, q_prim] = optimizer(robot_angles, diff, grid_distance, space_resolution)
    
     % This function calculates the joint velocities for a robot given its angles and other parameters.
     %
@@ -16,8 +16,11 @@ function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_r
 
     q_avoid = [];
 
-    % P - regulator EE task
-    Kpee = 10;
+    % P - primary
+    Kpee = 2;
+    % P - secondary
+    Ksec = 8;
+
 
     % JACOBIAN CALCULATION
 
@@ -52,9 +55,9 @@ function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_r
 
         J = jacobianGeometric(robot_angles); % Calculate the Jacobian matrix analitically
 
-        damping_factor = 10;
+        damping_factor = 0.001;
 
-        pinv_J = J'*(J*J' + damping_factor^2 * eye(6))^-1;
+        pinv_J = J'*(J*J'+ damping_factor^2 * eye(6))^-1;
 
     end
 
@@ -64,13 +67,13 @@ function [q_vel, q_avoid] = optimizer(robot_angles, diff, grid_distance, space_r
     if strcmp(secondary_option, 'avoidance_base')
         % calculate joint velocities with accounting for obstacles density grid
 
-        q_vel = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+        q_prim = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
 
         % calculate secondary velocities
-        q_avoid = avoidance_base(robot_angles, space_resolution, grid_distance);
+        q_avoid = avoidance_base(robot_angles, space_resolution, grid_distance, Ksec);
 
         % add secondary task
-        q_vel = q_vel * Kpee + (eye(9) - pinv_J * J ) * q_avoid .* [0 1 0 0 0 0 0 0 0]' * 1;
+        q_vel = q_prim * Kpee + (eye(9) - pinv_J * J ) * q_avoid;
 
 
     else
