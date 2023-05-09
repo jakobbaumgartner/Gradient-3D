@@ -2,25 +2,21 @@ close all
 %% OCCUPANCY GRID
 [grid_occupancy, space_resolution] = map_lab1();
 
-%% DENSITY GRID
+%% DENSITY GROUND GRID
 kernel_size = 10; % how far should obstacles exert effect
-sigma = 4; % how quickly should effect exerted by obstacles fall
+sigma = 3; % how quickly should effect exerted by obstacles fall
 [grid_distance] = convolution_offline_3D(grid_occupancy,kernel_size,sigma)*1;
 
 figure()
 
 % create a 50x50 matrix with random ones and zeros to represent occupied and empty cells
 matrix = flip(rot90(grid_distance(:,:,2)))
-
 matrix = repelem(matrix, 10, 10);
 
 
 % plot the matrix with occupied cells in red and empty cells in blue
 imagesc(matrix);
 colormap(flipud(gray)); % use gray colormap with flipped order
-% axis equal; % set equal scales for x and y axes
-% axis off; % turn off axis labels and ticks
-% hold on;
 
 %% ONLY VISUALIZATION
 

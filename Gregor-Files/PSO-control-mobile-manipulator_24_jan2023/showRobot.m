@@ -1,0 +1,85 @@
+function showRobot(Abase, A01, A12, A23, A34, A45, A56, A67)
+
+                        figure()
+
+%                         Abase = eye(4);
+                        jointColor = '#000000';
+                        lineColor = '#949494';
+                        lineWidth = 2;
+                        
+                        % draw base
+                        TT = Abase;
+                        scatter3(TT(1,4), TT(2,4), 0, 'filled', 'MarkerFaceColor', '#D95319');
+                        hold on
+
+                        plotTransforms(TT(1:3,4)',rotm2quat(TT(1:3,1:3)),'FrameSize',0.1)
+
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor');
+                        x = [TT(1,4) TT(1,4)];
+                        y = [TT(2,4) TT(2,4)];
+                        z = [0 TT(3,4)];
+                        line(x,y,z,'Color','#D95319', 'linewidth', lineWidth)
+                        TTo = TT;
+
+                        TT = Abase*A01;
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor);
+                        x = [TTo(1,4) TT(1,4)];
+                        y = [TTo(2,4) TT(2,4)];
+                        z = [TTo(3,4) TT(3,4)];
+                        line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
+                        TTo = TT;
+
+                        TT = Abase*A01*A12;
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor);
+                        x = [TTo(1,4) TT(1,4)];
+                        y = [TTo(2,4) TT(2,4)];
+                        z = [TTo(3,4) TT(3,4)];
+                        line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
+                        TTo = TT;
+
+                        TT = Abase*A01*A12*A23;
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor);
+                        x = [TTo(1,4) TT(1,4)];
+                        y = [TTo(2,4) TT(2,4)];
+                        z = [TTo(3,4) TT(3,4)];
+                        line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
+                        TTo = TT;
+
+                        TT = Abase*A01*A12*A23*A34;
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor);
+                        x = [TTo(1,4) TT(1,4)];
+                        y = [TTo(2,4) TT(2,4)];
+                        z = [TTo(3,4) TT(3,4)];
+                        line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
+                        TTo = TT;
+
+                        TT = Abase*A01*A12*A23*A34*A45;
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor);
+                        x = [TTo(1,4) TT(1,4)];
+                        y = [TTo(2,4) TT(2,4)];
+                        z = [TTo(3,4) TT(3,4)];
+                        line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
+                        TTo = TT;
+
+                        TT = Abase*A01*A12*A23*A34*A45*A56;
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor);
+                        x = [TTo(1,4) TT(1,4)];
+                        y = [TTo(2,4) TT(2,4)];
+                        z = [TTo(3,4) TT(3,4)];
+                        line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
+                        TTo = TT;
+
+                        TT = Abase*A01*A12*A23*A34*A45*A56*A67;
+                        scatter3(TT(1,4), TT(2,4), TT(3,4), 'filled', 'MarkerFaceColor', jointColor);
+                        x = [TTo(1,4) TT(1,4)];
+                        y = [TTo(2,4) TT(2,4)];
+                        z = [TTo(3,4) TT(3,4)];
+                        line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
+                        axis equal
+
+                        plotTransforms(TT(1:3,4)',rotm2quat(TT(1:3,1:3)),'FrameSize',0.1)
+
+                        hold off
+
+
+end

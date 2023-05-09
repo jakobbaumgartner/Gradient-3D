@@ -1,0 +1,1755 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PSO_optimizer</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-12-01"><meta name="DC.source" content="PSO_optimizer.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">classdef</span> PSO_optimizer
+
+    <span class="comment">% OPTIMIZERS class</span>
+
+    <span class="keyword">properties</span>
+
+        <span class="comment">% time constant</span>
+        dt = 0.1;
+
+        <span class="comment">% max and min joint positions (robot PandaTiago)</span>
+        jointsLimits = [
+                        [-2.8973, 2.8973] ;
+                        [-1.17628, 1.17628];
+                        [-2.8973, 2.8973];
+                        [-3.0718, -0.0698];
+                        [-2.8973, 2.8973];
+                        [-0.0175, 3.7525];
+                        [-2.8973, 2.8973]
+                       ];
+
+        <span class="comment">% max joint velocities from specifications</span>
+        jointVelocityLimits = [-2.1750 2.1750 ;
+                               -2.1750 2.1750 ;
+                               -2.1750 2.1750 ;
+                               -2.1750 2.1750 ;
+                               -2.6100 2.6100 ;
+                               -2.6100 2.6100;
+                               -2.6100 2.6100];
+        baseVelocityLimits = [-1.5 1.5 ;
+                              -1.5 1.5 ];
+
+        <span class="comment">% max joint, base velocities accounting for the time step (calc. in init</span>
+        <span class="comment">% function)</span>
+        jointVelocityLimitsTS = [];
+        baseVelocityLimitsTS = [];
+
+        <span class="comment">% prefered joint positions</span>
+        jointsPrefered = [0 pi/4 0 -pi/3 0 1.8675 0]';
+
+        <span class="comment">% x,y range for base position</span>
+        positionLimits = [
+                          [-5,5];
+                          [-5,5]
+                         ];
+
+        <span class="comment">% number of parameters</span>
+        jointsNum = 9;
+
+        <span class="comment">% set type of particles initialization</span>
+        initializationMode = <span class="string">"none"</span>; <span class="comment">% none, smartbase</span>
+
+        <span class="comment">% range of robot base search space</span>
+        rangeBase = 1;
+
+        <span class="comment">% optimization parameters</span>
+        w = 0.6;
+        c1 = 0.8;
+        c2 = 0.8;
+
+        <span class="comment">% particle velocity limit</span>
+        particleVelLimit = 2;
+
+        <span class="comment">% constant at which stop optimization</span>
+        breakConstant = 0.001 <span class="comment">%  sub 1mm</span>
+
+
+        <span class="comment">% error rot-pos ratio const</span>
+        errRotConst = 1;
+
+        <span class="comment">% cost function parts gains</span>
+        jointPositionConst = 2;
+        positionBaseConst = 2;
+        distConst = 15;
+        paramChangeConst = 0;
+
+        <span class="comment">% max angle of base approach toward EE</span>
+        angleMaxApproach = pi/10;
+
+        <span class="comment">% param changes</span>
+        numChange1 = 0;
+        numChange2 = 15;
+        numChange3 = 40;
+        numChange4 = 60;
+
+
+
+        <span class="comment">% number of parallel optimizations</span>
+        numParallel_0_15 = 5;
+        numParallel_15_40 = 5;
+        numParallel_40_60 = 5;
+        numParallel_60_80 = 5;
+
+
+        <span class="comment">% number of particles</span>
+        numPart_0_15 = 100;
+        numPart_15_40 = 500;
+        numPart_40_60 = 1000;
+        numPart_60_80 = 2000;
+
+        <span class="comment">% set values</span>
+        partNum = 10000;
+        parallelNum = 5;
+
+
+        <span class="comment">% max number of iter</span>
+        iterMaxNum = 100;
+
+        <span class="comment">% max number of optimisation runs for one point</span>
+        maxOptim = 100;
+
+        <span class="comment">% imported classes</span>
+        robot = {}
+
+    <span class="keyword">end</span>
+
+    <span class="keyword">methods</span>
+
+        <span class="keyword">function</span> obj = PSO_optimizer(obj)
+
+            obj.robot = robotPmb2Panda()
+
+            <span class="comment">% calc max velocity step based on time constant</span>
+            obj.jointVelocityLimitsTS = obj.jointVelocityLimits * obj.dt;
+            obj.baseVelocityLimitsTS = obj.baseVelocityLimits * obj.dt;
+
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> [path_parameters, convergence_success, convergence_times, convergence_runs] = PSO_optimization_diff_path(obj, path)
+
+            <span class="comment">% optimize joint positions for multiple points of EE</span>
+            <span class="comment">% ------------------------------------------------------------</span>
+
+            path_parameters = zeros(size(path,3), obj.jointsNum);
+            convergence_success = ones(1,size(path,3));
+            convergence_times = zeros(1,size(path,3));
+            convergence_runs = zeros(1,size(path,3));
+
+
+            <span class="comment">% calulate approx base positions</span>
+
+            [basePath, baseStatus] = obj.robot.baseApproxPositions(path);
+
+            <span class="comment">% for every point on the path</span>
+            <span class="keyword">for</span> i_point = 1:1:size(path,3)
+
+                t_point = tic();
+
+                T = path(:,:,i_point);
+
+                basePoint = basePath(i_point,:);
+
+                success = [];
+                success_points = 0;
+                params = [];
+                previousParams = [];
+
+
+                <span class="comment">% previous position parameters</span>
+                <span class="keyword">if</span> (i_point &gt; 1)
+                    previousParams = path_parameters(i_point-1, :);
+                <span class="keyword">end</span>
+
+                i_optims = 1;
+
+                <span class="comment">% run multiple optimizations, until reached max number of</span>
+                <span class="comment">% tries (we dont always archieve convergence)</span>
+                <span class="keyword">while</span> i_optims &lt;= obj.maxOptim
+
+                    i_optims = i_optims + 1;
+
+                    [param, ~, history_distance, ~] = obj.PSO_optimization_diff(T, basePoint, previousParams);
+
+                    params(i_optim,:) = param;
+
+                    <span class="keyword">if</span> (history_distance(end) &lt; 0.005)
+                        success(i_optim) = history_distance(end);
+                        success_points = success_points + 1;
+                    <span class="keyword">else</span>
+                        success(i_optim) = 2;
+                    <span class="keyword">end</span>
+
+                    <span class="comment">% check if any of the runs achieved convergence</span>
+                    [m,I] = min(success);
+
+                    <span class="comment">% if converged</span>
+                    <span class="keyword">if</span> m &lt; 1
+                        <span class="comment">% save best results</span>
+                        param = params(I,:);
+                        path_parameters(i_point,:) = param;
+                        convergence_success(i_point) = m;
+                        convergence_times(i_point) = toc(t_point);
+                        convergence_runs(i_point) = i_optims;
+
+                        <span class="comment">% display transformation matrix</span>
+                        [~,~,~,~,~,~,~,~,Tout] = obj.robot.GeometricRobot(param(1:7), param(8:10))
+
+                        <span class="comment">% display status</span>
+                        display(<span class="string">"Point num.: "</span> + i_point + <span class="string">" Particles num.: "</span> + obj.partNum +  <span class="string">" CONVERGED."</span>)
+
+                        <span class="keyword">break</span>;
+
+                    <span class="keyword">end</span>
+
+                    <span class="comment">% if not converged display error</span>
+                    <span class="keyword">if</span> i_optims &gt;= (obj.maxOptim) &amp;&amp; m &gt; 1
+                        display(<span class="string">"Point num.: "</span> + i_point + <span class="string">" Particles num.: "</span> + obj.partNum + <span class="string">" ERROR."</span>)
+                    <span class="keyword">end</span>
+
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> [path_parameters, convergence_success, convergence_times, convergence_runs] = PSO_optimization_path(obj, path)
+
+            <span class="comment">% optimize joint positions for multiple points of EE</span>
+            <span class="comment">% ------------------------------------------------------------</span>
+
+            path_parameters = zeros(size(path,3), obj.jointsNum);
+            convergence_success = ones(1,size(path,3));
+            convergence_times = zeros(1,size(path,3));
+            convergence_runs = zeros(1,size(path,3));
+
+
+            <span class="comment">% calulate approx base positions</span>
+
+            [basePath, baseStatus] = obj.robot.baseApproxPositions(path);
+
+            <span class="comment">% for every point on the path</span>
+            <span class="keyword">for</span> i_point = 1:1:size(path,3)
+
+                t_point = tic();
+
+                T = path(:,:,i_point);
+
+                basePoint = basePath(i_point,:);
+
+                success = [];
+                success_points = 0;
+                params = [];
+                previousParams = [];
+
+
+                <span class="comment">% previous position parameters</span>
+                <span class="keyword">if</span> (i_point &gt; 1)
+                    previousParams = path_parameters(i_point-1, :);
+                <span class="keyword">end</span>
+
+                i_optims = 1;
+
+                <span class="comment">% run multiple optimizations and in parallel</span>
+                <span class="comment">% (we dont always archieve convergence)</span>
+                <span class="keyword">while</span> i_optims &lt;= obj.maxOptim
+
+                    <span class="comment">% set particles number and number of parallel runs</span>
+                    <span class="keyword">if</span> (i_optims &gt; obj.numChange1)
+
+                        obj.partNum = obj.numPart_0_15;
+                        obj.parallelNum = obj.numParallel_0_15;
+
+                    <span class="keyword">end</span>
+
+                    <span class="keyword">if</span> (i_optims &gt; obj.numChange2)
+
+                        obj.partNum = obj.numPart_15_40;
+                        obj.parallelNum = obj.numParallel_15_40;
+
+                    <span class="keyword">end</span>
+
+                    <span class="keyword">if</span> (i_optims &gt; obj.numChange3)
+
+                        obj.partNum = obj.numPart_40_60;
+                        obj.parallelNum = obj.numParallel_40_60;
+
+                    <span class="keyword">end</span>
+
+                    <span class="keyword">if</span> (i_optims &gt; obj.numChange4)
+
+                        obj.partNum = obj.numPart_60_80;
+                        obj.parallelNum = obj.numParallel_60_80;
+
+                    <span class="keyword">end</span>
+
+
+                    <span class="comment">% parallel execution</span>
+                    <span class="keyword">parfor</span> i_optim = 1:1:obj.parallelNum   <span class="comment">% PARFOR</span>
+
+                        i_optims = i_optims + 1;
+
+                        [param, ~, history_distance, ~] = obj.PSO_optimization(T, basePoint, previousParams);
+
+                        params(i_optim,:) = param;
+
+                        <span class="keyword">if</span> (history_distance(end) &lt; 0.005)
+                            success(i_optim) = history_distance(end);
+                            success_points = success_points + 1;
+                        <span class="keyword">else</span>
+                            success(i_optim) = 2;
+                        <span class="keyword">end</span>
+
+                    <span class="keyword">end</span>
+
+                    <span class="comment">% check if any of the runs achieved convergence</span>
+                    [m,I] = min(success);
+
+                    <span class="comment">% if converged</span>
+                    <span class="keyword">if</span> m &lt; 1
+                        <span class="comment">% save best results</span>
+                        param = params(I,:);
+                        path_parameters(i_point,:) = param;
+                        convergence_success(i_point) = m;
+                        convergence_times(i_point) = toc(t_point);
+                        convergence_runs(i_point) = i_optims;
+
+                        <span class="comment">% display transformation matrix</span>
+                        [~,~,~,~,~,~,~,~,Tout] = obj.robot.GeometricRobot(param(1:7), [param(8:9) 0])
+
+                        <span class="comment">% display status</span>
+                        display(<span class="string">"Point num.: "</span> + i_point + <span class="string">" Particles num.: "</span> + obj.partNum +  <span class="string">" CONVERGED."</span>)
+
+                        <span class="keyword">break</span>;
+
+                    <span class="keyword">end</span>
+
+                    <span class="comment">% if not converged display error</span>
+                    <span class="keyword">if</span> i_optims &gt;= (obj.maxOptim) &amp;&amp; m &gt; 1
+                        display(<span class="string">"Point num.: "</span> + i_point + <span class="string">" Particles num.: "</span> + obj.partNum + <span class="string">" ERROR."</span>)
+                    <span class="keyword">end</span>
+
+                <span class="keyword">end</span>
+
+
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+
+
+        <span class="keyword">function</span> [param, history_cost, history_distance, tim] = PSO_optimization(obj,goalEE, goalBase, previousParams)
+
+        <span class="comment">% combined position limits of joints and base</span>
+        combinedLimits = [obj.jointsLimits ; obj.positionLimits ; -pi pi];
+
+        <span class="comment">% history</span>
+        history_distance = [];
+        history_cost = [];
+
+        tic()
+
+        <span class="comment">% generate particles</span>
+
+        <span class="keyword">if</span> obj.initializationMode == <span class="string">"none"</span>
+            particles = zeros(obj.partNum, 9);
+            <span class="comment">% arm joints</span>
+            particles(:,1) = rand(obj.partNum,1)*(obj.jointsLimits(1,2)-obj.jointsLimits(1,1)) + obj.jointsLimits(1,1);
+            particles(:,2) = rand(obj.partNum,1)*(obj.jointsLimits(2,2)-obj.jointsLimits(2,1)) + obj.jointsLimits(2,1);
+            particles(:,3) = rand(obj.partNum,1)*(obj.jointsLimits(3,2)-obj.jointsLimits(3,1)) + obj.jointsLimits(3,1);
+            particles(:,4) = rand(obj.partNum,1)*(obj.jointsLimits(4,2)-obj.jointsLimits(4,1)) + obj.jointsLimits(4,1);
+            particles(:,5) = rand(obj.partNum,1)*(obj.jointsLimits(5,2)-obj.jointsLimits(5,1)) + obj.jointsLimits(5,1);
+            particles(:,6) = rand(obj.partNum,1)*(obj.jointsLimits(6,2)-obj.jointsLimits(6,1)) + obj.jointsLimits(6,1);
+            particles(:,7) = rand(obj.partNum,1)*(obj.jointsLimits(7,2)-obj.jointsLimits(7,1)) + obj.jointsLimits(7,1);
+            <span class="comment">% base position</span>
+            particles(:,8) = rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);
+            particles(:,9) = rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);
+
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> obj.initializationMode == <span class="string">"smartbase"</span>
+            particles = zeros(obj.partNum, 9);
+            <span class="comment">% arm joints</span>
+            particles(:,1) = rand(obj.partNum,1)*(obj.jointsLimits(1,2)-obj.jointsLimits(1,1)) + obj.jointsLimits(1,1);
+            particles(:,2) = rand(obj.partNum,1)*(obj.jointsLimits(2,2)-obj.jointsLimits(2,1)) + obj.jointsLimits(2,1);
+            particles(:,3) = rand(obj.partNum,1)*(obj.jointsLimits(3,2)-obj.jointsLimits(3,1)) + obj.jointsLimits(3,1);
+            particles(:,4) = rand(obj.partNum,1)*(obj.jointsLimits(4,2)-obj.jointsLimits(4,1)) + obj.jointsLimits(4,1);
+            particles(:,5) = rand(obj.partNum,1)*(obj.jointsLimits(5,2)-obj.jointsLimits(5,1)) + obj.jointsLimits(5,1);
+            particles(:,6) = rand(obj.partNum,1)*(obj.jointsLimits(6,2)-obj.jointsLimits(6,1)) + obj.jointsLimits(6,1);
+            particles(:,7) = rand(obj.partNum,1)*(obj.jointsLimits(7,2)-obj.jointsLimits(7,1)) + obj.jointsLimits(7,1);
+
+            <span class="comment">% base position behind EE</span>
+            goalAngleEE = wrapToPi(atan2(goalEE(2,3), goalEE(1,3)));
+            s = sin(goalAngleEE + pi - obj.angleMaxApproach/2 + obj.angleMaxApproach * rand(obj.partNum,1));
+            c = cos(goalAngleEE + pi - obj.angleMaxApproach/2 + obj.angleMaxApproach * rand(obj.partNum,1));
+
+            <span class="comment">% scalling for correct distance from mid point</span>
+            factorR = rand(obj.partNum,1) * obj.rangeBase ./ sqrt(s.^2 + c.^2);
+
+            particles(:,8) = goalEE(1,4) + obj.rangeBase * factorR .* c;  <span class="comment">% rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);</span>
+            particles(:,9) = goalEE(2,4) + obj.rangeBase * factorR .* s; <span class="comment">% rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);</span>
+
+
+<span class="comment">%                 hold off</span>
+<span class="comment">%                 scatter(particles(:,8),particles(:,9))</span>
+<span class="comment">%                 hold on</span>
+<span class="comment">%                 scatter(goalEE(1,4), goalEE(2,4),'x', 'LineWidth',5)</span>
+<span class="comment">%</span>
+<span class="comment">%                 drawnow</span>
+
+        <span class="keyword">end</span>
+
+
+        <span class="comment">% initialize speeds of particles</span>
+        particles_d = zeros(size(particles));
+
+        g_best = ones(1,size(particles,2)); <span class="comment">% social component</span>
+        g_best_I = 1000;
+
+        p_best = particles; <span class="comment">% cognitive component - best particle position</span>
+        p_best_I= ones(size(particles,1),1)*1000; <span class="comment">% cost values of personal bests</span>
+
+        I_all = zeros(obj.partNum,1); <span class="comment">% particle cost</span>
+
+        e_all = [];
+
+
+        <span class="comment">% optimization loop</span>
+
+        iternum = 0;
+
+        <span class="keyword">while</span> true
+
+            <span class="comment">% calculate cost of each particle</span>
+            <span class="keyword">for</span> i = 1:1:obj.partNum
+
+                [I_all(i), e_all(i,1), e_all(i,2), e_all(i,3), e_all(i,4)] = obj.costFunction(goalEE, goalBase, particles(i,:), previousParams);
+
+            <span class="keyword">end</span>
+
+            <span class="comment">% check which particle is global best</span>
+            [I_best,I_index] = min(I_all);
+
+            <span class="comment">% check if g_best is worse than new best and update:</span>
+            g_best_I_old = g_best_I;
+            g_best_I = (g_best_I &lt;= I_best) * g_best_I + (g_best_I &gt; I_best) * I_best;
+            g_best = (g_best_I_old &lt;= I_best)* g_best + (g_best_I_old &gt; I_best)* particles(I_index, :);
+
+            [g_best_dist, ~, ~] = obj.costDistanceNorm(goalEE, particles(I_index, :));
+
+<span class="comment">%             if ~(mod(iternum, 20) )</span>
+<span class="comment">%                 display("Best particles cost:  " + g_best_I)</span>
+<span class="comment">%                 display("Best particles dist:  " + g_best_dist)</span>
+<span class="comment">%             end</span>
+<span class="comment">%             display((particles(I_index, :)))</span>
+
+            history_cost = [history_cost g_best_I];
+            history_distance = [history_distance g_best_dist];
+
+            <span class="comment">% update personal best, if this generation is better</span>
+            p_best = (I_all &lt;= p_best_I)*ones(1,size(particles,2)) .* particles + (I_all &gt; p_best_I)*ones(1,size(particles,2)) .* p_best;
+            p_best_I = (I_all &lt;= p_best_I) .* I_all + (I_all &gt; p_best_I) .* p_best_I;
+
+
+            <span class="comment">% calculate rp  and rg random values</span>
+            rp = rand(size(particles));
+            rg = rand(size(particles));
+
+            <span class="comment">% calculate speed updates</span>
+            particles_d = obj.w*particles_d + obj.c1*rp .*(p_best-particles) + obj.c2*rg .* (repmat(g_best,obj.partNum, 1) - particles);
+
+            <span class="comment">% calculate velocity limits</span>
+            particles_d = (particles_d &lt;= -obj.particleVelLimit) * (-obj.particleVelLimit) + (particles_d &gt; -obj.particleVelLimit) .* (particles_d &lt; obj.particleVelLimit) .* particles_d + (particles_d &gt;= obj.particleVelLimit) * obj.particleVelLimit;
+
+            <span class="comment">% calculate new positions</span>
+            particles_old_xy = particles(:,8:9);
+            particles = particles + particles_d;
+
+            <span class="comment">% calculate position limits</span>
+
+            <span class="keyword">if</span> (obj.initializationMode == <span class="string">"none"</span>)
+                particles = (particles &lt;= (combinedLimits(:,1))') .* (combinedLimits(:,1))'  + (particles &gt;= (combinedLimits(:,2))') .* (combinedLimits(:,2))' + ((particles &gt; (combinedLimits(:,1))') .* (particles &lt; (combinedLimits(:,2))')) .* particles;
+            <span class="keyword">end</span>
+
+            <span class="keyword">if</span> (obj.initializationMode == <span class="string">"smartbase"</span>)
+                <span class="comment">% joints</span>
+                particles(:,1:7) = (particles(:,1:7) &lt;= (obj.jointsLimits(:,1))') .* (obj.jointsLimits(:,1))'  + (particles(:,1:7) &gt;= (obj.jointsLimits(:,2))') .* (obj.jointsLimits(:,2))' + ((particles(:,1:7) &gt; (obj.jointsLimits(:,1))') .* (particles(:,1:7) &lt; (obj.jointsLimits(:,2))')) .* particles(:,1:7);
+
+                <span class="comment">% base</span>
+                x = particles(:,8);
+                y = particles(:,9);
+
+                <span class="comment">% scalling for max distance from mid point</span>
+                r = sqrt((x-goalEE(1,4)).^2 + (y-goalEE(2,4)).^2);
+                particles(:,8:9) = (r &gt; obj.rangeBase) .* particles_old_xy(:,:) + (r &lt;= obj.rangeBase) .* particles(:,8:9);
+
+                <span class="comment">% no points in front of the EE</span>
+                angleParticle = wrapToPi(atan2(particles(:,9)-goalEE(2,4), particles(:,8)-goalEE(1,4)));
+                particles(:,8:9) = (abs(angleParticle - wrapToPi(goalAngleEE + pi)) &gt; obj.angleMaxApproach) .* particles_old_xy(:,:) + (abs(angleParticle - wrapToPi(goalAngleEE + pi)) &lt;= obj.angleMaxApproach).* particles(:,8:9);
+
+<span class="comment">%                 hold off</span>
+<span class="comment">%                 scatter(particles(:,8),particles(:,9))</span>
+<span class="comment">%                 hold on</span>
+<span class="comment">%                 scatter(goalEE(1,4), goalEE(2,4),'x', 'LineWidth',5)</span>
+<span class="comment">%</span>
+<span class="comment">%                 drawnow</span>
+
+
+            <span class="keyword">end</span>
+
+            <span class="comment">% increase iter count</span>
+            iternum = iternum + 1;
+
+<span class="comment">%             toc();</span>
+
+
+            <span class="comment">% break conditions</span>
+            <span class="keyword">if</span> iternum  &gt; obj.iterMaxNum || g_best_dist &lt; obj.breakConstant || (iternum &gt; 50 &amp;&amp; g_best_dist &gt; 0.01) || (iternum &gt; 25 &amp;&amp; g_best_dist &gt; 0.1)
+<span class="comment">%                 display("Duration: " + toc())</span>
+                param = particles(I_index, :);
+
+                tim = toc();
+
+                <span class="comment">% goal reached</span>
+                <span class="keyword">if</span> (g_best_dist &lt; obj.breakConstant)
+                    display(<span class="string">"GOAL REACHED, distance: "</span> + g_best_dist +  <span class="string">" Particles num.: "</span> + obj.partNum)
+                <span class="keyword">else</span>
+                    display(<span class="string">"NOT REACHED, distance: "</span> + g_best_dist + <span class="string">" Particles num.: "</span> + obj.partNum)
+                <span class="keyword">end</span>
+
+               <span class="keyword">break</span>;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+
+    <span class="keyword">function</span> [param, history_cost, history_distance, tim] = PSO_optimization_diff(obj,goalEE, goalBase, previousParams)
+
+        <span class="comment">% combined position limits of joints and base</span>
+        combinedLimits = [obj.jointVelocityLimitsTS ; obj.baseVelocityLimitsTS];
+
+        <span class="comment">% history</span>
+        history_distance = [];
+        history_cost = [];
+
+        tic()
+
+        <span class="comment">% generate particles</span>
+        <span class="comment">% ------------------------------------------------------</span>
+
+        particles = zeros(obj.partNum, 9);
+
+        <span class="comment">% arm joints (dq1 ... dq7)</span>
+        particles(:,1) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(1,2)-obj.jointVelocityLimitsTS(1,1)) + obj.jointVelocityLimitsTS(1,1);
+        particles(:,2) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(2,2)-obj.jointVelocityLimitsTS(2,1)) + obj.jointVelocityLimitsTS(2,1);
+        particles(:,3) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(3,2)-obj.jointVelocityLimitsTS(3,1)) + obj.jointVelocityLimitsTS(3,1);
+        particles(:,4) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(4,2)-obj.jointVelocityLimitsTS(4,1)) + obj.jointVelocityLimitsTS(4,1);
+        particles(:,5) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(5,2)-obj.jointVelocityLimitsTS(5,1)) + obj.jointVelocityLimitsTS(5,1);
+        particles(:,6) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(6,2)-obj.jointVelocityLimitsTS(6,1)) + obj.jointVelocityLimitsTS(6,1);
+        particles(:,7) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(7,2)-obj.jointVelocityLimitsTS(7,1)) + obj.jointVelocityLimitsTS(7,1);
+        <span class="comment">% base (v,w)</span>
+        particles(:,8) = rand(obj.partNum,1)*(obj.baseVelocityLimitsTS(1,2)-obj.baseVelocityLimitsTS(1,1)) + obj.baseVelocityLimitsTS(1,1);
+        particles(:,9) = rand(obj.partNum,1)*(obj.baseVelocityLimitsTS(1,2)-obj.baseVelocityLimitsTS(1,1)) + obj.baseVelocityLimitsTS(1,1);
+
+
+        <span class="comment">% generate pso variables</span>
+        <span class="comment">% ------------------------------------------------------</span>
+
+
+        <span class="comment">% initialize speeds of particles</span>
+        particles_d = zeros(size(particles));
+
+        g_best = ones(1,size(particles,2)); <span class="comment">% social component</span>
+        g_best_I = 1000;
+
+        p_best = particles; <span class="comment">% cognitive component - best particle position</span>
+        p_best_I= ones(size(particles,1),1)*1000; <span class="comment">% cost values of personal bests</span>
+
+        I_all = zeros(obj.partNum,1); <span class="comment">% particle cost</span>
+
+        e_all = [];
+
+
+        <span class="comment">% optimization loop</span>
+        <span class="comment">% ------------------------------------------------------</span>
+
+
+        iternum = 0;
+
+        <span class="keyword">while</span> true
+
+            <span class="comment">% calculate cost of each particle</span>
+            <span class="keyword">for</span> i = 1:1:obj.partNum
+
+                [I_all(i)]  = obj.costFunctionDiff(goalEE, goalBase, particles(i,:), previousParams);
+
+            <span class="keyword">end</span>
+
+            <span class="comment">% check which particle is global best</span>
+            [I_best,I_index] = min(I_all);
+
+            <span class="comment">% check if g_best is worse than new best and update:</span>
+            g_best_I_old = g_best_I;
+            g_best_I = (g_best_I &lt;= I_best) * g_best_I + (g_best_I &gt; I_best) * I_best;
+            g_best = (g_best_I_old &lt;= I_best)* g_best + (g_best_I_old &gt; I_best)* particles(I_index, :);
+
+            [g_best_dist, ~, ~] = obj.costDistanceNorm(goalEE, particles(I_index, :));
+
+<span class="comment">%             if ~(mod(iternum, 20) )</span>
+<span class="comment">%                 display("Best particles cost:  " + g_best_I)</span>
+<span class="comment">%                 display("Best particles dist:  " + g_best_dist)</span>
+<span class="comment">%             end</span>
+<span class="comment">%             display((particles(I_index, :)))</span>
+
+            history_cost = [history_cost g_best_I];
+            history_distance = [history_distance g_best_dist];
+
+            <span class="comment">% update personal best, if this generation is better</span>
+            p_best = (I_all &lt;= p_best_I)*ones(1,size(particles,2)) .* particles + (I_all &gt; p_best_I)*ones(1,size(particles,2)) .* p_best;
+            p_best_I = (I_all &lt;= p_best_I) .* I_all + (I_all &gt; p_best_I) .* p_best_I;
+
+
+            <span class="comment">% calculate rp  and rg random values</span>
+            rp = rand(size(particles));
+            rg = rand(size(particles));
+
+            <span class="comment">% calculate speed updates</span>
+            particles_d = obj.w*particles_d + obj.c1*rp .*(p_best-particles) + obj.c2*rg .* (repmat(g_best,obj.partNum, 1) - particles);
+
+            <span class="comment">% calculate velocity limits</span>
+            particles_d = (particles_d &lt;= -obj.particleVelLimit) * (-obj.particleVelLimit) + (particles_d &gt; -obj.particleVelLimit) .* (particles_d &lt; obj.particleVelLimit) .* particles_d + (particles_d &gt;= obj.particleVelLimit) * obj.particleVelLimit;
+
+            <span class="comment">% calculate new positions</span>
+            particles_old_xy = particles(:,8:9);
+            particles = particles + particles_d;
+
+            <span class="comment">% calculate position limits</span>
+            particles = (particles &lt;= (combinedLimits(:,1))') .* (combinedLimits(:,1))'  + (particles &gt;= (combinedLimits(:,2))') .* (combinedLimits(:,2))' + ((particles &gt; (combinedLimits(:,1))') .* (particles &lt; (combinedLimits(:,2))')) .* particles;
+
+
+
+<span class="comment">%                 hold off</span>
+<span class="comment">%                 scatter(particles(:,8),particles(:,9))</span>
+<span class="comment">%                 hold on</span>
+<span class="comment">%                 scatter(goalEE(1,4), goalEE(2,4),'x', 'LineWidth',5)</span>
+<span class="comment">%</span>
+<span class="comment">%                 drawnow</span>
+
+
+
+            <span class="comment">% increase iter count</span>
+            iternum = iternum + 1;
+
+<span class="comment">%             toc();</span>
+
+            <span class="comment">% break conditions</span>
+            <span class="keyword">if</span> iternum  &gt; obj.iterMaxNum || g_best_dist &lt; obj.breakConstant || (iternum &gt; 50 &amp;&amp; g_best_dist &gt; 0.01) || (iternum &gt; 25 &amp;&amp; g_best_dist &gt; 0.1)
+<span class="comment">%                 display("Duration: " + toc())</span>
+                param = particles(I_index, :);
+
+                tim = toc();
+
+                <span class="comment">% goal reached</span>
+                <span class="keyword">if</span> (g_best_dist &lt; obj.breakConstant)
+                    display(<span class="string">"GOAL REACHED, distance: "</span> + g_best_dist +  <span class="string">" Particles num.: "</span> + obj.partNum)
+                <span class="keyword">else</span>
+                    display(<span class="string">"NOT REACHED, distance: "</span> + g_best_dist + <span class="string">" Particles num.: "</span> + obj.partNum)
+                <span class="keyword">end</span>
+
+               <span class="keyword">break</span>;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+
+
+    <span class="keyword">function</span> [costs, errPos, errRot] = costDistanceNorm(obj, goalEE, params)
+
+        <span class="keyword">global</span> rG
+        <span class="keyword">global</span> rEE
+
+        <span class="comment">% COST DISTANCE NORM</span>
+        <span class="comment">% simplest of cost functions, just second norm of error between EE distance and goal</span>
+
+        <span class="comment">% Approach described in article: Particle swarm optimization for inverse kinematics solution and trajectory planning of 7-DOF and 8-DOF robot manipulators based on unit quaternion representation</span>
+
+        <span class="comment">% calc direct kinematics</span>
+        [~,~,~,~,~,~,~,~,T] = obj.robot.GeometricRobot(params(1:7), params(8:10));
+
+        <span class="comment">% calculated pos &amp; rot</span>
+        pEE = T(1:3,4)';
+        rEE = rotm2quat(T(1:3,1:3));
+<span class="comment">%         rEEe = rotm2eul(T(1:3,1:3));</span>
+
+        <span class="comment">% get goal pos &amp; rot</span>
+        pG = goalEE(1:3,4)';
+        rG = rotm2quat(goalEE(1:3,1:3));
+<span class="comment">%         rGe = rotm2eul(goalEE(1:3,1:3));</span>
+
+        <span class="comment">% position error</span>
+        errPos = norm((pG - pEE));
+
+        <span class="comment">% rotation error</span>
+
+        <span class="comment">% simple way</span>
+        errRotS = abs(rG(1)-rEE(1));
+        errRotV = norm(rG(2:end) - rEE(2:end));
+        errRot = (errRotS + 2 * errRotV) * obj.errRotConst;
+
+
+        <span class="comment">% total error</span>
+        costs = (errPos + obj.errRotConst * errRot);
+
+    <span class="keyword">end</span>
+
+    <span class="keyword">function</span> costs = calcJointsPositionError(obj, params)
+
+        <span class="comment">% COST ERROR FROM PREFERED JOINT POSITIONS</span>
+
+        jointsError = obj.jointsPrefered - params(1:7)';
+        costs = norm(jointsError,2);
+
+    <span class="keyword">end</span>
+
+    <span class="keyword">function</span> costs = calcBasePositionError(obj, goal, params)
+
+        <span class="comment">% COST ERROR OF BASE POSITION DEVIATION FROM GOAL</span>
+
+        x = params(8);
+        y = params(9);
+
+        costs = norm([x-goal(1), y-goal(2)],2);
+
+    <span class="keyword">end</span>
+
+
+    <span class="keyword">function</span> [costs]  = costFunctionDiff(obj, goalEE, goalBase, params, previousStates)
+
+        <span class="comment">% COST FUNCTION</span>
+        <span class="comment">% cost functions, second norm of error between EE distance and goaL</span>
+        <span class="comment">%</span>
+        <span class="comment">% ------------------------------------</span>
+        <span class="comment">% goalEE - T mat [4x4]</span>
+        <span class="comment">% goalBase - x,y,fi</span>
+        <span class="comment">% previousStates - q1 ... q7, x, y, fi</span>
+
+        <span class="comment">% calculate new joint angles (changes are already accounting</span>
+        <span class="comment">% for time-step duration)</span>
+        states(1:7) = previousStates(1:7) + params(1:7);
+
+        <span class="comment">% wheel speeds to vw</span>
+        base_wv = obj.robot.convertWheelsToVW(obj, params(8:9));
+
+        <span class="comment">% vw to xy and phi</span>
+        states(8:10) = previousStates(8:10) + [base_wv(1) * cos(previousStates(10)+base_wv/2);
+                 base_wv(1) * sin(previousStates(10)+base_wv/2);
+                 previousStates(10) + base_wv(2) ]';
+
+        <span class="comment">% calculate &lt;EE - goal EE&gt; distance</span>
+        [costEE, ~, ~] = obj.costDistanceNorm(goalEE, states);
+
+        <span class="comment">% calculate &lt;base - goal base&gt; distance</span>
+        costBase = sqrt((states(8)-goalBase(1))^2+(states(9)-goalBase(2))^2);
+
+        <span class="comment">% total cost</span>
+        costs = costEE + costBase;
+
+
+    <span class="keyword">end</span>
+
+
+    <span class="keyword">function</span> [costs, eDist, eJoint, eBase, ePrevious]  = costFunction(obj,goalEE, goalBase, params, previousParams)
+
+        <span class="comment">% COST FUNCTION</span>
+        <span class="comment">% cost functions, second norm of error between EE distance and goaL</span>
+        <span class="comment">% with added preference for certain joints poses</span>
+
+        [distErr, errPos, errRot] = obj.costDistanceNorm(goalEE, params);
+
+        <span class="comment">% total error</span>
+
+        eDist = obj.distConst * distErr;
+        eJoint = obj.jointPositionConst * obj.calcJointsPositionError(params);
+        eBase = obj.positionBaseConst * obj.calcBasePositionError(goalBase, params);
+        ePrevious = 0;
+
+        <span class="keyword">if</span> previousParams
+            ePrevious = obj.paramChangeConst * obj.paramChangeError(params, previousParams);
+        <span class="keyword">end</span>
+
+
+        costs = eDist + eJoint + eBase + ePrevious;
+
+        <span class="comment">% if previous joint positions are aveliable calculate close</span>
+        <span class="comment">% solution</span>
+
+
+    <span class="keyword">end</span>
+
+    <span class="keyword">function</span> cost = paramChangeError(obj, params, previousParams)
+
+        cost = norm([previousParams-params],2); <span class="comment">% !!!!</span>
+
+    <span class="keyword">end</span>
+
+
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+obj = 
+
+  PSO_optimizer with properties:
+
+                       dt: 0.1000
+             jointsLimits: [7&times;2 double]
+      jointVelocityLimits: [7&times;2 double]
+       baseVelocityLimits: [2&times;2 double]
+    jointVelocityLimitsTS: []
+     baseVelocityLimitsTS: []
+           jointsPrefered: [7&times;1 double]
+           positionLimits: [2&times;2 double]
+                jointsNum: 9
+       initializationMode: "none"
+                rangeBase: 1
+                        w: 0.6000
+                       c1: 0.8000
+                       c2: 0.8000
+         particleVelLimit: 2
+            breakConstant: 1.0000e-03
+              errRotConst: 1
+       jointPositionConst: 2
+        positionBaseConst: 2
+                distConst: 15
+         paramChangeConst: 0
+         angleMaxApproach: 0.3142
+               numChange1: 0
+               numChange2: 15
+               numChange3: 40
+               numChange4: 60
+         numParallel_0_15: 5
+        numParallel_15_40: 5
+        numParallel_40_60: 5
+        numParallel_60_80: 5
+             numPart_0_15: 100
+            numPart_15_40: 500
+            numPart_40_60: 1000
+            numPart_60_80: 2000
+                  partNum: 10000
+              parallelNum: 5
+               iterMaxNum: 100
+                 maxOptim: 100
+                    robot: [1&times;1 robotPmb2Panda]
+
+
+ans = 
+
+  PSO_optimizer with properties:
+
+                       dt: 0.1000
+             jointsLimits: [7&times;2 double]
+      jointVelocityLimits: [7&times;2 double]
+       baseVelocityLimits: [2&times;2 double]
+    jointVelocityLimitsTS: [7&times;2 double]
+     baseVelocityLimitsTS: [2&times;2 double]
+           jointsPrefered: [7&times;1 double]
+           positionLimits: [2&times;2 double]
+                jointsNum: 9
+       initializationMode: "none"
+                rangeBase: 1
+                        w: 0.6000
+                       c1: 0.8000
+                       c2: 0.8000
+         particleVelLimit: 2
+            breakConstant: 1.0000e-03
+              errRotConst: 1
+       jointPositionConst: 2
+        positionBaseConst: 2
+                distConst: 15
+         paramChangeConst: 0
+         angleMaxApproach: 0.3142
+               numChange1: 0
+               numChange2: 15
+               numChange3: 40
+               numChange4: 60
+         numParallel_0_15: 5
+        numParallel_15_40: 5
+        numParallel_40_60: 5
+        numParallel_60_80: 5
+             numPart_0_15: 100
+            numPart_15_40: 500
+            numPart_40_60: 1000
+            numPart_60_80: 2000
+                  partNum: 10000
+              parallelNum: 5
+               iterMaxNum: 100
+                 maxOptim: 100
+                    robot: [1&times;1 robotPmb2Panda]
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef PSO_optimizer
+
+    % OPTIMIZERS class
+
+    properties
+        
+        % time constant
+        dt = 0.1;
+
+        % max and min joint positions (robot PandaTiago)
+        jointsLimits = [
+                        [-2.8973, 2.8973] ;
+                        [-1.17628, 1.17628];
+                        [-2.8973, 2.8973];
+                        [-3.0718, -0.0698];
+                        [-2.8973, 2.8973];
+                        [-0.0175, 3.7525];
+                        [-2.8973, 2.8973]              
+                       ];
+
+        % max joint velocities from specifications
+        jointVelocityLimits = [-2.1750 2.1750 ; 
+                               -2.1750 2.1750 ;
+                               -2.1750 2.1750 ;
+                               -2.1750 2.1750 ;
+                               -2.6100 2.6100 ;
+                               -2.6100 2.6100;
+                               -2.6100 2.6100];
+        baseVelocityLimits = [-1.5 1.5 ;
+                              -1.5 1.5 ];
+
+        % max joint, base velocities accounting for the time step (calc. in init
+        % function)
+        jointVelocityLimitsTS = [];
+        baseVelocityLimitsTS = [];
+
+        % prefered joint positions
+        jointsPrefered = [0 pi/4 0 -pi/3 0 1.8675 0]';
+        
+        % x,y range for base position
+        positionLimits = [
+                          [-5,5];
+                          [-5,5]
+                         ];
+
+        % number of parameters
+        jointsNum = 9;
+        
+        % set type of particles initialization
+        initializationMode = "none"; % none, smartbase
+
+        % range of robot base search space
+        rangeBase = 1;
+
+        % optimization parameters
+        w = 0.6;
+        c1 = 0.8;
+        c2 = 0.8;
+
+        % particle velocity limit
+        particleVelLimit = 2;
+
+        % constant at which stop optimization
+        breakConstant = 0.001 %  sub 1mm
+
+
+        % error rot-pos ratio const
+        errRotConst = 1;
+
+        % cost function parts gains
+        jointPositionConst = 2;
+        positionBaseConst = 2;
+        distConst = 15;
+        paramChangeConst = 0;
+
+        % max angle of base approach toward EE
+        angleMaxApproach = pi/10;
+
+        % param changes 
+        numChange1 = 0;
+        numChange2 = 15;
+        numChange3 = 40;
+        numChange4 = 60;
+
+
+
+        % number of parallel optimizations
+        numParallel_0_15 = 5;
+        numParallel_15_40 = 5;
+        numParallel_40_60 = 5;
+        numParallel_60_80 = 5;
+
+
+        % number of particles
+        numPart_0_15 = 100;
+        numPart_15_40 = 500;
+        numPart_40_60 = 1000;
+        numPart_60_80 = 2000;
+
+        % set values
+        partNum = 10000;
+        parallelNum = 5;
+
+
+        % max number of iter
+        iterMaxNum = 100;
+
+        % max number of optimisation runs for one point
+        maxOptim = 100;
+
+        % imported classes
+        robot = {}
+
+    end
+
+    methods
+
+        function obj = PSO_optimizer(obj)
+
+            obj.robot = robotPmb2Panda()
+
+            % calc max velocity step based on time constant
+            obj.jointVelocityLimitsTS = obj.jointVelocityLimits * obj.dt;
+            obj.baseVelocityLimitsTS = obj.baseVelocityLimits * obj.dt;
+
+        end
+
+        function [path_parameters, convergence_success, convergence_times, convergence_runs] = PSO_optimization_diff_path(obj, path)
+
+            % optimize joint positions for multiple points of EE
+            % REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+            path_parameters = zeros(size(path,3), obj.jointsNum);
+            convergence_success = ones(1,size(path,3));
+            convergence_times = zeros(1,size(path,3));
+            convergence_runs = zeros(1,size(path,3));
+
+
+            % calulate approx base positions
+
+            [basePath, baseStatus] = obj.robot.baseApproxPositions(path);
+
+            % for every point on the path 
+            for i_point = 1:1:size(path,3)
+
+                t_point = tic();
+
+                T = path(:,:,i_point);
+
+                basePoint = basePath(i_point,:);
+
+                success = [];
+                success_points = 0;	                
+                params = [];
+                previousParams = [];
+
+
+                % previous position parameters
+                if (i_point > 1)           
+                    previousParams = path_parameters(i_point-1, :);              
+                end
+
+                i_optims = 1;
+
+                % run multiple optimizations, until reached max number of
+                % tries (we dont always archieve convergence)
+                while i_optims <= obj.maxOptim
+                
+                    i_optims = i_optims + 1;
+        
+                    [param, ~, history_distance, ~] = obj.PSO_optimization_diff(T, basePoint, previousParams);
+                    
+                    params(i_optim,:) = param;
+                
+                    if (history_distance(end) < 0.005)
+                        success(i_optim) = history_distance(end);
+                        success_points = success_points + 1;
+                    else
+                        success(i_optim) = 2;
+                    end
+                
+                    % check if any of the runs achieved convergence
+                    [m,I] = min(success);
+
+                    % if converged
+                    if m < 1
+                        % save best results
+                        param = params(I,:);
+                        path_parameters(i_point,:) = param;
+                        convergence_success(i_point) = m;
+                        convergence_times(i_point) = toc(t_point);
+                        convergence_runs(i_point) = i_optims;
+                                     
+                        % display transformation matrix
+                        [~,~,~,~,~,~,~,~,Tout] = obj.robot.GeometricRobot(param(1:7), param(8:10))
+                        
+                        % display status
+                        display("Point num.: " + i_point + " Particles num.: " + obj.partNum +  " CONVERGED.")
+              
+                        break;
+                    
+                    end 
+                    
+                    % if not converged display error
+                    if i_optims >= (obj.maxOptim) && m > 1
+                        display("Point num.: " + i_point + " Particles num.: " + obj.partNum + " ERROR.")
+                    end
+
+                end
+            end
+            
+        end
+
+        function [path_parameters, convergence_success, convergence_times, convergence_runs] = PSO_optimization_path(obj, path)
+
+            % optimize joint positions for multiple points of EE
+            % REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+            path_parameters = zeros(size(path,3), obj.jointsNum);
+            convergence_success = ones(1,size(path,3));
+            convergence_times = zeros(1,size(path,3));
+            convergence_runs = zeros(1,size(path,3));
+
+
+            % calulate approx base positions
+
+            [basePath, baseStatus] = obj.robot.baseApproxPositions(path);
+
+            % for every point on the path 
+            for i_point = 1:1:size(path,3)
+
+                t_point = tic();
+
+                T = path(:,:,i_point);
+
+                basePoint = basePath(i_point,:);
+
+                success = [];
+                success_points = 0;	                
+                params = [];
+                previousParams = [];
+
+
+                % previous position parameters
+                if (i_point > 1)           
+                    previousParams = path_parameters(i_point-1, :);              
+                end
+
+                i_optims = 1;
+
+                % run multiple optimizations and in parallel 
+                % (we dont always archieve convergence)
+                while i_optims <= obj.maxOptim
+                
+                    % set particles number and number of parallel runs
+                    if (i_optims > obj.numChange1)
+                        
+                        obj.partNum = obj.numPart_0_15;
+                        obj.parallelNum = obj.numParallel_0_15;
+
+                    end
+
+                    if (i_optims > obj.numChange2)
+                        
+                        obj.partNum = obj.numPart_15_40;
+                        obj.parallelNum = obj.numParallel_15_40;
+
+                    end
+
+                    if (i_optims > obj.numChange3)
+                        
+                        obj.partNum = obj.numPart_40_60;
+                        obj.parallelNum = obj.numParallel_40_60;
+
+                    end
+
+                    if (i_optims > obj.numChange4)
+                        
+                        obj.partNum = obj.numPart_60_80;
+                        obj.parallelNum = obj.numParallel_60_80;
+
+                    end
+
+                   
+                    % parallel execution
+                    parfor i_optim = 1:1:obj.parallelNum   % PARFOR
+
+                        i_optims = i_optims + 1;
+            
+                        [param, ~, history_distance, ~] = obj.PSO_optimization(T, basePoint, previousParams);
+                        
+                        params(i_optim,:) = param;
+                    
+                        if (history_distance(end) < 0.005)
+                            success(i_optim) = history_distance(end);
+                            success_points = success_points + 1;
+                        else
+                            success(i_optim) = 2;
+                        end
+                    
+                    end
+                    
+                    % check if any of the runs achieved convergence
+                    [m,I] = min(success);
+
+                    % if converged
+                    if m < 1
+                        % save best results
+                        param = params(I,:);
+                        path_parameters(i_point,:) = param;
+                        convergence_success(i_point) = m;
+                        convergence_times(i_point) = toc(t_point);
+                        convergence_runs(i_point) = i_optims;
+                                     
+                        % display transformation matrix
+                        [~,~,~,~,~,~,~,~,Tout] = obj.robot.GeometricRobot(param(1:7), [param(8:9) 0])
+                        
+                        % display status
+                        display("Point num.: " + i_point + " Particles num.: " + obj.partNum +  " CONVERGED.")
+              
+                        break;
+                    
+                    end 
+                    
+                    % if not converged display error
+                    if i_optims >= (obj.maxOptim) && m > 1
+                        display("Point num.: " + i_point + " Particles num.: " + obj.partNum + " ERROR.")
+                    end
+
+                end
+
+
+
+            end
+            
+        end
+
+
+        
+        function [param, history_cost, history_distance, tim] = PSO_optimization(obj,goalEE, goalBase, previousParams)
+
+        % combined position limits of joints and base
+        combinedLimits = [obj.jointsLimits ; obj.positionLimits ; -pi pi];
+        
+        % history
+        history_distance = [];
+        history_cost = [];
+
+        tic()   
+        
+        % generate particles
+    
+        if obj.initializationMode == "none"
+            particles = zeros(obj.partNum, 9);
+            % arm joints
+            particles(:,1) = rand(obj.partNum,1)*(obj.jointsLimits(1,2)-obj.jointsLimits(1,1)) + obj.jointsLimits(1,1);
+            particles(:,2) = rand(obj.partNum,1)*(obj.jointsLimits(2,2)-obj.jointsLimits(2,1)) + obj.jointsLimits(2,1);
+            particles(:,3) = rand(obj.partNum,1)*(obj.jointsLimits(3,2)-obj.jointsLimits(3,1)) + obj.jointsLimits(3,1);
+            particles(:,4) = rand(obj.partNum,1)*(obj.jointsLimits(4,2)-obj.jointsLimits(4,1)) + obj.jointsLimits(4,1);
+            particles(:,5) = rand(obj.partNum,1)*(obj.jointsLimits(5,2)-obj.jointsLimits(5,1)) + obj.jointsLimits(5,1);
+            particles(:,6) = rand(obj.partNum,1)*(obj.jointsLimits(6,2)-obj.jointsLimits(6,1)) + obj.jointsLimits(6,1);
+            particles(:,7) = rand(obj.partNum,1)*(obj.jointsLimits(7,2)-obj.jointsLimits(7,1)) + obj.jointsLimits(7,1);
+            % base position
+            particles(:,8) = rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);
+            particles(:,9) = rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);
+    
+        end
+
+        if obj.initializationMode == "smartbase"
+            particles = zeros(obj.partNum, 9);
+            % arm joints
+            particles(:,1) = rand(obj.partNum,1)*(obj.jointsLimits(1,2)-obj.jointsLimits(1,1)) + obj.jointsLimits(1,1);
+            particles(:,2) = rand(obj.partNum,1)*(obj.jointsLimits(2,2)-obj.jointsLimits(2,1)) + obj.jointsLimits(2,1);
+            particles(:,3) = rand(obj.partNum,1)*(obj.jointsLimits(3,2)-obj.jointsLimits(3,1)) + obj.jointsLimits(3,1);
+            particles(:,4) = rand(obj.partNum,1)*(obj.jointsLimits(4,2)-obj.jointsLimits(4,1)) + obj.jointsLimits(4,1);
+            particles(:,5) = rand(obj.partNum,1)*(obj.jointsLimits(5,2)-obj.jointsLimits(5,1)) + obj.jointsLimits(5,1);
+            particles(:,6) = rand(obj.partNum,1)*(obj.jointsLimits(6,2)-obj.jointsLimits(6,1)) + obj.jointsLimits(6,1);
+            particles(:,7) = rand(obj.partNum,1)*(obj.jointsLimits(7,2)-obj.jointsLimits(7,1)) + obj.jointsLimits(7,1);
+
+            % base position behind EE
+            goalAngleEE = wrapToPi(atan2(goalEE(2,3), goalEE(1,3)));
+            s = sin(goalAngleEE + pi - obj.angleMaxApproach/2 + obj.angleMaxApproach * rand(obj.partNum,1));
+            c = cos(goalAngleEE + pi - obj.angleMaxApproach/2 + obj.angleMaxApproach * rand(obj.partNum,1));
+            
+            % scalling for correct distance from mid point
+            factorR = rand(obj.partNum,1) * obj.rangeBase ./ sqrt(s.^2 + c.^2); 
+
+            particles(:,8) = goalEE(1,4) + obj.rangeBase * factorR .* c;  % rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);
+            particles(:,9) = goalEE(2,4) + obj.rangeBase * factorR .* s; % rand(obj.partNum,1)*(obj.positionLimits(1,2)-obj.positionLimits(1,1)) + obj.positionLimits(1,1);
+
+           
+%                 hold off
+%                 scatter(particles(:,8),particles(:,9))
+%                 hold on
+%                 scatter(goalEE(1,4), goalEE(2,4),'x', 'LineWidth',5)
+%                 
+%                 drawnow
+
+        end
+        
+    
+        % initialize speeds of particles
+        particles_d = zeros(size(particles));
+    
+        g_best = ones(1,size(particles,2)); % social component
+        g_best_I = 1000;
+    
+        p_best = particles; % cognitive component - best particle position
+        p_best_I= ones(size(particles,1),1)*1000; % cost values of personal bests
+    
+        I_all = zeros(obj.partNum,1); % particle cost
+
+        e_all = [];
+    
+          
+        % optimization loop
+    
+        iternum = 0;
+
+        while true
+    
+            % calculate cost of each particle
+            for i = 1:1:obj.partNum
+    
+                [I_all(i), e_all(i,1), e_all(i,2), e_all(i,3), e_all(i,4)] = obj.costFunction(goalEE, goalBase, particles(i,:), previousParams);
+                
+            end
+    
+            % check which particle is global best
+            [I_best,I_index] = min(I_all);
+    
+            % check if g_best is worse than new best and update:
+            g_best_I_old = g_best_I;
+            g_best_I = (g_best_I <= I_best) * g_best_I + (g_best_I > I_best) * I_best;
+            g_best = (g_best_I_old <= I_best)* g_best + (g_best_I_old > I_best)* particles(I_index, :);
+
+            [g_best_dist, ~, ~] = obj.costDistanceNorm(goalEE, particles(I_index, :));
+    
+%             if ~(mod(iternum, 20) )
+%                 display("Best particles cost:  " + g_best_I)
+%                 display("Best particles dist:  " + g_best_dist)
+%             end
+%             display((particles(I_index, :))) 
+
+            history_cost = [history_cost g_best_I];
+            history_distance = [history_distance g_best_dist];
+    
+            % update personal best, if this generation is better
+            p_best = (I_all <= p_best_I)*ones(1,size(particles,2)) .* particles + (I_all > p_best_I)*ones(1,size(particles,2)) .* p_best;
+            p_best_I = (I_all <= p_best_I) .* I_all + (I_all > p_best_I) .* p_best_I;
+    
+            
+            % calculate rp  and rg random values
+            rp = rand(size(particles));
+            rg = rand(size(particles));
+    
+            % calculate speed updates
+            particles_d = obj.w*particles_d + obj.c1*rp .*(p_best-particles) + obj.c2*rg .* (repmat(g_best,obj.partNum, 1) - particles);
+
+            % calculate velocity limits 
+            particles_d = (particles_d <= -obj.particleVelLimit) * (-obj.particleVelLimit) + (particles_d > -obj.particleVelLimit) .* (particles_d < obj.particleVelLimit) .* particles_d + (particles_d >= obj.particleVelLimit) * obj.particleVelLimit;
+
+            % calculate new positions
+            particles_old_xy = particles(:,8:9);
+            particles = particles + particles_d;
+    
+            % calculate position limits
+
+            if (obj.initializationMode == "none")
+                particles = (particles <= (combinedLimits(:,1))') .* (combinedLimits(:,1))'  + (particles >= (combinedLimits(:,2))') .* (combinedLimits(:,2))' + ((particles > (combinedLimits(:,1))') .* (particles < (combinedLimits(:,2))')) .* particles;
+            end
+
+            if (obj.initializationMode == "smartbase")    
+                % joints
+                particles(:,1:7) = (particles(:,1:7) <= (obj.jointsLimits(:,1))') .* (obj.jointsLimits(:,1))'  + (particles(:,1:7) >= (obj.jointsLimits(:,2))') .* (obj.jointsLimits(:,2))' + ((particles(:,1:7) > (obj.jointsLimits(:,1))') .* (particles(:,1:7) < (obj.jointsLimits(:,2))')) .* particles(:,1:7);
+                
+                % base                            
+                x = particles(:,8);
+                y = particles(:,9);
+                
+                % scalling for max distance from mid point
+                r = sqrt((x-goalEE(1,4)).^2 + (y-goalEE(2,4)).^2); 
+                particles(:,8:9) = (r > obj.rangeBase) .* particles_old_xy(:,:) + (r <= obj.rangeBase) .* particles(:,8:9);
+
+                % no points in front of the EE
+                angleParticle = wrapToPi(atan2(particles(:,9)-goalEE(2,4), particles(:,8)-goalEE(1,4)));
+                particles(:,8:9) = (abs(angleParticle - wrapToPi(goalAngleEE + pi)) > obj.angleMaxApproach) .* particles_old_xy(:,:) + (abs(angleParticle - wrapToPi(goalAngleEE + pi)) <= obj.angleMaxApproach).* particles(:,8:9);
+                
+%                 hold off
+%                 scatter(particles(:,8),particles(:,9))
+%                 hold on
+%                 scatter(goalEE(1,4), goalEE(2,4),'x', 'LineWidth',5)
+%                 
+%                 drawnow
+                                 
+
+            end
+
+            % increase iter count
+            iternum = iternum + 1;
+
+%             toc();
+
+
+            % break conditions
+            if iternum  > obj.iterMaxNum || g_best_dist < obj.breakConstant || (iternum > 50 && g_best_dist > 0.01) || (iternum > 25 && g_best_dist > 0.1)
+%                 display("Duration: " + toc())
+                param = particles(I_index, :);
+
+                tim = toc();
+
+                % goal reached
+                if (g_best_dist < obj.breakConstant)
+                    display("GOAL REACHED, distance: " + g_best_dist +  " Particles num.: " + obj.partNum)
+                else
+                    display("NOT REACHED, distance: " + g_best_dist + " Particles num.: " + obj.partNum)
+                end
+
+               break;
+            end                
+        end
+        end
+
+
+    function [param, history_cost, history_distance, tim] = PSO_optimization_diff(obj,goalEE, goalBase, previousParams)
+
+        % combined position limits of joints and base
+        combinedLimits = [obj.jointVelocityLimitsTS ; obj.baseVelocityLimitsTS];
+        
+        % history
+        history_distance = [];
+        history_cost = [];
+
+        tic()   
+        
+        % generate particles
+        % REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+        particles = zeros(obj.partNum, 9);
+        
+        % arm joints (dq1 ... dq7)
+        particles(:,1) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(1,2)-obj.jointVelocityLimitsTS(1,1)) + obj.jointVelocityLimitsTS(1,1);
+        particles(:,2) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(2,2)-obj.jointVelocityLimitsTS(2,1)) + obj.jointVelocityLimitsTS(2,1);
+        particles(:,3) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(3,2)-obj.jointVelocityLimitsTS(3,1)) + obj.jointVelocityLimitsTS(3,1);
+        particles(:,4) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(4,2)-obj.jointVelocityLimitsTS(4,1)) + obj.jointVelocityLimitsTS(4,1);
+        particles(:,5) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(5,2)-obj.jointVelocityLimitsTS(5,1)) + obj.jointVelocityLimitsTS(5,1);
+        particles(:,6) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(6,2)-obj.jointVelocityLimitsTS(6,1)) + obj.jointVelocityLimitsTS(6,1);
+        particles(:,7) = rand(obj.partNum,1)*(obj.jointVelocityLimitsTS(7,2)-obj.jointVelocityLimitsTS(7,1)) + obj.jointVelocityLimitsTS(7,1);
+        % base (v,w)
+        particles(:,8) = rand(obj.partNum,1)*(obj.baseVelocityLimitsTS(1,2)-obj.baseVelocityLimitsTS(1,1)) + obj.baseVelocityLimitsTS(1,1);
+        particles(:,9) = rand(obj.partNum,1)*(obj.baseVelocityLimitsTS(1,2)-obj.baseVelocityLimitsTS(1,1)) + obj.baseVelocityLimitsTS(1,1);
+
+
+        % generate pso variables
+        % REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+    
+        % initialize speeds of particles
+        particles_d = zeros(size(particles));
+    
+        g_best = ones(1,size(particles,2)); % social component
+        g_best_I = 1000;
+    
+        p_best = particles; % cognitive component - best particle position
+        p_best_I= ones(size(particles,1),1)*1000; % cost values of personal bests
+    
+        I_all = zeros(obj.partNum,1); % particle cost
+
+        e_all = [];
+    
+          
+        % optimization loop
+        % REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+    
+        iternum = 0;
+
+        while true
+    
+            % calculate cost of each particle
+            for i = 1:1:obj.partNum
+    
+                [I_all(i)]  = obj.costFunctionDiff(goalEE, goalBase, particles(i,:), previousParams);
+                
+            end
+    
+            % check which particle is global best
+            [I_best,I_index] = min(I_all);
+    
+            % check if g_best is worse than new best and update:
+            g_best_I_old = g_best_I;
+            g_best_I = (g_best_I <= I_best) * g_best_I + (g_best_I > I_best) * I_best;
+            g_best = (g_best_I_old <= I_best)* g_best + (g_best_I_old > I_best)* particles(I_index, :);
+
+            [g_best_dist, ~, ~] = obj.costDistanceNorm(goalEE, particles(I_index, :));
+    
+%             if ~(mod(iternum, 20) )
+%                 display("Best particles cost:  " + g_best_I)
+%                 display("Best particles dist:  " + g_best_dist)
+%             end
+%             display((particles(I_index, :))) 
+
+            history_cost = [history_cost g_best_I];
+            history_distance = [history_distance g_best_dist];
+    
+            % update personal best, if this generation is better
+            p_best = (I_all <= p_best_I)*ones(1,size(particles,2)) .* particles + (I_all > p_best_I)*ones(1,size(particles,2)) .* p_best;
+            p_best_I = (I_all <= p_best_I) .* I_all + (I_all > p_best_I) .* p_best_I;
+    
+            
+            % calculate rp  and rg random values
+            rp = rand(size(particles));
+            rg = rand(size(particles));
+    
+            % calculate speed updates
+            particles_d = obj.w*particles_d + obj.c1*rp .*(p_best-particles) + obj.c2*rg .* (repmat(g_best,obj.partNum, 1) - particles);
+
+            % calculate velocity limits 
+            particles_d = (particles_d <= -obj.particleVelLimit) * (-obj.particleVelLimit) + (particles_d > -obj.particleVelLimit) .* (particles_d < obj.particleVelLimit) .* particles_d + (particles_d >= obj.particleVelLimit) * obj.particleVelLimit;
+
+            % calculate new positions
+            particles_old_xy = particles(:,8:9);
+            particles = particles + particles_d;
+    
+            % calculate position limits
+            particles = (particles <= (combinedLimits(:,1))') .* (combinedLimits(:,1))'  + (particles >= (combinedLimits(:,2))') .* (combinedLimits(:,2))' + ((particles > (combinedLimits(:,1))') .* (particles < (combinedLimits(:,2))')) .* particles;
+            
+
+                         
+%                 hold off
+%                 scatter(particles(:,8),particles(:,9))
+%                 hold on
+%                 scatter(goalEE(1,4), goalEE(2,4),'x', 'LineWidth',5)
+%                 
+%                 drawnow
+                                 
+
+
+            % increase iter count
+            iternum = iternum + 1;
+
+%             toc();
+
+            % break conditions
+            if iternum  > obj.iterMaxNum || g_best_dist < obj.breakConstant || (iternum > 50 && g_best_dist > 0.01) || (iternum > 25 && g_best_dist > 0.1)
+%                 display("Duration: " + toc())
+                param = particles(I_index, :);
+
+                tim = toc();
+
+                % goal reached
+                if (g_best_dist < obj.breakConstant)
+                    display("GOAL REACHED, distance: " + g_best_dist +  " Particles num.: " + obj.partNum)
+                else
+                    display("NOT REACHED, distance: " + g_best_dist + " Particles num.: " + obj.partNum)
+                end
+
+               break;
+            end                
+        end
+    end
+
+
+
+    function [costs, errPos, errRot] = costDistanceNorm(obj, goalEE, params)
+
+        global rG
+        global rEE
+
+        % COST DISTANCE NORM
+        % simplest of cost functions, just second norm of error between EE distance and goal
+
+        % Approach described in article: Particle swarm optimization for inverse kinematics solution and trajectory planning of 7-DOF and 8-DOF robot manipulators based on unit quaternion representation
+
+        % calc direct kinematics
+        [~,~,~,~,~,~,~,~,T] = obj.robot.GeometricRobot(params(1:7), params(8:10));
+       
+        % calculated pos & rot
+        pEE = T(1:3,4)';
+        rEE = rotm2quat(T(1:3,1:3));
+%         rEEe = rotm2eul(T(1:3,1:3));
+
+        % get goal pos & rot
+        pG = goalEE(1:3,4)';
+        rG = rotm2quat(goalEE(1:3,1:3));
+%         rGe = rotm2eul(goalEE(1:3,1:3));
+
+        % position error
+        errPos = norm((pG - pEE));
+
+        % rotation error
+
+        % simple way
+        errRotS = abs(rG(1)-rEE(1));
+        errRotV = norm(rG(2:end) - rEE(2:end));
+        errRot = (errRotS + 2 * errRotV) * obj.errRotConst;
+
+
+        % total error
+        costs = (errPos + obj.errRotConst * errRot);
+
+    end
+
+    function costs = calcJointsPositionError(obj, params)
+
+        % COST ERROR FROM PREFERED JOINT POSITIONS
+     
+        jointsError = obj.jointsPrefered - params(1:7)';
+        costs = norm(jointsError,2);
+
+    end
+
+    function costs = calcBasePositionError(obj, goal, params)
+
+        % COST ERROR OF BASE POSITION DEVIATION FROM GOAL 
+
+        x = params(8);
+        y = params(9);
+
+        costs = norm([x-goal(1), y-goal(2)],2);
+
+    end
+
+
+    function [costs]  = costFunctionDiff(obj, goalEE, goalBase, params, previousStates)
+
+        % COST FUNCTION
+        % cost functions, second norm of error between EE distance and goaL
+        %
+        % REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        % goalEE - T mat [4x4]
+        % goalBase - x,y,fi
+        % previousStates - q1 ... q7, x, y, fi
+
+        % calculate new joint angles (changes are already accounting
+        % for time-step duration)
+        states(1:7) = previousStates(1:7) + params(1:7);
+
+        % wheel speeds to vw
+        base_wv = obj.robot.convertWheelsToVW(obj, params(8:9));
+
+        % vw to xy and phi
+        states(8:10) = previousStates(8:10) + [base_wv(1) * cos(previousStates(10)+base_wv/2);
+                 base_wv(1) * sin(previousStates(10)+base_wv/2);
+                 previousStates(10) + base_wv(2) ]';
+
+        % calculate <EE - goal EE> distance
+        [costEE, ~, ~] = obj.costDistanceNorm(goalEE, states);
+
+        % calculate <base - goal base> distance
+        costBase = sqrt((states(8)-goalBase(1))^2+(states(9)-goalBase(2))^2);
+
+        % total cost
+        costs = costEE + costBase;
+
+
+    end
+
+
+    function [costs, eDist, eJoint, eBase, ePrevious]  = costFunction(obj,goalEE, goalBase, params, previousParams)
+
+        % COST FUNCTION
+        % cost functions, second norm of error between EE distance and goaL
+        % with added preference for certain joints poses
+
+        [distErr, errPos, errRot] = obj.costDistanceNorm(goalEE, params);
+       
+        % total error
+
+        eDist = obj.distConst * distErr;
+        eJoint = obj.jointPositionConst * obj.calcJointsPositionError(params);
+        eBase = obj.positionBaseConst * obj.calcBasePositionError(goalBase, params);
+        ePrevious = 0;
+
+        if previousParams
+            ePrevious = obj.paramChangeConst * obj.paramChangeError(params, previousParams);
+        end
+
+
+        costs = eDist + eJoint + eBase + ePrevious;
+
+        % if previous joint positions are aveliable calculate close
+        % solution
+
+
+    end
+
+    function cost = paramChangeError(obj, params, previousParams)
+
+        cost = norm([previousParams-params],2); % !!!!
+
+    end
+
+
+end
+end
+##### SOURCE END #####
+--></body></html>
