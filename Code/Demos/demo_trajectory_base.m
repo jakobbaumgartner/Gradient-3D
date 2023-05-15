@@ -38,7 +38,7 @@ axis([0 size(grid_occupancy,1)*space_resolution 0 size(grid_occupancy,2)*space_r
 
 %% PATH
 % add EE path
-[X Y Z Xb Yb] = path_lab_1()
+[X Y Z Xb Yb] = path_lab_1();
 
 %% PATH OPTIMIZATION
 % -------------------------------------------------------------------------------------------
@@ -67,6 +67,9 @@ for i=1:1:length(X)
    % Select goal point
    goal = [X(i) Y(i) Z(i) 0 0 0];
 
+   % Select base goal point
+   goal_base = [Xb(i) Yb(i)];
+
    % Calculate the transformation matrix for the robot's current position
    [T] = GeometricRobot(robot_states);
 
@@ -77,11 +80,11 @@ for i=1:1:length(X)
    diff = [goal - [T(1:3,4)' 0 0 0]];
    
    % Use an optimizer to determine the optimal velocities for the robot
-   [q_vel, q_avoid, q_prim] = optimizer(robot_states, diff, grid_distance, space_resolution);
+   [q_vel, q_avoid, q_prim] = optimizer(robot_states, diff, goal_base, space_resolution);
 
-   if i < 5
-       q_vel = q_prim;
-   end
+%    if i < 5
+%        q_vel = q_prim;
+%    end
 
    % Simulate a step for the robot using the optimal velocities
    [robot_states] = simulate_step(robot_states, q_vel);
@@ -97,18 +100,13 @@ for i=1:1:length(X)
    q_avoid_hist = [q_avoid_hist ; q_avoid'];
 
    % Every few points draw robot
-   if ~mod(i,5)
+   if ~mod(i,1)
         [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
         showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "yellow", true)
+        drawnow;
 
-
-        % calculate partial derivatives
-        [dx, dy, dz] = interpolate_derivative([robot_states(1), robot_states(2), 0.2], grid_distance, space_resolution);
-
-        % plot the arrow
-        arrow_length = 30;
-        quiver3(robot_states(1)*100, robot_states(2)*100, 20, -dx * arrow_length, -dy * arrow_length, -dz * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
-
+        % plot point
+        scatter3(goal_base(1)*100, goal_base(2)*100, 10, 'SizeData', 100, 'MarkerFaceColor', 'blue')
         drawnow;
    end
 

@@ -1,9 +1,10 @@
-function [X, Y, Z] = polyfit_xyz_trajectory(points)
+function [X, Y, Z] = polyfit_xyz_trajectory(points, degree)
 % POLYFIT_XYZ_TRAJECTORY Returns a 3D trajectory using polyfit
-%   [X, Y, Z] = polyfit_xyz_trajectory(points) returns three arrays
+%   [X, Y, Z] = polyfit_xyz_trajectory(points, degree) returns three arrays
 %   containing the X, Y, and Z coordinates of a 3D trajectory generated
 %   using polyfit. The input 'points' is an N-by-3 array containing the
-%   X, Y, and Z coordinates of N points along the trajectory.
+%   X, Y, and Z coordinates of N points along the trajectory. Degree is 
+%   the degree of fitted function. 
 
 % Extract X, Y, and Z coordinates from points array
 x = points(:, 1);
@@ -11,7 +12,7 @@ y = points(:, 2);
 z = points(:, 3);
 
 % Define polynomial degree and number of points for interpolation
-degree = 5;  % Change degree to adjust the level of fitting accuracy
+% degree = 5;  % Change degree to adjust the level of fitting accuracy
 npoints = 100; % Change npoints to adjust the number of points in the trajectory
 
 % Generate a vector of evenly-spaced values between min(x) and max(x)

@@ -11,15 +11,16 @@ function [q_vel, q_avoid, q_prim] = optimizer(robot_angles, diff, grid_distance,
     % q_vel: a vector of the calculated joint velocities
     % q_avoid: a vector of the calculated secondary task joint velocities
 
-    jacobian_option = 'analitic'; % analitic, numeric, geometric
-    secondary_option = 'avoidance_base'; % none, avoidance_base
+    jacobian_option = 'numeric'; % analitic, numeric, geometric
+    secondary_option = 'trajectory_base'; % none, avoidance_base, trajectory_base
 
     q_avoid = [];
+    q_prim = [];
 
     % P - primary
-    Kpee = 2;
+    Kpee = 1;
     % P - secondary
-    Ksec = 8;
+    Ksec = 1;
 
 
     % JACOBIAN CALCULATION
@@ -29,7 +30,11 @@ function [q_vel, q_avoid, q_prim] = optimizer(robot_angles, diff, grid_distance,
    
         J = jacobianAnalitic(robot_angles); % Calculate the Jacobian matrix analitically
 
-        pinv_J = pinv(J);
+%         pinv_J = pinv(J);
+
+        damping_factor = 0.01;
+
+        pinv_J = J'*(J*J'+ damping_factor^2 * eye(6))^-1;
 
     
     elseif strcmp(jacobian_option,'numeric')
@@ -75,10 +80,22 @@ function [q_vel, q_avoid, q_prim] = optimizer(robot_angles, diff, grid_distance,
         % add secondary task
         q_vel = q_prim * Kpee + (eye(9) - pinv_J * J ) * q_avoid;
 
+    elseif strcmp(secondary_option, 'trajectory_base')
+        % calculate joint velocities with accounting for obstacles density grid
+
+        q_prim = pinv_J * diff'; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+
+        % calculate secondary velocities
+        q_avoid = trajectory_base(robot_angles, space_resolution, grid_distance);
+
+        % add secondary task
+        q_vel = q_prim * Kpee + (eye(9) - pinv_J * J ) * q_avoid;
+
 
     else
         % calculate joint velocities, without secondary task
         q_vel = pinv_J * diff' * Kpee; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
+        q_prim = q_vel;
     end
 
 
