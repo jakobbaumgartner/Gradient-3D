@@ -100,7 +100,7 @@ for i=1:1:length(X)
    q_avoid_hist = [q_avoid_hist ; q_avoid'];
 
    % Every few points draw robot
-   if ~mod(i,1)
+   if ~mod(i,5)
         [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
         showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "yellow", true)
         drawnow;

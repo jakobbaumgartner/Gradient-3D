@@ -18,9 +18,9 @@ function [q_vel, q_avoid, q_prim] = optimizer(robot_angles, diff, grid_distance,
     q_prim = [];
 
     % P - primary
-    Kpee = 1;
+    Kpee = 10;
     % P - secondary
-    Ksec = 1;
+    Ksec = 50;
 
 
     % JACOBIAN CALCULATION
