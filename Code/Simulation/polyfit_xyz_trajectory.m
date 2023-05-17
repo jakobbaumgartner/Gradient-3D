@@ -11,6 +11,7 @@ x = points(:, 1);
 y = points(:, 2);
 z = points(:, 3);
 
+
 % Define polynomial degree and number of points for interpolation
 % degree = 5;  % Change degree to adjust the level of fitting accuracy
 npoints = 100; % Change npoints to adjust the number of points in the trajectory

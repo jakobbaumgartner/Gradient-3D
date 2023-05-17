@@ -12,7 +12,7 @@ function [q_vel, q_avoid, q_prim] = optimizer(robot_angles, diff, grid_distance,
     % q_avoid: a vector of the calculated secondary task joint velocities
 
     jacobian_option = 'numeric'; % analitic, numeric, geometric
-    secondary_option = 'trajectory_base'; % none, avoidance_base, trajectory_base
+    secondary_option = 'none'; % none, avoidance_base, trajectory_base
 
     q_avoid = [];
     q_prim = [];

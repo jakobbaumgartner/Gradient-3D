@@ -40,11 +40,12 @@ axis([0 size(grid_occupancy,1)*space_resolution 0 size(grid_occupancy,2)*space_r
 % add EE path
 [X Y Z Xb Yb] = path_lab_1();
 
+
 %% PATH OPTIMIZATION
 % -------------------------------------------------------------------------------------------
 
 % Define initial robot states
-robot_states = [1.50 0 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
+robot_states = [1.50 0.2 pi/2 0 pi/4 0 -pi/3 0 1.8675 0];
 
 % Create a history of robot states
 robot_states_hist = [robot_states];
@@ -70,6 +71,10 @@ for i=1:1:length(X)
    % Select base goal point
    goal_base = [Xb(i) Yb(i)];
 
+   % Set fixed base position
+   robot_states(1) = Xb(i);
+   robot_states(2) = Yb(i);  
+
    % Calculate the transformation matrix for the robot's current position
    [T] = GeometricRobot(robot_states);
 
@@ -80,11 +85,14 @@ for i=1:1:length(X)
    diff = [goal - [T(1:3,4)' 0 0 0]];
    
    % Use an optimizer to determine the optimal velocities for the robot
-   [q_vel, q_avoid, q_prim] = optimizer(robot_states, diff, goal_base, space_resolution);
+   J = jacobianAnalitic(robot_states); % Calculate the Jacobian matrix analitically
+   J(:,1:2) = zeros(6,2);
 
-%    if i < 5
-%        q_vel = q_prim;
-%    end
+   damping_factor = 0.01;
+    
+   pinv_J = J'*(J*J'+ damping_factor^2 * eye(6))^-1;
+    
+   q_vel = pinv_J * diff' * 10; % Calculate the joint velocities using the pseudo-inverse of the Jacobian and the end-effector velocity
 
    % Simulate a step for the robot using the optimal velocities
    [robot_states] = simulate_step(robot_states, q_vel);
@@ -97,17 +105,17 @@ for i=1:1:length(X)
    diff_hist_norm = [diff_hist_norm ; norm(diff)];
 
    % Add the current secondary task velocity to the avoidance history list
-   q_avoid_hist = [q_avoid_hist ; q_avoid'];
+   q_avoid_hist = [q_avoid_hist ; q_vel'];
 
    % Every few points draw robot
-   if ~mod(i,5)
+   if ~mod(i,10)
         [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricRobot(robot_states);
         showRobot(Abase, A01, A12, A23, A34, A45, A56, A67,10*10, "yellow", true)
         drawnow;
 
         % plot point
-        scatter3(goal_base(1)*100, goal_base(2)*100, 10, 'SizeData', 100, 'MarkerFaceColor', 'blue')
-        drawnow;
+%         scatter3(goal_base(1)*100, goal_base(2)*100, 10, 'SizeData', 100, 'MarkerFaceColor', 'blue')
+%         drawnow;
    end
 
 end

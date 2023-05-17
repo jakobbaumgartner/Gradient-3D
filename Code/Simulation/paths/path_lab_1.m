@@ -9,6 +9,8 @@ points = [points1 ; points2; points3];
 
 % Call the polyfit_xyz_trajectory function to fit a polynomial curve to the points
 [X, Y, Z] = polyfit_xyz_trajectory(points,5);
+Y = Y - 0.4
+
 
 % Plot the polynomial curve in 3D space
 plot3(X*100, Y*100, Z*100, 'r-', 'LineWidth', 2);

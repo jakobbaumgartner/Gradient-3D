@@ -10,7 +10,7 @@ function [robot_angles] = simulate_step(robot_angles, q_vel)
 
     time_step = 0.1; % time step for simulation
 
-    robotLimits = 1; % apply velocity limits
+    robotLimits = 0; % apply velocity limits
     
     % Velocity Limits
     combinedLimits = [ -2.5 2.5 ; % INCORRECT, this is w1 w2 not v w
