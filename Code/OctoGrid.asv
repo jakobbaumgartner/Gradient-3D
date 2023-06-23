@@ -1,0 +1,34 @@
+classdef OctoGrid
+    % OCTOGRID class defines 3D occupancy grid structure and methods
+
+    properties
+        grid = []; % Property to store the occupancy grid
+    end
+
+    methods
+        function obj = OctoGrid(length, width, height, resolution)
+            % Constructor for OctoGrid class
+            %
+            % length - length in meters
+            % width - width in meters
+            % height - height in meters
+            % resolution - number of squares per meter
+            %
+            % Initialize the occupancy grid with zeros based on the given dimensions and resolution
+
+            obj.grid = zeros(round(length)*resolution, round(width)*resolution, round(height)*resolution);
+
+        end
+
+        function showGridITV(obj)
+
+            % Display the occupancy grid (Image Toolbox Viewer)
+            % Uses Image Processing Toolbox
+            volshow(obj.grid);
+      
+        end
+
+        function addBox
+
+    end
+end
