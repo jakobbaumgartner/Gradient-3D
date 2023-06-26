@@ -177,7 +177,6 @@ classdef OctoGrid < handle
             % Set the corresponding grid elements as occupied (1)
             obj.grid(x_start:x_end, y_start:y_end, z_start:z_end) = 1;
 
-            sum(sum(sum(obj.grid)))
         end
 
     end
