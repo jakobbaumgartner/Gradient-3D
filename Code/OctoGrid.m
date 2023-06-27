@@ -162,7 +162,7 @@ classdef OctoGrid < handle
 
         function addBox(obj, x, y, z, length, width, height)
             % Set pixels of a box object as occupied, given input dimensions
-            
+            %
             % x, y, z - coordinates of the box's bottom-left corner
             % length, width, height - dimensions of the box
             
