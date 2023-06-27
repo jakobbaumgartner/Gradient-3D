@@ -1,4 +1,5 @@
-function [T, A01, A12, A23, A34, A45, A56, A67] = GeometricPanda(robot_angles)
+function [T, Abase, A01, A12, A23, A34, A45, A56, A67] = GeometricPanda(robot_angles)
+
 
     % calculates direct geometric model of panda arm 
     % --------------------------------------------------------------
@@ -14,6 +15,12 @@ function [T, A01, A12, A23, A34, A45, A56, A67] = GeometricPanda(robot_angles)
     fi5 = robot_angles(5);
     fi6 = robot_angles(6);
     fi7 = robot_angles(7);
+
+   
+    % base position + rotation
+
+    Abase = eye(4);
+
    
     % joint 1
     a1 = 0;
@@ -67,7 +74,8 @@ function [T, A01, A12, A23, A34, A45, A56, A67] = GeometricPanda(robot_angles)
 
     % assemble transformation matrix
 
-    T = A01 * A12 * A23 * A34 * A45 * A56 * A67; 
+    T = Abase * A01 * A12 * A23 * A34 * A45 * A56 * A67;
+%           T = A01 * A12 * A23 * A34 * A45 * A56 * A67; 
 
  
 end
