@@ -1,85 +1,25 @@
-function showPanda(Abase, A01, A12, A23, A34, A45, A56, A67, space_resolution, robotColor)
+function showPanda(transforms)
 
-    % This function shows a Franka Emika Panda robot arm. The inputs are angles of the joints and the base transformation matrix.
-    
-    % Set joint and line colors
-    jointColor = robotColor;
-    lineColor = robotColor;
-    lineWidth = 2;
-
-    figure()
     hold on;
-    
-    % Draw base
-    TT = Abase;
-    
-    % Draw robot arm
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor');
-    x = [TT(1,4) TT(1,4)]*space_resolution;
-    y = [TT(2,4) TT(2,4)]*space_resolution;
-    z = [0 TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',robotColor, 'linewidth', lineWidth)
-    TTo = TT;
 
-    TT = Abase*A01;
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor);
-    x = [TTo(1,4) TT(1,4)]*space_resolution;
-    y = [TTo(2,4) TT(2,4)]*space_resolution;
-    z = [TTo(3,4) TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
-    TTo = TT;
+    for i = 1:length(transforms)
+        % Plot the transformation frame with thicker lines
+        plotTransforms(transforms(1:3, 4, i)', rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
 
-    TT = Abase*A01*A12;
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor);
-    x = [TTo(1,4) TT(1,4)]*space_resolution;
-    y = [TTo(2,4) TT(2,4)]*space_resolution;
-    z = [TTo(3,4) TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
-    TTo = TT;
+        % Plot the joint point
+        plot3(transforms(1, 4, i), transforms(2, 4, i), transforms(3, 4, i), 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
 
-    TT = Abase*A01*A12*A23;
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor);
-    x = [TTo(1,4) TT(1,4)]*space_resolution;
-    y = [TTo(2,4) TT(2,4)]*space_resolution;
-    z = [TTo(3,4) TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
-    TTo = TT;
+        % Connect the joint points with thicker lines
+        if i > 1
+            % Get the previous and current joint positions
+            prevPos = transforms(1:3, 4, i-1);
+            currPos = transforms(1:3, 4, i);
 
-    TT = Abase*A01*A12*A23*A34;
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor);
-    x = [TTo(1,4) TT(1,4)]*space_resolution;
-    y = [TTo(2,4) TT(2,4)]*space_resolution;
-    z = [TTo(3,4) TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
-    TTo = TT;
+            % Plot a line between the joint positions with thicker lines
+            line([prevPos(1), currPos(1)], [prevPos(2), currPos(2)], [prevPos(3), currPos(3)], 'Color', 'k', 'LineWidth', 2);
+        end
+    end
 
-    TT = Abase*A01*A12*A23*A34*A45;
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor);
-    x = [TTo(1,4) TT(1,4)]*space_resolution;
-    y = [TTo(2,4) TT(2,4)]*space_resolution;
-    z = [TTo(3,4) TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
-    TTo = TT;
-
-    TT = Abase*A01*A12*A23*A34*A45*A56;
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor);
-    x = [TTo(1,4) TT(1,4)]*space_resolution;
-    y = [TTo(2,4) TT(2,4)]*space_resolution;
-    z = [TTo(3,4) TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
-    TTo = TT;
-
-    TT = Abase*A01*A12*A23*A34*A45*A56*A67;
-    scatter3(TT(1,4)*space_resolution, TT(2,4)*space_resolution, TT(3,4)*space_resolution, 'filled', 'MarkerFaceColor', jointColor);
-    x = [TTo(1,4) TT(1,4)]*space_resolution;
-    y = [TTo(2,4) TT(2,4)]*space_resolution;
-    z = [TTo(3,4) TT(3,4)]*space_resolution;
-    line(x,y,z,'Color',lineColor, 'linewidth', lineWidth)
-    axis equal
-
-    plotTransforms(TT(1:3,4)'*space_resolution,rotm2quat(TT(1:3,1:3)),'FrameSize',0.1)
-
-%     hold off;
-
+    hold off;
 
 end
