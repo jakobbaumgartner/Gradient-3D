@@ -1,5 +1,17 @@
 function [robot_transforms] = GeometricPandaMATLAB(joints, Tbase)
 
+% The function GeometricPandaMATLAB calculates the transforms of a Panda robot arm given the joint angles and a base transform. It uses the Denavit-Hartenberg (DH) convention to define the robot's kinematic parameters and creates a rigid body tree representation of the robot. The function sets the joint angles, computes the transforms for each joint, and returns a list of transforms representing the robot's configuration.
+%
+% Inputs:
+%
+% joints: A 1x7 vector representing the joint angles of the robot arm.
+% Tbase: A 4x4 transformation matrix representing the base transform of the robot arm.
+%
+% Outputs:
+%
+% robot_transforms: A 4x4x8 array containing the transforms of each joint in the robot arm. Each 4x4 matrix represents the transformation from the base frame to the corresponding joint frame.
+% Note: The function assumes that the necessary MATLAB Robotics System Toolbox and Rigid Body Tree functions are available for creating the robot model and performing the transformations.
+
 
 % this is a classic (Spong?) DH convention parameters table, on official Franka
 % Emika site there is a different (Craig) convention (that is a pain in the
@@ -75,9 +87,16 @@ end
 
 % create a list of transforms (and move robot base)
 robot_transforms = [];
+
+% add base
+robot_transforms(:,:,1) = Tbase;
+
+% add joints transforms
 for i = 1:1:size(dhparams,1)
-    robot_transforms(:,:,i) = Tbase*getTransform(robot, config, ['body'+string(i)]);
+    robot_transforms(:,:,i+1) = Tbase*getTransform(robot, config, ['body'+string(i)]);
 end
+
+
 
 
 end

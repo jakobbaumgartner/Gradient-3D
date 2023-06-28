@@ -150,6 +150,11 @@ classdef OctoGrid < handle
         
             % Set the default line of sight for the 3D plot
             view(3)
+
+            % add labels
+            xlabel('X')
+            ylabel('Y')
+            zlabel('Z')
         end
 
 
@@ -197,6 +202,11 @@ classdef OctoGrid < handle
             end
                     
             view([-15.5 49.3])
+
+            % add labels
+            xlabel('X')
+            ylabel('Y')
+            zlabel('Z')
         
         end
 
