@@ -1,5 +1,16 @@
 function showPanda(transforms)
 
+    % Function: showPanda(transforms)
+    %
+    % Description:
+    % This function plots a visualization of the Panda robot arm with the given set of transformations. It displays the transformation frames, joint points, and connects the joint points with lines.
+    %
+    % Inputs:
+    % - transforms: A 4x4xN array representing the transformation matrices of the Panda robot arm. N is the number of joint positions. Each transformation matrix contains the rotation and translation information for a specific joint position.
+    %
+    % Outputs:
+    % None
+
     hold on;
 
     for i = 1:length(transforms)
