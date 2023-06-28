@@ -50,6 +50,7 @@ classdef OctoGrid < handle
             %   - space_resolution (optional): the resolution of the grid in space (default: 10)
             %   - heightColorMap (optional): a flag indicating whether to use a height-based color map (default: false)
             %   - color (optional): the color to use for the voxels (default: [0 0 0])
+            %   - floor (optional): a flag indicating whether to display the floor surface (default: false)
             %
             % The `min_display_value` argument can be used to set a threshold for the
             % values in the grid. Any values below this threshold will not be displayed.
@@ -66,10 +67,16 @@ classdef OctoGrid < handle
             % be a character string to specify a color or an RGB triplet to specify a
             % custom color. If a scalar value is provided, it will be interpreted as a
             % grayscale value where 0 is black and 1 is white.
+            %
+            % The floor argument can be used to control whether to display the floor
+            % surface. If set to true, a floor surface will be displayed. The default
+            % value is false.
         
             % Set default values for optional input arguments
             default_min_display_value = 0.5;
             default_space_resolution = 10;
+            color_floor = [33/256, 33/256, 33/256];
+
         
             % Create an input parser object
             p = inputParser;
@@ -77,6 +84,7 @@ classdef OctoGrid < handle
             addOptional(p, 'space_resolution', default_space_resolution, @isnumeric);
             addOptional(p, 'heightColorMap', false, @islogical);
             addOptional(p, 'color', [48/256, 123/256, 242/256], @(x)validateattributes(x, {'numeric'}, {'numel',3}));
+            addOptional(p, 'floor', false, @islogical);
             parse(p, varargin{:});
         
             % Get the values of the parsed input arguments
@@ -84,6 +92,7 @@ classdef OctoGrid < handle
             space_resolution = p.Results.space_resolution;
             heightColorMap = p.Results.heightColorMap;
             color = p.Results.color;
+            show_floor = p.Results.floor;
         
             % Loop through every element of the space matrix
             for x = 1:size(grid, 1)
@@ -99,7 +108,7 @@ classdef OctoGrid < handle
                             value = z/size(grid,3);
 
                             % Map the value to an HSV color
-                            hue = (1 - value) * 0.66;
+                            hue = (1 - value) * 0.55;
                             saturation = 1;
                             value = 1;
                             color = hsv2rgb([hue saturation value]);
@@ -126,6 +135,18 @@ classdef OctoGrid < handle
         
             % Set the fixed axis limits
             axis([0, size(grid,1), 0, size(grid,2),0,size(grid,3)]*space_resolution)
+
+            % Display the floor surface if enabled
+            if show_floor
+                % Define the X and Y coordinates for the floor surface
+                [X, Y] = meshgrid(0:10*space_resolution:space_resolution*size(grid,1), 0:10*space_resolution:space_resolution*size(grid,2));
+                
+                % Define the Z coordinates for the floor surface (elevation)
+                Z = zeros(size(X));
+                
+                % Plot the floor surface
+                surf(X, Y, Z, 'FaceColor', color_floor,'FaceAlpha', 0.1);
+            end
         
             % Set the default line of sight for the 3D plot
             view(3)
@@ -141,8 +162,14 @@ classdef OctoGrid < handle
             % Parse the optional input argument
             p = inputParser;
             addOptional(p, 'heightColorMap', false, @islogical);
+            addOptional(p, 'floor', false, @islogical);
+
             parse(p, varargin{:});
             heightColorMap = p.Results.heightColorMap;
+            show_floor = p.Results.floor;
+
+            color_floor = [33/256, 33/256, 33/256];
+
         
             grid_size = size(grid);
         
@@ -151,8 +178,23 @@ classdef OctoGrid < handle
                 [~, ~, z] = meshgrid(1:grid_size(2), 1:grid_size(1), 1:grid_size(3));
                 grid = grid .* z / grid_size(3);
             end
-        
+            
+            hold on
             H = vol3d('CData', grid);
+
+            % Display the floor surface if enabled
+            if show_floor
+                % Define the X and Y coordinates for the floor surface
+                [X, Y] = meshgrid(0:10:size(grid,1), 0:10:size(grid,2));
+
+                
+                % Define the Z coordinates for the floor surface (elevation)
+                Z = zeros(size(X));
+                
+                % Plot the floor surface
+                surf(X, Y, Z, 'FaceColor', color_floor,'FaceAlpha', 0.1);
+
+            end
                     
             view([-15.5 49.3])
         

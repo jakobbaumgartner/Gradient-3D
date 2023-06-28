@@ -31,6 +31,11 @@ function showPanda(transforms)
         end
     end
 
+    % add labels
+    xlabel('X')
+    ylabel('Y')
+    zlabel('Z')
+
     hold off;
 
 end
