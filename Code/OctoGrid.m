@@ -207,7 +207,8 @@ classdef OctoGrid < handle
             xlabel('X')
             ylabel('Y')
             zlabel('Z')
-        
+
+           
         end
 
 
@@ -227,7 +228,7 @@ classdef OctoGrid < handle
             z_end = round((z + height) * obj.resolution);
             
             % Set the corresponding grid elements as occupied (1)
-            obj.grid(x_start:x_end, y_start:y_end, z_start:z_end) = 1;
+            obj.grid(y_start:y_end, x_start:x_end, z_start:z_end) = 1;
 
         end
 
