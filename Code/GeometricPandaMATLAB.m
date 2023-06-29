@@ -1,4 +1,4 @@
-function [robot_transforms] = GeometricPandaMATLAB(joints, Tbase)
+function [robot_transforms,robot] = GeometricPandaMATLAB(joints, Tbase)
 
 % The function GeometricPandaMATLAB calculates the transforms of a Panda robot arm given the joint angles and a base transform. It uses the Denavit-Hartenberg (DH) convention to define the robot's kinematic parameters and creates a rigid body tree representation of the robot. The function sets the joint angles, computes the transforms for each joint, and returns a list of transforms representing the robot's configuration.
 %
