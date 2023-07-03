@@ -76,7 +76,6 @@ while current_dist > goal_dist
     % save joint velocities
     q_velocities = [q_velocities q_vel];
 
-
 end
 
 
