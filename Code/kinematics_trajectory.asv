@@ -2,7 +2,7 @@ function [joints_positions, EE_positions, goal_distances] = kinematics_trajector
 
 % function parameters
 goal_dist = 0.01; % distance which satisfies ending of optimization
-damping_factor = 0.001; % damping factor to avoid inverse Jacobain matrix singularities
+damping_factor = 0.1; % damping factor to avoid inverse Jacobain matrix singularities
 Tstep = 0.1; % time step
 
 % get current robot pose
@@ -22,20 +22,26 @@ goal_distances = [current_dist];
 % trajectory calculation loop
 while current_dist > goal_dist
 
-    % get panda manipulator Jacobian
-    [~,~,J]=kinmodel_panda(q); 
-    [~,robot] = GeometricPandaMATLAB(q, Tbase);
+    % OPTION JACOBIAN
+    [~,~,J]=kinmodel_panda(q); % calculate jacobian
 
-    % set configuration
-    config = homeConfiguration(robot);
+    % --------------------------------------------------
+    % OPTION MATLAB ROBOT TOOLBOX JACOBIAN
+        [~,robot] = GeometricPandaMATLAB(q, Tbase); % get robot configuration
+  
+        config = homeConfiguration(robot); % set configuration
+
+        
+        % set joint positions
+        for i = 1:1:7
+            config(i).JointPosition = q(i);
+        end
     
-    % set joint positions
-    for i = 1:1:7
-        config(i).JointPosition = q(i);
-    end
-
-    J2 = geometricJacobian(robot,config,'body7');
-    J3 = [J2(4:6,:) ; J2(1:3,:)]
+        J2 = geometricJacobian(robot,config,'body7');
+        J3 = [J2(4:6,:) ; J2(1:3,:)];
+    
+        J = J3;
+    % --------------------------------------------------
 
 
     % calculate pseudo inverse
