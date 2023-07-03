@@ -1,4 +1,4 @@
-function [joints_positions, EE_positions, goal_distances] = kinematics_trajectory(goal_point, Tbase, q)
+function [joints_positions, EE_positions, goal_distances, q_velocities] = kinematics_trajectory(goal_point, Tbase, q)
 
 % function parameters
 goal_dist = 0.01; % distance which satisfies ending of optimization
@@ -18,6 +18,7 @@ current_dist = norm(ee_point'- goal_point(1:3));
 EE_positions = [ee_point];
 joints_positions = [q];
 goal_distances = [current_dist];
+q_velocities = [];
 
 % trajectory calculation loop
 while current_dist > goal_dist
@@ -50,9 +51,6 @@ while current_dist > goal_dist
     % calculate ee velocities
     ee_vel = goal_point(1:3)' - ee_point;
 
-    % ??? normalize EE velocities so that there is constant EE movement
-%     ee_vel = ee_vel / norm(ee_vel);
-
     % calculate joint velocities using inverse kinematics
     q_vel = pinv_J * [ee_vel ; 0 ; 0 ; 0];
 
@@ -74,6 +72,9 @@ while current_dist > goal_dist
 
     % save goal distance
     goal_distances = [goal_distances current_dist];
+
+    % save joint velocities
+    q_velocities = [q_velocities q_vel];
 
 
 end
