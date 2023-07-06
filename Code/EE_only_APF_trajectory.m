@@ -4,7 +4,7 @@ function [joints_positions, EE_positions, goal_distances, q_velocities, ee_veloc
 goal_dist = 0.01; % distance which satisfies ending of optimization
 damping_factor = 0.1; % damping factor to avoid inverse Jacobain matrix singularities
 Tstep = 0.01; % time step
-Nmax = 200; % max number of iterations
+Nmax = 1000; % max number of iterations
 
 % get current robot pose
 [robot_transforms] = GeometricPandaMATLAB(q, Tbase);
