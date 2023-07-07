@@ -211,9 +211,43 @@ classdef OctoGrid < handle
            
         end
 
+        function showSlice(obj,slice)
+            
+            % showSlice - Display a 2D matrix grid of values as a surface.
+            %
+            %   showSlice(slice) displays a 2D matrix grid of values as a surface plot.
+            %   The input argument "slice" is a 2D matrix representing the grid.
+            %
+            %   Example:
+            %       grid = [1 2 3; 4 5 6; 7 8 9];
+            %       showSlice(grid);
+            
+
+            % Create x and y coordinates for the grid
+            [x, y] = meshgrid(1:size(slice, 2), 1:size(slice, 1));
+            
+            % Plot the grid as a surface
+            surf(x, y, slice);
+            
+            % Set colormap for coloring the surface
+            colormap jet
+            
+            % Add labels and title
+            xlabel('X')
+            ylabel('Y')
+            zlabel('Value')
+            title('2D Grid Surface')
+            
+            % Adjust the view and aspect ratio
+            view(45, 30)
+            axis tight
+        end
+
+
 
 
         function addBox(obj, x, y, z, length, width, height)
+
             % Set pixels of a box object as occupied, given input dimensions
             %
             % x, y, z - coordinates of the box's bottom-left corner
