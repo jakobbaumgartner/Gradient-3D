@@ -1,10 +1,26 @@
-function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = EE_only_APF_trajectory(grid_field, space_resolution, goal_point, Tbase, q)
+function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = EE_only_APF_trajectory(grid_field, space_resolution, goal_point, Tbase, q, varargin)
+
+% Parse the optional arguments
+p = inputParser;
+addOptional(p, 'mid_joints', false); % Default value is false
+parse(p, varargin{:});
+
+mid_joints = p.Results.mid_joints;
 
 % function parameters
 goal_dist = 0.01; % distance which satisfies ending of optimization
 damping_factor = 0.1; % damping factor to avoid inverse Jacobain matrix singularities
 Tstep = 0.01; % time step
 Nmax = 1000; % max number of iterations
+
+% joints range
+q_range = [2.8973 -2.8973;
+           1.7628 -1.7628;
+           2.8973 -2.8973;
+           -0.0698 -3.0718;
+           2.8973 -2.8973;
+           3.7525 -0.0175;
+           2.8973 -2.8973];
 
 % get current robot pose
 [robot_transforms] = GeometricPandaMATLAB(q, Tbase);
@@ -59,7 +75,25 @@ while current_dist > goal_dist && Niter < Nmax
     ee_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0]; 
 
     % calculate joint velocities using inverse kinematics
-    q_vel = pinv_J * ee_vel;
+    q_vel = pinv_J * ee_vel;    
+
+    % add mid-joints secondary task
+    if mid_joints
+        N = (eye(7)-pinv_J*J);
+
+        dq_sec = zeros(7,1);
+
+        % option 1 - joints speeds proportional joints difference from mid
+        for i = 1:1:7
+            dq_sec(i) = (sum(q_range(i,:))/2) - q(i);
+        end
+
+        % option 2 - The distance from mechanical joint limits using
+        % Sicilliano equation and partial derivatives
+
+        q_vel = q_vel + N*dq_sec;
+
+    end
 
     % calculate new joint positions
     q = q + q_vel * Tstep;
@@ -93,8 +127,5 @@ while current_dist > goal_dist && Niter < Nmax
     Niter = Niter + 1;
 
 end
-
-
-
 
 end
