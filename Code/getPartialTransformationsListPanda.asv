@@ -1,9 +1,26 @@
-function transformations_list = APF_trajectory()
+function transformations_list = getPartialTransformationsListPanda(varargin)
+
+    % transformations_list = getPartialTransformationsListPanda(varargin) 
+    %
+    % Function returns an array of struct data. Every struct represents a
+    % MATLAB Robot Toolbox robot tree representation.
+    %
+    % INPUT:
+    % optional: 
+    %   num of points per robot body segment: (..., 'points_per_segment', 5*[1 1 1 1 1 1 1])
+    %
+    
+
+    % Parse the optional arguments
+    p = inputParser;
+    addOptional(p, 'points_per_segment', 5*[1 1 1 1 1 1 1]); % Default value is 5*[1 1 1 1 1 1 1]
+    parse(p, varargin{:});
+    
+    points_per_segment = p.Results.points_per_segment;
 
     % PARAMETERS
     % ---------------------------------------------------------
     num_of_segments = 7;
-    points_per_segment = 5*[1 1 1 1 1 1 1];
    
     % this is a classic (Spong?) DH convention parameters table, on official Franka
     % Emika site there is a different (Craig) convention (that is a pain in the
@@ -68,36 +85,7 @@ function transformations_list = APF_trajectory()
             save_conf.segm_part = j;
             transformations_list = [transformations_list save_conf ];
 
-
         end
     end
-
-    % get APF value in every of calculated 3D points
-    
-    % if A - closest point only
-
-        % find in which point APF is the highest
-
-        % calculate Jacobian in that point
-
-        % if there was a previously different point with highest APF calculate Jacobian in this previous point
-
-        % calculate weighting coefficients 
-
-        % calculate avoidance joints velocities
-
-    
-    % if B - all points on the robot
-
-        % calculate APF in every point
-
-        % calculate Jacobian in every point
-
-        % calculate weighting coefficients
-
-        % calculate avoidance joints velocities
-
-
-
 
 end
