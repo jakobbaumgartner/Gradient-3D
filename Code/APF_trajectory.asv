@@ -24,39 +24,33 @@ function [outputArg1,outputArg2] = APF_trajectory(inputArg1,inputArg2)
     % current tree
     robot_tree = rigidBodyTree;
 
-    % previous body name
-    previous_body = 'base'
-
 
     % calculate positions in 3D space for a number of points on a robot frame using geometric transformations
     for i = 1:1:num_of_segments % for every segment
+        i
 
-        % for a number of points on segments
-%         for j = 1:1:points_per_segment(i)
+        % new attaching joint
+        new_joint = rigidBodyJoint('jnt'+string(i),'revolute');
 
-            % new attaching joint
-            new_joint = rigidBodyJoint('jnt'+string(i),'revolute');
-    
-            % create new segment
-            new_segment = rigidBody('body'+string(i));
-    
-            % set parameters
-            segment_param = dhparams(i,:);          % change this to get more segments
-    
-            % set transformation from last segment
-            setFixedTransform(new_joint, segment_param,'dh');
-    
-            % attach joint to body
-            new_segment.Joint = new_joint;
-    
-            % add body to the tree
-            addBody(robot_tree,new_segment,previous_body);
+        % create new segment
+        new_segment = rigidBody('body'+string(i));
 
-            % save current fixing body name
-            previous_body = 'body'+string(i)
+        % set parameters
+        segment_param = dhparams(i,:);          % change this to get more segments
 
+        % set
 
-%         end
+        % attach joint to body
+        new_segment.Joint = new_joint;
+
+        % add body to the tree
+
+        if i == 1
+            addBody(robot_tree,new_segment,'base');
+        else
+            addBody(robot_tree,new_segment,'body'+string(i-1));
+        end
+
     end
 
     % get APF value in every of calculated 3D points
