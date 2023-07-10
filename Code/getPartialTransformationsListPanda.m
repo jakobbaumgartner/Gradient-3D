@@ -7,7 +7,7 @@ function transformations_list = getPartialTransformationsListPanda(varargin)
     %
     % INPUT:
     % optional: 
-    %   num of points per robot body segment: (..., 'points_per_segment', 5*[1 1 1 1 1 1 1])
+    %   num of points per robot body segment: ('points_per_segment', 5*[1 1 1 1 1 1 1])
     %
     % OUTPUT:
     % array of structs: 
@@ -50,7 +50,7 @@ function transformations_list = getPartialTransformationsListPanda(varargin)
     robot_tree = rigidBodyTree;
 
     % previous body name
-    previous_body = 'base'
+    previous_body = 'base';
 
     % calculate positions in 3D space for a number of points on a robot frame using geometric transformations
     for i = 1:1:num_of_segments % for every segment
