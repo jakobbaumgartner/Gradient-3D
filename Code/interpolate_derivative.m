@@ -1,10 +1,10 @@
-function [dx,dy,dz] = interpolate_derivative(point, grid_distance, space_resolution)
+function [dx,dy,dz] = interpolate_derivative(point, grid_field, space_resolution)
 
     % interpolate_derivative - calculates the numerical partial derivative at a point in 3D space
     % 
     % Inputs:
     %   point - 3-element vector specifying the coordinates of the point at which the derivative is calculated
-    %   grid_distance - matrix of the distance density from nearby obstacles
+    %   grid_field - matrix of the distance density from nearby obstacles
     %   space_resolution - scalar value specifying the distance between voxels in physical space
     %
     % Outputs:
@@ -30,12 +30,12 @@ function [dx,dy,dz] = interpolate_derivative(point, grid_distance, space_resolut
             for z = 1:1:2               
                 
                 % check if voxel location is in the range of the distance grid
-                if (X(x) <= 0 || Y(y) <= 0 || Z(z) <= 0 || X(x) >= size(grid_distance,1) || Y(y) >= size(grid_distance,2) || Z(z) >= size(grid_distance,3)) 
+                if (X(x) <= 0 || Y(y) <= 0 || Z(z) <= 0 || X(x) >= size(grid_field,1) || Y(y) >= size(grid_field,2) || Z(z) >= size(grid_field,3)) 
                     % points beyond grid are set as obstacles during interpolation
                     V(y,x,z) = 1;
                 else
                     % points in grid are set to correct voxels
-                    V(y,x,z) = grid_distance(X(x)+1,Y(y)+1,Z(z)+1);
+                    V(y,x,z) = grid_field(X(x)+1,Y(y)+1,Z(z)+1);
                 end
 
             end
