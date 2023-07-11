@@ -1,11 +1,16 @@
-function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = EE_only_APF_trajectory(grid_field, space_resolution, goal_point, Tbase, q, varargin)
+function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = APF_trajectory_closestPoint(grid_field, grid_repulsive, space_resolution, goal_point, Tbase, q, varargin)
 
 % Parse the optional arguments
 p = inputParser;
 addOptional(p, 'mid_joints', false); % Default value is false
+addOptional(p, 'avoid_task', true); % Default value is true
+
 parse(p, varargin{:});
 
 mid_joints = p.Results.mid_joints;
+avoid_task = p.Results.avoid_task;
+
+% -----------------------------------------------------------
 
 % function parameters
 goal_dist = 0.01; % distance which satisfies ending of optimization
@@ -21,6 +26,14 @@ q_range = [2.8973 -2.8973;
            2.8973 -2.8973;
            3.7525 -0.0175;
            2.8973 -2.8973];
+
+% number of points per segment for obstacle avoidance task
+points_per_segment = 5*[1 1 1 1 1 1 1];
+
+% -----------------------------------------------------------
+
+% get a list of transforms for every APF detection point on the robot
+transformations_list = getPartialTransformationsListPanda('points_per_segment', points_per_segment);
 
 % get current robot pose
 [robot_transforms] = GeometricPandaMATLAB(q, Tbase);
@@ -77,9 +90,12 @@ while current_dist > goal_dist && Niter < Nmax
     % calculate joint velocities using inverse kinematics
     q_vel = pinv_J * ee_vel;    
 
+    % calculate Null Space 
+    N = (eye(7)-pinv_J*J);
+
+
     % add mid-joints secondary task
-    if mid_joints
-        N = (eye(7)-pinv_J*J);
+    if mid_joints 
 
         dq_sec = zeros(7,1);
 
@@ -96,6 +112,59 @@ while current_dist > goal_dist && Niter < Nmax
         q_vel = q_vel + N*dq_sec;
 
     end
+
+    % APF Avoidance Task
+    % --------------------------------------------------
+ 	if avoid_task
+
+        % get APF value in every of calculated 3D points
+        APF_interpolated_values = []; % [value x y z]
+    
+        for i = 1:1:length(transformations_list) % for every detection point
+        
+            % calculate APF value and get T matrix
+            [value, transform] = getPartialAPFValueRobotTreePoint(grid_repulsive, space_resolution, transformations_list(i).tree, Tbase, q);
+        
+            % save to list
+            APF_interpolated_values = [APF_interpolated_values ; value, transform(1:3,4)'];
+        
+        end
+        
+        % find in which point APF is the highest
+        [val,ind] = max(APF_interpolated_values(:,1));
+    
+        [dx,dy,dz] = interpolate_derivative(APF_interpolated_values(ind,2:4), grid_repulsive, space_resolution);
+        avoid_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0];
+    
+        % calculate Jacobian in that point
+        robot = transformations_list(ind).tree;
+        config = homeConfiguration(robot); % set configuration
+            
+        % set joint positions
+        for i = 1:1:robot.NumBodies
+            config(i).JointPosition = q(i);
+        end
+        
+        % toolbox jacobian returns first three rows angular velocity and
+        % second three rows linear velocities, change rows to be in line with
+        % used convention in default jacobian
+        J2 = geometricJacobian(robot,config,'body'+string(robot.NumBodies));
+        J0 = zeros(6,7);
+        J0(1:3,1:size(J2,2)) = J2(4:6,:);
+        J0(4:6,1:size(J2,2)) = J2(1:3,:);
+
+        
+            % (TODO: if there was a previously different point with highest APF calculate Jacobian in this previous point) 
+            % (TODO: calculate weighting coefficients)
+    
+        % calculate pseudo inverse
+        pinv_J0 = (J0*N)'*((J0*N)*(J0*N)'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
+    
+        % calculate avoidance joints velocities
+        q_vel = q_vel + 1 * pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
+
+    end
+    % --------------------------------------------------
 
     % calculate new joint positions
     q = q + q_vel * Tstep;
@@ -129,5 +198,6 @@ while current_dist > goal_dist && Niter < Nmax
     Niter = Niter + 1;
 
 end
+
 
 end
