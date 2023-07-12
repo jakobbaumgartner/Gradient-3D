@@ -15,8 +15,8 @@ function showPanda(transforms,scale_view)
     hold on;
 
     for i = 1:length(transforms)
-        % Plot the transformation frame with thicker lines
-        plotTransforms(transforms(1:3, 4, i)'*scale_view, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
+%         % Plot the transformation frame with thicker lines
+%         plotTransforms(transforms(1:3, 4, i)'*scale_view, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
 
         % Plot the joint point
         plot3(transforms(1, 4, i)*scale_view, transforms(2, 4, i)*scale_view, transforms(3, 4, i)*scale_view, 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
