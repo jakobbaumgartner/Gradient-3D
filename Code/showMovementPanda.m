@@ -1,4 +1,4 @@
-function [f] = showMovementPanda(grid, grid_matrix, joints_positions_APF, Tbase)
+function [f] = showMovementPanda(grid, grid_matrix, joints_positions_APF, EE_positions_APF, Tbase)
 
 % set resolution
 scale_view = grid.resolution;
@@ -9,23 +9,22 @@ f = figure;
 % move figure to external window
 set(f, 'WindowStyle', 'normal');  % Change 'docked' to 'normal' to move to external window
 
+% add slider to the bottom of the figure
+s = uicontrol('Style', 'slider',...
+    'Min',1,'Max',100,'Value',100,...
+    'Position', [150 20 300 20],...
+    'Callback', @sliderCallback); 
+
 % display grid
 grid.showGridVol3D(grid_matrix,'floor',false,'height',false)
 hold on
 axis equal
 
-% add slider to the bottom of the figure
-s = uicontrol('Style', 'slider',...
-    'Min',1,'Max',100,'Value',50,...
-    'Position', [150 20 300 20],...
-    'Callback', @sliderCallback); 
-
-% set slider range 1 to 100
-s.Min = 1;
-s.Max = 100;
+% draw EE trajectory
+plot3(EE_positions_APF(1,:)*grid.resolution,EE_positions_APF(2,:)*grid.resolution,EE_positions_APF(3,:)*grid.resolution,'red')
 
 % draw starting pose
-j = 1; 
+j = size(joints_positions_APF,2); 
 
 % calculate transforms from joint positions
 [transforms] = GeometricPandaMATLAB(joints_positions_APF(:,j), Tbase);
