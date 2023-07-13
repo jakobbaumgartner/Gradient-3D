@@ -17,12 +17,12 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
 
         % Add checkbox to the figure
     c = uicontrol('Style', 'checkbox',...
-        'String', 'APF Field',...
+        'String', 'Check Box',...
         'Position', [20 20 100 20],...
         'Value', 1,...
         'Callback', @checkboxCallback); 
 
-    show_arrows = 1;
+    draw_APF = true; % option to draw APF vector field
     
     % display grid
     grid.showGridVol3D(grid_matrix,'floor',false,'height',false)
@@ -73,43 +73,46 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
     % --------------------------------------------------------------
     arrow_length = 50; % adjust the length to your preference
 
-    % calculate APF value in all points
-    APF_interpolated_values = []; % [value x y z]
+    if draw_APF
 
-    for i = 1:1:size(transforms,3) % for every detection point
-    
-        % get x,y,z values
-        xyz = transforms(1:3,4,i);
+        % calculate APF value in all points
+        APF_interpolated_values = []; % [value x y z]
 
-        % interpolate APF value
-        value = interpolate_points(xyz, grid_APF, grid.resolution);
+        for i = 1:1:size(transforms,3) % for every detection point
+        
+            % get x,y,z values
+            xyz = transforms(1:3,4,i);
 
-    
-        % save to list
-        APF_interpolated_values = [APF_interpolated_values ; value, xyz'];
-    
+            % interpolate APF value
+            value = interpolate_points(xyz, grid_APF, grid.resolution);
+
+        
+            % save to list
+            APF_interpolated_values = [APF_interpolated_values ; value, xyz'];
+        
+        end
+
+        % calculate APF gradient value in all points
+        APF_gradient_values = []; % [dx dy dz x y z]
+
+        % for every point of detection
+        for i = 1:1:length(APF_interpolated_values)
+
+            % calculated interpolated derivative of the field
+            [dx,dy,dz] = interpolate_derivative(APF_interpolated_values(i,2:4), grid_APF, grid.resolution);
+
+            APF_gradient_values = [APF_gradient_values ; dx dy dz APF_interpolated_values(i,2:4)];
+
+        end
+
+
+        for i = 1:1:size(APF_interpolated_values,1)
+            % plot the arrow
+            hold on
+            APF_handles(i) = quiver3(APF_gradient_values(i,4)*grid.resolution, APF_gradient_values(i,5)*grid.resolution, APF_gradient_values(i,6)*grid.resolution, APF_gradient_values(i,1) * arrow_length, APF_gradient_values(i,2) * arrow_length, APF_gradient_values(i,3) * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
+        end
+
     end
-
-    % calculate APF gradient value in all points
-    APF_gradient_values = []; % [dx dy dz x y z]
-
-    % for every point of detection
-    for i = 1:1:length(APF_interpolated_values)
-
-        % calculated interpolated derivative of the field
-        [dx,dy,dz] = interpolate_derivative(APF_interpolated_values(i,2:4), grid_APF, grid.resolution);
-
-        APF_gradient_values = [APF_gradient_values ; dx dy dz APF_interpolated_values(i,2:4)];
-
-    end
-
-
-    for i = 1:1:size(APF_interpolated_values,1)
-        % plot the arrow
-        hold on
-        APF_handles(i) = quiver3(APF_gradient_values(i,4)*grid.resolution, APF_gradient_values(i,5)*grid.resolution, APF_gradient_values(i,6)*grid.resolution, APF_gradient_values(i,1) * arrow_length, APF_gradient_values(i,2) * arrow_length, APF_gradient_values(i,3) * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
-    end
-
     % --------------------------------------------------------------
 
 
@@ -117,7 +120,6 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
     xlim([0 200]);   % X-axis limits
     ylim([0 200]);   % Y-axis limits
     zlim([-50 200]);    % Z-axis limits
-    axis equal
 
 
     % function to changed plot time
@@ -155,6 +157,7 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
     % --------------------------------------------------------------
     arrow_length = 50; % adjust the length to your preference
 
+    if draw_APF
 
         % calculate APF value in all points
         APF_interpolated_values = []; % [value x y z]
@@ -201,23 +204,15 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
         
         
         end
+
+    end
     % --------------------------------------------------------------
 
 
 
     end
 
-    function setAPFArrows(checkboxValue)
-            % Check if the checkbox is checked
-        if checkboxValue == 1
-            show_arrows = 1;
-            % Execute some code here
-        else
-            show_arrows = 0;
-            % Execute some code here
-        end    
-    
-    end
+    function s
 
     function sliderCallback(source,event)
         % This function will be called whenever the slider's value is changed.
@@ -234,7 +229,14 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
         % You can add the code here that will be executed whenever the checkbox is checked or unchecked.
         checkboxValue = source.Value;  % Get the current state of the checkbox
 
-        setAPFArrows(checkboxValue)
+        % Check if the checkbox is checked
+        if checkboxValue == 1
+            show_arrows = 1;
+            % Execute some code here
+        else
+            show_arrows = 0;
+            % Execute some code here
+        end
     end
 
 end
