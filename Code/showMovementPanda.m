@@ -1,4 +1,4 @@
-function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_APF, EE_positions_APF, Tbase)
+function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_positions_APF, EE_positions_APF, Tbase)
 
     % set resolution
     scale_view = grid.resolution;
@@ -7,7 +7,7 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
     f = figure;
 
     % move figure to external window
-    set(f, 'WindowStyle', 'docked');  % Change 'docked' to 'normal' to move to external window
+    set(f, 'WindowStyle', 'normal');  % Change 'docked' to 'normal' to move to external window
     
     % add slider to the bottom of the figure
     s = uicontrol('Style', 'slider',...
@@ -28,6 +28,9 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, joints_positions_A
     grid.showGridVol3D(grid_matrix,'floor',false,'height',false)
     hold on
     axis equal
+
+    % display goal point
+    scatter3(goal(1)*scale_view,goal(2)*scale_view,goal(3)*scale_view,'r')
     
     % draw EE trajectory
     plot3(EE_positions_APF(1,:)*grid.resolution,EE_positions_APF(2,:)*grid.resolution,EE_positions_APF(3,:)*grid.resolution,'red')
