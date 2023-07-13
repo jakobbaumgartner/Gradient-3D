@@ -131,7 +131,7 @@ while current_dist > goal_dist && Niter < Nmax
         end
         
         % find in which point APF is the highest
-        [val,ind] = max(APF_interpolated_values(:,1));
+        [~,ind] = max(APF_interpolated_values(:,1));
     
         [dx,dy,dz] = interpolate_derivative(APF_interpolated_values(ind,2:4), grid_repulsive, space_resolution);
         avoid_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0];
