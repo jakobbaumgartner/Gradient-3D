@@ -191,8 +191,10 @@ while current_dist > goal_dist && Niter < Nmax
     goal_distances = [goal_distances current_dist];
 
     % save visited APF value
-    values_APF(Niter+1).xyz = APF_save(:,1:3);
-    values_APF(Niter+1).grad = APF_save(:,4:6);
+    if exist('xyz', 'var') == 1 
+        values_APF(Niter+1).xyz = xyz;
+        values_APF(Niter+1).grad = avoid_vel';
+    end
 
     % save joint velocities
     q_velocities = [q_velocities q_vel];
