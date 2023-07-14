@@ -1,4 +1,4 @@
-function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_positions_APF, EE_positions_APF, Tbase)
+function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_positions_APF, EE_positions_APF, values_APF, Tbase)
 
     % set resolution
     scale_view = grid.resolution;
@@ -15,22 +15,44 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_posit
         'Position', [150 20 300 20],...
         'Callback', @sliderCallback); 
 
-        % Add checkbox to the figure
-    c = uicontrol('Style', 'checkbox',...
+        % Add checkbox for APF vectors
+    cv = uicontrol('Style', 'checkbox',...
         'String', 'APF Field',...
         'Position', [20 20 100 20],...
         'Value', 1,...
-        'Callback', @checkboxCallback); 
+        'Callback', @checkboxCallbackAPF); 
 
+    % Add checkbox for Obstacles grid
+    co = uicontrol('Style', 'checkbox',...
+        'String', 'Obstacle field',...
+        'Position', [20 40 100 20],...
+        'Value', 1,...
+        'Callback', @checkboxCallbackObstacles); 
+
+    % Add checkbox for Repulsive field
+    cr = uicontrol('Style', 'checkbox',...
+        'String', 'Repulsive field',...
+        'Position', [20 60 100 20],...
+        'Value', 0,...
+        'Callback', @checkboxCallbackRepulsive); 
+
+    % On/off APF vectors
     show_arrows = 1;
     
+    % Repulsive field handle
+    HRepulsive = [];
+    
     % display grid
-    grid.showGridVol3D(grid_matrix,'floor',false,'height',false)
+    HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
     hold on
     axis equal
 
-    % display goal point
-    scatter3(goal(1)*scale_view,goal(2)*scale_view,goal(3)*scale_view,'r')
+    HRepulsive = [];
+
+    % display control points
+    for i = 1:1:size(control_points,1)
+        scatter3(control_points(i,1)*scale_view,control_points(i,2)*scale_view,control_points(i,3)*scale_view,'r')
+    end
     
     % draw EE trajectory
     plot3(EE_positions_APF(1,:)*grid.resolution,EE_positions_APF(2,:)*grid.resolution,EE_positions_APF(3,:)*grid.resolution,'red')
@@ -46,7 +68,7 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_posit
     % figure handles
     points_handles = gobjects(length(transforms),1);
     lines_handles = gobjects(length(transforms),1);
-    APF_handles = gobjects(length(transforms),1);
+    APF_handles = gobjects(100,1);
     
     for i = 1:length(transforms)
     %         % Plot the transformation frame with thicker lines
@@ -76,41 +98,11 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_posit
     % --------------------------------------------------------------
     arrow_length = 50; % adjust the length to your preference
 
-    % calculate APF value in all points
-    APF_interpolated_values = []; % [value x y z]
-
-    for i = 1:1:size(transforms,3) % for every detection point
-    
-        % get x,y,z values
-        xyz = transforms(1:3,4,i);
-
-        % interpolate APF value
-        value = interpolate_points(xyz, grid_APF, grid.resolution);
-
-    
-        % save to list
-        APF_interpolated_values = [APF_interpolated_values ; value, xyz'];
-    
-    end
-
-    % calculate APF gradient value in all points
-    APF_gradient_values = []; % [dx dy dz x y z]
-
-    % for every point of detection
-    for i = 1:1:length(APF_interpolated_values)
-
-        % calculated interpolated derivative of the field
-        [dx,dy,dz] = interpolate_derivative(APF_interpolated_values(i,2:4), grid_APF, grid.resolution);
-
-        APF_gradient_values = [APF_gradient_values ; dx dy dz APF_interpolated_values(i,2:4)];
-
-    end
-
-
-    for i = 1:1:size(APF_interpolated_values,1)
+    j = size(values_APF,2);
+    for i = 1:1:size(values_APF(1).xyz,1)        
         % plot the arrow
         hold on
-        APF_handles(i) = quiver3(APF_gradient_values(i,4)*grid.resolution, APF_gradient_values(i,5)*grid.resolution, APF_gradient_values(i,6)*grid.resolution, APF_gradient_values(i,1) * arrow_length, APF_gradient_values(i,2) * arrow_length, APF_gradient_values(i,3) * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
+        APF_handles(i) = quiver3(values_APF(j).xyz(i,1)*grid.resolution, values_APF(j).xyz(i,2)*grid.resolution, values_APF(j).xyz(i,3)*grid.resolution, values_APF(j).grad(i,1) * arrow_length, values_APF(j).grad(i,2) * arrow_length, values_APF(j).grad(i,3) * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
     end
 
     % --------------------------------------------------------------
@@ -159,54 +151,23 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_posit
     arrow_length = 50; % adjust the length to your preference
 
 
-        % calculate APF value in all points
-        APF_interpolated_values = []; % [value x y z]
-
-        for i = 1:1:size(transforms,3) % for every detection point
-        
-            % get x,y,z values
-            xyz = transforms(1:3,4,i);
-
-            % interpolate APF value
-            value = interpolate_points(xyz, grid_APF, grid.resolution);
-
-        
-            % save to list
-            APF_interpolated_values = [APF_interpolated_values ; value, xyz'];
-        
-        end
-
-        % calculate APF gradient value in all points
-        APF_gradient_values = []; % [dx dy dz x y z]
-
-        % for every point of detection
-        for i = 1:1:length(APF_interpolated_values)
-
-            % calculated interpolated derivative of the field
-            [dx,dy,dz] = interpolate_derivative(APF_interpolated_values(i,2:4), grid_APF, grid.resolution);
-
-            APF_gradient_values = [APF_gradient_values ; dx dy dz APF_interpolated_values(i,2:4)];
-
-        end
-
+       
         % update quiver arrows
-        for i = 1:1:size(APF_interpolated_values,1)
+        for i = 1:1:size(values_APF(j).xyz,1)
             % plot the arrow
             hold on
        
-            APF_handles(i).XData = APF_gradient_values(i,4)*grid.resolution;
-            APF_handles(i).YData = APF_gradient_values(i,5)*grid.resolution;
-            APF_handles(i).ZData = APF_gradient_values(i,6)*grid.resolution;
-            APF_handles(i).WData = APF_gradient_values(i,1) * arrow_length * show_arrows;
-            APF_handles(i).VData = APF_gradient_values(i,2) * arrow_length * show_arrows;
-            APF_handles(i).UData = APF_gradient_values(i,3) * arrow_length * show_arrows;
+            APF_handles(i).XData = values_APF(j).xyz(i,1)*grid.resolution;
+            APF_handles(i).YData = values_APF(j).xyz(i,2)*grid.resolution;
+            APF_handles(i).ZData = values_APF(j).xyz(i,3)*grid.resolution;
+            APF_handles(i).WData = values_APF(j).grad(i,1) * arrow_length * show_arrows;
+            APF_handles(i).VData = values_APF(j).grad(i,2) * arrow_length * show_arrows;
+            APF_handles(i).UData = values_APF(j).grad(i,3) * arrow_length * show_arrows;
         
         
         
         end
     % --------------------------------------------------------------
-
-
 
     end
 
@@ -222,6 +183,32 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_posit
     
     end
 
+    function setObstaclesGrid(checkboxValue)
+        % Check if the checkbox is checked
+        if checkboxValue == 1
+            % display grid
+            HObstacles = grid.showGridVol3D(grid.grid,'floor',false,'height',true);
+        else
+            for i = 1:1:length(HObstacles.handles)
+                delete(HObstacles.handles(i))
+            end
+        end    
+    
+    end
+
+    function setRepulsiveGrid(checkboxValue)
+        % Check if the checkbox is checked
+        if checkboxValue == 1
+            % display grid
+            HRepulsive = grid.showGridVol3D(grid_repulsive,'floor',false,'height',true);
+        else
+            for i = 1:1:length(HRepulsive.handles)
+                delete(HRepulsive.handles(i))
+            end
+        end    
+    
+    end
+
     function sliderCallback(source,event)
         % This function will be called whenever the slider's value is changed.
         % You can add the code here that will be executed whenever the slider is moved.
@@ -232,12 +219,30 @@ function [f] = showMovementPanda(grid, grid_matrix, grid_APF, goal, joints_posit
     
     end
 
-    function checkboxCallback(source,event)
+    function checkboxCallbackAPF(source,event)
         % This function will be called whenever the checkbox's state is changed.
         % You can add the code here that will be executed whenever the checkbox is checked or unchecked.
         checkboxValue = source.Value;  % Get the current state of the checkbox
 
         setAPFArrows(checkboxValue)
+    end
+
+    function checkboxCallbackObstacles(source,event)
+        % This function will be called whenever the checkbox's state is changed.
+        % You can add the code here that will be executed whenever the checkbox is checked or unchecked.
+        checkboxValue = source.Value;  % Get the current state of the checkbox
+
+        setObstaclesGrid(checkboxValue)
+
+    end
+
+    function checkboxCallbackRepulsive(source,event)
+        % This function will be called whenever the checkbox's state is changed.
+        % You can add the code here that will be executed whenever the checkbox is checked or unchecked.
+        checkboxValue = source.Value;  % Get the current state of the checkbox
+
+        setRepulsiveGrid(checkboxValue)
+
     end
 
 end

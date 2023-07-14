@@ -54,7 +54,7 @@ EE_positions = [ee_point];
 joints_positions = [q];
 goal_distances = [current_dist];
 q_velocities = [];
-values_APF = [interpolate_points(ee_point, grid_field, space_resolution)];
+values_APF = [];
 ee_velocities = [];
 
 % set itarations count
@@ -185,7 +185,8 @@ while current_dist > goal_dist && Niter < Nmax
     goal_distances = [goal_distances current_dist];
 
     % save visited APF value
-    values_APF = [values_APF interpolate_points(ee_point, grid_field, space_resolution)];
+    values_APF(Niter+1).xyz = xyz;
+    values_APF(Niter+1).grad = -avoid_vel';
 
     % save joint velocities
     q_velocities = [q_velocities q_vel];

@@ -1,8 +1,8 @@
-function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = APF_trajectory_closestPoint(grid_field, grid_repulsive, space_resolution, goal_point, Tbase, q, varargin)
+function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = APF_trajectory_EEandOnePoint(grid_field, grid_repulsive, space_resolution, goal_point, Tbase, q, varargin)
 
 % Parse the optional arguments
 p = inputParser;
-addOptional(p, 'mid_joints', false); % Default value is false
+addOptional(p, 'mid_joints', true); % Default value is false
 addOptional(p, 'avoid_task', true); % Default value is true
 
 parse(p, varargin{:});
@@ -13,7 +13,7 @@ avoid_task = p.Results.avoid_task;
 % -----------------------------------------------------------
 
 % function parameters
-goal_dist = 0.01; % distance which satisfies ending of optimization
+goal_dist = 0.02; % distance which satisfies ending of optimization
 damping_factor = 0.1; % damping factor to avoid inverse Jacobain matrix singularities
 Tstep = 0.01; % time step
 Nmax = 1000; % max number of iterations
@@ -29,6 +29,11 @@ q_range = [2.8973 -2.8973;
 
 % number of points per segment for obstacle avoidance task
 points_per_segment = 1*[1 1 1 1 1 1 1];
+
+% weights for different tasks
+wp = 5; % primary task
+wm = 1; % mid-joints task
+wa = 5; % obstacle avoidance task
 
 % -----------------------------------------------------------
 
@@ -88,7 +93,7 @@ while current_dist > goal_dist && Niter < Nmax
     ee_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0]; 
 
     % calculate joint velocities using inverse kinematics
-    q_vel = pinv_J * ee_vel;    
+    q_vel = pinv_J * (wp * ee_vel);    
 
     % calculate Null Space 
     N = (eye(7)-pinv_J*J);
@@ -101,7 +106,7 @@ while current_dist > goal_dist && Niter < Nmax
 
         % option 1 - joints speeds proportional joints difference from mid
         for i = 1:1:7
-            dq_sec(i) = (sum(q_range(i,:))/2) - q(i);
+            dq_sec(i) = wm * (sum(q_range(i,:))/2) - q(i);
         end
 
         % option 2 - The distance from mechanical joint limits using
@@ -117,32 +122,18 @@ while current_dist > goal_dist && Niter < Nmax
     % --------------------------------------------------
  	if avoid_task
 
-        % get APF value in every of calculated 3D points
-        APF_interpolated_values = []; % [value x y z]
-        APF_save = []; % [x y z dx dy dz]
-    
-        for i = 1:1:length(transformations_list) % for every detection point
-        
+        % get APF value in segment 4        
             % calculate APF value and get T matrix
-            [value, transform] = getPartialAPFValueRobotTreePoint(grid_repulsive, space_resolution, transformations_list(i).tree, Tbase, q);
+            [value, transform] = getPartialAPFValueRobotTreePoint(grid_repulsive, space_resolution, transformations_list(4).tree, Tbase, q);
+            % xyz
+            xyz =  transform(1:3,4)';
         
-            % save to list
-            APF_interpolated_values = [APF_interpolated_values ; value, transform(1:3,4)'];
-
-            % calculate derivative of APF
-            [dx,dy,dz] = interpolate_derivative( transform(1:3,4)', grid_repulsive, space_resolution);
-
-            APF_save = [APF_save ; transform(1:3,4)' dx dy dz];
-        end
-        
-        % find in which point APF is the highest
-        [~,ind] = max(APF_interpolated_values(:,1));
-    
-        [dx,dy,dz] = interpolate_derivative(APF_interpolated_values(ind,2:4), grid_repulsive, space_resolution);
+        % get APF gradient in segment 4
+        [dx,dy,dz] = interpolate_derivative(xyz, grid_repulsive, space_resolution);
         avoid_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0];
     
         % calculate Jacobian in that point
-        robot = transformations_list(ind).tree;
+        robot = transformations_list(4).tree;
         config = homeConfiguration(robot); % set configuration
             
         % set joint positions
@@ -163,10 +154,13 @@ while current_dist > goal_dist && Niter < Nmax
             % (TODO: calculate weighting coefficients)
     
         % calculate pseudo inverse
-        pinv_J0 = (J0*N)'*((J0*N)*(J0*N)'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
+        % pinv_J0 = (J0*N)'*((J0*N)*(J0*N)'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
+        pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
     
         % calculate avoidance joints velocities
-        q_vel = q_vel + 1 * pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
+        % q_vel = q_vel + pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
+        q_vel = q_vel + pinv_J0*(wa * avoid_vel);
+
 
     end
     % --------------------------------------------------
@@ -191,8 +185,8 @@ while current_dist > goal_dist && Niter < Nmax
     goal_distances = [goal_distances current_dist];
 
     % save visited APF value
-    values_APF(Niter+1).xyz = APF_save(:,1:3);
-    values_APF(Niter+1).grad = APF_save(:,4:6);
+    values_APF(Niter+1).xyz = xyz;
+    values_APF(Niter+1).xyz = xyz;
 
     % save joint velocities
     q_velocities = [q_velocities q_vel];

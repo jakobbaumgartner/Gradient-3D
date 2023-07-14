@@ -158,7 +158,7 @@ classdef OctoGrid < handle
         end
 
 
-        function showGridVol3D(obj, grid, varargin)
+        function H = showGridVol3D(obj, grid, varargin)
 
             % Displays a 3D grid using the vol3d function
             % If the optional input argument heightColorMap is true ('heightColorMap', true), the height of the grid is used to color the voxels
