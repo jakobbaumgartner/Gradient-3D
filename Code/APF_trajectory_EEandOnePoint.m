@@ -33,7 +33,7 @@ points_per_segment = 1*[1 1 1 1 1 1 1];
 % weights for different tasks
 wp = 5; % primary task
 wm = 1; % mid-joints task
-wa = 50; % obstacle avoidance task
+wa = 0.1; % obstacle avoidance task
 
 % -----------------------------------------------------------
 
@@ -123,15 +123,48 @@ while current_dist > goal_dist && Niter < Nmax
  	if avoid_task
 
         % get APF value in segment 4        
-            % calculate APF value and get T matrix
-            [value, transform] = getPartialAPFValueRobotTreePoint(grid_repulsive, space_resolution, transformations_list(4).tree, Tbase, q);
-            % xyz
-            xyz =  transform(1:3,4)';
+        % calculate APF value and get T matrix
+        [value, transform] = getPartialAPFValueRobotTreePoint(grid_repulsive, space_resolution, transformations_list(4).tree, Tbase, q);
         
+        % xyz
+        xyz =  transform(1:3,4)';
+        
+        % --------------------------------------------------
+
+        % option 1 - grad + norm
+        % ------------
+
         % get APF gradient in segment 4
         [dx,dy,dz] = interpolate_derivative(xyz, grid_repulsive, space_resolution);
         avoid_vel = [dx ; dy ; dz ; 0 ; 0 ; 0];
-    
+        avoid_vel = avoid_vel/(norm(avoid_vel)+0.0000000001); % normalize
+        avoid_vel = wa * avoid_vel; % scale
+
+        % option 2 - distance transform, seperate x,y,z transforms
+        % (problem: probably not smooth)
+        % ------------
+
+        % calculate x - distance transform
+
+        
+
+        % calculate y - distance transform
+
+        % calculate z - distance transform
+
+
+
+
+
+
+
+
+
+
+
+
+        % --------------------------------------------------
+
         % calculate Jacobian in that point
         robot = transformations_list(4).tree;
         config = homeConfiguration(robot); % set configuration
@@ -159,7 +192,7 @@ while current_dist > goal_dist && Niter < Nmax
     
         % calculate avoidance joints velocities
         % q_vel = q_vel + pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
-        q_vel = q_vel + pinv_J0*(wa * avoid_vel);
+        q_vel = q_vel + pinv_J0*(avoid_vel);
 
 
     end
