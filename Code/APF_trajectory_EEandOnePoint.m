@@ -33,7 +33,7 @@ points_per_segment = 1*[1 1 1 1 1 1 1];
 % weights for different tasks
 wp = 5; % primary task
 wm = 1; % mid-joints task
-wa = 5; % obstacle avoidance task
+wa = 50; % obstacle avoidance task
 
 % -----------------------------------------------------------
 
@@ -130,7 +130,7 @@ while current_dist > goal_dist && Niter < Nmax
         
         % get APF gradient in segment 4
         [dx,dy,dz] = interpolate_derivative(xyz, grid_repulsive, space_resolution);
-        avoid_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0];
+        avoid_vel = [dx ; dy ; dz ; 0 ; 0 ; 0];
     
         % calculate Jacobian in that point
         robot = transformations_list(4).tree;
