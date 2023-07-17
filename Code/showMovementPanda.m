@@ -200,7 +200,7 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
         % Check if the checkbox is checked
         if checkboxValue == 1
             % display grid
-            HRepulsive = grid.showGridVol3D(grid_repulsive,'floor',false,'height',true);
+            HRepulsive = grid.showGridVol3D(grid_repulsive,'floor',false,'height',false);
         else
             for i = 1:1:length(HRepulsive.handles)
                 delete(HRepulsive.handles(i))
