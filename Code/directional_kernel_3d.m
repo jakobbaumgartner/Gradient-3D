@@ -1,4 +1,4 @@
-function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sigma, kernel_width, kernel_width_sigma, kernel_height, kernel_height_sigma, kernel_type)
+function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, kernel_width, sigma_width, kernel_height, sigma_height, kernel_type)
 
    % FORM KERNELS 
    % ---------------------------------------------------------------------
@@ -8,7 +8,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
    if strcmp('linear',kernel_type)
 
         % prepare directional weights
-        kernel = [1:1:center 0 -flip(1:1:center)] / (center); 
+        kernel = [1:1:center center -flip(1:1:center)] / (center); 
 
         % extend weights to kernel width
         center_width = floor(kernel_width/2);
@@ -26,21 +26,18 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
 
 
     elseif strcmp('gaussian',kernel_type)
-
-        % define the standard deviation (sigma)
-        sigma = 1;
-        
+      
         % generate gaussian weights
         kernel = exp(-(1:center).^2/(2*sigma^2)); 
 
         kernel_max = kernel(1);
         
         % generate symmetric kernel
-        kernel = [flip(kernel) 0 -kernel]/kernel_max;
+        kernel = [flip(kernel) 1 -kernel]/kernel_max;
         
         % prepare gaussian weights for width
         center_width = floor(kernel_width/2);
-        width_extender = exp(-(1:center_width).^2/(2*sigma^2)); 
+        width_extender = exp(-(1:center_width).^2/(2*sigma_width^2)); 
         width_extender = [flip(width_extender) 1 width_extender];
         
         % generate 2D kernel
@@ -48,7 +45,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
         
         % prepare gaussian weights for height
         center_height = floor(kernel_height/2);
-        height_extender = exp(-(1:center_height).^2/(2*sigma^2));
+        height_extender = exp(-(1:center_height).^2/(2*sigma_height^2));
         height_extender = [flip(height_extender) 1 height_extender];
 
         % create each layer
@@ -68,7 +65,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
 
     % y kernel
     elseif strcmp(direction, 'y')
-
+       
         % rotate layer by 90 degrees
         kernel2D = rot90(kernel2D);
 
