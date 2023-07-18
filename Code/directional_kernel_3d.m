@@ -1,7 +1,7 @@
 function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sigma, kernel_width, kernel_width_sigma, kernel_height, kernel_height_sigma, kernel_type)
 
-    % create kernel
-    % =========================================================================
+   % FORM KERNELS 
+   % ---------------------------------------------------------------------
 
     center = floor(kernel_length/2); % mid of the kernel
 
@@ -26,7 +26,6 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
 
 
     elseif strcmp('gaussian',kernel_type)
-
 
         % define the standard deviation (sigma)
         sigma = 1;
@@ -55,7 +54,10 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
         % create each layer
         kernel3D = repmat(kernel2D, 1, 1, length(height_extender)) .* reshape(height_extender, 1, 1, []);
 
-    end
+   end
+
+   % STACK KERNELS IN PICKED DIRECTION
+   % ---------------------------------------------------------------------
     
     % x kernel
     if strcmp(direction, 'x')
@@ -87,10 +89,6 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
 
 
     end
-
-
-
-
 
     end
 
