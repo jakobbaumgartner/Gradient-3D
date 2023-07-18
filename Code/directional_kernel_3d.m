@@ -12,14 +12,14 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
 
         % extend weights to kernel width
         center_width = floor(kernel_width/2);
-        width_extender = [1:1:center_width 0 flip(1:1:center_width)]/(center_width);
+        width_extender = [1:1:center_width center_width flip(1:1:center_width)]/(center_width);
 
         % generate 2D kernel
         kernel2D = width_extender' * kernel;
 
         % extend weight to kernel height
         center_height = floor(kernel_height/2);
-        height_extender = [1:1:center_height 0 flip(1:1:center_height)]/(center_height);
+        height_extender = [1:1:center_height center_height flip(1:1:center_height)]/(center_height);
         
         % create each layer
         kernel3D = repmat(kernel2D, 1, 1, length(height_extender)) .* reshape(height_extender, 1, 1, []);
@@ -33,12 +33,12 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
         kernel_max = kernel(1);
         
         % generate symmetric kernel
-        kernel = [flip(kernel) 1 -kernel]/kernel_max;
+        kernel = [flip(kernel) 0 -kernel]/kernel_max;
         
         % prepare gaussian weights for width
         center_width = floor(kernel_width/2);
         width_extender = exp(-(1:center_width).^2/(2*sigma_width^2)); 
-        width_extender = [flip(width_extender) 1 width_extender];
+        width_extender = [flip(width_extender) exp(-(center_width).^2/(2*sigma_width^2)) width_extender];
         
         % generate 2D kernel
         kernel2D = width_extender' * kernel;
@@ -46,7 +46,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
         % prepare gaussian weights for height
         center_height = floor(kernel_height/2);
         height_extender = exp(-(1:center_height).^2/(2*sigma_height^2));
-        height_extender = [flip(height_extender) 1 height_extender];
+        height_extender = [flip(height_extender) exp(-(center_height).^2/(2*sigma_height^2)) height_extender];
 
         % create each layer
         kernel3D = repmat(kernel2D, 1, 1, length(height_extender)) .* reshape(height_extender, 1, 1, []);
