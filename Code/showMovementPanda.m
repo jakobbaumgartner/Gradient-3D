@@ -29,12 +29,14 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
         'Value', 1,...
         'Callback', @checkboxCallbackObstacles); 
 
-    % Add checkbox for Repulsive field
-    cr = uicontrol('Style', 'checkbox',...
-        'String', 'Repulsive field',...
-        'Position', [20 60 100 20],...
-        'Value', 0,...
-        'Callback', @checkboxCallbackRepulsive); 
+    if size(grid_repulsive,1) > 1
+        % Add checkbox for Repulsive field
+        cr = uicontrol('Style', 'checkbox',...
+            'String', 'Repulsive field',...
+            'Position', [20 60 100 20],...
+            'Value', 0,...
+            'Callback', @checkboxCallbackRepulsive); 
+    end
 
     % On/off APF vectors
     show_arrows = 1;
@@ -43,7 +45,7 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
     HRepulsive = [];
     
     % display grid
-    HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
+    HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',false);
     hold on
     axis equal
 
@@ -187,7 +189,7 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
         % Check if the checkbox is checked
         if checkboxValue == 1
             % display grid
-            HObstacles = grid.showGridVol3D(grid.grid,'floor',false,'height',true);
+            HObstacles = grid.showGridVol3D(grid.grid,'floor',false,'height',false);
         else
             for i = 1:1:length(HObstacles.handles)
                 delete(HObstacles.handles(i))

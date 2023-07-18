@@ -14,8 +14,8 @@ avoid_task = p.Results.avoid_task;
 
 % function parameters
 goal_dist = 0.02; % distance which satisfies ending of optimization
-damping_factor = 0.1; % damping factor to avoid inverse Jacobain matrix singularities
-Tstep = 0.01; % time step
+damping_factor = 0.01; % damping factor to avoid inverse Jacobain matrix singularities
+Tstep = 0.1; % time step
 Nmax = 1000; % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
@@ -32,8 +32,8 @@ q_range = [2.8973 -2.8973;
 points_per_segment = 1*[1 1 1 1 1 1 1];
 
 % weights for different tasks
-wp = 5; % primary task
-wm = 1; % mid-joints task
+wp = 1; % primary task
+wm = 5; % mid-joints task
 wa = 0.1; % obstacle avoidance task
 
 % -----------------------------------------------------------
@@ -89,11 +89,27 @@ while current_dist > goal_dist && Niter < Nmax
     % calculate pseudo inverse
     pinv_J = J'*(J*J'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
 
-  % calculate ee velocities
-    ee_vel = goal_point(1:3)' - ee_point;
+    % --------------------------------------------------
+    % OPTION KINEMATICS CLASSIC END EFFECTOR
+
+%     % calculate ee velocities
+%     ee_vel = goal_point(1:3)' - ee_point;
+% 
+%     % calculate joint velocities using inverse kinematics
+%     q_vel = pinv_J * (wp * [ee_vel ; 0 ; 0 ; 0]);
+
+    % --------------------------------------------------
+
+    % EE kinematics using APF  %%%% TODODODODODODO TODO !!!! (FIX THIS,
+    % REPULSIVE FIELD NOT WORKING REALLY)
+
+    % calculate ee velocities by interpolating APF
+    [dx,dy,dz] = interpolate_derivative(ee_point, grid_field, space_resolution);
+    ee_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0]; 
 
     % calculate joint velocities using inverse kinematics
-    q_vel = pinv_J * (wp * [ee_vel ; 0 ; 0 ; 0]);
+    q_vel = pinv_J * (wp * ee_vel);   
+
 
     % calculate Null Space 
     N = (eye(7)-pinv_J*J);
@@ -114,7 +130,7 @@ while current_dist > goal_dist && Niter < Nmax
             % ... TODO
 
         % Primary + Null-Space Task
-        q_vel = q_vel + N*dq_sec;
+        q_vel = q_vel + N * dq_sec;
 
     end
 
