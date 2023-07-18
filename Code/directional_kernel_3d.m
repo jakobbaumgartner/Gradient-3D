@@ -35,7 +35,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
         kernel = exp(-(1:center).^2/(2*sigma^2)); 
         
         % generate symmetric kernel
-        kernel = [flip(kernel) 1 kernel] / sum([flip(kernel) 1 kernel]);
+        kernel = [flip(kernel) 0 -kernel] / center;
         
         % prepare gaussian weights for width
         center_width = floor(kernel_width/2);
@@ -50,6 +50,8 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
         height_extender = exp(-(1:center_height).^2/(2*sigma^2));
         height_extender = [flip(height_extender) 1 height_extender] / sum([flip(height_extender) 1 height_extender]);
 
+        % create each layer
+        kernel3D = repmat(kernel2D, 1, 1, length(height_extender)) .* reshape(height_extender, 1, 1, []);
 
     end
     
@@ -71,14 +73,16 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, kernel_sig
 
     % z kernel
     elseif strcmp(direction, 'z')
-    % kernel width and height should be equal (imagine a column pushing
-    % down on robot)
+        % kernel width and height should be equal (imagine a column pushing
+        % down on robot)
 
-                % TODO !!!
-        for i = 1:1:kernel_length % TODO
-            kernel3D(i,:,:) = kernel2D % TODO !!!
-        end
-    
+        % reshape arrays for bsxfun operation
+        reshaped_kernel2D = reshape(kernel2D, [1 size(kernel2D)]);
+        reshaped_height_extender = reshape(height_extender, [length(height_extender) 1 1]);
+        
+        % perform element-wise multiplication using bsxfun
+        kernel3D = bsxfun(@times, reshaped_kernel2D, reshaped_height_extender);
+
 
     end
 
