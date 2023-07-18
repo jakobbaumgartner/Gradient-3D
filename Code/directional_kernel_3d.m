@@ -8,18 +8,18 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
    if strcmp('linear',kernel_type)
 
         % prepare directional weights
-        kernel = [1:1:center center -flip(1:1:center)] / (center); 
+        kernel = [1:1:center 0 -flip(1:1:center)] / (center); 
 
         % extend weights to kernel width
         center_width = floor(kernel_width/2);
-        width_extender = [1:1:center_width center_width flip(1:1:center_width)]/(center_width);
+        width_extender = [1:1:center_width 0 flip(1:1:center_width)]/(center_width);
 
         % generate 2D kernel
         kernel2D = width_extender' * kernel;
 
         % extend weight to kernel height
         center_height = floor(kernel_height/2);
-        height_extender = [1:1:center_height center_height flip(1:1:center_height)]/(center_height);
+        height_extender = [1:1:center_height 0 flip(1:1:center_height)]/(center_height);
         
         % create each layer
         kernel3D = repmat(kernel2D, 1, 1, length(height_extender)) .* reshape(height_extender, 1, 1, []);
