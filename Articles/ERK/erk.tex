@@ -5,9 +5,13 @@
 \usepackage{erk}
 \usepackage{times}
 \usepackage{graphicx}
+\usepackage{xcolor}
 \usepackage[top=22.5mm, bottom=22.5mm, left=22.5mm, right=22.5mm]{geometry}
 
 \usepackage[slovene,english]{babel}
+
+\newcommand\todocomment[1]{\textcolor{red}{||TODO:\\ #1\\||}}
+
 
 % local definitions
 \def\footnotemark{}%  to avoid footnote on cover page
@@ -37,9 +41,29 @@ We accept only electronic submissions in pdf (without password protection) or Mi
 
 \section{Introduction }
 
-Prispevki za Elektrotehniško in računalniško konferenco (ERK) naj bodo napisani na papirju formata A4 v dveh stolpcih z vsemi zunanjimi robovi velikosti 2,25cm. Redni prispevki naj ne obsegajo več kot 4 strani skupaj s slikami, povzetki študentskih referatov pa 2 strani. Oddani prispevek mora biti brez opomb in številk strani.
+Robotic manipulators, specifically those with a high degree of freedom (DOF), possess a crucial characteristic known as kinematic redundancy. Kinematic redundancy refers to having more joints (i.e., degrees of freedom - DOF) than required to perform a task, thus allowing the robot to adopt multiple configurations to accomplish the same end-effector position and orientation. This redundancy provides a considerable advantage, making it possible for manipulators to optimize movement according to different criteria, such as energy efficiency, obstacle avoidance, or joint limit avoidance.
+
+In this research, we specifically consider a 7-DOF Panda Emika manipulator. When controlling both the position and orientation of the end-effector in a 3D space, which requires six degrees of freedom (three for position and three for orientation), a 7-DOF manipulator such as the Panda Emika has one redundant degree. However, when controlling only the position, which requires three degrees of freedom, the manipulator possesses four redundant degrees. This redundancy grants the manipulator an essential characteristic: an infinite number of possible joint configurations to reach a specific end-effector (EE) point in space.
+
+When dealing with redundant manipulators, task prioritization is crucial. In our approach, we distinguish between primary and secondary tasks. The primary task of the manipulator is usually defined as reaching a desired EE position and orientation or as following a trajectory made out of such points. In this work we instead use APF (Artificial Potential Field), to guide the EE towards the goal position, while avoiding the obstacles in the path of the EE. Operating in a real-world environment often requires considering secondary tasks, such as real-time obstacle avoidance, to ensure safe and uninterrupted operation of the manipulator.
+
+This paper proposes a novel method for real-time obstacle avoidance in the Panda Emika 7-DOF manipulator. We use an obstacle grid combined with convolution techniques to assign avoidance directions to each manipulator segment, ensuring efficient and safe maneuvering within complex environments. 
+
+\todocomment{Dodaj opis poglavij.}
 
 \section{Background and Related Work}
+
+The execution of the secondary task of obstacle avoidance necessitates an understanding of the spatial relationship between the manipulator and surrounding obstacles, usually quantified as a distance or interpreted as a repulsive force. By conceptualizing obstacles as sources of repulsive forces, the manipulator can be guided away from potential collisions, akin to how two magnets of the same polarity repel each other.
+
+Two commonly employed methods for obstacle avoidance include potential field methods and artificial neural networks. In potential field methods, the robot and obstacles are treated as charged entities. The robot is attracted to the target (goal) while being repelled by obstacles, resulting in a potential field. The robot navigates this field, moving along the path of steepest descent. While this method is intuitive and relatively easy to implement, it can sometimes result in local minima problems where the robot gets stuck in a position that is not the target but cannot find a path due to the repelling obstacles.
+
+Artificial neural networks (ANNs) are another prevalent approach, offering potential solutions to the local minima problem. By learning to map sensor readings to appropriate actions, ANNs can be trained to successfully navigate complex environments. However, they require extensive training and can be computically intensive.
+
+Our proposed approach seeks to combine the strengths of these methods, utilizing the obstacle grid and convolution techniques to efficiently calculate repulsive forces, thus enabling real-time obstacle avoidance while mitigating issues commonly associated with traditional methods.
+
+\todocomment{Preveri pravilnost informacij, dodaj vire, ki potrjujejo informacije.}
+
+\todocomment{preveri podobnost naše metode z metodo: Vector Field Histogram (VFH) }
 
 \section{Methodology }
 
