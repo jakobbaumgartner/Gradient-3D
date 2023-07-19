@@ -33,7 +33,7 @@ points_per_segment = 1*[1 1 1 1 1 1 1];
 
 % weights for different tasks
 wp = 1; % primary task
-wm = 5; % mid-joints task
+wm = 4; % mid-joints task
 wa = 0.1; % obstacle avoidance task
 
 % -----------------------------------------------------------
@@ -59,12 +59,15 @@ values_APF = [];
 ee_velocities = [];
 
 % set directional kernels
-kernel_size = 31;
-sigma = 21;
+sigma = 41;
 
-kernel_x = directional_kernel_3d('x', kernel_size, sigma, kernel_size, sigma, kernel_size, sigma, 'gaussian')/1000;
-kernel_y = directional_kernel_3d('y', kernel_size, sigma, kernel_size, sigma, kernel_size, sigma, 'gaussian')/1000;
-kernel_z = directional_kernel_3d('z', kernel_size, sigma, kernel_size, sigma, kernel_size, sigma, 'gaussian')/1000;
+kernel_length = 61;
+kernel_width = 9;
+kernel_height = kernel_width;
+
+kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
+kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
+kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
 
 % set itarations count
 Niter = 0;
@@ -174,19 +177,19 @@ while current_dist > goal_dist && Niter < Nmax
         % --------------------
 
         % cut out local part of the grid around joint 4
-        cutout = grid.grid(((1:kernel_size)+xyz(2)-ceil(kernel_size/2)), ((1:kernel_size)+xyz(1)-ceil(kernel_size/2)), ((1:kernel_size)+xyz(3)-ceil(kernel_size/2)));
+        cutout = grid.grid(((1:kernel_length)+xyz(2)-ceil(kernel_length/2)), ((1:kernel_width)+xyz(1)-ceil(kernel_width/2)), ((1:kernel_height)+xyz(3)-ceil(kernel_height/2)));
 
         % calculate x - distance transform
-        C = cutout .* kernel_x; % Perform element-wise multiplication
-        dx = sum(C(:)); % Sum all values 
+%         C = cutout .* kernel_x; % Perform element-wise multiplication
+        dx = 0; %sum(C(:)); % Sum all values 
       
         % calculate y - distance transform
         C = cutout .* kernel_y; % Perform element-wise multiplication
         dy = sum(C(:)); % Sum all values 
 
         % calculate z - distance transform
-        C = cutout .* kernel_z; % Perform element-wise multiplication
-        dz = sum(C(:)); % Sum all values  
+%         C = cutout .* kernel_z; % Perform element-wise multiplication
+        dz = 0; %sum(C(:)); % Sum all values  
 
         avoid_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0];
         avoid_vel = wa * avoid_vel; % scale
