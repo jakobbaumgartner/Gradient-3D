@@ -32,9 +32,9 @@ q_range = [2.8973 -2.8973;
 points_per_segment = 1*[1 1 1 1 1 1 1];
 
 % weights for different tasks
-wp = 1; % primary task
-wm = 4; % mid-joints task
-wa = 0.1; % obstacle avoidance task
+wp = 5; % primary task
+wm = 5; % mid-joints task
+wa = 0.5; % obstacle avoidance task
 
 % -----------------------------------------------------------
 
@@ -220,12 +220,24 @@ while current_dist > goal_dist && Niter < Nmax
             % (TODO: calculate weighting coefficients)
     
         % calculate pseudo inverse
-        % pinv_J0 = (J0*N)'*((J0*N)*(J0*N)'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
-        pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
+%         pinv_J0 = (J0*N)'*((J0*N)*(J0*N)'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
+%         pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
     
         % calculate avoidance joints velocities
-        % q_vel = q_vel + pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
-        q_vel = q_vel + pinv_J0*(avoid_vel);
+%         q_vel = q_vel + pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
+%         q_vel = q_vel + pinv_J0*(avoid_vel);
+
+    % APPROXIMATE SOLUTION
+    % -----------------------
+    
+    % calculate pseudo inverse
+    pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
+
+
+    % calculate avoidance joints velocities
+    q_vel = q_vel + N * pinv_J0*(avoid_vel);
+
+    % -----------------------
 
 
     end
@@ -233,6 +245,9 @@ while current_dist > goal_dist && Niter < Nmax
 
     % calculate new joint positions
     q = q + q_vel * Tstep;
+
+    % limit positions within joint limits
+    [q, ~] = checkPositionLimits(q);
 
     % calculate new EE position
     [robot_transforms] = GeometricPandaMATLAB(q, Tbase);
