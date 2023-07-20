@@ -10,7 +10,11 @@
 
 \usepackage[slovene,english]{babel}
 
-\newcommand\todocomment[1]{\textcolor{red}{||TODO:\\ #1\\||}}
+\usepackage{easyReview} % for \comment, \alert, etc.
+
+
+% to-do command
+\newcommand\todocomment[1]{\textcolor{red}{||\\ #1\\||}}
 
 
 % local definitions
@@ -75,7 +79,10 @@ APF for EE task.
 
 \subsection{Convolution Techniques}
 
-Sobel-like directional kernels.
+\todocomment{- mentione sobel filters \\
+			 - describe Kernel Convolution}
+		 
+
 
 \subsection{Robot Segments Control}
 
