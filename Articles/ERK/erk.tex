@@ -8,6 +8,8 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage[top=22.5mm, bottom=22.5mm, left=22.5mm, right=22.5mm]{geometry}
+\usepackage{float}  % add this in your preamble (before \begin{document})
+
 
 \usepackage[slovene,english]{babel}
 
@@ -121,9 +123,18 @@ For each direction, we utilize its corresponding kernel and extract a segment of
 
 \subsection{Kernel Convolution}
 
-Our convolutional kernels are essentially discrete differential operators in 3D space, and their design reflects this. These kernels bear a resemblance to the Sobel kernels, which are widely used in computer vision for edge detection and approximation of spatial derivatives. Each kernel has a primary axis aligned with the direction in which the avoidance velocity is being calculated, with the other two axes orthogonal to it. The kernel values along the primary axis exhibit a symmetric pattern: the highest value lies in the center of the kernel, with the absolute values decreasing uniformly on either side. This decrease simulates the derivative-like behavior of the kernel.
+Our convolutional kernels are essentially discrete differential operators in 3D space, and their design reflects this. These kernels bear a resemblance to the Sobel kernels, which are widely used in computer vision for edge detection and approximation of spatial derivatives. Each kernel has a primary axis aligned with the direction in which the avoidance velocity is being calculated, with the other two axes orthogonal to it. The kernel values along the primary axis exhibit a symmetric pattern: the highest value lies in the center of the kernel, with the absolute values decreasing uniformly on either side, with negative polarity on one side. This decrease simulates the derivative-like behavior of the kernel.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{kernel-mainvalues.png}
+	\caption{The kernel values along the primary axis exhibit a pattern of symmetrical distribution with negative polarity on one side.} 
+	\label{Kernel main axis}
+\end{figure}
 
 Contrary to the design of a classical Sobel operator, our custom kernels don't contain zeroes along the primary axis. Instead, we assign the maximum kernel values along this line. This choice is specifically designed to meet our goal of obstacle avoidance. By doing so, when our points of interest on the robot manipulator coincide with an obstacle - effectively being 'right on top' of the obstacle in the voxel grid - the convolution operation yields a maximal repulsive velocity. This encourages the robot to move away from the obstacle and ensures safer navigation in the presence of potential collisions.
+
+
 
 However, the kernel values are not merely mirror images on each side of the kernel. While the absolute values are mirrored, the signed values are positive on one side and negative on the other. This sign difference is critical for calculating directional gradients.
 
@@ -139,8 +150,12 @@ Orthogonal to the primary axis, the size of the kernel dictates the width of the
 
 To optimize obstacle detection, we have explored the idea of reducing the kernel values orthogonal to the primary axis with increasing distance from it. The intent here is to minimize the impact of distant, off-axis obstacles while still ensuring they are detected. However, as the ideal kernel configuration depends on the grid resolution and the specific environment, further testing is required to refine this approach.
 
+\todocomment{maybe add element-wise convolution equation}
+
 		 
 \subsection{Attractive Field}
+
+\todocomment{Tukaj bi lahko uporabil D* metodo. Ampak realno je za 4 strani snovi že dovolj.}
 
 \todocomment{- we use APF for primary task\\
 			 - attractive field calculating \\
