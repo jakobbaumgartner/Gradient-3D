@@ -127,7 +127,7 @@ Our convolutional kernels are essentially discrete differential operators in 3D 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\linewidth]{kernel-mainvalues-green.png}
+	\includegraphics[width=0.85\linewidth]{kernel-mainvalues-colored.png}
 	\caption{The kernel values along the primary axis exhibit a pattern of symmetrical distribution with negative polarity on one side.} 
 	\label{Kernel main axis}
 \end{figure}
@@ -140,6 +140,8 @@ Contrary to the design of a classical Sobel operator, our custom kernels don't c
 	\caption{In most instances, an equal width and height around the primary axis are desired, creating a symmetrical detection area.} 
 	\label{Kernel matrix}
 \end{figure}
+
+\todocomment{while not the most important fix, currently values in matrix don't follow values used in experiments}
 
 However, the kernel values are not merely mirror images on each side of the kernel. While the absolute values are mirrored, the signed values are positive on one side and negative on the other. This sign difference is critical for calculating directional gradients.
 
