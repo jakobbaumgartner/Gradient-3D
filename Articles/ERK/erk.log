@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 JUL 2023 19:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 JUL 2023 19:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -623,7 +623,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 ] [2]
-Overfull \hbox (0.4859pt too wide) in paragraph at lines 135--136
+Overfull \hbox (0.4859pt too wide) in paragraph at lines 133--134
 []\OT1/ptm/m/n/10 In ad-di-tion to the ker-nel va-lues along the pri-mary axis,
 
  []
@@ -637,7 +637,7 @@ Package epstopdf Info: Source file: <field1.eps>
 (epstopdf)                    size: 49584 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=field1-eps-converted
 -to.pdf field1.eps>
-(epstopdf)             \includegraphics on input line 201.
+(epstopdf)             \includegraphics on input line 197.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -646,10 +646,10 @@ n: found PDF version <1.7>, but at most version <1.5> allowed
 <field1-eps-converted-to.pdf, id=20, 225.84375pt x 171.64125pt>
 File: field1-eps-converted-to.pdf Graphic file (type pdf)
 <use field1-eps-converted-to.pdf>
-Package pdftex.def Info: field1-eps-converted-to.pdf  used on input line 201.
+Package pdftex.def Info: field1-eps-converted-to.pdf  used on input line 197.
 (pdftex.def)             Requested size: 225.84319pt x 171.64081pt.
 
-Overfull \hbox (1.01532pt too wide) in paragraph at lines 208--209
+Overfull \hbox (1.01532pt too wide) in paragraph at lines 204--205
 \OT1/ptm/m/n/10 pdf (brez na-sta-vlje-nih za[]s[]citnih ge-sel) ali Mi-cro-soft
  Word.
  []
@@ -658,7 +658,7 @@ Overfull \hbox (1.01532pt too wide) in paragraph at lines 208--209
 Here is how much of TeX's memory you used:
  14626 strings out of 476375
  302957 string characters out of 5788976
- 1869299 words of memory out of 5000000
+ 1868299 words of memory out of 5000000
  34727 multiletter control sequences out of 15000+600000
  527667 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -676,7 +676,7 @@ fonts/cm/cmr8.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmri8a.pfb>
-Output written on erk.pdf (4 pages, 180277 bytes).
+Output written on erk.pdf (4 pages, 178124 bytes).
 PDF statistics:
  73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
