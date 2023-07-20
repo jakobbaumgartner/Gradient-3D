@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 JUL 2023 23:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 JUL 2023 23:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -293,12 +293,12 @@ Overfull \hbox (1.63638pt too wide) in paragraph at lines 113--114
  []
 
 [2]
-<kernel-mainvalues-colored.png, id=14, 615.4995pt x 187.902pt>
+<kernel-mainvalues-colored.png, id=14, 615.4995pt x 176.45924pt>
 File: kernel-mainvalues-colored.png Graphic file (type png)
 <use kernel-mainvalues-colored.png>
 Package pdftex.def Info: kernel-mainvalues-colored.png  used on input line 127.
 
-(pdftex.def)             Requested size: 193.48013pt x 59.06615pt.
+(pdftex.def)             Requested size: 182.09833pt x 52.2058pt.
 <kernel-matrix.png, id=16, 632.3625pt x 618.51076pt>
 File: kernel-matrix.png Graphic file (type png)
 <use kernel-matrix.png>
@@ -358,7 +358,7 @@ fonts/cm/cmr8.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmri8a.pfb>
-Output written on erk.pdf (4 pages, 225446 bytes).
+Output written on erk.pdf (4 pages, 225115 bytes).
 PDF statistics:
  75 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
