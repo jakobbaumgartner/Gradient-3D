@@ -113,6 +113,8 @@ The null space of the Jacobian corresponds to those joint motions which produce 
 	\label{eq:manipulator_kinematics}
 \end{equation}
 
+\todocomment{check if "exact equation" gives better results}
+
 
 
 
@@ -153,15 +155,17 @@ Once the mapping of these points to the voxel grid is completed, we proceed to e
 
 By employing the Hadamard (element-wise) product between the segment of the obstacle grid \(A_d\) and the corresponding 3D convolutional kernel \(K_d\) for direction \(d\), we derive the resultant matrix \(C_d\), which can be expressed as:
 
-\[
-C_d = A_d \odot K_d
-\]
+\begin{equation}
+	C_d = A_d \odot K_d
+	\label{eq:hadamard}
+\end{equation}
 
 Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained by summing all the values in the resulting matrix, which can be represented as:
 
-\[
+\begin{equation}
 v = \sum_{i}\sum_{j}\sum_{k} a_{ijk} 
-\]
+\label{summation}
+\end{equation}
 
 %\[
 %v = \sum_{x}\sum_{y}\sum_{z} a_{xyz} ~c_{xyz}
@@ -170,7 +174,7 @@ v = \sum_{i}\sum_{j}\sum_{k} a_{ijk}
 
 
 
-\subsection{Kernel Convolution}
+\subsection{Convolution Kernel}
 
 Our convolutional kernels are essentially discrete differential operators in 3D space, and their design reflects this. These kernels bear a resemblance to the Sobel kernels, which are widely used in computer vision for edge detection and approximation of spatial derivatives. Each kernel has a primary axis aligned with the direction in which the avoidance velocity is being calculated, with the other two axes orthogonal to it. The kernel values along the primary axis exhibit a symmetric pattern: the highest value lies in the center of the kernel, with the absolute values decreasing uniformly on either side, with negative polarity on one side. This decrease simulates the derivative-like behavior of the kernel.
 
