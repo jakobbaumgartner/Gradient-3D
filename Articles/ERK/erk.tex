@@ -45,13 +45,13 @@
 
 Robotic manipulators, specifically those with a high degree of freedom (DOF), possess a crucial characteristic known as kinematic redundancy~\cite{Nguyen1991}. Kinematic redundancy refers to having more joints (i.e., degrees of freedom - DOF) than required to perform a task, thus allowing the robot to adopt multiple configurations to accomplish the same end-effector position and orientation. This redundancy provides a considerable advantage, making it possible for manipulators to optimize movement according to different criteria, such as energy efficiency, obstacle avoidance, or joint limit avoidance.
 
-In this research, we specifically consider a 7-DOF Panda Emika manipulator. When controlling both the position and orientation of the end-effector in a 3D space, which requires six degrees of freedom (three for position and three for orientation), a 7-DOF manipulator such as the Panda Emika has one redundant degree. However, when controlling only the position, which requires three degrees of freedom, the manipulator possesses four redundant degrees. This redundancy grants the manipulator an essential characteristic: an infinite number of possible joint configurations to reach a specific end-effector (EE) point in space.
+In this research, we specifically consider a 7-DOF Franka Panda Emika~\cite{Franka2021} manipulator. When controlling both the position and orientation of the end-effector in a 3D space, which requires six degrees of freedom (three for position and three for orientation), a 7-DOF manipulator such as the Panda Emika has one redundant degree. However, when controlling only the position, which requires three degrees of freedom, the manipulator possesses four redundant degrees. This redundancy grants the manipulator an essential characteristic: an infinite number of possible joint configurations to reach a specific end-effector (EE) point in space.
 
 When dealing with redundant manipulators, task prioritization is crucial. In our approach, we distinguish between primary and secondary tasks. The primary task of the manipulator is usually defined as reaching a desired EE position and orientation or as following a trajectory made out of such points. In this work we instead use APF (Artificial Potential Field), to guide the EE towards the goal position, while avoiding the obstacles in the path of the EE. Operating in a real-world environment often requires considering secondary tasks, such as real-time obstacle avoidance, to ensure safe and uninterrupted operation of the manipulator.
 
 \todocomment{IMAGE OF ROBOT}
 
-This paper proposes a novel method for real-time obstacle avoidance in the Panda Emika 7-DOF manipulator. We use an obstacle grid combined with convolution techniques to assign avoidance directions to each manipulator segment, ensuring efficient and safe maneuvering within complex environments. 
+This paper proposes a novel method for real-time obstacle avoidance of the manipulator arm. We use an obstacle grid combined with convolution techniques to assign avoidance directions to each manipulator segment, ensuring efficient and safe maneuvering within complex environments. 
 
 
 \todocomment{Dodaj opis poglavij.}
@@ -68,15 +68,15 @@ This paper proposes a novel method for real-time obstacle avoidance in the Panda
 
 The execution of the secondary task of obstacle avoidance necessitates an understanding of the spatial relationship between the manipulator and surrounding obstacles, usually quantified as a distance or interpreted as a repulsive force. By conceptualizing obstacles as sources of repulsive forces, the manipulator can be guided away from potential collisions, akin to how two magnets of the same polarity repel each other.
 
-Two commonly employed methods for obstacle avoidance include potential field methods and artificial neural networks. In potential field methods, the robot and obstacles are treated as charged entities. The robot is attracted to the target (goal) while being repelled by obstacles, resulting in a potential field. The robot navigates this field, moving along the path of steepest descent. While this method is intuitive and relatively easy to implement, it can sometimes result in local minima problems where the robot gets stuck in a position that is not the target but cannot find a path due to the repelling obstacles.
+Two commonly employed methods for obstacle avoidance include artificial potential field methods (APF)~\cite{Khatib1985} and artificial neural networks. In potential field methods, the robot and obstacles are treated as charged entities. The robot is attracted to the target (goal) while being repelled by obstacles, resulting in a potential field. The robot navigates this field, moving along the path of steepest descent. While this method is intuitive and relatively easy to implement, it can sometimes result in local minima problems where the robot gets stuck in a position that is not the target but cannot find a path due to the repelling obstacles.
 
 Artificial neural networks (ANNs) are another prevalent approach, offering potential solutions to the local minima problem. By learning to map sensor readings to appropriate actions, ANNs can be trained to successfully navigate complex environments. However, they require extensive training and can be computically intensive.
 
-An advanced version of ANNs in the context of 3D obstacle detection and avoidance is the use of 3D Convolutional Neural Networks (3D-CNNs). While not strictly a path planning method, 3D-CNNs can be trained to recognize obstacles and free space in 3D occupancy data. The convolutional layers in the network can learn spatial hierarchies and structures, and the final layers can output a direction or action to take. These methods, although effective, require extensive training data and computational resources, however it is capable to recognizing and avoiding some local minima. 
+An advanced version of ANNs in the context of 3D obstacle detection and avoidance is the use of 3D Convolutional Neural Networks (3D-CNNs)~\cite{Duguleana2011}. While not strictly a path planning method, 3D-CNNs can be trained to recognize obstacles and free space in 3D occupancy data. The convolutional layers in the network can learn spatial hierarchies and structures, and the final layers can output a direction or action to take. These methods, although effective, require extensive training data and computational resources, however it is capable to recognizing and avoiding some local minima. 
 
-The Vector Field Histogram (VFH) method presents another approach. This method uses a 2D histogram grid as a spatial representation of the environment. The histogram cells are updated based on the proximity and angle of obstacles. Then a primary polar histogram is calculated from the grid cells, leading to a candidate valley for navigation. While originally developed for 2D, this method was later extended to 3D as VFH+.
+The Vector Field Histogram~\cite{Borenstein1991} (VFH) method presents another approach. This method uses a 2D histogram grid as a spatial representation of the environment. The histogram cells are updated based on the proximity and angle of obstacles. Then a primary polar histogram is calculated from the grid cells, leading to a candidate valley for navigation. While originally developed for 2D, this method was later extended to 3D as VFH+~\cite{Ulrich1998}.
 
-Our proposed approach uses a 3D occupancy or voxel grid and 3D directional kernels, akin to Sobel filters, to perform kernel convolution and calculate the direction in which to move the robot arm to avoid obstacles. This method marries the benefits of convolutional approaches with the intuitive spatial reasoning provided by a voxel grid representation.
+Our proposed approach uses a 3D occupancy or voxel grid and 3D directional kernels, akin to 2D Sobel filters, to perform kernel convolution and calculate the direction in which to move the robot arm to avoid obstacles. This method marries the benefits of convolutional approaches with the intuitive spatial reasoning provided by a voxel grid representation.
 
 The primary strength of this method is its ability to swiftly calculate directional guidance for the robot arm in real-time. By using a voxel grid, we can efficiently represent the 3D environment, and the use of 3D directional kernels allows for robust calculations of obstacle proximity and directions of free space. This is beneficial in dynamic environments where quick responses are required. Moreover, this approach does not require extensive training as with neural networks, making it easier to deploy in new environments. 
 
@@ -226,8 +226,35 @@ Formular za elektronsko oddajo prispevkov bo aktiviran v juniju, rok za oddajo j
 	
 	
 \bibitem{Nguyen1991} Nguyen, Charles C., Zhou, Zhen-Lei, Mosier, Gary E. (1991) Analysis and control of a kinematically redundant manipulator. \textit{Computers \& Electrical Engineering}, 17(3), pp. 147–161. doi:10.1016/0045-7906(91)90031-T.
-\bibitem{ERK} ERK, http://www.ieee.si/erk/index.html 
-\bibitem{Zbornik} B. Zajc, A. Trost: Zbornik triindvajsete mednarodne Elektrotehniške in računalniške konference ERK 2014, 22. - 24. September 2014, Portorož, Slovenija
+
+\bibitem{Franka2021} Franka Emika. (2021). Panda: Specification. \textit{Available at: https://www.franka.de/panda}
+
+\bibitem{Khatib1985} Khatib, O. (1985) Real-time obstacle avoidance for manipulators and mobile robots. In: \textit{1985 IEEE International Conference on Robotics and Automation Proceedings}, 2, pp. 500–505. doi:10.1109/ROBOT.1985.1087247.
+
+\bibitem{Duguleana2011} 
+M. Duguleana, F. G. Barbuceanu, A. Teirelbar, and G. Mogan,
+"Obstacle avoidance of redundant manipulators using neural networks based reinforcement learning,"
+\textit{Robotics and Computer-Integrated Manufacturing}, 
+DOI: 10.1016/j.rcim.2011.07.004, Sep. 2011.
+
+\bibitem{Borenstein1991} 
+J. Borenstein and Y. Koren,
+"The vector field histogram-fast obstacle avoidance for mobile robots,"
+\textit{IEEE Transactions on Robotics and Automation}, 
+vol. 7, no. 3, pp. 278–288, Jun. 1991.
+DOI: 10.1109/70.88137
+
+\bibitem{Ulrich1998} 
+I. Ulrich and J. Borenstein,
+"VFH+: reliable obstacle avoidance for fast mobile robots,"
+In \textit{Proceedings. 1998 IEEE International Conference on Robotics and Automation}, 
+vol. 2, pp. 1572–1577, May 1998.
+DOI: 10.1109/ROBOT.1998.677362
+
+
+
+
+
 
 
 \end{thebibliography}

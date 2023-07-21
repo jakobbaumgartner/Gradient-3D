@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  21 JUL 2023 11:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  21 JUL 2023 13:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -331,36 +331,49 @@ File: field1-eps-converted-to.pdf Graphic file (type pdf)
 Package pdftex.def Info: field1-eps-converted-to.pdf  used on input line 213.
 (pdftex.def)             Requested size: 225.84319pt x 171.64081pt.
 
+LaTeX Warning: Citation `ERK' on page 4 undefined on input line 220.
+
+
 Overfull \hbox (1.01532pt too wide) in paragraph at lines 220--221
 \OT1/ptm/m/n/10 pdf (brez na-sta-vlje-nih za[]s[]citnih ge-sel) ali Mi-cro-soft
  Word.
  []
 
-[4 <./field1-eps-converted-to.pdf>] (erk.aux) ) 
+
+Underfull \hbox (badness 2027) in paragraph at lines 235--239
+[]\OT1/ptm/m/n/9 M. Du-gu-le-ana, F. G. Bar-bu-ce-anu, A. Tei-rel-bar, and
+ []
+
+[4 <./field1-eps-converted-to.pdf>] [5
+
+] (erk.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4281 strings out of 476375
- 74176 string characters out of 5788976
- 1867299 words of memory out of 5000000
- 24593 multiletter control sequences out of 15000+600000
+ 4294 strings out of 476375
+ 74373 string characters out of 5788976
+ 1868299 words of memory out of 5000000
+ 24606 multiletter control sequences out of 15000+600000
  529038 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,11n,67p,762b,298s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{C:/Users/Jakob/AppData/Local/Pr
-ograms/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Users/Jakob/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Jakob/AppData/Loca
-l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Jakob/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/J
-akob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
-/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.
-pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
-m/cmr7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmr8.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmri8a.pfb>
-Output written on erk.pdf (4 pages, 226235 bytes).
+{C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
+/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex1
+0.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
+/cm/cmmi10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmr10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Jakob/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Jakob/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Jakob/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on erk.pdf (5 pages, 230339 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
+ 78 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
