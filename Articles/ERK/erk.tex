@@ -80,10 +80,6 @@ Our proposed approach uses a 3D occupancy or voxel grid and 3D directional kerne
 
 The primary strength of this method is its ability to swiftly calculate directional guidance for the robot arm in real-time. By using a voxel grid, we can efficiently represent the 3D environment, and the use of 3D directional kernels allows for robust calculations of obstacle proximity and directions of free space. This is beneficial in dynamic environments where quick responses are required. Moreover, this approach does not require extensive training as with neural networks, making it easier to deploy in new environments. 
 
-\todocomment{Preveri pravilnost informacij, dodaj vire, ki potrjujejo informacije.}
-
-\todocomment{preveri podobnost naše metode z metodo: Vector Field Histogram (VFH) }
-
 \section{Methodology }
 
 \subsection{Kinematics}
@@ -95,11 +91,32 @@ Geometric kinematics (also known as forward and inverse kinematics) focuses on t
 Differential kinematics, also known as the robots Jacobian, forms the foundation of robot velocity analysis. The Jacobian matrix, often represented as $J$, encapsulates the relationship between the joint velocities and the end-effector linear and angular velocities. It's derived from the partial derivatives of the forward kinematics.
 
 The Jacobian matrix is a key element in the control of robotic manipulators. It can also be used for computing the inverse kinematics problem. However, for a 7-DOF manipulator, the Jacobian matrix is not square and its inverse does not exist in a traditional sense. In such cases, we resort to the pseudo-inverse of the Jacobian, calculated using the Moore-Penrose method. The Moore-Penrose pseudo-inverse, denoted as $J^+$, provides an approximation of the inverse for non-square matrices. 
+
+\begin{equation}
+	J^{\dagger} = (J^{T}J)^{-1}J^{T}
+	\label{eq:moore_penrose}
+\end{equation}
     
 The null space of the Jacobian corresponds to those joint motions which produce no movement in the end-effector. The primary task for our robot is the desired end-effector movement. The secondary task of obstacle avoidance in our research takes advantage of this null-space motion. Our method applies a repulsive velocity from detected obstacles in the environment. We calculate this velocities at certain points that are positioned on the manipulator arm segments. The robot arm is thus able to carry out the primary task while simultaneously avoiding obstacles by appropriately utilizing its redundant DOF.
 
+\begin{equation}
+	N = (I - J^{\dagger}(q)J(q))
+	\label{eq:Null-Space}
+\end{equation}
+
+\begin{equation}
+	\dot{q} = J^{\dagger}(q) \dot{x}_{ee} + N J^{\dagger}_{poi} \dot{x}_{poi}
+	\label{eq:manipulator_kinematics}
+\end{equation}
+
+
+
+
+
+
+
 \todocomment{probably needs shortening \\
-			 add equations}
+			 add kinematics equations}
 
 \subsection{Obstacle Grid}
 
@@ -131,6 +148,8 @@ Our convolutional kernels are essentially discrete differential operators in 3D 
 
 Contrary to the design of a classical Sobel operator, our custom kernels don't contain zeroes along the primary axis. Instead, we assign the maximum kernel values along this line. This choice is specifically designed to meet our goal of obstacle avoidance. By doing so, when our points of interest on the robot manipulator coincide with an obstacle - effectively being 'right on top' of the obstacle in the voxel grid - the convolution operation yields a maximal repulsive velocity. This encourages the robot to move away from the obstacle and ensures safer navigation in the presence of potential collisions.
 
+However, the kernel values are not merely mirror images on each side of the kernel. While the absolute values are mirrored, the signed values are positive on one side and negative on the other. This sign difference is critical for calculating directional gradients.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\linewidth]{kernel-matrix.png}
@@ -140,7 +159,6 @@ Contrary to the design of a classical Sobel operator, our custom kernels don't c
 
 \todocomment{while not the most important fix, currently values in matrix don't follow values used in experiments}
 
-However, the kernel values are not merely mirror images on each side of the kernel. While the absolute values are mirrored, the signed values are positive on one side and negative on the other. This sign difference is critical for calculating directional gradients.
 
 In addition to the kernel values along the primary axis, the values along the orthogonal axes mimic the same pattern. These are derived from the primary axis values, decrease proportionally with the radial distance from the primary axis, and crucially, they maintain the same sign as dictated by the derivative along the primary axis. This symmetry in both magnitude and sign around the main axis is a fundamental characteristic of our kernels.
 
@@ -154,12 +172,10 @@ Orthogonal to the primary axis, the size of the kernel dictates the width of the
 
 To optimize obstacle detection, we have explored the idea of reducing the kernel values orthogonal to the primary axis with increasing distance from it. The intent here is to minimize the impact of distant, off-axis obstacles while still ensuring they are detected. However, as the ideal kernel configuration depends on the grid resolution and the specific environment, further testing is required to refine this approach.
 
-\todocomment{maybe add element-wise convolution equation}
+\todocomment{add element-wise convolution equation}
 
 		 
 \subsection{Attractive Field}
-
-\todocomment{Tukaj bi lahko uporabil D* metodo. Ampak realno je za 4 strani snovi že dovolj.}
 
 \todocomment{- we use APF for primary task\\
 			 - attractive field calculating \\
@@ -169,8 +185,9 @@ To optimize obstacle detection, we have explored the idea of reducing the kernel
 
 \section{Experiment and Results}
 
-\todocomment{-The wall visualization. \\
-			 -Line field strenght dx,dy,dz}
+\todocomment{- The wall visualization with robot and wall and "dy beam" and dy arrow. \\
+			 - Line field strenght 2D plot dx,dy,dz \\
+		 	 - }
 
 \section{Pisanje prispevka}
 
