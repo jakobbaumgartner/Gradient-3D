@@ -43,7 +43,7 @@
 
 \section{Introduction }
 
-Robotic manipulators, specifically those with a high degree of freedom (DOF), possess a crucial characteristic known as kinematic redundancy. Kinematic redundancy refers to having more joints (i.e., degrees of freedom - DOF) than required to perform a task, thus allowing the robot to adopt multiple configurations to accomplish the same end-effector position and orientation. This redundancy provides a considerable advantage, making it possible for manipulators to optimize movement according to different criteria, such as energy efficiency, obstacle avoidance, or joint limit avoidance.
+Robotic manipulators, specifically those with a high degree of freedom (DOF), possess a crucial characteristic known as kinematic redundancy~\cite{Nguyen1991}. Kinematic redundancy refers to having more joints (i.e., degrees of freedom - DOF) than required to perform a task, thus allowing the robot to adopt multiple configurations to accomplish the same end-effector position and orientation. This redundancy provides a considerable advantage, making it possible for manipulators to optimize movement according to different criteria, such as energy efficiency, obstacle avoidance, or joint limit avoidance.
 
 In this research, we specifically consider a 7-DOF Panda Emika manipulator. When controlling both the position and orientation of the end-effector in a 3D space, which requires six degrees of freedom (three for position and three for orientation), a 7-DOF manipulator such as the Panda Emika has one redundant degree. However, when controlling only the position, which requires three degrees of freedom, the manipulator possesses four redundant degrees. This redundancy grants the manipulator an essential characteristic: an infinite number of possible joint configurations to reach a specific end-effector (EE) point in space.
 
@@ -90,9 +90,9 @@ The primary strength of this method is its ability to swiftly calculate directio
 
 The manipulation capabilities of a robot are fundamentally determined by its kinematics, the mathematical description of motion without considering the forces that cause it. In our experiments, we employed a 7 degree-of-freedom (DOF) robot. The seven joints provide a high level of versatility, enabling the robot to move and orient its end-effector in a broad range of positions and directions. To calculate the movements and positions of the robot, we use both geometric and differential kinematics.
 
-Geometric kinematics (also known as forward and inverse kinematics) focuses on the relationship between joint angles and the position and orientation of the end-effector. Forward kinematics involves calculating the position and orientation of the end-effector given the joint angles, while inverse kinematics is the process of determining the joint angles for a desired end-effector position and orientation. In the case or redundant manipulator, there isn't an unique mapping from EE coordinates to the joint coordinates. as there are exist an infinite number of different joint angles that can map to the same EE position.
+Geometric kinematics (also known as forward and inverse kinematics) focuses on the relationship between joint angles and the position and orientation of the end-effector. Forward kinematics involves calculating the position and orientation of the end-effector given the joint angles, while inverse kinematics is the process of determining the joint angles for a desired end-effector position and orientation. In the case or redundant manipulator, there isn't an unique mapping from EE coordinates to the joint coordinates as there exist an infinite number of different joint angles configurations that map to the same EE position.
 
-Differential kinematics, also known as the Jacobian analysis, forms the foundation of robot velocity analysis. The Jacobian matrix, often represented as $J$, encapsulates the relationship between the joint velocities and the end-effector linear and angular velocities. It's derived from the partial derivatives of the forward kinematics.
+Differential kinematics, also known as the robots Jacobian, forms the foundation of robot velocity analysis. The Jacobian matrix, often represented as $J$, encapsulates the relationship between the joint velocities and the end-effector linear and angular velocities. It's derived from the partial derivatives of the forward kinematics.
 
 The Jacobian matrix is a key element in the control of robotic manipulators. It can also be used for computing the inverse kinematics problem. However, for a 7-DOF manipulator, the Jacobian matrix is not square and its inverse does not exist in a traditional sense. In such cases, we resort to the pseudo-inverse of the Jacobian, calculated using the Moore-Penrose method. The Moore-Penrose pseudo-inverse, denoted as $J^+$, provides an approximation of the inverse for non-square matrices. 
     
@@ -223,9 +223,12 @@ Formular za elektronsko oddajo prispevkov bo aktiviran v juniju, rok za oddajo j
 
 \small
 \begin{thebibliography}{1}
-
+	
+	
+\bibitem{Nguyen1991} Nguyen, Charles C., Zhou, Zhen-Lei, Mosier, Gary E. (1991) Analysis and control of a kinematically redundant manipulator. \textit{Computers \& Electrical Engineering}, 17(3), pp. 147–161. doi:10.1016/0045-7906(91)90031-T.
 \bibitem{ERK} ERK, http://www.ieee.si/erk/index.html 
 \bibitem{Zbornik} B. Zajc, A. Trost: Zbornik triindvajsete mednarodne Elektrotehniške in računalniške konference ERK 2014, 22. - 24. September 2014, Portorož, Slovenija
+
 
 \end{thebibliography}
 
