@@ -92,12 +92,16 @@ Differential kinematics, also known as the robots Jacobian, forms the foundation
 
 The Jacobian matrix is a key element in the control of robotic manipulators. It can also be used for computing the inverse kinematics problem. However, for a 7-DOF manipulator, the Jacobian matrix is not square and its inverse does not exist in a traditional sense. In such cases, we resort to the pseudo-inverse of the Jacobian, calculated using the Moore-Penrose method. The Moore-Penrose pseudo-inverse, denoted as $J^+$, provides an approximation of the inverse for non-square matrices. 
 
-\begin{equation}
-	J^{\dagger} = (J^{T}J)^{-1}J^{T}
+Damping, represented by the term $k_{damp}$ in the Moore-Penrose pseudo-inverse equation, is used to introduce stability and prevent potential numerical issues when computing the pseudo-inverse of the Jacobian for non-square matrices. It acts as a regularization term to ensure a well-conditioned solution.
+
+\begin{equation}   	
+	J^{\dagger} = (J^{T}J + k_{damp} ~I)^{-1}J^{T}
 	\label{eq:moore_penrose}
 \end{equation}
     
 The null space of the Jacobian corresponds to those joint motions which produce no movement in the end-effector. The primary task for our robot is the desired end-effector movement. The secondary task of obstacle avoidance in our research takes advantage of this null-space motion. Our method applies a repulsive velocity from detected obstacles in the environment. We calculate this velocities at certain points that are positioned on the manipulator arm segments. The robot arm is thus able to carry out the primary task while simultaneously avoiding obstacles by appropriately utilizing its redundant DOF.
+
+\todocomment{cite Tadej?}
 
 \begin{equation}
 	N = (I - J^{\dagger}(q)J(q))
@@ -113,7 +117,7 @@ The null space of the Jacobian corresponds to those joint motions which produce 
 
 
 
-
+\todocomment{add references to equations in text}
 
 \todocomment{probably needs shortening \\
 			 add kinematics equations}
@@ -125,19 +129,52 @@ In order to safely and efficiently navigate a robot through a complex environmen
 Each voxel within this grid corresponds to a specific volume in real-world space and contains information about the occupancy of that volume. This provides a structured and spatially efficient representation of the 3D environment, including the locations and extents of any obstacles present. This 3D voxel grid can be built from sensor data, such as that obtained from a LiDAR, 3D camera, or depth sensor. Each reading from the sensor provides a point in 3D space, and these points are used to update the occupancy probability of the corresponding voxels in the grid.
 
 
+%\subsection{Avoidance velocities}
+
+%In our approach to robot arm obstacle avoidance, we apply a method of kernel convolution in conjunction with geometric transformations. This methodology allows us to calculate the necessary avoidance velocities for specific points of interest on the manipulator.
+%
+%The process initiates with kinematic transformations which are used to map the points of interest from the robot's configuration space to the cartesian space and than onto the 3D voxel grid. These points, strategically placed on the manipulator, serve to evaluate potential collision threats with obstacles and subsequently assist in computing the necessary obstacle avoidance velocities.
+%
+%Once the mapping of these points to the voxel grid is completed, we proceed to employ a specialized kernel convolution method. This method is tailored to calculate the constituent parts of the avoidance velocity vector in the Cartesian space, specifically for the x, y, and z directions. For each of these directions, we apply a separate 3D convolutional kernel.
+
+%\todocomment{convolution equation}
+
+%For each direction, we utilize its corresponding kernel and extract a segment of the obstacle grid of matching size, centered at the point of interest. This leads to two equivalent-sized 3D matrices - one from the obstacle grid and the other being the kernel. We then conduct an element-wise multiplication operation between these matrices, summing the resulting values. The result of this operation provides us with the avoidance velocity in each respective direction. Through this approach, we can dynamically adjust the robot's trajectory to effectively avoid obstacles.
+
 \subsection{Avoidance velocities}
 
-In our approach to robot arm obstacle avoidance, we apply a method of kernel convolution in conjunction with geometric transformations. This methodology allows us to calculate the necessary avoidance velocities for specific points of interest on the manipulator.
+In our approach to robot arm obstacle avoidance, we apply a method of kernel convolution in conjunction with geometric transformations. This methodology allows us to calculate the necessary avoidance velocities for specific points of interest located on the manipulator.
 
-The process initiates with kinematic transformations which are used to map the points of interest from the robot's configuration space to the cartesian space and than onto the 3D voxel grid. These points, strategically placed on the manipulator, serve to evaluate potential collision threats with obstacles and subsequently assist in computing the necessary obstacle avoidance velocities.
+The process commences with kinematic transformations, which facilitate the mapping of points of interest from the robot's configuration space to the Cartesian space, followed by their projection onto the 3D voxel grid.
 
-Once the mapping of these points to the voxel grid is completed, we proceed to employ a specialized kernel convolution method. This method is tailored to calculate the constituent parts of the avoidance velocity vector in the Cartesian space, specifically for the x, y, and z directions. For each of these directions, we apply a separate 3D convolutional kernel.
+%These points, strategically placed on the manipulator, serve to evaluate potential collision threats with obstacles and subsequently assist in computing the necessary obstacle avoidance velocities.
 
-For each direction, we utilize its corresponding kernel and extract a segment of the obstacle grid of matching size, centered at the point of interest. This leads to two equivalent-sized 3D matrices - one from the obstacle grid and the other being the kernel. We then conduct an element-wise multiplication operation between these matrices, summing the resulting values. The result of this operation provides us with the avoidance velocity in each respective direction. Through this approach, we can dynamically adjust the robot's trajectory to effectively avoid obstacles.
+Once the mapping of these points to the voxel grid is completed, we proceed to employ a specialized kernel convolution method. This method is tailored to calculate the constituent parts of the avoidance velocity vector in the Cartesian space, specifically for the \(x\), \(y\), and \(z\) directions. For each direction, we generate the corresponding kernel and extract a segment of the obstacle grid of matching size, centered at the point of interest, resulting in two comparable 3D matrices—one from the obstacle grid $A_d$ and the other representing the kernel $K_d$.
+
+By employing the Hadamard (element-wise) product between the segment of the obstacle grid \(A_d\) and the corresponding 3D convolutional kernel \(K_d\) for direction \(d\), we derive the resultant matrix \(C_d\), which can be expressed as:
+
+\[
+C_d = A_d \odot K_d
+\]
+
+Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained by summing all the values in the resulting matrix, which can be represented as:
+
+\[
+v = \sum_{i}\sum_{j}\sum_{k} a_{ijk} 
+\]
+
+%\[
+%v = \sum_{x}\sum_{y}\sum_{z} a_{xyz} ~c_{xyz}
+%\]
+
+
+
 
 \subsection{Kernel Convolution}
 
 Our convolutional kernels are essentially discrete differential operators in 3D space, and their design reflects this. These kernels bear a resemblance to the Sobel kernels, which are widely used in computer vision for edge detection and approximation of spatial derivatives. Each kernel has a primary axis aligned with the direction in which the avoidance velocity is being calculated, with the other two axes orthogonal to it. The kernel values along the primary axis exhibit a symmetric pattern: the highest value lies in the center of the kernel, with the absolute values decreasing uniformly on either side, with negative polarity on one side. This decrease simulates the derivative-like behavior of the kernel.
+
+\todocomment{add references to images in text}
 
 \begin{figure}[H]
 	\centering
