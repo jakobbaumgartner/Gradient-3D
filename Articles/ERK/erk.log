@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  22 JUL 2023 13:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  22 JUL 2023 13:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -293,13 +293,13 @@ T1/ptm/m/n/10 in the Moore-
  []
 
 [2]
-Overfull \hbox (1.63638pt too wide) in paragraph at lines 151--152
+Overfull \hbox (1.63638pt too wide) in paragraph at lines 148--149
 \OT1/ptm/m/n/10 In our appro-ach to ro-bot arm ob-sta-cle avo-i-dance, we apply
 
  []
 
 
-Overfull \hbox (5.03564pt too wide) in paragraph at lines 153--154
+Overfull \hbox (5.03564pt too wide) in paragraph at lines 150--151
 \OT1/ptm/m/n/10 from the ro-bot's con-fi-gu-ra-tion space to the Car-te-sian sp
 ace,
  []
@@ -307,22 +307,22 @@ ace,
 <kernel-mainvalues-colored.png, id=18, 615.4995pt x 176.45924pt>
 File: kernel-mainvalues-colored.png Graphic file (type png)
 <use kernel-mainvalues-colored.png>
-Package pdftex.def Info: kernel-mainvalues-colored.png  used on input line 188.
+Package pdftex.def Info: kernel-mainvalues-colored.png  used on input line 185.
 
 (pdftex.def)             Requested size: 182.09833pt x 52.2058pt.
 <kernel-matrix.png, id=20, 632.3625pt x 618.51076pt>
 File: kernel-matrix.png Graphic file (type png)
 <use kernel-matrix.png>
-Package pdftex.def Info: kernel-matrix.png  used on input line 199.
+Package pdftex.def Info: kernel-matrix.png  used on input line 196.
 (pdftex.def)             Requested size: 193.48013pt x 189.23535pt.
 
-Overfull \hbox (0.4859pt too wide) in paragraph at lines 207--208
+Overfull \hbox (0.4859pt too wide) in paragraph at lines 204--205
 []\OT1/ptm/m/n/10 In ad-di-tion to the ker-nel va-lues along the pri-mary axis,
 
  []
 
 [3 <./kernel-mainvalues-colored.png> <./kernel-matrix.png>]
-Overfull \hbox (18.35574pt too wide) in paragraph at lines 231--232
+Overfull \hbox (18.35574pt too wide) in paragraph at lines 230--231
 \OT1/ptm/m/n/10 - The wall vi-su-a-li-za-tion with ro-bot and wall and "dy beam
 "and
  []
@@ -335,7 +335,7 @@ Package epstopdf Info: Source file: <field1.eps>
 (epstopdf)                    size: 49584 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=field1-eps-converted
 -to.pdf field1.eps>
-(epstopdf)             \includegraphics on input line 271.
+(epstopdf)             \includegraphics on input line 270.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -344,19 +344,19 @@ n: found PDF version <1.7>, but at most version <1.5> allowed
 <field1-eps-converted-to.pdf, id=27, 225.84375pt x 171.64125pt>
 File: field1-eps-converted-to.pdf Graphic file (type pdf)
 <use field1-eps-converted-to.pdf>
-Package pdftex.def Info: field1-eps-converted-to.pdf  used on input line 271.
+Package pdftex.def Info: field1-eps-converted-to.pdf  used on input line 270.
 (pdftex.def)             Requested size: 225.84319pt x 171.64081pt.
 
-LaTeX Warning: Citation `ERK' on page 4 undefined on input line 278.
+LaTeX Warning: Citation `ERK' on page 4 undefined on input line 277.
 
 
-Overfull \hbox (1.01532pt too wide) in paragraph at lines 278--279
+Overfull \hbox (1.01532pt too wide) in paragraph at lines 277--278
 \OT1/ptm/m/n/10 pdf (brez na-sta-vlje-nih za[]s[]citnih ge-sel) ali Mi-cro-soft
  Word.
  []
 
 [4 <./field1-eps-converted-to.pdf>]
-Underfull \hbox (badness 2027) in paragraph at lines 293--297
+Underfull \hbox (badness 2027) in paragraph at lines 292--296
 []\OT1/ptm/m/n/9 M. Du-gu-le-ana, F. G. Bar-bu-ce-anu, A. Tei-rel-bar, and
  []
 
@@ -389,7 +389,7 @@ pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/
 Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/
 Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/
 Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on erk.pdf (5 pages, 255411 bytes).
+Output written on erk.pdf (5 pages, 255469 bytes).
 PDF statistics:
  88 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
