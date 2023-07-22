@@ -49,7 +49,7 @@ In this research, we specifically consider a 7-DOF Franka Panda Emika~\cite{Fran
 
 When dealing with redundant manipulators, task prioritization is crucial. In our approach, we distinguish between primary and secondary tasks. The primary task of the manipulator is usually defined as reaching a desired EE position and orientation or as following a trajectory made out of such points. In this work we instead use APF (Artificial Potential Field), to guide the EE towards the goal position, while avoiding the obstacles in the path of the EE. Operating in a real-world environment often requires considering secondary tasks, such as real-time obstacle avoidance, to ensure safe and uninterrupted operation of the manipulator.
 
-\todocomment{IMAGE OF ROBOT}
+\todocomment{IMAGE OF THE TASK}
 
 This paper proposes a novel method for real-time obstacle avoidance of the manipulator arm. We use an obstacle grid combined with convolution techniques to assign avoidance directions to each manipulator segment, ensuring efficient and safe maneuvering within complex environments. 
 
@@ -123,6 +123,9 @@ The null space of the Jacobian corresponds to those joint motions which produce 
 
 \todocomment{probably needs shortening \\
 			 add kinematics equations}
+		 
+\todocomment{želena sredinska lega sklepov}
+
 
 \subsection{Obstacle Grid}
 
@@ -212,9 +215,6 @@ The length of the kernel along the detection axis is dependent on the desired de
 Orthogonal to the primary axis, the size of the kernel dictates the width of the detection area. In most instances, an equal width and height around the primary axis are desired, creating a symmetrical detection area. Narrow kernels detect a focused, 'beam-like' area directly ahead, while wider radial kernels can detect obstacles not exactly aligned with the primary axis but still within the potential path of the robot.
 
 To optimize obstacle detection, we have explored the idea of reducing the kernel values orthogonal to the primary axis with increasing distance from it. The intent here is to minimize the impact of distant, off-axis obstacles while still ensuring they are detected. However, as the ideal kernel configuration depends on the grid resolution and the specific environment, further testing is required to refine this approach.
-
-\todocomment{add element-wise convolution equation}
-
 		 
 \subsection{Attractive Field}
 

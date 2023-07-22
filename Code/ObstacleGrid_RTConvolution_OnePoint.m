@@ -4,11 +4,18 @@ function [joints_positions, EE_positions, goal_distances, q_velocities, ee_veloc
 p = inputParser;
 addOptional(p, 'mid_joints', true); % Default value is false
 addOptional(p, 'avoid_task', true); % Default value is true
+addOptional(p, 'task_constants', [1 4 0.5]);
 
 parse(p, varargin{:});
 
+% select which goals
 mid_joints = p.Results.mid_joints;
 avoid_task = p.Results.avoid_task;
+
+% weights for different tasks
+wp = p.Results.task_constants(1); % primary task
+wm = p.Results.task_constants(2); % mid-joints task
+wa = p.Results.task_constants(3); % obstacle avoidance task
 
 % -----------------------------------------------------------
 
@@ -30,11 +37,6 @@ q_range = [2.8973 -2.8973;
 
 % number of points per segment for obstacle avoidance task
 points_per_segment = 1*[1 1 1 1 1 1 1];
-
-% weights for different tasks
-wp = 5; % primary task
-wm = 5; % mid-joints task
-wa = 0.5; % obstacle avoidance task
 
 % -----------------------------------------------------------
 
