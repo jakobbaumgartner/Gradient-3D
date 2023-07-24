@@ -61,7 +61,7 @@ values_APF = [];
 ee_velocities = [];
 
 % set directional kernels
-sigma = 41;
+sigma = 11;
 
 kernel_length = 61;
 kernel_width = 9;
@@ -149,32 +149,33 @@ while current_dist > goal_dist && Niter < Nmax
 
     % APF Avoidance Task
     % --------------------------------------------------
- 	if avoid_task
+    avoid_vel = [];
 
-        % GET JOINT 4 POSE
-        % --------------------
+    % GET JOINT 4 POSE
+    % --------------------
 
-        % select transformation for joint 4
-        robot_tree = transformations_list(4).tree;
+    % select transformation for joint 4
+    robot_tree = transformations_list(4).tree;
+
+    % set configuration to a robot tree
+    config = homeConfiguration(robot_tree); % Create an empty struct
     
-        % set configuration to a robot tree
-        config = homeConfiguration(robot_tree); % Create an empty struct
+    % Assign values to joints, there will be 1-7 joints for Panda
+    for i = 1:1:robot_tree.NumBodies
+        config(i).JointPosition  = q(i); % set i-th joint
+    end
+
+    % get transform
+    transform = getTransform(robot_tree,config,'body'+string(robot_tree.NumBodies));
+
+    % add base transformation
+    transform = Tbase * transform;
+
+    % get x,y,z values
+    xyz = ceil(transform(1:3,4)*grid.resolution);
         
-        % Assign values to joints, there will be 1-7 joints for Panda
-        for i = 1:1:robot_tree.NumBodies
-            config(i).JointPosition  = q(i); % set i-th joint
-        end
-    
-        % get transform
-        transform = getTransform(robot_tree,config,'body'+string(robot_tree.NumBodies));
-    
-        % add base transformation
-        transform = Tbase * transform;
-    
-        % get x,y,z values
-        xyz = ceil(transform(1:3,4)*grid.resolution);
-        
-        
+    if avoid_task
+
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
 
@@ -228,6 +229,7 @@ while current_dist > goal_dist && Niter < Nmax
         % calculate avoidance joints velocities
 %         q_vel = q_vel + pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
 %         q_vel = q_vel + pinv_J0*(avoid_vel);
+
 
     % APPROXIMATE SOLUTION
     % -----------------------
