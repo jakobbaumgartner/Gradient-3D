@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  24 JUL 2023 13:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  24 JUL 2023 17:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -322,28 +322,28 @@ Overfull \hbox (0.4859pt too wide) in paragraph at lines 204--205
  []
 
 [3 <./kernel-mainvalues-colored.png> <./kernel-matrix.png>]
-Overfull \hbox (18.35574pt too wide) in paragraph at lines 228--229
+Overfull \hbox (18.35574pt too wide) in paragraph at lines 233--234
 \OT1/ptm/m/n/10 - The wall vi-su-a-li-za-tion with ro-bot and wall and "dy beam
 "and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 228--229
+Underfull \hbox (badness 10000) in paragraph at lines 233--234
 
  []
 
 Package epstopdf Info: Source file: <Repulsive-Velocities-Along-the-Y-Axis-wide
 .eps>
-(epstopdf)                    date: 2023-07-24 13:29:50
-(epstopdf)                    size: 24182 bytes
+(epstopdf)                    date: 2023-07-24 14:37:41
+(epstopdf)                    size: 24246 bytes
 (epstopdf)             Output file: <Repulsive-Velocities-Along-the-Y-Axis-wide
 -eps-converted-to.pdf>
-(epstopdf)                    date: 2023-07-24 13:30:09
-(epstopdf)                    size: 9848 bytes
+(epstopdf)                    date: 2023-07-24 14:37:45
+(epstopdf)                    size: 9880 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=Repulsive-Velocities
 -Along-the-Y-Axis-wide-eps-converted-to.pdf Repulsive-Velocities-Along-the-Y-Ax
 is-wide.eps>
-(epstopdf)             \includegraphics on input line 232.
+(epstopdf)             \includegraphics on input line 237.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -356,17 +356,17 @@ File: Repulsive-Velocities-Along-the-Y-Axis-wide-eps-converted-to.pdf Graphic f
 ile (type pdf)
 <use Repulsive-Velocities-Along-the-Y-Axis-wide-eps-converted-to.pdf>
 Package pdftex.def Info: Repulsive-Velocities-Along-the-Y-Axis-wide-eps-convert
-ed-to.pdf  used on input line 232.
+ed-to.pdf  used on input line 237.
 (pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
 Package epstopdf Info: Source file: <Y-Positions.eps>
-(epstopdf)                    date: 2023-07-24 13:28:08
-(epstopdf)                    size: 53532 bytes
+(epstopdf)                    date: 2023-07-24 14:35:25
+(epstopdf)                    size: 53273 bytes
 (epstopdf)             Output file: <Y-Positions-eps-converted-to.pdf>
-(epstopdf)                    date: 2023-07-24 13:28:13
-(epstopdf)                    size: 52791 bytes
+(epstopdf)                    date: 2023-07-24 14:35:28
+(epstopdf)                    size: 52537 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=Y-Positions-eps-conv
 erted-to.pdf Y-Positions.eps>
-(epstopdf)             \includegraphics on input line 238.
+(epstopdf)             \includegraphics on input line 243.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -376,73 +376,66 @@ lusion: found PDF version <1.7>, but at most version <1.5> allowed
 File: Y-Positions-eps-converted-to.pdf Graphic file (type pdf)
 <use Y-Positions-eps-converted-to.pdf>
 Package pdftex.def Info: Y-Positions-eps-converted-to.pdf  used on input line 2
-38.
+43.
 (pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
-[4 <./Repulsive-Velocities-Along-the-Y-Axis-wide-eps-converted-to.pdf> <./Y-Pos
-itions-eps-converted-to.pdf>]
-Package epstopdf Info: Source file: <field1.eps>
-(epstopdf)                    date: 2023-07-18 11:16:07
-(epstopdf)                    size: 306440 bytes
-(epstopdf)             Output file: <field1-eps-converted-to.pdf>
-(epstopdf)                    date: 2023-07-18 11:17:18
-(epstopdf)                    size: 49584 bytes
-(epstopdf)             Command: <miktex-epstopdf --outfile=field1-eps-converted
--to.pdf field1.eps>
-(epstopdf)             \includegraphics on input line 281.
+Package epstopdf Info: Source file: <7-DOF_Robot_Positions_Standard_vs_Avoidanc
+e.eps>
+(epstopdf)                    date: 2023-07-24 17:47:32
+(epstopdf)                    size: 31331 bytes
+(epstopdf)             Output file: <7-DOF_Robot_Positions_Standard_vs_Avoidanc
+e-eps-converted-to.pdf>
+(epstopdf)                    date: 2023-07-24 17:47:58
+(epstopdf)                    size: 30392 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=7-DOF_Robot_Position
+s_Standard_vs_Avoidance-eps-converted-to.pdf 7-DOF_Robot_Positions_Standard_vs_
+Avoidance.eps>
+(epstopdf)             \includegraphics on input line 249.
 Package epstopdf Info: Output file is already uptodate.
 
 
-pdfTeX warning: pdflatex.exe (file ./field1-eps-converted-to.pdf): PDF inclusio
-n: found PDF version <1.7>, but at most version <1.5> allowed
-<field1-eps-converted-to.pdf, id=46, 225.84375pt x 171.64125pt>
-File: field1-eps-converted-to.pdf Graphic file (type pdf)
-<use field1-eps-converted-to.pdf>
-Package pdftex.def Info: field1-eps-converted-to.pdf  used on input line 281.
-(pdftex.def)             Requested size: 225.84319pt x 171.64081pt.
-
-LaTeX Warning: Citation `ERK' on page 5 undefined on input line 288.
-
-
-Overfull \hbox (1.01532pt too wide) in paragraph at lines 288--289
-\OT1/ptm/m/n/10 pdf (brez na-sta-vlje-nih za[]s[]citnih ge-sel) ali Mi-cro-soft
- Word.
- []
-
-
-Underfull \hbox (badness 2027) in paragraph at lines 303--307
+pdfTeX warning: pdflatex.exe (file ./7-DOF_Robot_Positions_Standard_vs_Avoidanc
+e-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most ve
+rsion <1.5> allowed
+<7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-converted-to.pdf, id=29, 421.5
+75pt x 316.18124pt>
+File: 7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-converted-to.pdf Graphic 
+file (type pdf)
+<use 7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-converted-to.pdf>
+Package pdftex.def Info: 7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-conver
+ted-to.pdf  used on input line 249.
+(pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
+[4 <./Repulsive-Velocities-Along-the-Y-Axis-wide-eps-converted-to.pdf>]
+Underfull \hbox (badness 2027) in paragraph at lines 272--276
 []\OT1/ptm/m/n/9 M. Du-gu-le-ana, F. G. Bar-bu-ce-anu, A. Tei-rel-bar, and
  []
 
-[5 <./field1-eps-converted-to.pdf>] (erk.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+[5 <./Y-Positions-eps-converted-to.pdf> <./7-DOF_Robot_Positions_Standard_vs_Av
+oidance-eps-converted-to.pdf>] (erk.aux) ) 
 Here is how much of TeX's memory you used:
- 4317 strings out of 476375
- 75190 string characters out of 5788976
+ 4311 strings out of 476375
+ 75398 string characters out of 5788976
  1868299 words of memory out of 5000000
- 24627 multiletter control sequences out of 15000+600000
- 529038 words of font info for 59 fonts, out of 8000000 for 9000
+ 24622 multiletter control sequences out of 15000+600000
+ 527453 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,67p,762b,298s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
-/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex1
-0.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmmi10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmr10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fo
-nts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Jakob/AppData/Local/Programs/Mi
-KTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/Prog
-rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Jakob/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/
-Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/
-Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/
-Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on erk.pdf (5 pages, 314365 bytes).
+ 62i,11n,67p,981b,231s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{C:/Users/Jakob/AppData/Local/Program
+s/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Users/Jakob/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Jakob/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Jakob/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/User
+s/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><
+C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
+8.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmsy7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
+1/urw/times/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
+1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
+1/urw/times/utmri8a.pfb>
+Output written on erk.pdf (5 pages, 280412 bytes).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
+ 102 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

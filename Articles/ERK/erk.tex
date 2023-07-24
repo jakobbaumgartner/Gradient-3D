@@ -215,6 +215,11 @@ To optimize obstacle detection, we have explored the idea of reducing the kernel
 		 
 \subsection{Attractive Field}
 
+
+In our end-effector motion planning approach, we leverage derivatives of the attractive field to facilitate efficient trajectory generation. Prior to commencing motion planning, we construct a distance matrix, analogous in size to the matrix representing the obstacles. This distance matrix encompasses distance values from our designated goal point, corresponding to each voxel in the workspace. Subsequently, we employ interpolation techniques to estimate the value at the current end-effector (EE) point by considering the distance field values of the eight neighboring voxels and the distances of the current EE pose relative to these eight values. By performing interpolation between two points, we effectively calculate the numerical derivative of distance change, thereby obtaining the EE velocity. This approach enables us to navigate the robotic manipulator smoothly towards the desired goal while considering the surrounding obstacle space.
+
+Additionally, we can augment our velocity component with repulsive fields, which are calculated using the convolutional kernel technique. This enables us to guide the end-effector around obstacles smoothly, ensuring safe and collision-free navigation while dynamically adapting to the environment. By integrating both the attractive and repulsive field contributions, our motion planning approach ensures efficient and effective trajectory generation, enabling the robotic manipulator to reach its desired goal while avoiding potential obstacles in the workspace.
+
 \todocomment{- we use APF for primary task\\
 			 - attractive field calculating \\
 			 	 - repulsive field is same as avoidance velocities}
@@ -238,56 +243,20 @@ To optimize obstacle detection, we have explored the idea of reducing the kernel
 	\includegraphics[width=1.0\linewidth]{Y-Positions.eps}
 	\caption{Repulsive Velocities Along the Y Axis}
 \end{figure}
-	 	  
 
-\section{Pisanje prispevka}
-
-Pri pisanju uporabljajte sloge, ki so definirani v datoteki erk.sty in ne spreminjajte velikosti ali sloga pisave. Ta dokument lahko vzamete kot vzorec za oblikovanje prispevka v orodju \LaTeX.
-Tabela \ref{tab1} povzema osnovne sloge in velikosti pisave.
-
-\begin{table}[h]
-\caption{Osnovni slogi pri oblikovanju prispevka.} \label{tab1}
-\smallskip
-\begin{center}
-\begin{tabular}{ | r | c | c | }
-\hline  
-  \textbf{Text Style} & \textbf{Font Size} & \textbf{Attributes}\\ 
-\hline  
-  Paper title & 17pt & bold\\
-  Author names & 12pt & bold\\
-  Affiliation & 10pt & italic\\
-  Heading & 12pt & bold \\
-  Subheading & 10pt & bold\\
-  Regular text & 10pt &\\
-  Captions \& ref. & 9pt &\\
-\hline  
-\end{tabular}
-\end{center}
-\end{table}
-
-\subsection{Enačbe in slike}
-
-Enačbe in formule se pišejo s poševnimi črkami in so zaporedno oštevilčene. V besedilu naj bodo reference na enačbe zapisane v oklepajih (\ref{eq1}).
-
-\begin{equation}
- \int^{r_{2}}_{0}F(r,\varphi)\; dr\; d\varphi= [\sigma r_{2} / (2\mu_{0})]
-    \label{eq1}
-\end{equation}
-
-Prispevki za ERK se ne tiskajo v barvah, zato pripravite črno-bele slike. Slike naj bodo postavljene v okvirje širine enega ali dveh stolpcev in označene s številko in podnapisom. V besedilu morajo biti reference na slike (slika \ref{slika}).
-
-\begin{figure}[!htb]
-    \begin{center}
-        \includegraphics[scale=1]{field1.eps}
-        \caption{Podajte kratko razlago slike.} \label{slika}
-    \end{center}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\linewidth]{7-DOF_Robot_Positions_Standard_vs_Avoidance.eps}
+	\caption{Repulsive Velocities Along the Y Axis}
 \end{figure}
+	 	  
+\todocomment{Maybe add joint positions plot, however might me too much}	 	  
 
-\section{Oddaja prispevka}
 
-Prispevek oddajte v elektronski obliki preko formularja na spletni strani \cite{ERK}. Sprejemamo prispevke v formatu pdf (brez nastavljenih zaščitnih gesel) ali Microsoft Word. Pred oddajo prispevka prosimo preverite dodatne informacije za avtorje, ki so na spletnih straneh. 
 
-Formular za elektronsko oddajo prispevkov bo aktiviran v juniju, rok za oddajo je \textbf{13. julij 2014}. Avtorje bomo obvestili o izboru konec avgusta.
+\section{Conclusions and further development}
+
+\todocomment{ADD}
 
 \small
 \begin{thebibliography}{1}
