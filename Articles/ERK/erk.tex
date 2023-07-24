@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage[top=22.5mm, bottom=22.5mm, left=22.5mm, right=22.5mm]{geometry}
+
 \usepackage{float}  % add this in your preamble (before \begin{document})
 
 
@@ -99,7 +100,7 @@ Damping, represented by the term $k_{damp}$ in the Moore-Penrose pseudo-inverse 
 	\label{eq:moore_penrose}
 \end{equation}
     
-The null space of the Jacobian corresponds to those joint motions which produce no movement in the end-effector. The primary task for our robot is the desired end-effector movement. The secondary task of obstacle avoidance in our research takes advantage of this null-space motion. Our method applies a repulsive velocity from detected obstacles in the environment. We calculate this velocities at certain points that are positioned on the manipulator arm segments. The robot arm is thus able to carry out the primary task while simultaneously avoiding obstacles by appropriately utilizing its redundant DOF.
+The null space of the Jacobian corresponds to those joint motions which produce no movement in the end-effector. The primary task for our robot is the desired end-effector movement. The secondary task of obstacle avoidance in our research takes advantage of this null-space motion~\cite{lajpah_Petri_2012}. Our method applies a repulsive velocity from detected obstacles in the environment. We calculate this velocities at certain points that are positioned on the manipulator arm segments. The robot arm is thus able to carry out the primary task while simultaneously avoiding obstacles by appropriately utilizing its redundant DOF.
 
 \todocomment{cite Tadej?}
 
@@ -118,9 +119,6 @@ The null space of the Jacobian corresponds to those joint motions which produce 
 
 \todocomment{add references to equations in text}
 
-\todocomment{probably needs shortening \\
-			 add kinematics equations}
-		 
 \todocomment{želena sredinska lega sklepov}
 
 
@@ -220,39 +218,48 @@ In our end-effector motion planning approach, we leverage derivatives of the att
 
 Additionally, we can augment our velocity component with repulsive fields, which are calculated using the convolutional kernel technique. This enables us to guide the end-effector around obstacles smoothly, ensuring safe and collision-free navigation while dynamically adapting to the environment. By integrating both the attractive and repulsive field contributions, our motion planning approach ensures efficient and effective trajectory generation, enabling the robotic manipulator to reach its desired goal while avoiding potential obstacles in the workspace.
 
-\todocomment{- we use APF for primary task\\
-			 - attractive field calculating \\
-			 	 - repulsive field is same as avoidance velocities}
+\todocomment{ - attractive field calculating equation }
 
 
 
 \section{Experiment and Results}
-
-\todocomment{- The wall visualization with robot and wall and "dy beam" and dy arrow. \\
-				(with and without avoidance 3 to 5 keypoints) \\
-		 	  }
 	 	  
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Repulsive-Velocities-Along-the-Y-Axis-wide.eps}
-	\caption{Repulsive Velocities Along the Y Axis}
+	\caption{Plot depicting avoidance velocities (x, y, z) as calculated by our kernel along the y-axis, showing the robot's adaptive movement away from the wall obstacle.}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Y-Positions.eps}
-	\caption{Repulsive Velocities Along the Y Axis}
+	\caption{Comparative visualization of the y-position of the robot's fourth joint with and without the secondary avoidance task, highlighting the impact of the repulsive force.}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{7-DOF_Robot_Positions_Standard_vs_Avoidance.eps}
-	\caption{Repulsive Velocities Along the Y Axis}
+	\caption{3D model displaying the final position of the robot, contrasting the scenarios with and without the implementation of joint 4 obstacle avoidance.}
 \end{figure}
-	 	  
-\todocomment{Maybe add joint positions plot, however might me too much}	 	  
+	 	 
 
+Our proposed algorithm was tested using a kinematic model of the 7 Degrees of Freedom (DoF) Panda Emika robot, we implemented within the MATLAB environment. This robot was selected for its operational versatility, thus serving to underscore the robustness and flexibility of our approach.
 
+The end-effector's motion was controlled using the attractive field method, serving as the primary task. This was complemented by the repulsive field method implemented as a secondary task, with the specific aim of maneuvering a point on the fourth joint of the robot as far away from the obstacle - in this case, a simple wall - as possible.
+
+To compute the joint positions, we used joint velocities derived through inverse kinematics, incorporating the aforementioned secondary tasks. We then applied numerical integration to these velocities to model the robot's motion in a simulated environment.
+
+An additional secondary task was also introduced, aimed at ensuring the manipulator's mid-joints remained in an upright position. This secondary task, aimed at maintaining the robot's "elbow" at the top, further reinforced the robot's upright posture while executing the primary task and the obstacle avoidance task.
+
+Figure 3 illustrates the avoidance velocities in the x, y, and z directions, computed by our kernel, when its center aligns with various points along the y-axis. Here, the y-coordinates are presented on the x-axis, and the corresponding velocities are plotted on the y-axis. As expected, the y-velocity is the only component exhibiting non-zero values. It effectively propels the robot away from the wall, moving in either a positive or negative direction, depending on the relative position to the wall. Conversely, the x and z velocities remain zero, reflecting the absence of obstacles along these axes. This aligns with our expectations given the presence of the wall obstacle is only along the y direction.
+
+In Figure 4, we observe the variation in the y-position of the fourth joint, both with and without the implementation of the secondary avoidance task. The corresponding plot beneath the image illustrates the diminishing repulsive force as the robot moves further away from the wall obstacle. The rate and function of this decrement can be modulated by altering the dimensions and values within the kernel.
+
+Figure 5 presents a 3D model depicting the final position of the robot, showcasing both scenarios—with the implementation of the joint 4 obstacle avoidance (illustrated in green) and without it (depicted in red).
+
+The figure also highlights how the application of the avoidance algorithm prevents the fourth joint from moving closer to the wall, as compared to when the avoidance algorithm is not employed. The position of the joint, upon task completion, is noted to be approximately 20 cm further away from the wall. 
+
+Although these preliminary results demonstrate the efficacy of our proposed approach, further testing of the proposed method is needed to analyse  its adaptability in more complex operational environments.
 
 \section{Conclusions and further development}
 
@@ -288,6 +295,15 @@ In \textit{Proceedings. 1998 IEEE International Conference on Robotics and Autom
 vol. 2, pp. 1572–1577, May 1998.
 DOI: 10.1109/ROBOT.1998.677362
 
+\bibitem{lajpah_Petri_2012}
+\textit{Obstacle Avoidance for Redundant Manipulators as Control Problem},
+Leon Lajpah and Tadej Petri,
+In: \textit{Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization},
+edited by Serdar Kucuk,
+InTech, March 2012,
+ISBN: 978-953-51-0437-7,
+DOI: 10.5772/32651,
+Language: English.
 
 
 
