@@ -36,7 +36,9 @@
 %\thispagestyle{empty}
 
 \begin{abstract}{Abstract}
-\todocomment{ADD}
+
+This study proposes a method for real-time obstacle avoidance in robotic arm control, leveraging a 3D voxel grid and 3D directional kernels. The approach integrates the benefits of convolutional techniques with the spatial understanding provided by voxel grid representation to efficiently calculate movement directions while evading obstacles. By focusing on kinematics and obstacle grid representation, the method efficiently utilizes the versatility of a 7-degree-of-freedom (DOF) robot arm, employing geometric and differential kinematics for movement calculations. The strategy doesn't require exhaustive training as with neural networks, making it deployable in various environments.
+
 \end{abstract}
 
 
@@ -49,8 +51,6 @@ Robotic manipulators, specifically those with a high degree of freedom (DOF), po
 In this research, we specifically consider a 7-DOF Franka Panda Emika~\cite{Franka2021} manipulator. When controlling both the position and orientation of the end-effector in a 3D space, which requires six degrees of freedom (three for position and three for orientation), a 7-DOF manipulator such as the Panda Emika has one redundant degree. However, when controlling only the position, which requires three degrees of freedom, the manipulator possesses four redundant degrees. This redundancy grants the manipulator an essential characteristic: an infinite number of possible joint configurations to reach a specific end-effector (EE) point in space.
 
 When dealing with redundant manipulators, task prioritization is crucial. In our approach, we distinguish between primary and secondary tasks. The primary task of the manipulator is usually defined as reaching a desired EE position and orientation or as following a trajectory made out of such points. In this work we instead use APF (Artificial Potential Field), to guide the EE towards the goal position, while avoiding the obstacles in the path of the EE. Operating in a real-world environment often requires considering secondary tasks, such as real-time obstacle avoidance, to ensure safe and uninterrupted operation of the manipulator.
-
-\todocomment{IMAGE OF THE TASK}
 
 This paper proposes a novel method for real-time obstacle avoidance of the manipulator arm. We use an obstacle grid combined with convolution techniques to assign avoidance directions to each manipulator segment, ensuring efficient and safe maneuvering within complex environments. 
 
@@ -79,7 +79,7 @@ The Vector Field Histogram~\cite{Borenstein1991} (VFH) method presents another a
 
 Our proposed approach uses a 3D occupancy or voxel grid and 3D directional kernels, akin to 2D Sobel filters, to perform kernel convolution and calculate the direction in which to move the robot arm to avoid obstacles. This method marries the benefits of convolutional approaches with the intuitive spatial reasoning provided by a voxel grid representation.
 
-The primary strength of this method is its ability to swiftly calculate directional guidance for the robot arm in real-time. By using a voxel grid, we can efficiently represent the 3D environment, and the use of 3D directional kernels allows for robust calculations of obstacle proximity and directions of free space. This is beneficial in dynamic environments where quick responses are required. Moreover, this approach does not require extensive training as with neural networks, making it easier to deploy in new environments. 
+The primary strength of the proposed method is its ability to swiftly calculate directional guidance for the robot arm in real-time. By using a voxel grid, we can efficiently represent the 3D environment, and the use of 3D directional kernels allows for robust calculations of obstacle proximity and directions of free space. This is beneficial in dynamic environments where quick responses are required. Moreover, this approach does not require extensive training as with neural networks, making it easier to deploy in new environments. 
 
 \section{Methodology }
 
@@ -164,13 +164,6 @@ Subsequently, the avoidance velocity in the Cartesian coordinate system is obtai
 v = \sum_{i}\sum_{j}\sum_{k} a_{ijk} 
 \label{summation}
 \end{equation}
-
-%\[
-%v = \sum_{x}\sum_{y}\sum_{z} a_{xyz} ~c_{xyz}
-%\]
-
-
-
 
 \subsection{Convolution Kernel}
 
@@ -263,7 +256,29 @@ Although these preliminary results demonstrate the efficacy of our proposed appr
 
 \section{Conclusions and further development}
 
-\todocomment{ADD}
+%This paper presented a novel approach to robotic motion planning, combining the application of kernel convolution for obstacle avoidance velocity calculations with an integration of attractive and repulsive field velocities for end-effector trajectory generation and robot joint obstacle avoidance. The method was validated using the kinematic model of a 7 DoF Panda Emika robot, demonstrating its operational versatility and adaptability in varying workspace conditions.
+%
+%Notable advantages of our approach include its simplicity and the fact that we work directly in the obstacle space grid, negating the necessity for calculating the spatial primitives of shapes. Moreover, when implemented in parallel, our method exhibits high computational efficiency, making it a viable solution for real-time applications. The experiments conducted effectively showcased that the end-effector could move efficiently towards the target while successfully avoiding obstacles, specifically, a wall in this instance.
+%
+%Our results affirmed the robustness of the proposed approach, as evidenced by the robot's fourth joint being approximately 20 cm further from the wall upon task completion when the avoidance algorithm was employed.
+%
+%Despite the promising initial results, our approach does present some limitations. Particularly, the possibility of encountering local minima traps poses a significant challenge. Although these traps could be potentially mitigated by incorporating multiple convolutional kernels of varying sizes, it would result in an approach similar to convolutional neural networks (CNNs), adding to the complexity and computational cost of the algorithm.
+%
+%Additionally, we acknowledge that our study was conducted under simplified conditions with a single type of obstacle. As such, future work should focus on validating the proposed method in more complex environments, with different obstacle types, shapes, and densities, to further ascertain its adaptability and robustness. It may also be beneficial to explore the integration of other optimization strategies and machine learning techniques to further enhance the overall efficiency and effectiveness of the trajectory planning process.
+%
+%In conclusion, our work serves as a solid foundation for the development of more advanced and dynamic motion planning algorithms.
+
+This paper presented a novel approach to robotic motion planning, combining the application of kernel convolution for obstacle avoidance velocity calculations with an integration of attractive and repulsive field velocities for end-effector trajectory generation and robot joint obstacle avoidance. The method was validated using the kinematic model of a 7 DoF Panda Emika robot, demonstrating its operational versatility and adaptability in varying workspace conditions.
+
+Notable advantages of our approach include its simplicity and the fact that we work directly in the obstacle space grid, negating the necessity for calculating the spatial primitives of shapes. Moreover, when implemented in parallel, our method exhibits high computational efficiency, making it a viable solution for real-time applications. The experiments conducted effectively showcased that the end-effector could move efficiently towards the target while successfully avoiding obstacles, specifically, a wall in this instance.
+
+Our results affirmed the robustness of the proposed approach, as evidenced by the robot's fourth joint being approximately 20 cm further from the wall upon task completion when the avoidance algorithm was employed.
+
+Despite its effectiveness, the approach could potentially fall into local minima traps. This limitation could be addressed by incorporating multiple convolutional kernels, though this would increase complexity and resemble convolutional neural networks.
+
+Additionally, we acknowledge that our study was conducted under simplified conditions with a single type of obstacle. As such, future work should focus on validating the proposed method in more complex environments, with different obstacle types, shapes, and densities, to further ascertain its adaptability and robustness. It may also be beneficial to explore the integration of other optimization strategies and machine learning techniques to further enhance the overall efficiency and effectiveness of the trajectory planning process.
+
+
 
 \small
 \begin{thebibliography}{1}
