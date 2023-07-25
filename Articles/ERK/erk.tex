@@ -54,9 +54,6 @@ When dealing with redundant manipulators, task prioritization is crucial. In our
 
 This paper proposes a novel method for real-time obstacle avoidance of the manipulator arm. We use an obstacle grid combined with convolution techniques to assign avoidance directions to each manipulator segment, ensuring efficient and safe maneuvering within complex environments. 
 
-
-\todocomment{Dodaj opis poglavij.}
-
 \section{Background and Related Work}
 
 %The execution of the secondary task of obstacle avoidance necessitates an understanding of the spatial relationship between the manipulator and surrounding obstacles, usually quantified as a distance or interpreted as a repulsive force. By conceptualizing obstacles as sources of repulsive forces, the manipulator can be guided away from potential collisions, akin to how two magnets of the same polarity repel each other.
@@ -101,8 +98,6 @@ Damping, represented by the term $k_{damp}$ in the Moore-Penrose pseudo-inverse 
 \end{equation}
     
 The null space of the Jacobian corresponds to those joint motions which produce no movement in the end-effector. The primary task for our robot is the desired end-effector movement. The secondary task of obstacle avoidance in our research takes advantage of this null-space motion~\cite{lajpah_Petri_2012}. Our method applies a repulsive velocity from detected obstacles in the environment. We calculate this velocities at certain points that are positioned on the manipulator arm segments. The robot arm is thus able to carry out the primary task while simultaneously avoiding obstacles by appropriately utilizing its redundant DOF.
-
-\todocomment{cite Tadej?}
 
 \begin{equation}
 	N = (I - J^{\dagger}(q)J(q))
