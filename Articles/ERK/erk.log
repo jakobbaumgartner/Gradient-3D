@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  25 JUL 2023 16:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  25 JUL 2023 16:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -406,7 +406,7 @@ Overfull \hbox (0.5963pt too wide) in paragraph at lines 274--275
  []
 
 [5 <./7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-converted-to.pdf>]
-Underfull \hbox (badness 2027) in paragraph at lines 289--293
+Underfull \hbox (badness 2027) in paragraph at lines 291--295
 []\OT1/ptm/m/n/9 M. Du-gu-le-ana, F. G. Bar-bu-ce-anu, A. Tei-rel-bar, and
  []
 
@@ -434,7 +434,7 @@ b/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Us
 ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Us
 ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Us
 ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on erk.pdf (6 pages, 287444 bytes).
+Output written on erk.pdf (6 pages, 287465 bytes).
 PDF statistics:
  105 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
