@@ -7,7 +7,7 @@
 \usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{xcolor}
-% \usepackage{easyReview}
+ \usepackage{easyReview}
 \usepackage[top=22.5mm, bottom=22.5mm, left=22.5mm, right=22.5mm]{geometry}
 
 \usepackage{float}  % add this in your preamble (before \begin{document})
@@ -49,9 +49,9 @@ This study proposes a method for real-time obstacle avoidance in robotic arm con
 
 Robotic manipulators, specifically those with a high degree of freedom (DOF), possess a crucial characteristic known as kinematic redundancy~\cite{Nguyen1991}. Kinematic redundancy refers to having more joints (i.e., degrees of freedom - DOF) than required to perform a task, thus allowing the robot to adopt multiple configurations to accomplish the same end-effector position and orientation. This redundancy provides a considerable advantage, making it possible for manipulators to optimize movement according to different criteria, such as energy efficiency, obstacle avoidance, or joint limit avoidance.
 
-In this research, we specifically consider a 7-DOF Franka Panda Emika~\cite{Franka2021} manipulator. When controlling both the position and orientation of the end-effector in a 3D space, which requires six degrees of freedom (three for position and three for orientation), a 7-DOF manipulator such as the Panda Emika has one redundant degree. However, when controlling only the position, which requires three degrees of freedom, the manipulator possesses four redundant degrees. This redundancy grants the manipulator an essential characteristic: an infinite number of possible joint configurations to reach a specific end-effector (EE) point in space.
+In this research, we specifically consider a 7-DOF Franka Panda Emika~\cite{Franka2021} manipulator. When controlling both the position and orientation of the end-effector in a 3D space, which requires six degrees of freedom (three for position and three for orientation), a 7-DOF manipulator has one redundant degree. However, when controlling only the position, which requires three degrees of freedom, the manipulator possesses four redundant degrees. This redundancy grants the manipulator an essential characteristic: an infinite number of possible joint configurations to reach a specific end-effector (EE) point in space.
 
-When dealing with redundant manipulators, task prioritization is crucial. In our approach, we distinguish between primary and secondary tasks. The primary task of the manipulator is usually defined as reaching a desired EE position and orientation or as following a trajectory made out of such points. In this work we instead use APF (Artificial Potential Field), to guide the EE towards the goal position, while avoiding the obstacles in the path of the EE. Operating in a real-world environment often requires considering secondary tasks, such as real-time obstacle avoidance, to ensure safe and uninterrupted operation of the manipulator.
+When dealing with redundant manipulators, task prioritization is crucial. In our approach, we distinguish between primary and secondary tasks. The primary task of the manipulator is usually defined as reaching a desired EE position and orientation or as following a path made out of such points. In this work we instead use APF (Artificial Potential Field), to guide the EE towards the goal position, while avoiding the obstacles in the path of the EE. Operating in a real-world environment often requires considering secondary tasks, such as real-time obstacle avoidance, to ensure safe and uninterrupted operation of the manipulator.
 
 This paper proposes a novel method for real-time obstacle avoidance of the manipulator arm. We use an obstacle grid combined with convolution techniques to assign avoidance directions to each manipulator segment, ensuring efficient and safe maneuvering within complex environments. 
 
@@ -67,13 +67,11 @@ This paper proposes a novel method for real-time obstacle avoidance of the manip
 
 The execution of the secondary task of obstacle avoidance necessitates an understanding of the spatial relationship between the manipulator and surrounding obstacles, usually quantified as a distance or interpreted as a repulsive force. By conceptualizing obstacles as sources of repulsive forces, the manipulator can be guided away from potential collisions, akin to how two magnets of the same polarity repel each other.
 
-\todocomment{check that repulsive - avoidance is well changed (READ TEXT)}
-
 Two commonly employed methods for obstacle avoidance include artificial potential field methods (APF)~\cite{Khatib1985} and artificial neural networks. In potential field methods, the robot and obstacles are treated as charged entities. The robot is attracted to the target (goal) while being repelled by obstacles, resulting in a potential field. The robot navigates this field, moving along the path of steepest descent. While this method is intuitive and relatively easy to implement, it can sometimes result in local minima problems where the robot gets stuck in a position that is not the target but cannot find a path due to the repelling obstacles.
 
 Artificial neural networks (ANNs) are another prevalent approach, offering potential solutions to the local minima problem. By learning to map sensor readings to appropriate actions, ANNs can be trained to successfully navigate complex environments. However, they require extensive training and can be computically intensive.
 
-An advanced version of ANNs in the context of 3D obstacle detection and avoidance is the use of 3D Convolutional Neural Networks (3D-CNNs)~\cite{Duguleana2011}. While not strictly a path planning method, 3D-CNNs can be trained to recognize obstacles and free space in 3D occupancy data. The convolutional layers in the network can learn spatial hierarchies and structures, and the final layers can output a direction or action to take. These methods, although effective, require extensive training data and computational resources, however it is capable to recognizing and avoiding some local minima. 
+An advanced version of ANNs in the context of 3D obstacle detection and avoidance is the use of 3D Convolutional Neural Networks (3D-CNNs)~\cite{Duguleana2011}. While not strictly a path planning method, 3D-CNNs can be trained to recognize obstacles and free space in 3D occupancy data. The convolutional layers in the network can learn spatial hierarchies and structures, and the final layers can output a direction or action to take. These methods, although effective, require extensive training data and computational resources, however they are capable of learning to an extent to recognize and avoid some local minima. 
 
 The Vector Field Histogram~\cite{Borenstein1991} (VFH) method presents another approach. This method uses a 2D histogram grid as a spatial representation of the environment. The histogram cells are updated based on the proximity and angle of obstacles. Then a primary polar histogram is calculated from the grid cells, leading to a candidate valley for navigation. While originally developed for 2D, this method was later extended to 3D as VFH+~\cite{Ulrich1998}.
 
@@ -113,10 +111,10 @@ The null space (eq.~\ref{eq:Null-Space}) of the Jacobian corresponds to those jo
 \end{equation}
 
 
-We integrated a supplementary secondary task aiming to maintain the robot manipulator's joints as close to the midpoint of their range ( between $q(i)_{max}$ and $q(i)_{min}$ for the i-th joint ) as possible ( eq.~\ref{eq:mid-joints}). This auxiliary task, designed to elevate the robot's "elbow", reinforced the robot's upright posture during the execution of the primary task and the obstacle avoidance task.
+We integrated a supplementary secondary task aiming to maintain the robot manipulator's joints as close to the midpoint of their range ( between $q(i)_{max}$ and $q(i)_{min}$ for the i-th joint ) as possible ( eq.~\ref{eq:mid-joints}). $w(i)_m$ weights the importance of each joints position. This auxiliary task, designed to elevate the robot's "elbow", reinforced the robot's upright posture during the execution of the primary task and the obstacle avoidance task.
 
 \begin{equation}
-	\dot{q}_{mid}(i) = w_m \left( \frac{q(i)_{max}-q(i)_{min}}{2} - q(i)\right) 
+	\dot{q}_{mid}(i) = w(i)_m \left( \frac{q(i)_{max}-q(i)_{min}}{2} - q(i)\right) 
 	\label{eq:mid-joints}
 \end{equation}
 
@@ -156,7 +154,7 @@ By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between
 	\label{eq:hadamard}
 \end{equation}
 
-Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained by summing all the values in the resulting matrix (eq.~\ref{eq:summation}), which can be represented as:
+Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained (eq.~\ref{eq:summation}) by summing all the values in the resulting matrix $C_d$, which can be represented as:
 
 \begin{equation}
 	\dot{x}_{poi} = \sum_{i}\sum_{j}\sum_{k} c_{dijk} 
@@ -200,13 +198,9 @@ To optimize obstacle detection, we have explored the idea of reducing the kernel
 \subsection{Attractive Field}
 
 
-In our end-effector motion planning approach, we leverage derivatives of the attractive field to facilitate efficient trajectory generation. Prior to commencing motion planning, we construct a distance matrix, analogous in size to the matrix representing the obstacles. This distance matrix encompasses distance values from our designated goal point, corresponding to each voxel in the workspace. Subsequently, we employ interpolation techniques to estimate the value at the current end-effector (EE) point by considering the distance field values of the eight neighboring voxels and the distances of the current EE pose relative to these eight values. By performing interpolation between two points, we effectively calculate the numerical derivative of distance change, thereby obtaining the EE velocity. This approach enables us to navigate the robotic manipulator smoothly towards the desired goal while considering the surrounding obstacle space.
+In our end-effector motion planning approach, we leverage derivatives of the attractive field to facilitate efficient path generation. Prior to commencing motion planning, we construct a distance matrix, analogous in size to the matrix representing the obstacles. This distance matrix encompasses distance values from our designated goal point, corresponding to each voxel in the workspace. Subsequently, we employ interpolation techniques to estimate the value at the current end-effector (EE) point by considering the distance field values of the eight neighboring voxels and the distances of the current EE pose relative to these eight values. By performing interpolation between two points, we effectively calculate the numerical derivative of distance change, thereby obtaining the EE velocity. This approach enables us to navigate the robotic manipulator smoothly towards the desired goal while considering the surrounding obstacle space.
 
-Additionally, we can augment our EE velocity with obstacles avoidance component, which is calculated using the convolutional kernel technique. This enables us to guide the end-effector around obstacles smoothly, ensuring safe and collision-free navigation while dynamically adapting to the environment. By integrating both the attractive and avoidance field contributions, our motion planning approach ensures efficient and effective trajectory generation, enabling the robotic manipulator to reach its desired goal while avoiding potential obstacles in the workspace.
-
-\todocomment{ - attractive field calculating equation }
-
-
+Additionally, we can augment our EE velocity with obstacles avoidance component, which is calculated using the convolutional kernel technique. This enables us to guide the end-effector around obstacles smoothly, ensuring safe and collision-free navigation while dynamically adapting to the environment. By integrating both the attractive and avoidance field contributions, our motion planning approach ensures efficient and effective path generation, enabling the robotic manipulator to reach its desired goal while avoiding potential obstacles in the workspace.
 
 \section{Experiment and Results}
 	 	  
@@ -262,21 +256,15 @@ Although these preliminary results demonstrate the efficacy of our proposed appr
 %
 %In conclusion, our work serves as a solid foundation for the development of more advanced and dynamic motion planning algorithms.
 
-This paper presented a novel approach to robotic motion planning, combining the application of kernel convolution for obstacle avoidance velocity calculations with an integration of attractive and avoidance velocities components for end-effector trajectory generation and robot joint obstacle avoidance. The method was validated using the kinematic model of a 7 DoF Panda Emika robot, demonstrating its operational versatility and adaptability in varying workspace conditions.
+This paper presented an approach to robotic motion planning, combining the application of kernel convolution for obstacle avoidance velocity calculations with an integration of attractive and avoidance velocities components for end-effector path generation and manipulator body poi obstacle avoidance. The method was validated using the kinematic model of a 7-DOF Panda Emika robot, demonstrating its operational versatility and adaptability in varying workspace conditions.
 
-Notable advantages of our approach include its simplicity and the fact that we work directly in the obstacle space grid, negating the necessity for calculating the spatial primitives of shapes. Moreover, when implemented in parallel, our method exhibits high computational efficiency, making it a viable solution for real-time applications. The experiments conducted effectively showcased that the end-effector could move efficiently towards the target while successfully avoiding obstacles, specifically, a wall in this instance.
+Notable advantages of our approach include its simplicity and the fact that we work directly in the obstacle space grid, negating the necessity for calculating the spatial primitives of obstacles shapes. Moreover, when implemented in parallel, our method exhibits high computational efficiency, making it a viable solution for real-time applications. The experiments conducted effectively showcased that the end-effector could move efficiently towards the target while successfully avoiding obstacles, specifically, a wall in this instance.
 
-Our results affirmed the robustness of the proposed approach, as evidenced by the robot's fourth joint being approximately 20 cm further from the wall upon task completion when the avoidance algorithm was employed.
+Our results affirmed the working of the proposed approach, as evidenced by the robot's fourth joint being approximately 20 cm further from the wall upon task completion when the avoidance algorithm was employed.
 
 Despite its effectiveness, the approach could potentially fall into local minima traps. This limitation could be addressed by incorporating multiple convolutional kernels, though this would increase complexity and resemble convolutional neural networks.
 
-Additionally, we acknowledge that our study was conducted under simplified conditions with a single type of obstacle. As such, future work should focus on validating the proposed method in more complex environments, with different obstacle types, shapes, and densities, to further ascertain its adaptability and robustness. It may also be beneficial to explore the integration of other optimization strategies and machine learning techniques to further enhance the overall efficiency and effectiveness of the trajectory planning process.
-
-\todocomment{add a note about picking up multiple POI}
-
-\todocomment{add note that this is just a part of algorithm development}
-
-
+Additionally, we acknowledge that our study was conducted under simplified conditions with a single type of obstacle. This is just a beginning of our work on this project and as such, future work will focus on validating the proposed method in more complex environments, with different obstacle types, shapes, and densities, to further ascertain its adaptability and robustness. It may also be beneficial to explore the integration of other optimization strategies and machine learning techniques to further enhance the overall efficiency and effectiveness of the path planning process. We intend to investigate the optimal strategy for choosing the best points on the robot for obstacle avoidance. Our future work will consider whether it is more advantageous to task the robot with multiple secondary avoidance velocities concurrently, or to only select the closest to the obstacle (largest) avoidance velocity, or to utilize a combination of both.
 
 \small
 \begin{thebibliography}{1}
@@ -310,7 +298,7 @@ DOI: 10.1109/ROBOT.1998.677362
 
 \bibitem{lajpah_Petri_2012}
 \textit{Obstacle Avoidance for Redundant Manipulators as Control Problem},
-Leon Lajpah and Tadej Petri,
+Leon Žlajpah and Tadej Petrič,
 In: \textit{Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization},
 edited by Serdar Kucuk,
 InTech, March 2012,
