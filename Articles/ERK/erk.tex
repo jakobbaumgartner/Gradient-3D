@@ -7,6 +7,7 @@
 \usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{xcolor}
+% \usepackage{easyReview}
 \usepackage[top=22.5mm, bottom=22.5mm, left=22.5mm, right=22.5mm]{geometry}
 
 \usepackage{float}  % add this in your preamble (before \begin{document})
@@ -66,6 +67,8 @@ This paper proposes a novel method for real-time obstacle avoidance of the manip
 
 The execution of the secondary task of obstacle avoidance necessitates an understanding of the spatial relationship between the manipulator and surrounding obstacles, usually quantified as a distance or interpreted as a repulsive force. By conceptualizing obstacles as sources of repulsive forces, the manipulator can be guided away from potential collisions, akin to how two magnets of the same polarity repel each other.
 
+\todocomment{check that repulsive - avoidance is well changed (READ TEXT)}
+
 Two commonly employed methods for obstacle avoidance include artificial potential field methods (APF)~\cite{Khatib1985} and artificial neural networks. In potential field methods, the robot and obstacles are treated as charged entities. The robot is attracted to the target (goal) while being repelled by obstacles, resulting in a potential field. The robot navigates this field, moving along the path of steepest descent. While this method is intuitive and relatively easy to implement, it can sometimes result in local minima problems where the robot gets stuck in a position that is not the target but cannot find a path due to the repelling obstacles.
 
 Artificial neural networks (ANNs) are another prevalent approach, offering potential solutions to the local minima problem. By learning to map sensor readings to appropriate actions, ANNs can be trained to successfully navigate complex environments. However, they require extensive training and can be computically intensive.
@@ -78,7 +81,7 @@ Our proposed approach uses a 3D occupancy or voxel grid and 3D directional kerne
 
 The primary strength of the proposed method is its ability to swiftly calculate directional guidance for the robot arm in real-time. By using a voxel grid, we can efficiently represent the 3D environment, and the use of 3D directional kernels allows for robust calculations of obstacle proximity and directions of free space. This is beneficial in dynamic environments where quick responses are required. Moreover, this approach does not require extensive training as with neural networks, making it easier to deploy in new environments. 
 
-\section{Methodology }
+\section{Methodology}
 
 \subsection{Kinematics}
 
@@ -88,16 +91,16 @@ Geometric kinematics (also known as forward and inverse kinematics) focuses on t
 
 Differential kinematics, also known as the robots Jacobian, forms the foundation of robot velocity analysis. The Jacobian matrix, often represented as $J$, encapsulates the relationship between the joint velocities and the end-effector linear and angular velocities. It's derived from the partial derivatives of the forward kinematics.
 
-The Jacobian matrix is a key element in the control of robotic manipulators. It can also be used for computing the inverse kinematics problem. However, for a 7-DOF manipulator, the Jacobian matrix is not square and its inverse does not exist in a traditional sense. In such cases, we resort to the pseudo-inverse of the Jacobian, calculated using the Moore-Penrose method. The Moore-Penrose pseudo-inverse, denoted as $J^+$, provides an approximation of the inverse for non-square matrices. 
+The Jacobian matrix is a key element in the control of robotic manipulators. It can also be used for computing the inverse differential kinematics problem. However, for a 7-DOF manipulator, the Jacobian matrix is not square and its inverse does not exist in a traditional sense. In such cases, we resort to the pseudo-inverse of the Jacobian, calculated using the Moore-Penrose method (eq.~\ref{eq:moore_penrose}). The Moore-Penrose pseudo-inverse, denoted as $J^+$, provides an approximation of the inverse for non-square matrices. 
 
-Damping, represented by the term $k_{damp}$ in the Moore-Penrose pseudo-inverse equation, is used to introduce stability and prevent potential numerical issues when computing the pseudo-inverse of the Jacobian for non-square matrices. It acts as a regularization term to ensure a well-conditioned solution.
+Damping, represented by the constant term $k_{damp}$ in the Moore-Penrose pseudo-inverse equation, is used to introduce stability and prevent potential numerical issues when computing the pseudo-inverse of the Jacobian for non-square matrices. It acts as a regularization term to ensure a well-conditioned solution.
 
 \begin{equation}   	
 	J^{\dagger} = (J^{T}J + k_{damp} ~I)^{-1}J^{T}
 	\label{eq:moore_penrose}
 \end{equation}
-    
-The null space of the Jacobian corresponds to those joint motions which produce no movement in the end-effector. The primary task for our robot is the desired end-effector movement. The secondary task of obstacle avoidance in our research takes advantage of this null-space motion~\cite{lajpah_Petri_2012}. Our method applies a repulsive velocity from detected obstacles in the environment. We calculate this velocities at certain points that are positioned on the manipulator arm segments. The robot arm is thus able to carry out the primary task while simultaneously avoiding obstacles by appropriately utilizing its redundant DOF.
+
+The null space (eq.~\ref{eq:Null-Space}) of the Jacobian corresponds to those joint motions which produce no movement in the end-effector. The primary task for our robot is the desired end-effector movement. The secondary task of obstacle avoidance in our research takes advantage of this null-space motion~\cite{lajpah_Petri_2012}. Our method applies an avoidance velocity from detected obstacles in the environment. We calculate this velocities at certain points of interest (POI) that are positioned on the manipulator arm segments. We transform avoidance velocities into the joint space velocities using $J^{\dagger}_{poi}$ jacobian calculated in the specific POI. These velocities we than transform into the null-space using matrix $N$. The robot arm is thus able to carry out the primary task while simultaneously avoiding obstacles by appropriately utilizing its redundant DOF (eq.~\ref{eq:manipulator_kinematics}). 
 
 \begin{equation}
 	N = (I - J^{\dagger}(q)J(q))
@@ -108,11 +111,6 @@ The null space of the Jacobian corresponds to those joint motions which produce 
 	\dot{q} = J^{\dagger}(q) \dot{x}_{ee} + N J^{\dagger}_{poi} \dot{x}_{poi}
 	\label{eq:manipulator_kinematics}
 \end{equation}
-
-\todocomment{check if "exact equation" gives better results}
-
-
-\todocomment{add references to equations in text}
 
 \todocomment{želena sredinska lega sklepov}
 
@@ -146,25 +144,23 @@ The process commences with kinematic transformations, which facilitate the mappi
 
 Once the mapping of these points to the voxel grid is completed, we proceed to employ a specialized kernel convolution method. This method is tailored to calculate the constituent parts of the avoidance velocity vector in the Cartesian space, specifically for the \(x\), \(y\), and \(z\) directions. For each direction, we generate the corresponding kernel and extract a segment of the obstacle grid of matching size, centered at the point of interest, resulting in two comparable 3D matrices—one from the obstacle grid $A_d$ and the other representing the kernel $K_d$.
 
-By employing the Hadamard (element-wise) product between the segment of the obstacle grid \(A_d\) and the corresponding 3D convolutional kernel \(K_d\) for direction \(d\), we derive the resultant matrix \(C_d\), which can be expressed as:
+By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between the cutout segment of the obstacle grid \(A_d\) and the corresponding 3D convolutional kernel \(K_d\) for direction \(d\), we derive the resultant matrix \(C_d\), which can be expressed as:
 
 \begin{equation}
 	C_d = A_d \odot K_d
 	\label{eq:hadamard}
 \end{equation}
 
-Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained by summing all the values in the resulting matrix, which can be represented as:
+Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained by summing all the values in the resulting matrix (eq.~\ref{eq:summation}), which can be represented as:
 
 \begin{equation}
-v = \sum_{i}\sum_{j}\sum_{k} a_{ijk} 
-\label{summation}
+	\dot{x}_{poi} = \sum_{i}\sum_{j}\sum_{k} c_{dijk} 
+	\label{eq:summation}
 \end{equation}
 
 \subsection{Convolution Kernel}
 
-Our convolutional kernels are essentially discrete differential operators in 3D space, and their design reflects this. These kernels bear a resemblance to the Sobel kernels, which are widely used in computer vision for edge detection and approximation of spatial derivatives. Each kernel has a primary axis aligned with the direction in which the avoidance velocity is being calculated, with the other two axes orthogonal to it. The kernel values along the primary axis exhibit a symmetric pattern: the highest value lies in the center of the kernel, with the absolute values decreasing uniformly on either side, with negative polarity on one side. This decrease simulates the derivative-like behavior of the kernel.
-
-\todocomment{add references to images in text}
+Our convolutional kernels are essentially discrete differential operators in 3D space, and their design reflects this. These kernels bear a resemblance to the Sobel kernels, which are widely used in computer vision for edge detection and approximation of spatial derivatives. Each kernel has a primary axis aligned with the direction in which the avoidance velocity is being calculated, with the other two axes orthogonal to it. The kernel values along the primary axis exhibit a symmetric pattern (Figure~\ref{Kernel main axis}): the highest value lies in the center of the kernel, with the absolute values decreasing uniformly on either side, with negative polarity on one side. This decrease simulates the derivative-like behavior of the kernel.
 
 \begin{figure}[H]
 	\centering
@@ -173,7 +169,7 @@ Our convolutional kernels are essentially discrete differential operators in 3D 
 	\label{Kernel main axis}
 \end{figure}
 
-Contrary to the design of a classical Sobel operator, our custom kernels don't contain zeroes along the primary axis. Instead, we assign the maximum kernel values along this line. This choice is specifically designed to meet our goal of obstacle avoidance. By doing so, when our points of interest on the robot manipulator coincide with an obstacle - effectively being 'right on top' of the obstacle in the voxel grid - the convolution operation yields a maximal repulsive velocity. This encourages the robot to move away from the obstacle and ensures safer navigation in the presence of potential collisions.
+Contrary to the design of a classical Sobel operator, our custom kernels don't contain zeroes along the primary axis. Instead, we assign the maximum kernel values along this line. This choice is specifically designed to meet our goal of obstacle avoidance. By doing so, when our points of interest on the robot manipulator coincide with an obstacle - effectively being 'right on top' of the obstacle in the voxel grid - the convolution operation yields a maximal avoidance velocity. This encourages the robot to move away from the obstacle and ensures safer navigation in the presence of potential collisions.
 
 However, the kernel values are not merely mirror images on each side of the kernel. While the absolute values are mirrored, the signed values are positive on one side and negative on the other. This sign difference is critical for calculating directional gradients.
 
@@ -184,14 +180,11 @@ However, the kernel values are not merely mirror images on each side of the kern
 	\label{Kernel matrix}
 \end{figure}
 
-\todocomment{while not the most important fix, currently values in matrix don't follow values used in experiments}
-
-
-In addition to the kernel values along the primary axis, the values along the orthogonal axes mimic the same pattern. These are derived from the primary axis values, decrease proportionally with the radial distance from the primary axis, and crucially, they maintain the same sign as dictated by the derivative along the primary axis. This symmetry in both magnitude and sign around the main axis is a fundamental characteristic of our kernels.
+In addition to the kernel values along the primary axis, the values along the orthogonal axes mimic the same pattern (Figure~\ref{Kernel matrix}). These are derived from the primary axis values, decrease proportionally with the radial distance from the primary axis, and crucially, they maintain the same sign as dictated by the derivative along the primary axis. This symmetry in both magnitude and sign around the main axis is a fundamental characteristic of our kernels.
 
 By applying these specialized kernels to the voxel grid at the locations of the points of interest, we compute the gradients that guide the robot arm's movements. This approach enables the arm to continue its primary task while dynamically avoiding any potential collisions with obstacles.
 
-The dimensions of the kernel, both along the primary axis and orthogonal to it, play crucial roles in determining the effective detection range and the nature of the repulsive avoidance velocity.
+The dimensions of the kernel, both along the primary axis and orthogonal to it, play crucial roles in determining the effective detection range and the nature of the avoidance velocity.
 
 The length of the kernel along the detection axis is dependent on the desired detection range for potential obstacles. Longer kernels can detect obstacles further away from the robot, essentially extending the 'safety zone' around the robot. Additionally, the rate at which the absolute values decrease when moving away from the center of the kernel along the detection axis determines the avoidance velocity profile as we move away from the obstacle. We have experimented with both linear and Gaussian decay profiles. The Gaussian profile, with its bell-curve distribution, generates an avoidance velocity that decreases exponentially as we move away from the obstacle, creating a softer transition compared to the linear profile.
 
@@ -204,7 +197,7 @@ To optimize obstacle detection, we have explored the idea of reducing the kernel
 
 In our end-effector motion planning approach, we leverage derivatives of the attractive field to facilitate efficient trajectory generation. Prior to commencing motion planning, we construct a distance matrix, analogous in size to the matrix representing the obstacles. This distance matrix encompasses distance values from our designated goal point, corresponding to each voxel in the workspace. Subsequently, we employ interpolation techniques to estimate the value at the current end-effector (EE) point by considering the distance field values of the eight neighboring voxels and the distances of the current EE pose relative to these eight values. By performing interpolation between two points, we effectively calculate the numerical derivative of distance change, thereby obtaining the EE velocity. This approach enables us to navigate the robotic manipulator smoothly towards the desired goal while considering the surrounding obstacle space.
 
-Additionally, we can augment our velocity component with repulsive fields, which are calculated using the convolutional kernel technique. This enables us to guide the end-effector around obstacles smoothly, ensuring safe and collision-free navigation while dynamically adapting to the environment. By integrating both the attractive and repulsive field contributions, our motion planning approach ensures efficient and effective trajectory generation, enabling the robotic manipulator to reach its desired goal while avoiding potential obstacles in the workspace.
+Additionally, we can augment our EE velocity with obstacles avoidance component, which is calculated using the convolutional kernel technique. This enables us to guide the end-effector around obstacles smoothly, ensuring safe and collision-free navigation while dynamically adapting to the environment. By integrating both the attractive and avoidance field contributions, our motion planning approach ensures efficient and effective trajectory generation, enabling the robotic manipulator to reach its desired goal while avoiding potential obstacles in the workspace.
 
 \todocomment{ - attractive field calculating equation }
 
@@ -216,34 +209,37 @@ Additionally, we can augment our velocity component with repulsive fields, which
 	\centering
 	\includegraphics[width=1.0\linewidth]{Repulsive-Velocities-Along-the-Y-Axis-wide.eps}
 	\caption{Plot depicting avoidance velocities (x, y, z) as calculated by our kernel along the y-axis, showing the robot's adaptive movement away from the wall obstacle.}
+	\label{y axis avoidance values}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Y-Positions.eps}
-	\caption{Comparative visualization of the y-position of the robot's fourth joint with and without the secondary avoidance task, highlighting the impact of the repulsive force.}
+	\caption{Comparative visualization of the y-position of the robot's fourth joint with and without the secondary avoidance task, highlighting the impact of the avoidance velocity component.}
+	\label{4 th joint plot}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\linewidth]{7-DOF_Robot_Positions_Standard_vs_Avoidance.eps}
 	\caption{3D model displaying the final position of the robot, contrasting the scenarios with and without the implementation of joint 4 obstacle avoidance.}
+	\label{3D model}
 \end{figure}
 	 	 
 
 Our proposed algorithm was tested using a kinematic model of the 7 Degrees of Freedom (DoF) Panda Emika robot, we implemented within the MATLAB environment. This robot was selected for its operational versatility, thus serving to underscore the robustness and flexibility of our approach.
 
-The end-effector's motion was controlled using the attractive field method, serving as the primary task. This was complemented by the repulsive field method implemented as a secondary task, with the specific aim of maneuvering a point on the fourth joint of the robot as far away from the obstacle - in this case, a simple wall - as possible.
+The end-effector's motion was controlled using the attractive field method, serving as the primary task. This was complemented by the avoidance field method implemented as a secondary task, with the specific aim of maneuvering a point on the fourth joint of the robot as far away from the obstacle - in this case, a simple wall - as possible.
 
 To compute the joint positions, we used joint velocities derived through inverse kinematics, incorporating the aforementioned secondary tasks. We then applied numerical integration to these velocities to model the robot's motion in a simulated environment.
 
 An additional secondary task was also introduced, aimed at ensuring the manipulator's mid-joints remained in an upright position. This secondary task, aimed at maintaining the robot's "elbow" at the top, further reinforced the robot's upright posture while executing the primary task and the obstacle avoidance task.
 
-Figure 3 illustrates the avoidance velocities in the x, y, and z directions, computed by our kernel, when its center aligns with various points along the y-axis. Here, the y-coordinates are presented on the x-axis, and the corresponding velocities are plotted on the y-axis. As expected, the y-velocity is the only component exhibiting non-zero values. It effectively propels the robot away from the wall, moving in either a positive or negative direction, depending on the relative position to the wall. Conversely, the x and z velocities remain zero, reflecting the absence of obstacles along these axes. This aligns with our expectations given the presence of the wall obstacle is only along the y direction.
+Figure~\ref{y axis avoidance values} illustrates the avoidance velocities in the x, y, and z directions, computed by our kernel, when its center aligns with various points along the y-axis. Here, the y-coordinates are presented on the x-axis, and the corresponding velocities are plotted on the y-axis. As expected, the y-velocity is the only component exhibiting non-zero values. It effectively propels the robot away from the wall, moving in either a positive or negative direction, depending on the relative position to the wall. Conversely, the x and z velocities remain zero, reflecting the absence of obstacles along these axes. This aligns with our expectations given the presence of the wall obstacle is only along the y direction.
 
-In Figure 4, we observe the variation in the y-position of the fourth joint, both with and without the implementation of the secondary avoidance task. The corresponding plot beneath the image illustrates the diminishing repulsive force as the robot moves further away from the wall obstacle. The rate and function of this decrement can be modulated by altering the dimensions and values within the kernel.
+In Figure~\ref{4 th joint plot}, we observe the variation in the y-position of the fourth joint, both with and without the implementation of the secondary avoidance task. The corresponding plot beneath the image illustrates the diminishing avoidance velocity as the robot moves further away from the wall obstacle. The rate and function of this decrement can be modulated by altering the dimensions and values within the kernel.
 
-Figure 5 presents a 3D model depicting the final position of the robot, showcasing both scenarios—with the implementation of the joint 4 obstacle avoidance (illustrated in green) and without it (depicted in red).
+Figure~\ref{3D model} presents a 3D model depicting the final position of the robot, showcasing both scenarios—with the implementation of the joint 4 obstacle avoidance (illustrated in green) and without it (depicted in red).
 
 The figure also highlights how the application of the avoidance algorithm prevents the fourth joint from moving closer to the wall, as compared to when the avoidance algorithm is not employed. The position of the joint, upon task completion, is noted to be approximately 20 cm further away from the wall. 
 
@@ -263,7 +259,7 @@ Although these preliminary results demonstrate the efficacy of our proposed appr
 %
 %In conclusion, our work serves as a solid foundation for the development of more advanced and dynamic motion planning algorithms.
 
-This paper presented a novel approach to robotic motion planning, combining the application of kernel convolution for obstacle avoidance velocity calculations with an integration of attractive and repulsive field velocities for end-effector trajectory generation and robot joint obstacle avoidance. The method was validated using the kinematic model of a 7 DoF Panda Emika robot, demonstrating its operational versatility and adaptability in varying workspace conditions.
+This paper presented a novel approach to robotic motion planning, combining the application of kernel convolution for obstacle avoidance velocity calculations with an integration of attractive and avoidance velocities components for end-effector trajectory generation and robot joint obstacle avoidance. The method was validated using the kinematic model of a 7 DoF Panda Emika robot, demonstrating its operational versatility and adaptability in varying workspace conditions.
 
 Notable advantages of our approach include its simplicity and the fact that we work directly in the obstacle space grid, negating the necessity for calculating the spatial primitives of shapes. Moreover, when implemented in parallel, our method exhibits high computational efficiency, making it a viable solution for real-time applications. The experiments conducted effectively showcased that the end-effector could move efficiently towards the target while successfully avoiding obstacles, specifically, a wall in this instance.
 
@@ -274,6 +270,8 @@ Despite its effectiveness, the approach could potentially fall into local minima
 Additionally, we acknowledge that our study was conducted under simplified conditions with a single type of obstacle. As such, future work should focus on validating the proposed method in more complex environments, with different obstacle types, shapes, and densities, to further ascertain its adaptability and robustness. It may also be beneficial to explore the integration of other optimization strategies and machine learning techniques to further enhance the overall efficiency and effectiveness of the trajectory planning process.
 
 \todocomment{add a note about picking up multiple POI}
+
+\todocomment{add note that this is just a part of algorithm development}
 
 
 
