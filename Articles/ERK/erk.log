@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  27 JUL 2023 15:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  27 JUL 2023 17:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -287,48 +287,48 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 ] [2]
-Overfull \hbox (1.63638pt too wide) in paragraph at lines 139--140
+Overfull \hbox (1.63638pt too wide) in paragraph at lines 144--145
 \OT1/ptm/m/n/10 In our appro-ach to ro-bot arm ob-sta-cle avo-i-dance, we apply
 
  []
 
 
-Overfull \hbox (5.03564pt too wide) in paragraph at lines 141--142
+Overfull \hbox (5.03564pt too wide) in paragraph at lines 146--147
 \OT1/ptm/m/n/10 from the ro-bot's con-fi-gu-ra-tion space to the Car-te-sian sp
 ace,
  []
 
-<kernel-mainvalues-colored.png, id=18, 615.4995pt x 176.45924pt>
+<kernel-mainvalues-colored.png, id=19, 615.4995pt x 176.45924pt>
 File: kernel-mainvalues-colored.png Graphic file (type png)
 <use kernel-mainvalues-colored.png>
-Package pdftex.def Info: kernel-mainvalues-colored.png  used on input line 167.
+Package pdftex.def Info: kernel-mainvalues-colored.png  used on input line 172.
 
 (pdftex.def)             Requested size: 182.09833pt x 52.2058pt.
-<kernel-matrix.png, id=20, 632.3625pt x 618.51076pt>
+<kernel-matrix.png, id=21, 632.3625pt x 618.51076pt>
 File: kernel-matrix.png Graphic file (type png)
 <use kernel-matrix.png>
-Package pdftex.def Info: kernel-matrix.png  used on input line 178.
+Package pdftex.def Info: kernel-matrix.png  used on input line 183.
 (pdftex.def)             Requested size: 193.48013pt x 189.23535pt.
 
-Overfull \hbox (0.4859pt too wide) in paragraph at lines 183--184
+Overfull \hbox (0.4859pt too wide) in paragraph at lines 188--189
 []\OT1/ptm/m/n/10 In ad-di-tion to the ker-nel va-lues along the pri-mary axis,
 
  []
 
 [3 <./kernel-mainvalues-colored.png> <./kernel-matrix.png>]
-Overfull \hbox (0.95566pt too wide) in paragraph at lines 200--201
+Overfull \hbox (0.95566pt too wide) in paragraph at lines 205--206
 \OT1/ptm/m/n/10 ob-sta-cles avo-i-dance com-po-nent, which is cal-cu-la-ted usi
 ng
  []
 
 
-Overfull \hbox (5.04596pt too wide) in paragraph at lines 200--201
+Overfull \hbox (5.04596pt too wide) in paragraph at lines 205--206
 \OT1/ptm/m/n/10 trac-tive and avo-i-dance fi-eld con-tri-bu-ti-ons, our mo-tion
  plan-
  []
 
 
-Overfull \hbox (0.73563pt too wide) in paragraph at lines 200--201
+Overfull \hbox (0.73563pt too wide) in paragraph at lines 205--206
 \OT1/ptm/m/n/10 de-si-red goal while avo-i-ding po-ten-tial ob-sta-cles in the 
 wor-
  []
@@ -344,7 +344,7 @@ Package epstopdf Info: Source file: <Repulsive-Velocities-Along-the-Y-Axis-wide
 (epstopdf)             Command: <miktex-epstopdf --outfile=Repulsive-Velocities
 -Along-the-Y-Axis-wide-eps-converted-to.pdf Repulsive-Velocities-Along-the-Y-Ax
 is-wide.eps>
-(epstopdf)             \includegraphics on input line 210.
+(epstopdf)             \includegraphics on input line 215.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -357,7 +357,7 @@ File: Repulsive-Velocities-Along-the-Y-Axis-wide-eps-converted-to.pdf Graphic f
 ile (type pdf)
 <use Repulsive-Velocities-Along-the-Y-Axis-wide-eps-converted-to.pdf>
 Package pdftex.def Info: Repulsive-Velocities-Along-the-Y-Axis-wide-eps-convert
-ed-to.pdf  used on input line 210.
+ed-to.pdf  used on input line 215.
 (pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
 Package epstopdf Info: Source file: <Y-Positions.eps>
 (epstopdf)                    date: 2023-07-24 14:35:25
@@ -367,7 +367,7 @@ Package epstopdf Info: Source file: <Y-Positions.eps>
 (epstopdf)                    size: 52537 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=Y-Positions-eps-conv
 erted-to.pdf Y-Positions.eps>
-(epstopdf)             \includegraphics on input line 217.
+(epstopdf)             \includegraphics on input line 222.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -377,7 +377,7 @@ lusion: found PDF version <1.7>, but at most version <1.5> allowed
 File: Y-Positions-eps-converted-to.pdf Graphic file (type pdf)
 <use Y-Positions-eps-converted-to.pdf>
 Package pdftex.def Info: Y-Positions-eps-converted-to.pdf  used on input line 2
-17.
+22.
 (pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
 Package epstopdf Info: Source file: <7-DOF_Robot_Positions_Standard_vs_Avoidanc
 e.eps>
@@ -390,7 +390,7 @@ e-eps-converted-to.pdf>
 (epstopdf)             Command: <miktex-epstopdf --outfile=7-DOF_Robot_Position
 s_Standard_vs_Avoidance-eps-converted-to.pdf 7-DOF_Robot_Positions_Standard_vs_
 Avoidance.eps>
-(epstopdf)             \includegraphics on input line 224.
+(epstopdf)             \includegraphics on input line 229.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -403,21 +403,21 @@ File: 7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-converted-to.pdf Graphic
 file (type pdf)
 <use 7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-converted-to.pdf>
 Package pdftex.def Info: 7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-conver
-ted-to.pdf  used on input line 224.
+ted-to.pdf  used on input line 229.
 (pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
 
-Overfull \hbox (2.92534pt too wide) in paragraph at lines 230--231
+Overfull \hbox (2.92534pt too wide) in paragraph at lines 235--236
 \OT1/ptm/m/n/10 ro-bot, we im-ple-men-ted wi-thin the MA-TLAB en-vi-ro-nment.
  []
 
 [4 <./Repulsive-Velocities-Along-the-Y-Axis-wide-eps-converted-to.pdf> <./Y-Pos
 itions-eps-converted-to.pdf>]
-Overfull \hbox (0.5963pt too wide) in paragraph at lines 270--271
+Overfull \hbox (0.5963pt too wide) in paragraph at lines 273--274
 []\OT1/ptm/m/n/10 Additionally, we ac-knowledge that our study was con-
  []
 
 [5 <./7-DOF_Robot_Positions_Standard_vs_Avoidance-eps-converted-to.pdf>]
-Underfull \hbox (badness 2027) in paragraph at lines 289--293
+Underfull \hbox (badness 2027) in paragraph at lines 292--296
 []\OT1/ptm/m/n/9 M. Du-gu-le-ana, F. G. Bar-bu-ce-anu, A. Tei-rel-bar, and
  []
 
@@ -425,10 +425,10 @@ Underfull \hbox (badness 2027) in paragraph at lines 289--293
 
 ] (erk.aux) ) 
 Here is how much of TeX's memory you used:
- 4313 strings out of 476375
- 75442 string characters out of 5788976
+ 4314 strings out of 476375
+ 75457 string characters out of 5788976
  1869299 words of memory out of 5000000
- 24624 multiletter control sequences out of 15000+600000
+ 24625 multiletter control sequences out of 15000+600000
  527453 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,11n,67p,981b,233s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -445,7 +445,7 @@ b/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Us
 ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Us
 ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Us
 ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on erk.pdf (6 pages, 287656 bytes).
+Output written on erk.pdf (6 pages, 290429 bytes).
 PDF statistics:
  105 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

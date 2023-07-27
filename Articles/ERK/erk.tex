@@ -108,12 +108,17 @@ The null space (eq.~\ref{eq:Null-Space}) of the Jacobian corresponds to those jo
 \end{equation}
 
 \begin{equation}
-	\dot{q} = J^{\dagger}(q) \dot{x}_{ee} + N J^{\dagger}_{poi} \dot{x}_{poi}
+	\dot{q} = J^{\dagger}(q) \dot{x}_{ee} + N J^{\dagger}_{poi} \dot{x}_{poi} + N \dot{q}_{mid}
 	\label{eq:manipulator_kinematics}
 \end{equation}
 
-\todocomment{želena sredinska lega sklepov}
 
+We integrated a supplementary secondary task aiming to maintain the robot manipulator's joints as close to the midpoint of their range ( between $q(i)_{max}$ and $q(i)_{min}$ for the i-th joint ) as possible ( eq.~\ref{eq:mid-joints}). This auxiliary task, designed to elevate the robot's "elbow", reinforced the robot's upright posture during the execution of the primary task and the obstacle avoidance task.
+
+\begin{equation}
+	\dot{q}_{mid}(i) = w_m \left( \frac{q(i)_{max}-q(i)_{min}}{2} - q(i)\right) 
+	\label{eq:mid-joints}
+\end{equation}
 
 \subsection{Obstacle Grid}
 
@@ -232,8 +237,6 @@ Our proposed algorithm was tested using a kinematic model of the 7 Degrees of Fr
 The end-effector's motion was controlled using the attractive field method, serving as the primary task. This was complemented by the avoidance field method implemented as a secondary task, with the specific aim of maneuvering a point on the fourth joint of the robot as far away from the obstacle - in this case, a simple wall - as possible.
 
 To compute the joint positions, we used joint velocities derived through inverse kinematics, incorporating the aforementioned secondary tasks. We then applied numerical integration to these velocities to model the robot's motion in a simulated environment.
-
-An additional secondary task was also introduced, aimed at ensuring the manipulator's mid-joints remained in an upright position. This secondary task, aimed at maintaining the robot's "elbow" at the top, further reinforced the robot's upright posture while executing the primary task and the obstacle avoidance task.
 
 Figure~\ref{y axis avoidance values} illustrates the avoidance velocities in the x, y, and z directions, computed by our kernel, when its center aligns with various points along the y-axis. Here, the y-coordinates are presented on the x-axis, and the corresponding velocities are plotted on the y-axis. As expected, the y-velocity is the only component exhibiting non-zero values. It effectively propels the robot away from the wall, moving in either a positive or negative direction, depending on the relative position to the wall. Conversely, the x and z velocities remain zero, reflecting the absence of obstacles along these axes. This aligns with our expectations given the presence of the wall obstacle is only along the y direction.
 
