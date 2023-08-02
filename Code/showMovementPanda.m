@@ -1,5 +1,29 @@
 function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_positions_APF, EE_positions_APF, values_APF, Tbase)
 
+    % Displays the movement of a Panda robot arm in a 3D environment, with the
+    % option to show the attractive potential field (APF) vectors and/or the
+    % occupancy grid of obstacles and/or the repulsive potential field. The
+    % function takes in the following arguments:
+    %
+    %   - grid: an OctoGrid (special) object representing the occupancy grid of obstacles
+    %   - grid_repulsive: an 3D matrix representing the repulsive potential
+    %     field (optional)
+    %   - control_points: a matrix of size n x 3 representing the goal points
+    %     of the robot arm
+    %   - joints_positions_APF: a matrix of size n x 7 representing the joint
+    %     positions of the robot arm in the APF
+    %   - EE_positions_APF: a matrix of size n x 6 representing the end-effector
+    %     positions and orientation of the robot arm in the APF
+    %   - values_APF: a vector of size n representing the APF values at the
+    %     end-effector positions
+    %   - Tbase: a 4x4 homogeneous transformation matrix representing the
+    %     base frame of the robot arm in global coorinate frame
+    %
+    % The function returns a handle to the figure that displays the 3D
+    % environment. The user can interact with the figure using a slider and
+    % checkboxes to show/hide the APF vectors, the occupancy grid, and the
+    % repulsive potential field (if provided).
+
     % set resolution
     scale_view = grid.resolution;
     
