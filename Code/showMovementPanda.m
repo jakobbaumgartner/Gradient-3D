@@ -122,15 +122,16 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
 
     % draw APF field
     % --------------------------------------------------------------
-    arrow_length = 50; % adjust the length to your preference
-
-    j = size(values_APF,2);
-    for i = 1:1:size(values_APF(1).xyz,1)        
-        % plot the arrow
-        hold on
-        APF_handles(i) = quiver3(values_APF(j).xyz(i,1)*grid.resolution, values_APF(j).xyz(i,2)*grid.resolution, values_APF(j).xyz(i,3)*grid.resolution, values_APF(j).grad(i,1) * arrow_length, values_APF(j).grad(i,2) * arrow_length, values_APF(j).grad(i,3) * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
+    if size(values_APF)
+        arrow_length = 50; % adjust the length to your preference
+    
+        j = size(values_APF,2);
+        for i = 1:1:size(values_APF(1).xyz,1)        
+            % plot the arrow
+            hold on
+            APF_handles(i) = quiver3(values_APF(j).xyz(i,1)*grid.resolution, values_APF(j).xyz(i,2)*grid.resolution, values_APF(j).xyz(i,3)*grid.resolution, values_APF(j).grad(i,1) * arrow_length, values_APF(j).grad(i,2) * arrow_length, values_APF(j).grad(i,3) * arrow_length, arrow_length/2, 'LineWidth', 2, 'MaxHeadSize', 1);
+        end
     end
-
     % --------------------------------------------------------------
 
 
