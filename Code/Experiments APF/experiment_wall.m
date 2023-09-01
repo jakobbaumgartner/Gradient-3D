@@ -32,5 +32,5 @@ q = [1.74582837386633
 % ------------------------------------------------------------
 
 tic()
-[joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_secondary] = Full_RTConvolution(grid, grid_attractive, control_points(2,1:3), Tbase, q,'avoid_task', false, 'mid_joints', true);
+[joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_secondary] = Full_RTConvolution(grid, control_points(2,1:3), Tbase, q,'avoid_task', false, 'mid_joints', true);
 toc()

@@ -258,8 +258,6 @@ while current_dist > goal_dist && Niter < Nmax
 
 
     end
-
-    % ONE STEP SIMULATION 
     % --------------------------------------------------
 
     % calculate new joint positions
@@ -274,9 +272,6 @@ while current_dist > goal_dist && Niter < Nmax
 
     % update goal distance
     current_dist = norm(ee_point'- goal_point(1:3));
-
-    % LOGS
-    % -----------------------------------------------------------
 
     % save joint positions
     joints_positions = [joints_positions q];
@@ -298,8 +293,8 @@ while current_dist > goal_dist && Niter < Nmax
     % save EE velocities
     ee_velocities = [ee_velocities ee_vel];
 
-    % ITER COUNTER
-    % -----------------------------------------------------------
+    %% 
+
     % raise iterations count
     Niter = Niter + 1;
 
