@@ -1,4 +1,4 @@
-function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = Full_RTConvolution(grid, grid_field, goal_point, Tbase, q, varargin)
+function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = Full_RTConvolution(grid, goal_point, Tbase, q, varargin)
 
 %% PARAMETERS
 
@@ -90,6 +90,9 @@ Niter = 0;
 % trajectory calculation loop
 while current_dist > goal_dist && Niter < Nmax  
 
+    %% CALCULATE PRIMARY TASK 
+    % --------------------------------------------------
+
     % OPTION JACOBIAN
     [~,~,J]=kinmodel_panda(q); % calculate jacobian
 
@@ -126,22 +129,19 @@ while current_dist > goal_dist && Niter < Nmax
 
     % --------------------------------------------------
 
-    % EE kinematics using APF  %%%% TODODODODODODO TODO !!!! (FIX THIS,
-    % REPULSIVE FIELD NOT WORKING REALLY)
-
-    % calculate ee velocities by interpolating APF
-    [dx,dy,dz] = interpolate_derivative(ee_point, grid_field, space_resolution);
-    ee_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0]; 
-
     % calculate joint velocities using inverse kinematics
     q_vel = pinv_J * (wp * ee_vel);   
 
-
+    
+    %% CALCULATE SECONDARY TASKS (AVOIDANCE + MID-JOINTS)
+    % --------------------------------------------------
+    
     % calculate Null Space 
     N = (eye(7)-pinv_J*J);
 
 
-    % add mid-joints secondary task
+    %% MID JOINTS
+    % --------------------------------------------------
     if mid_joints 
 
         dq_sec = zeros(7,1);
@@ -160,7 +160,7 @@ while current_dist > goal_dist && Niter < Nmax
 
     end
 
-    % APF Avoidance Task
+    %% APF AVOIDANCE TASK
     % --------------------------------------------------
     avoid_vel = [];
 
@@ -178,15 +178,16 @@ while current_dist > goal_dist && Niter < Nmax
         config(i).JointPosition  = q(i); % set i-th joint
     end
 
-    % get transform
+    % get transform of joint 4 position
     transform = getTransform(robot_tree,config,'body'+string(robot_tree.NumBodies));
 
     % add base transformation
     transform = Tbase * transform;
 
-    % get x,y,z values
+    % get x,y,z values of joint 4 position
     xyz = ceil(transform(1:3,4)*grid.resolution);
         
+
     if avoid_task
 
         % GET VELOCITIES USING DIRECTIONAL KERNELS
@@ -244,22 +245,22 @@ while current_dist > goal_dist && Niter < Nmax
 %         q_vel = q_vel + pinv_J0*(avoid_vel);
 
 
-    % APPROXIMATE SOLUTION
-    % -----------------------
+        % APPROXIMATE SOLUTION
+        % -----------------------
+        
+        % calculate pseudo inverse
+        pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
     
-    % calculate pseudo inverse
-    pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
-
-
-    % calculate avoidance joints velocities
-    q_vel = q_vel + N * pinv_J0*(avoid_vel);
-
-    % -----------------------
+    
+        % calculate avoidance joints velocities
+        q_vel = q_vel + N * pinv_J0*(avoid_vel);
+    
+        % -----------------------
 
 
     end
 
-    % ONE STEP SIMULATION 
+    %% ONE STEP SIMULATION 
     % --------------------------------------------------
 
     % calculate new joint positions
@@ -275,7 +276,7 @@ while current_dist > goal_dist && Niter < Nmax
     % update goal distance
     current_dist = norm(ee_point'- goal_point(1:3));
 
-    % LOGS
+    %% LOGS
     % -----------------------------------------------------------
 
     % save joint positions
