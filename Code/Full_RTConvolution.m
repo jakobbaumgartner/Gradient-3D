@@ -6,7 +6,7 @@ function [joints_positions, EE_positions, goal_distances, q_velocities, ee_veloc
 p = inputParser;
 addOptional(p, 'mid_joints', true); % Default value is false
 addOptional(p, 'avoid_task', true); % Default value is true
-addOptional(p, 'task_constants', [1 1 0.5]);
+addOptional(p, 'task_constants', [1 0.5 5]);
 
 parse(p, varargin{:});
 
@@ -22,10 +22,10 @@ wa = p.Results.task_constants(3); % obstacle avoidance task
 % -----------------------------------------------------------
 
 % function parameters
-goal_dist = 0.015; % distance which satisfies ending of optimization
+goal_dist = 0.03; % distance which satisfies ending of optimization
 damping_factor = 0.05; % damping factor to avoid inverse Jacobain matrix singularities
 Tstep = 0.1; % time step
-Nmax = 1000; % max number of iterations
+Nmax = 200; % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
