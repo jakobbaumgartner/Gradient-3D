@@ -6,7 +6,7 @@ function [joints_positions, EE_positions, goal_distances, q_velocities, ee_veloc
 p = inputParser;
 addOptional(p, 'mid_joints', true); % Default value is false
 addOptional(p, 'avoid_task', true); % Default value is true
-addOptional(p, 'task_constants', [1 4 0.5]);
+addOptional(p, 'task_constants', [1 1 0.5]);
 
 parse(p, varargin{:});
 
@@ -22,8 +22,8 @@ wa = p.Results.task_constants(3); % obstacle avoidance task
 % -----------------------------------------------------------
 
 % function parameters
-goal_dist = 0.02; % distance which satisfies ending of optimization
-damping_factor = 0.01; % damping factor to avoid inverse Jacobain matrix singularities
+goal_dist = 0.015; % distance which satisfies ending of optimization
+damping_factor = 0.05; % damping factor to avoid inverse Jacobain matrix singularities
 Tstep = 0.1; % time step
 Nmax = 1000; % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
@@ -96,41 +96,19 @@ while current_dist > goal_dist && Niter < Nmax
     % OPTION JACOBIAN
     [~,~,J]=kinmodel_panda(q); % calculate jacobian
 
-    % --------------------------------------------------
-    % OPTION MATLAB ROBOT TOOLBOX JACOBIAN
-%         [~,robot] = GeometricPandaMATLAB(q, Tbase); % get robot configuration
-%         config = homeConfiguration(robot); % set configuration
-%         
-%         % set joint positions
-%         for i = 1:1:7
-%             config(i).JointPosition = q(i);
-%         end
-%     
-%         % toolbox jacobian returns first three rows angular velocity and
-%         % second three rows linear velocities, change rows to be in line with
-%         % used convention in default jacobian
-%         J2 = geometricJacobian(robot,config,'body7');
-%         J3 = [J2(4:6,:) ; J2(1:3,:)];
-%     
-%         J = J3;
-    % --------------------------------------------------
-
     % calculate pseudo inverse
     pinv_J = J'*(J*J'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
 
     % --------------------------------------------------
     % OPTION KINEMATICS CLASSIC END EFFECTOR
 
-%     % calculate ee velocities
-%     ee_vel = goal_point(1:3)' - ee_point;
-% 
-%     % calculate joint velocities using inverse kinematics
-%     q_vel = pinv_J * (wp * [ee_vel ; 0 ; 0 ; 0]);
-
-    % --------------------------------------------------
+    % calculate ee velocities
+    ee_vel = goal_point(1:3)' - ee_point;
 
     % calculate joint velocities using inverse kinematics
-    q_vel = pinv_J * (wp * ee_vel);   
+    q_vel = pinv_J * [ee_vel ; 0 ; 0 ; 0];
+
+    % --------------------------------------------------
 
     
     %% CALCULATE SECONDARY TASKS (AVOIDANCE + MID-JOINTS)
@@ -150,10 +128,6 @@ while current_dist > goal_dist && Niter < Nmax
         for i = 1:1:7
             dq_sec(i) = wm * (sum(q_range(i,:))/2) - q(i);
         end
-
-        % option 2 - The distance from mechanical joint limits using
-        % Sicilliano equation and partial derivatives
-            % ... TODO
 
         % Primary + Null-Space Task
         q_vel = q_vel + N * dq_sec;
