@@ -1,5 +1,5 @@
 % REPULSIVE FIELD GENERATION
-
+close all
 %% SET POINT
 point = [1,1,1]
 
@@ -26,15 +26,16 @@ kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, sigma,
 kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
 kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
 
+kernels = {kernel_x, kernel_y, kernel_z};
+
 %% GET REP FIELD VALUES
 % -----------------------------------------------------------
 
-[rep_values] = REP_field_calculation(grid, {kernel_x, kernel_y, kernel_z}, point)
+[rep_values] = REP_field_calculation(grid, kernels, point)
 
 % generate vectors from values
 rep_vectors = eye(3) .* rep_values';
 
 %% DISPLAY REP VECTORS
 % -----------------------------------------------------------
-
-REP_field_display(grid, point, rep_vectors)
+REP_field_simulation(grid, point, kernels)
