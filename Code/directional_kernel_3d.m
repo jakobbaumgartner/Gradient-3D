@@ -67,7 +67,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
     elseif strcmp(direction, 'y')
        
         % rotate layer by 90 degrees
-        kernel2D = rot90(kernel2D);
+        kernel2D = rot90(kernel2D,-1);
 
     	% create each layer
         kernel3D = repmat(kernel2D, 1, 1, length(height_extender)) .* reshape(height_extender, 1, 1, []);

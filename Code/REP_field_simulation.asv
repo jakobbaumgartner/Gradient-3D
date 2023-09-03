@@ -35,9 +35,9 @@ function REP_field_simulation(grid, point, kernels)
     sz = uicontrol('Style', 'slider', 'Min', 0, 'Max', size(grid.grid, 3)/grid.resolution, 'Value', point(3), 'Units', 'normalized', 'Position', [0.05 0.01 0.4 0.04], 'Callback', @(src, event) update_vector(src, event, grid, kernels, point, q, scale));
 
     % create labels
-    uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.11 0.03 0.04], 'String', 'X:', 'HorizontalAlignment', 'right');
-    uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.06 0.03 0.04], 'String', 'Y:', 'HorizontalAlignment', 'right');
-    uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.01 0.03 0.04], 'String', 'Z:', 'HorizontalAlignment', 'right');
+    uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.10 0.03 0.05], 'String', 'X:', 'HorizontalAlignment', 'right');
+    uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.06 0.03 0.05], 'String', 'Y:', 'HorizontalAlignment', 'right');
+    uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.01 0.03 0.05], 'String', 'Z:', 'HorizontalAlignment', 'right');
 
     
     hold off

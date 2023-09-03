@@ -1,7 +1,7 @@
 % REPULSIVE FIELD GENERATION
 close all
 %% SET POINT
-point = [1,1,1]
+point = [0.7,0.7,1]
 
 %% CREATE GRID
 % -----------------------------------------------------------
@@ -13,7 +13,7 @@ grid = OctoGrid(2,2,2,100);
 grid.addBox(0.2,0.8,0,1.6,0.1,1.5)
 
 % add a second wall
-grid.addBox(0.8,0.2,0,0.1,1.6,0.5)
+grid.addBox(0.8,0.2,0,0.1,1.6,1.5)
 
 
 %% GET REPULSIVE KERNEL
