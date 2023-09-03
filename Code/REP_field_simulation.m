@@ -8,7 +8,7 @@ function REP_field_simulation(grid, point, kernels)
     f = figure();
 
     % display grid
-    grid.showGridVol3D(grid.grid,'floor',true,'height',false);
+    grid.showGridVol3D(grid.grid, 'floor',true, 'height', true);
 
     hold on
 

@@ -12,6 +12,10 @@ grid = OctoGrid(2,2,2,100);
 % add the wall
 grid.addBox(0.2,0.8,0,1.6,0.1,1.5)
 
+% add a second wall
+grid.addBox(0.8,0.2,0,0.1,1.6,0.5)
+
+
 %% GET REPULSIVE KERNEL
 % -----------------------------------------------------------
 
