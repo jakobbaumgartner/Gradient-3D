@@ -73,11 +73,17 @@ kernels = REP_kernels();
 %% OPTIMIZATION LOOP
 % -----------------------------------------------------------
 
+% CREATE PROGRESS BAR
+f = waitbar(0, 'Running kinematic optimization')
+
 % set itarations count
 Niter = 0;
 
 % trajectory calculation loop
 while current_dist > goal_dist && Niter < Nmax  
+
+    %% UPDATE PROGRESS BAR
+    waitbar(Niter/Nmax)
 
     %% CALCULATE PRIMARY TASK 
     % --------------------------------------------------
@@ -263,6 +269,9 @@ while current_dist > goal_dist && Niter < Nmax
     Niter = Niter + 1;
 
 end
+
+% REMOVE PROGRESS BAR
+close(f)
 
 
 end
