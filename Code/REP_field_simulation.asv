@@ -75,13 +75,7 @@ function REP_field_simulation(grid, point, kernels)
             q.WData = vector(3)*scale;
         end
 
-        % update total field arrow
-        qs.XData = point(1)*grid.resolution;
-        qs.YData = point(2)*grid.resolution;
-        qs.ZData = point(3)*grid.resolution;
-        qs.UData = rep_sum(1)*scale;
-        qs.VData = rep_sum(2)*scale;
-        qs.WData = rep_sum(3)*scale;
+        %
 
         % update base point
          p.XData = point(1)*grid.resolution;
