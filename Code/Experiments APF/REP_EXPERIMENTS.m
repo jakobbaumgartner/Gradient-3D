@@ -4,7 +4,7 @@ close all
 point = [0.7,0.7,1]
 
 %% SELECT MAP
-map_selection = 'four_pillars'
+map_selection = 'roof'
 % -----------------------------------------------------------
 
 % create grid
@@ -35,6 +35,12 @@ elseif (matches( map_selection, 'four_pillars'))
     grid.addBox(1.1,1,0,0.2,0.2,0.75)
     grid.addBox(0.7,0.6,0,0.2,0.2,0.75)
     grid.addBox(0.7,1,0,0.2,0.2,0.75)
+
+elseif (matches(map_selection, 'roof'))
+
+    % roof
+    grid.addBox(0.8,0.8,1.2,0.8,0.8,0.2)
+
 
 
 end
