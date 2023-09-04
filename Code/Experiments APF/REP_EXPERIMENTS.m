@@ -3,17 +3,41 @@ close all
 %% SET POINT
 point = [0.7,0.7,1]
 
-%% CREATE GRID
+%% SELECT MAP
+map_selection = 'four_pillars'
 % -----------------------------------------------------------
 
 % create grid
 grid = OctoGrid(2,2,2,100);
 
-% add the wall
-grid.addBox(0.2,0.8,0,1.6,0.1,1.5)
+if (matches( map_selection , 'wall' ))
 
-% add a second wall
-grid.addBox(0.8,0.2,0,0.1,1.6,1.5)
+    % add the wall
+    grid.addBox(0.2,0.8,0,1.6,0.1,1.5)
+
+elseif (matches( map_selection , 'cross' ))
+
+    % add the wall
+    grid.addBox(0.2,0.8,0,1.6,0.1,1.5)
+    
+    % add a second wall
+    grid.addBox(0.8,0.2,0,0.1,1.6,1.5)
+
+elseif (matches( map_selection, 'low_wall'))
+
+    % add the wall
+    grid.addBox(0.2,0.8,0,1.6,0.1,0.75)
+
+elseif (matches( map_selection, 'four_pillars'))
+
+    % pillars
+    grid.addBox(1.1,0.6,0,0.2,0.2,0.75)
+    grid.addBox(1.1,1,0,0.2,0.2,0.75)
+    grid.addBox(0.7,0.6,0,0.2,0.2,0.75)
+    grid.addBox(0.7,1,0,0.2,0.2,0.75)
+
+
+end
 
 
 %% GET REPULSIVE KERNEL
