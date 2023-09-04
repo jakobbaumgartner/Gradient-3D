@@ -1,5 +1,25 @@
 function [kernels] = REP_kernels()
 
+    % REP_kernels - Generate directional kernels for a 3D image processing task
+    %
+    % Usage:
+    %    [kernels] = REP_kernels()
+    %
+    % Description:
+    %    This function generates directional kernels for a 3D image processing task.
+    %    It creates directional kernels along the x, y, and z axes using Gaussian functions.
+    %
+    % Dependencies:
+    %   The directional_kernel_3d function is used internally to generate the kernels. It is
+    %   expected to be defined elsewhere in your codebase with the following signature:
+    %   directional_kernel_3d(direction, length, sigma1, width, sigma2, height, sigma3, type)
+    %
+    % Inputs:
+    %    None
+    %
+    % Outputs:
+    %    kernels - A cell array containing the generated directional kernels.
+
     % set directional kernels
     sigma = 11;
     kernel_length = 61;
