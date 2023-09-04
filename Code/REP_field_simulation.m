@@ -1,5 +1,19 @@
 function REP_field_simulation(grid, point, kernels)
 
+    % REP_field_simulation: Simulates the REP (Reactive Electromagnetic Power) field and displays it using a graphical representation.
+    %
+    % Parameters:
+    %   grid : The grid structure containing the grid data and methods to display it.
+    %   point : A 3-element vector specifying the initial point in the grid (x, y, z).
+    %   kernels : A cell array containing the kernels to be used in the REP field calculation.
+    %
+    % The function initializes by calculating the initial REP field and vectors based on the given point and kernels.
+    % It then creates a 3D visualization of the grid and the initial REP vectors at the specified point.
+    % The function also adds a slider UI for each coordinate (x, y, z) to allow the user to change the point dynamically.
+    % As the point is changed using the sliders, the REP vectors and the total vector field (sum of all vectors) at the new point are updated dynamically in the visualization.
+    %
+    % The REP field calculation is performed using the REP_field_calculation function which needs to be defined separately.
+
     % generate initial REP field
     [rep_values] = REP_field_calculation(grid, kernels, point);
     rep_vectors = eye(3) .* rep_values';
@@ -45,11 +59,11 @@ function REP_field_simulation(grid, point, kernels)
     uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.11 0.03 0.04], 'String', 'X:', 'HorizontalAlignment', 'right');
     uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.06 0.03 0.04], 'String', 'Y:', 'HorizontalAlignment', 'right');
     uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.01 0.03 0.04], 'String', 'Z:', 'HorizontalAlignment', 'right');
-
     
     hold off
 
-    % function to update vector when slider is moved
+
+    %% function to update vector when slider is moved
     function update_vector(src, event, grid, kernels, point, q, scale)
 
         point = [sx.Value sy.Value sz.Value]
