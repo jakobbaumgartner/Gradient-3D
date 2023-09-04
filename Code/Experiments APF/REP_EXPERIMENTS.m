@@ -14,14 +14,6 @@ map_selection = 'corridor'
 
 kernels = REP_kernels();
 
-%% GET REP FIELD VALUES
-% -----------------------------------------------------------
-
-[rep_values] = REP_field_calculation(grid, kernels, point)
-
-% generate vectors from values
-rep_vectors = eye(3) .* rep_values';
-
 %% DISPLAY REP VECTORS
 % -----------------------------------------------------------
 REP_field_simulation(grid, point, kernels)

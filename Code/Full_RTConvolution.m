@@ -148,7 +148,7 @@ while current_dist > goal_dist && Niter < Nmax
     transform = Tbase * transform;
 
     % get x,y,z values of joint 4 position
-    xyz = ceil(transform(1:3,4)*grid.resolution);
+    xyz = transform(1:3,4);
         
 
     if avoid_task
@@ -156,22 +156,17 @@ while current_dist > goal_dist && Niter < Nmax
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
 
-        % cut out local part of the grid around joint 4
-        cutout = grid.grid(((1:kernel_length)+xyz(2)-ceil(kernel_length/2)), ((1:kernel_width)+xyz(1)-ceil(kernel_width/2)), ((1:kernel_height)+xyz(3)-ceil(kernel_height/2)));
+        [rep_values] = REP_field_calculation(grid, kernels, xyz)
 
-        % calculate x - distance transform
-%         C = cutout .* kernel_x; % Perform element-wise multiplication
-        dx = 0; %sum(C(:)); % Sum all values 
-      
-        % calculate y - distance transform
-        C = cutout .* kernel_y; % Perform element-wise multiplication
-        dy = sum(C(:)); % Sum all values 
+        % convert values to vectors (this only works for 3 kernels, in x y z
+        % directions)
+        rep_vectors = eye(3) .* rep_values';
 
-        % calculate z - distance transform
-%         C = cutout .* kernel_z; % Perform element-wise multiplication
-        dz = 0; %sum(C(:)); % Sum all values  
+        % sum of vector components
+        rep_sum = sum(rep_vectors')
+ 
 
-        avoid_vel = -[dx ; dy ; dz ; 0 ; 0 ; 0];
+        avoid_vel = [rep_sum' ; 0 ; 0 ; 0];
         avoid_vel = wa * avoid_vel; % scale
 
 
@@ -253,7 +248,7 @@ while current_dist > goal_dist && Niter < Nmax
 
     % save visited APF value
     if exist('xyz', 'var') == 1 
-        values_APF(Niter+1).xyz = xyz'/grid.resolution;
+        values_APF(Niter+1).xyz = xyz';
         values_APF(Niter+1).grad = avoid_vel';
     end
     % save joint velocities
