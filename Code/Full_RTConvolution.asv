@@ -6,7 +6,7 @@ function [joints_positions, EE_positions, goal_distances, q_velocities, ee_veloc
 p = inputParser;
 addOptional(p, 'mid_joints', true); % Default value is false
 addOptional(p, 'avoid_task', true); % Default value is true
-addOptional(p, 'task_constants', [5 2 5]);
+addOptional(p, 'task_constants', [1 2 1]);
 
 parse(p, varargin{:});
 
@@ -25,7 +25,7 @@ wa = p.Results.task_constants(3); % obstacle avoidance task
 goal_dist = 0.03; % distance which satisfies ending of optimization
 damping_factor = 0.05; % damping factor to avoid inverse Jacobain matrix singularities
 Tstep = 0.01; % time step
-Nmax = 250; % max number of iterations
+Nmax = 150; % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
@@ -162,7 +162,7 @@ while current_dist > goal_dist && Niter < Nmax
 
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
-        
+        xyz
         [rep_values] = REP_field_calculation(grid, kernels, xyz);
 
         % convert values to vectors (this only works for 3 kernels, in x y z
@@ -170,10 +170,10 @@ while current_dist > goal_dist && Niter < Nmax
         rep_vectors = eye(3) .* rep_values';
 
         % sum of vector components
-        rep_sum = sum(rep_vectors');
+        rep_sum = sum(rep_vectors')
  
 
-        avoid_vel = tanh([rep_sum' ; 0 ; 0 ; 0])*1
+        avoid_vel = -[rep_sum' ; 0 ; 0 ; 0]*10;
 %         avoid_vel = -[0 1 0 0 0 0]' * 1;
         avoid_vel = wa * avoid_vel; % scale
 

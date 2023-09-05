@@ -24,7 +24,7 @@ function [grid] = MAPS(map_selection)
     if (matches( map_selection , 'wall' ))
     
         % the wall
-        grid.addBox(0.2,0.8,0,1.6,0.1,1.5)
+        grid.addBox(0.2,1.2,0,1.6,0.1,1.5)
     
     elseif (matches( map_selection , 'cross' ))
     

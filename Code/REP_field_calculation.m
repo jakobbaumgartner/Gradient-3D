@@ -36,9 +36,9 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
         % cut out of 3d grid area a window of the same size as kernel, 
         % with center in the point [x,y,z]
         half_size = floor(kernel_size / 2);
-        x_range = grid_point(2) - half_size(1) : grid_point(2) + half_size(1) % grid goes y-x-z
-        y_range = grid_point(1) - half_size(2) : grid_point(1) + half_size(2)
-        z_range = grid_point(3) - half_size(3) : grid_point(3) + half_size(3)
+        x_range = grid_point(2) - half_size(1) : grid_point(2) + half_size(1); % grid goes y-x-z
+        y_range = grid_point(1) - half_size(2) : grid_point(1) + half_size(2);
+        z_range = grid_point(3) - half_size(3) : grid_point(3) + half_size(3);
 
         window = grid.grid(x_range, y_range, z_range);
 
