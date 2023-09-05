@@ -4,7 +4,7 @@ clear
 % ------------------------------------------------------------
 
 % select map
-map_selection = 'wall'
+map_selection = 'corridor'
 
 [grid] = MAPS(map_selection);
 
@@ -34,9 +34,27 @@ if (matches(map_selection, 'wall'))
 
 elseif (matches(map_selection, 'corridor'))
 
+   % Generate goal points
+    % trajectory generation points (xyz position, xyz angles)
+    control_points = [1.232 1.027 0.971 0 0 0;
+                      1.4 1 0.5 0 0 0]; 
 
-
-
+    % goal
+    goal = control_points(2,1:3);
+    
+    % Robot Base position
+    % robot base transformation (move to x - 1m, y - 1m)
+    Tbase = eye(4);
+    Tbase(1:2,4) = [1 1]';
+    
+    % set joints starting pose
+    q = [1.74582837386633
+    0.164551561035897
+    -2.28912954318266
+    -0.400811659236395
+    0.497594642234695
+    0.654743179774447
+    -0.0801486263893128];
 
 
 end
