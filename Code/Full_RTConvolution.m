@@ -6,7 +6,7 @@ function [joints_positions, EE_positions, goal_distances, q_velocities, ee_veloc
 p = inputParser;
 addOptional(p, 'mid_joints', true); % Default value is false
 addOptional(p, 'avoid_task', true); % Default value is true
-addOptional(p, 'task_constants', [1 0.5 5]);
+addOptional(p, 'task_constants', [1 0.5 50]);
 
 parse(p, varargin{:});
 
@@ -24,8 +24,8 @@ wa = p.Results.task_constants(3); % obstacle avoidance task
 % function parameters
 goal_dist = 0.03; % distance which satisfies ending of optimization
 damping_factor = 0.05; % damping factor to avoid inverse Jacobain matrix singularities
-Tstep = 0.1; % time step
-Nmax = 200; % max number of iterations
+Tstep = 0.01; % time step
+Nmax = 250; % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
@@ -99,9 +99,10 @@ while current_dist > goal_dist && Niter < Nmax
 
     % calculate ee velocities
     ee_vel = goal_point(1:3)' - ee_point;
+    ee_vel = [ee_vel ; 0 ; 0 ; 0];
 
     % calculate joint velocities using inverse kinematics
-    q_vel = pinv_J * [ee_vel ; 0 ; 0 ; 0];
+    q_vel = pinv_J * ee_vel;
 
     % --------------------------------------------------
 
@@ -161,8 +162,8 @@ while current_dist > goal_dist && Niter < Nmax
 
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
-
-        [rep_values] = REP_field_calculation(grid, kernels, xyz)
+        xyz
+        [rep_values] = REP_field_calculation(grid, kernels, xyz);
 
         % convert values to vectors (this only works for 3 kernels, in x y z
         % directions)
@@ -200,7 +201,7 @@ while current_dist > goal_dist && Niter < Nmax
             % (TODO: if there was a previously different point with highest APF calculate Jacobian in this previous point) 
             % (TODO: calculate weighting coefficients)
     
-        % calculate pseudo inverse
+        % calculate pseudo inverse (J^T J)^-1 J^T
 %         pinv_J0 = (J0*N)'*((J0*N)*(J0*N)'+ damping_factor^2 * eye(6))^-1; % damping to avoid singularities
 %         pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
     
@@ -208,16 +209,25 @@ while current_dist > goal_dist && Niter < Nmax
 %         q_vel = q_vel + pinv_J0*(avoid_vel - J0*pinv_J*ee_vel);
 %         q_vel = q_vel + pinv_J0*(avoid_vel);
 
+        % EXACT SOLUTION
+        % -----------------------
+
+        % calculate pseudo inverse
+        pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor^2 * eye(6)); %damping to avoid singularities
+
+        % calculate avoidance joints velocities
+        q_vel = q_vel - pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel);
+
 
         % APPROXIMATE SOLUTION
         % -----------------------
         
         % calculate pseudo inverse
-        pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
+%         pinv_J0 = J0'*(J0*J0'+ damping_factor^2 * eye(6))^-1;
     
     
         % calculate avoidance joints velocities
-        q_vel = q_vel + N * pinv_J0*(avoid_vel);
+%         q_vel = q_vel + N * pinv_J0*(avoid_vel);
     
         % -----------------------
 
