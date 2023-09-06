@@ -33,7 +33,7 @@ if (matches(map_selection, 'wall'))
     0.654743179774447
     -0.0801486263893128];
 
-elseif (matches(map_selection, 'corridor'))
+elseif (matches(map_selection, 'corridor'))     
 
    % Generate goal points
     % trajectory generation points (xyz position, xyz angles)
