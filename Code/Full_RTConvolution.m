@@ -16,15 +16,15 @@ avoid_task = p.Results.avoid_task;
 % -----------------------------------------------------------
 
 % weights for different tasks
-wp = 100; % primary task
+wp = 2*[5 5 0.5 1 1 1]'; % primary task
 wm = 0; % mid-joints task
-wa = 5; % obstacle avoidance task
+wa = 1; % obstacle avoidance task
 
 % factor that controls sigmoid function (tanh) for avoidance task
-sigm_factor = 10;
+sigm_factor = 50;
 
 % function parameters
-goal_dist = 0.03; % distance which satisfies ending of optimization
+goal_dist = 0.01; % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
 damping_factor_primary = 0.1;
@@ -105,7 +105,7 @@ while current_dist > goal_dist && Niter < Nmax
 
     % calculate ee velocities
     ee_vel = goal_point(1:3)' - ee_point;
-    ee_vel = [ee_vel ; 0 ; 0 ; 0];
+    ee_vel = wp .* [ee_vel ; 0 ; 0 ; 0];
 
     % calculate joint velocities using inverse kinematics
     q_vel = pinv_J * ee_vel;
@@ -211,21 +211,21 @@ while current_dist > goal_dist && Niter < Nmax
         % -----------------------
 
         % calculate pseudo inverse
-%         pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(3)); %damping to avoid singularities
+        pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(3)); %damping to avoid singularities
  
         % calculate avoidance joints velocities
-%         q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel);
+        q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel);
 
 
         % APPROXIMATE SOLUTION
         % -----------------------
         
         % calculate pseudo inverse
-        pinv_J0 = J0'*(J0*J0'+ damping_factor_avoidance * eye(3))^-1;
+%         pinv_J0 = J0'*(J0*J0'+ damping_factor_avoidance * eye(3))^-1;
     
     
         % calculate avoidance joints velocities
-        q_vel = q_vel + N * pinv_J0*(avoid_vel);
+%         q_vel = q_vel + N * pinv_J0*(avoid_vel);
     
         % -----------------------
 
