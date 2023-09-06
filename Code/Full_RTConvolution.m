@@ -16,9 +16,9 @@ avoid_task = p.Results.avoid_task;
 % -----------------------------------------------------------
 
 % weights for different tasks
-wp = 1; % primary task
-wm = 2; % mid-joints task
-wa = 5; % obstacle avoidance task
+wp = 50; % primary task
+wm = 0; % mid-joints task
+wa = 1; % obstacle avoidance task
 
 % factor that controls sigmoid function (tanh) for avoidance task
 sigm_factor = 10;
@@ -27,11 +27,11 @@ sigm_factor = 10;
 goal_dist = 0.03; % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
-damping_factor_primary = 0.0025;
-damping_factor_avoidance = 0.05;
+damping_factor_primary = 0.1;
+damping_factor_avoidance = 0.1;
 
 Tstep = 0.01; % time step
-Nmax = 1000; % max number of iterations
+Nmax = 2500; % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
@@ -178,11 +178,8 @@ while current_dist > goal_dist && Niter < Nmax
         % sum of vector components
         rep_sum = sum(rep_vectors');
  
-
-        avoid_vel = tanh([rep_sum' ; 0 ; 0 ; 0]/sigm_factor)
-%         avoid_vel = -[0 1 0 0 0 0]' * 1;
-        avoid_vel = wa * avoid_vel; % scale
-
+        % sigmoid transformation and scalling
+        avoid_vel = wa * tanh(rep_sum'/sigm_factor); 
 
 
         % --------------------------------------------------
@@ -200,16 +197,21 @@ while current_dist > goal_dist && Niter < Nmax
         % second three rows linear velocities, change rows to be in line with
         % used convention in default jacobian
         J2 = geometricJacobian(robot,config,'body'+string(robot.NumBodies));
-        J0 = zeros(6,7);
+%         J0 = zeros(6,7);
+%         J0(1:3,1:size(J2,2)) = J2(4:6,:);
+%         J0(4:6,1:size(J2,2)) = J2(1:3,:);
+
+        % only positional jacobian part
+        J0 = zeros(3,7);
         J0(1:3,1:size(J2,2)) = J2(4:6,:);
-        J0(4:6,1:size(J2,2)) = J2(1:3,:);
+
 
         
         % EXACT SOLUTION
         % -----------------------
 
         % calculate pseudo inverse
-        pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(6)); %damping to avoid singularities
+        pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(3)); %damping to avoid singularities
  
         % calculate avoidance joints velocities
         q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel);
