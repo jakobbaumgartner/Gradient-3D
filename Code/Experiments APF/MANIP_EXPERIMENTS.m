@@ -5,7 +5,7 @@ close all
 % ------------------------------------------------------------
 
 % select map
-map_selection = 'wall'
+map_selection = 'corridor'
 
 [grid] = MAPS(map_selection);
 
