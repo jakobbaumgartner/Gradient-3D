@@ -198,7 +198,7 @@ while current_dist > goal_dist && Niter < Nmax
         rep_direction = rep_sum ./ rep_magnitude;
  
         % sigmoid transformation and scalling
-        avoid_vel = wa * tanh(rep_values'/sigm_factor_avoidance); 
+        avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
 
         
         % CALCULATE JACOBIAN IN POINT0
