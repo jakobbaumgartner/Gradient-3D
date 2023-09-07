@@ -3,16 +3,16 @@ function [output] = Full_RTConvolution(grid, goal_point, Tbase, q)
 %% PARAMETERS
 
 % select which goals
-mid_joints = 1
+mid_joints = 0
 avoid_task = 1
-kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
+kinematics_solution = 'approximate' % OPTIONS: exact-reduced , exact , approximate
 
 % -----------------------------------------------------------
 
 % weights for different tasks
 wp = 5 % 2*[5 5 0.5 1 1 1]'; % primary task
 wm = 2 % mid-joints task
-wa = 5 % obstacle avoidance task
+wa = 100 % obstacle avoidance task
 
 % factor that controls sigmoid function (tanh) for primary task
 sigm_factor_primary = 10
@@ -24,11 +24,11 @@ sigm_factor_avoidance = 50
 goal_dist = 0.01 % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
-damping_factor_primary = 0.001
+damping_factor_primary = 0.01
 damping_factor_avoidance = 0.01
 
 Tstep = 0.1 % time step
-Nmax = 1200 % max number of iterations
+Nmax = 50 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
@@ -70,6 +70,7 @@ output.ee_velocities = [];
 output.values_APF = [];
 output.manipulability_primary = [];
 output.manipulability_avoidance = [];
+output.repulsive_field = [];
 
 manipulability_primary = 0;
 manipulability_avoidance = 0;
@@ -131,9 +132,10 @@ while current_dist > goal_dist && Niter < Nmax
 
     %% MID JOINTS
     % --------------------------------------------------
-    if mid_joints 
 
-        dq_mid = zeros(7,1);
+    dq_mid = zeros(7,1);
+
+    if mid_joints 
 
         % option 1 - joints speeds proportional joints difference from mid
         for i = 1:1:7
@@ -180,7 +182,7 @@ while current_dist > goal_dist && Niter < Nmax
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
         
-        [rep_values] = REP_field_calculation(grid, kernels, xyz);
+        [rep_values] = REP_field_calculation(grid, kernels, xyz)
 
         % convert values to vectors (this only works for 3 kernels, in x y z
         % directions)
@@ -196,7 +198,7 @@ while current_dist > goal_dist && Niter < Nmax
         rep_direction = rep_sum ./ rep_magnitude;
  
         % sigmoid transformation and scalling
-        avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
+        avoid_vel = wa * tanh(rep_values'/sigm_factor_avoidance); 
 
         
         % CALCULATE JACOBIAN IN POINT0
@@ -309,6 +311,7 @@ while current_dist > goal_dist && Niter < Nmax
     if exist('xyz', 'var') == 1 
         output.values_APF(Niter+1).xyz = xyz';
         output.values_APF(Niter+1).grad = avoid_vel';
+        output.repulsive_field = [output.repulsive_field rep_values']
     end
     % save joint velocities
     output.q_velocities = [output.q_velocities q_vel];
