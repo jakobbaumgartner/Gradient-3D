@@ -123,15 +123,15 @@ while current_dist > goal_dist && Niter < Nmax
     % --------------------------------------------------
     if mid_joints 
 
-        dq_sec = zeros(7,1);
+        dq_mid = zeros(7,1);
 
         % option 1 - joints speeds proportional joints difference from mid
         for i = 1:1:7
-            dq_sec(i) = wm * (sum(q_range(i,:))/2) - q(i);
+            dq_mid(i) = wm * (sum(q_range(i,:))/2) - q(i);
         end
 
         % Primary + Null-Space Task
-        q_vel = q_vel + N * dq_sec;
+        q_vel = q_vel + N * dq_mid;
 
     end
 
@@ -214,8 +214,10 @@ while current_dist > goal_dist && Niter < Nmax
         %%  MANIPULABILITY MEASUREMENTS
         % -----------------------
 
+        % primary
         manipulability_primary = sqrt(det(J*J'))
-
+        
+        % secondary
         manipulability_secondary = sqrt(det(J0*J0'))
 
 
@@ -232,7 +234,7 @@ while current_dist > goal_dist && Niter < Nmax
             pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(3)); %damping to avoid singularities
      
             % calculate avoidance joints velocities
-            q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel);
+            q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel - J0*N*dq_mid);
 
         elseif(matches(kinematics_solution, 'exact-reduced'))
 
@@ -248,7 +250,7 @@ while current_dist > goal_dist && Niter < Nmax
             pinv_Jd0 = N*Jd0'*(Jd0*N*Jd0' + damping_factor_avoidance)^-1;
      
             % calculate avoidance joints velocities
-            q_vel = q_vel + pinv_Jd0 * (rep_magnitude - Jd0*pinv_J * ee_vel);
+            q_vel = q_vel + pinv_Jd0 * (rep_magnitude - Jd0*pinv_J * ee_vel - Jd0*N*dq_mid);
 
         elseif(matches(kinematics_solution, 'approximate'))
            
@@ -256,8 +258,7 @@ while current_dist > goal_dist && Niter < Nmax
             % -----------------------
             
             % calculate pseudo inverse
-            pinv_J0 = J0'*(J0*J0'+ damping_factor_avoidance * eye(3))^-1;
-        
+            pinv_J0 = J0'*(J0*J0'+ damping_factor_avoidance * eye(3))^-1;        
         
             % calculate avoidance joints velocities
             q_vel = q_vel + N * pinv_J0*(avoid_vel);
@@ -272,7 +273,6 @@ while current_dist > goal_dist && Niter < Nmax
     % --------------------------------------------------
 
     % calculate new joint positions
-    
     q = q + q_vel * Tstep;
 
     % limit positions within joint limits
