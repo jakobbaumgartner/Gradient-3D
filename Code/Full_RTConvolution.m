@@ -1,30 +1,21 @@
-function [output] = Full_RTConvolution(grid, goal_point, Tbase, q, varargin)
+function [output] = Full_RTConvolution(grid, goal_point, Tbase, q)
 
 %% PARAMETERS
 
-% Parse the optional arguments
-p = inputParser;
-addOptional(p, 'mid_joints', true); % Default value is false
-addOptional(p, 'avoid_task', true); % Default value is true
-addOptional(p, 'kinematics', 'exact-reduced'); % Default value is true
-
-
-parse(p, varargin{:});
-
 % select which goals
-mid_joints = p.Results.mid_joints
-avoid_task = p.Results.avoid_task
-kinematics_solution = p.Results.kinematics
+mid_joints = 1
+avoid_task = 1
+kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 
 % -----------------------------------------------------------
 
 % weights for different tasks
 wp = 2 % 2*[5 5 0.5 1 1 1]'; % primary task
-wm = 0 % mid-joints task
-wa = 10 % obstacle avoidance task
+wm = 2 % mid-joints task
+wa = 5 % obstacle avoidance task
 
 % factor that controls sigmoid function (tanh) for primary task
-sigm_factor_primary = 25
+sigm_factor_primary = 10
 
 % factor that controls sigmoid function (tanh) for avoidance task
 sigm_factor_avoidance = 50
@@ -33,8 +24,8 @@ sigm_factor_avoidance = 50
 goal_dist = 0.01 % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
-damping_factor_primary = 0.01
-damping_factor_avoidance = 0.5
+damping_factor_primary = 0.001
+damping_factor_avoidance = 0.01
 
 Tstep = 0.1 % time step
 Nmax = 1200 % max number of iterations
@@ -220,6 +211,13 @@ while current_dist > goal_dist && Niter < Nmax
         J0 = zeros(3,7);
         J0(1:3,1:size(J2,2)) = J2(4:6,:);
 
+        %%  MANIPULABILITY MEASUREMENTS
+        % -----------------------
+
+        manipulability_primary = sqrt(det(J*J'))
+
+        manipulability_secondary = sqrt(det(J0*J0'))
+
 
        
         %% INVERSE KINEMATICS SOLUTION
@@ -267,20 +265,14 @@ while current_dist > goal_dist && Niter < Nmax
         % -----------------------
         end
 
-        % manipulability measures
-        % -----------------------
-
-        manipulability_primary = sqrt(det(J*J'))
-
-        manipulability_secondary = sqrt(det(J0*J0'))
-
-
+ 
     end
 
     %% ONE STEP SIMULATION 
     % --------------------------------------------------
 
     % calculate new joint positions
+    
     q = q + q_vel * Tstep;
 
     % limit positions within joint limits
@@ -291,7 +283,7 @@ while current_dist > goal_dist && Niter < Nmax
     ee_point = robot_transforms(1:3,4,8);
 
     % update goal distance
-    current_dist = norm(ee_point'- goal_point(1:3));
+    current_dist = norm(ee_point'- goal_point(1:3))
 
     %% LOGS
     % -----------------------------------------------------------

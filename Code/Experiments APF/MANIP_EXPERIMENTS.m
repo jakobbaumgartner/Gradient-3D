@@ -5,7 +5,7 @@ close all
 % ------------------------------------------------------------
 
 % select map
-map_selection = 'wall'
+map_selection = 'corridor'
 
 [grid] = MAPS(map_selection);
 
@@ -91,7 +91,7 @@ end
 % ------------------------------------------------------------
 
 tic()
-[output] = Full_RTConvolution(grid, goal, Tbase, q,'avoid_task', true, 'mid_joints', false);
+[output] = Full_RTConvolution(grid, goal, Tbase, q);
 toc()
 
 %% SHOW RESULTS
