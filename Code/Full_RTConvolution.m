@@ -1,4 +1,4 @@
-function [joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_APF] = Full_RTConvolution(grid, goal_point, Tbase, q, varargin)
+function [output] = Full_RTConvolution(grid, goal_point, Tbase, q, varargin)
 
 %% PARAMETERS
 
@@ -12,32 +12,32 @@ addOptional(p, 'kinematics', 'exact-reduced'); % Default value is true
 parse(p, varargin{:});
 
 % select which goals
-mid_joints = p.Results.mid_joints;
-avoid_task = p.Results.avoid_task;
-kinematics_solution = p.Results.kinematics;
+mid_joints = p.Results.mid_joints
+avoid_task = p.Results.avoid_task
+kinematics_solution = p.Results.kinematics
 
 % -----------------------------------------------------------
 
 % weights for different tasks
-wp = 2% 2*[5 5 0.5 1 1 1]'; % primary task
-wm = 0; % mid-joints task
-wa = 50; % obstacle avoidance task
+wp = 2 % 2*[5 5 0.5 1 1 1]'; % primary task
+wm = 0 % mid-joints task
+wa = 10 % obstacle avoidance task
 
 % factor that controls sigmoid function (tanh) for primary task
-sigm_factor_primary = 25;
+sigm_factor_primary = 25
 
 % factor that controls sigmoid function (tanh) for avoidance task
-sigm_factor_avoidance = 50;
+sigm_factor_avoidance = 50
 
 % function parameters
-goal_dist = 0.01; % distance which satisfies ending of optimization
+goal_dist = 0.01 % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
-damping_factor_primary = 0.1;
-damping_factor_avoidance = 0.1;
+damping_factor_primary = 0.01
+damping_factor_avoidance = 0.5
 
-Tstep = 0.1; % time step
-Nmax = 1000; % max number of iterations
+Tstep = 0.1 % time step
+Nmax = 1200 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
@@ -70,13 +70,15 @@ current_dist = norm(ee_point'- goal_point(1:3));
 %% PREPARE LOG ARRAYS
 % -----------------------------------------------------------
 
-% add starting positions to saved array
-EE_positions = [ee_point];
-joints_positions = [q];
-goal_distances = [current_dist];
-q_velocities = [];
-values_APF = [];
-ee_velocities = [];
+output = struct;
+output.joints_positions = [q];
+output.EE_positions = [ee_point];
+output.goal_distances = [current_dist];
+output.q_velocities = [];
+output.ee_velocities = [];
+output.values_APF = [];
+output.manipulability_primary = [];
+output.manipulability_secondary = [];
 
 %% GET REPULSIVE KERNEL
 % -----------------------------------------------------------
@@ -242,8 +244,7 @@ while current_dist > goal_dist && Niter < Nmax
             %      (page 209) Petric, Tadej ; Zlajpah, Leon
     
             % Jacobian that relates velocity in avoidance direction and joint velocities
-            Jd0 = (rep_direction * J0);
-    
+            Jd0 = (rep_direction * J0);    
     
             % calculate pseudo inverse
             pinv_Jd0 = N*Jd0'*(Jd0*N*Jd0' + damping_factor_avoidance)^-1;
@@ -265,6 +266,14 @@ while current_dist > goal_dist && Niter < Nmax
     
         % -----------------------
         end
+
+        % manipulability measures
+        % -----------------------
+
+        manipulability_primary = sqrt(det(J*J'))
+
+        manipulability_secondary = sqrt(det(J0*J0'))
+
 
     end
 
@@ -288,24 +297,26 @@ while current_dist > goal_dist && Niter < Nmax
     % -----------------------------------------------------------
 
     % save joint positions
-    joints_positions = [joints_positions q];
+    output.joints_positions = [output.joints_positions q];
 
     % save EE positions
-    EE_positions = [EE_positions ee_point];
+    output.EE_positions = [output.EE_positions ee_point];
 
     % save goal distance
-    goal_distances = [goal_distances current_dist];
+    output.goal_distances = [output.goal_distances current_dist];
 
     % save visited APF value
     if exist('xyz', 'var') == 1 
-        values_APF(Niter+1).xyz = xyz';
-        values_APF(Niter+1).grad = avoid_vel';
+        output.values_APF(Niter+1).xyz = xyz';
+        output.values_APF(Niter+1).grad = avoid_vel';
     end
     % save joint velocities
-    q_velocities = [q_velocities q_vel];
+    output.q_velocities = [output.q_velocities q_vel];
 
-    % save EE velocities
-    ee_velocities = [ee_velocities ee_vel];
+    % save manipulability measurements of jacobians
+    output.manipulability_primary = [output.manipulability_primary manipulability_primary];
+    output.manipulability_secondary = [output.manipulability_secondary manipulability_secondary];
+
 
     % ITER COUNTER
     % -----------------------------------------------------------
@@ -314,7 +325,7 @@ while current_dist > goal_dist && Niter < Nmax
 
 end
 
-% REMOVE PROGRESS BAR
+%% REMOVE PROGRESS BAR
 close(f)
 
 

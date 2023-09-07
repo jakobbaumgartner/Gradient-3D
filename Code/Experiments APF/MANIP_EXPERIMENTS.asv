@@ -45,7 +45,7 @@ elseif (matches(map_selection, 'corridor'))
     
     % Robot Base position
     % robot base transformation (move to x - 1m, y - 1m)
-    Tbase = eye(4); 
+    Tbase = eye(4);
     Tbase(1:2,4) = [1 1]';
     
     % set joints starting pose
@@ -91,13 +91,13 @@ end
 % ------------------------------------------------------------
 
 tic()
-[output] = Full_RTConvolution(grid, goal, Tbase, q,'avoid_task', true, 'mid_joints', false);
+[joints_positions, EE_positions, goal_distances, q_velocities, ee_velocities, values_secondary] = Full_RTConvolution(grid, goal, Tbase, q,'avoid_task', true, 'mid_joints', false);
 toc()
 
 %% SHOW RESULTS
 % ------------------------------------------------------------
 figure()
-plot(output.goal_distances)
+plot(goal_distances)
 
-showMovementPanda(grid, [], control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
+showMovementPanda(grid, [], control_points, joints_positions, EE_positions, values_secondary, Tbase)
 
