@@ -5,7 +5,7 @@ close all
 % ------------------------------------------------------------
 
 % select map
-map_selection = 'corridor'
+map_selection = 'wall'
 
 [grid] = MAPS(map_selection);
 
@@ -86,7 +86,6 @@ end
 
 
 
-
 %% RUN MOTION PLANNING
 % ------------------------------------------------------------
 
@@ -97,7 +96,16 @@ toc()
 %% SHOW RESULTS
 % ------------------------------------------------------------
 figure()
-plot(output.goal_distances)
+plot(output.goal_distances, 'g')
+hold on
+plot(output.manipulability_avoidance*10, 'r')
+plot(output.manipulability_primary*10, 'b')
+
+legend('Goal Distances', 'Manipulability Avoidance x10', 'Manipulability Primary x10')
+xlabel('Iteration')
+ylabel('Value')
+title('Plot of Goal Distances and Manipulabilities')
+grid on
 
 showMovementPanda(grid, [], control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
 

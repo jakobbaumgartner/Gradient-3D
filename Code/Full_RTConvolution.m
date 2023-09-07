@@ -10,7 +10,7 @@ kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approxi
 % -----------------------------------------------------------
 
 % weights for different tasks
-wp = 2 % 2*[5 5 0.5 1 1 1]'; % primary task
+wp = 5 % 2*[5 5 0.5 1 1 1]'; % primary task
 wm = 2 % mid-joints task
 wa = 5 % obstacle avoidance task
 
@@ -40,7 +40,7 @@ q_range = [2.8973 -2.8973;
            3.7525 -0.0175;
            2.8973 -2.8973];
 
-% number of points per segment for obstacle avoidance task
+% number of points per segment for obstacle avoidance taskmanipulability_avoidance
 points_per_segment = 1*[1 1 1 1 1 1 1];
 
 %% START ROBOT SETTINGS / VALUES
@@ -69,7 +69,11 @@ output.q_velocities = [];
 output.ee_velocities = [];
 output.values_APF = [];
 output.manipulability_primary = [];
-output.manipulability_secondary = [];
+output.manipulability_avoidance = [];
+
+manipulability_primary = 0;
+manipulability_avoidance = 0;
+
 
 %% GET REPULSIVE KERNEL
 % -----------------------------------------------------------
@@ -118,6 +122,12 @@ while current_dist > goal_dist && Niter < Nmax
     % calculate Null Space 
     N = (eye(7)-pinv_J*J);
 
+    %%  MANIPULABILITY MEASUREMENTS
+    % -----------------------
+
+    % primary
+    manipulability_primary = sqrt(det(J*J'))
+
 
     %% MID JOINTS
     % --------------------------------------------------
@@ -161,7 +171,9 @@ while current_dist > goal_dist && Niter < Nmax
 
     % get x,y,z values of joint 4 position
     xyz = transform(1:3,4);
-        
+
+
+    
 
     if avoid_task
 
@@ -213,14 +225,9 @@ while current_dist > goal_dist && Niter < Nmax
 
         %%  MANIPULABILITY MEASUREMENTS
         % -----------------------
-
-        % primary
-        manipulability_primary = sqrt(det(J*J'))
-        
-        % secondary
-        manipulability_secondary = sqrt(det(J0*J0'))
-
-
+    
+        % avoidance
+        manipulability_avoidance = sqrt(det(J0*J0'))
        
         %% INVERSE KINEMATICS SOLUTION
         % --------------------------------------------------
@@ -269,6 +276,7 @@ while current_dist > goal_dist && Niter < Nmax
  
     end
 
+
     %% ONE STEP SIMULATION 
     % --------------------------------------------------
 
@@ -307,7 +315,7 @@ while current_dist > goal_dist && Niter < Nmax
 
     % save manipulability measurements of jacobians
     output.manipulability_primary = [output.manipulability_primary manipulability_primary];
-    output.manipulability_secondary = [output.manipulability_secondary manipulability_secondary];
+    output.manipulability_avoidance = [output.manipulability_avoidance manipulability_avoidance];
 
 
     % ITER COUNTER
