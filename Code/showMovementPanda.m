@@ -69,7 +69,7 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
     HRepulsive = [];
     
     % display grid
-    HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',false);
+    HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
     hold on
     axis equal
 
