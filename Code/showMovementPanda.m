@@ -178,7 +178,7 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
     arrow_length = 50; % adjust the length to your preference
 
 
-       
+       values_APF.grad
         % update quiver arrows
         for i = 1:1:size(values_APF(j).xyz,1)
             % plot the arrow
@@ -187,9 +187,9 @@ function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_po
             APF_handles(i).XData = values_APF(j).xyz(i,1)*grid.resolution;
             APF_handles(i).YData = values_APF(j).xyz(i,2)*grid.resolution;
             APF_handles(i).ZData = values_APF(j).xyz(i,3)*grid.resolution;
-            APF_handles(i).WData = values_APF(j).grad(i,1) * arrow_length * show_arrows;
+            APF_handles(i).UData = values_APF(j).grad(i,1) * arrow_length * show_arrows;
             APF_handles(i).VData = values_APF(j).grad(i,2) * arrow_length * show_arrows;
-            APF_handles(i).UData = values_APF(j).grad(i,3) * arrow_length * show_arrows;
+            APF_handles(i).WData = values_APF(j).grad(i,3) * arrow_length * show_arrows;
         
         
         
