@@ -111,11 +111,17 @@ end
 
 
 
-%% RUN MOTION PLANNING
+%% RUN MOTION PLANNING - JOINT 4 ONLY POI
 % ------------------------------------------------------------
 
 tic()
 [output] = Full_RTConvolution(grid, goal, Tbase, q);
+toc()
+
+%% RUN MOTION PLANNING - MULTIPLE POI (POINTS OF INTEREST)
+
+tic()
+[output] = Full_RTConvolution_Multiple_Points(grid, goal, Tbase, q);
 toc()
 
 %% SHOW RESULTS
