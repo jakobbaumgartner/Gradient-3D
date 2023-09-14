@@ -1,4 +1,4 @@
-function [f] = showMovementPanda(grid, grid_repulsive, control_points, joints_positions_APF, EE_positions_APF, values_APF, Tbase)
+function [f] = showMovementPandaRepulsiveOnePoint(grid, grid_repulsive, control_points, joints_positions_APF, EE_positions_APF, values_APF, Tbase)
 
     % Displays the movement of a Panda robot arm in a 3D environment, with the
     % option to show the attractive potential field (APF) vectors and/or the

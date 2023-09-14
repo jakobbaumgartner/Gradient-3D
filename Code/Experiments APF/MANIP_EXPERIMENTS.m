@@ -114,9 +114,9 @@ end
 %% RUN MOTION PLANNING - JOINT 4 ONLY POI
 % ------------------------------------------------------------
 
-tic()
-[output] = Full_RTConvolution(grid, goal, Tbase, q);
-toc()
+% tic()
+% [output] = Full_RTConvolution(grid, goal, Tbase, q);
+% toc()
 
 %% RUN MOTION PLANNING - MULTIPLE POI (POINTS OF INTEREST)
 
@@ -173,4 +173,4 @@ grid on;
 % PLOT VISUALIZATION
 % ------------------------- 
 
-showMovementPanda(grid, [], control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
+showMovementPandaRepulsiveOnePoint(grid, [], control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
