@@ -17,6 +17,6 @@ function K = euclidian_kernel_3D(m, n, p)
     maxDist = sqrt((m/2)^2 + (n/2)^2 + (p/2)^2); % Calculate the maximum possible distance
 
     K = (maxDist - dist) / maxDist; % Generate the kernel by subtracting the distances from the maximum distance
-    K = max(0, K); % Remove negative values which might occur due to flooring in meshgrid
+    K = {max(0, K)}; % Remove negative values which might occur due to flooring in meshgrid
 
 end

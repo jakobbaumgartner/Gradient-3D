@@ -41,7 +41,7 @@ q_range = [2.8973 -2.8973;
            2.8973 -2.8973];
 
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
-points_per_segment = 5*[1 1 1 1 1 1 1];
+points_per_segment = 1*[1 1 1 1 1 1 1];
 
 %% START ROBOT SETTINGS / VALUES
 % -----------------------------------------------------------
@@ -76,9 +76,15 @@ manipulability_primary = 0;
 manipulability_avoidance = 0;
 
 
-%% GET REPULSIVE KERNEL
+%% GET KERNELS
 % -----------------------------------------------------------
-kernels = REP_kernels();
+
+% repulsive kernels
+rep_kernels = REP_kernels();
+
+% obstacles distance kernel
+dist_kernel = euclidian_kernel_3D(61, 61, 61);
+
 
 %% OPTIMIZATION LOOP
 % -----------------------------------------------------------
@@ -151,7 +157,13 @@ while current_dist > goal_dist && Niter < Nmax
     % --------------------------------------------------
     avoid_vel = [];
 
+    % location of different POI on robot [x1 x2 ...
+    %                                     y1 y2 ...
+    %                                     z1 z2 ... ]
     poi_locations = [];
+
+    % values in POI
+    obstacles_field_values = [];
 
 
     if avoid_task
@@ -182,13 +194,17 @@ while current_dist > goal_dist && Niter < Nmax
             % get x,y,z values of joint 4 position
             poi_locations = [poi_locations transform(1:3,4)];
 
+            % GET POI VALUE
+            % --------------------
+            obstacles_field_values = [obstacles_field_values REP_field_calculation(grid, dist_kernel, transform(1:3,4))];
+
 
         end
 
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
         
-        [rep_values] = REP_field_calculation(grid, kernels, xyz)
+        [rep_values] = REP_field_calculation(grid, rep_kernels, xyz)
 
         % convert values to vectors (this only works for 3 kernels, in x y z
         % directions)
