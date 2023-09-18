@@ -1,13 +1,11 @@
-function [f] = showMovementPandaRepulsiveOnePoint(grid, grid_repulsive, control_points, joints_positions_APF, EE_positions_APF, values_APF, Tbase)
+function [f] = showMovementPandaOnePoint(grid, control_points, joints_positions_APF, EE_positions_APF, values_APF, Tbase)
 
     % Displays the movement of a Panda robot arm in a 3D environment, with the
     % option to show the attractive potential field (APF) vectors and/or the
-    % occupancy grid of obstacles and/or the repulsive potential field. The
+    % occupancy grid of obstacles and/or the repulsive potential field for one point on the robot. The
     % function takes in the following arguments:
     %
     %   - grid: an OctoGrid (special) object representing the occupancy grid of obstacles
-    %   - grid_repulsive: an 3D matrix representing the repulsive potential
-    %     field (optional)
     %   - control_points: a matrix of size n x 3 representing the goal points
     %     of the robot arm
     %   - joints_positions_APF: a matrix of size n x 7 representing the joint
@@ -53,14 +51,6 @@ function [f] = showMovementPandaRepulsiveOnePoint(grid, grid_repulsive, control_
         'Value', 1,...
         'Callback', @checkboxCallbackObstacles); 
 
-    if size(grid_repulsive,1) > 1
-        % Add checkbox for Repulsive field
-        cr = uicontrol('Style', 'checkbox',...
-            'String', 'Repulsive field',...
-            'Position', [20 60 100 20],...
-            'Value', 0,...
-            'Callback', @checkboxCallbackRepulsive); 
-    end
 
     % On/off APF vectors
     show_arrows = 1;
@@ -73,7 +63,6 @@ function [f] = showMovementPandaRepulsiveOnePoint(grid, grid_repulsive, control_
     hold on
     axis equal
 
-    HRepulsive = [];
 
     % display control points
     for i = 1:1:size(control_points,1)
@@ -213,7 +202,7 @@ function [f] = showMovementPandaRepulsiveOnePoint(grid, grid_repulsive, control_
         % Check if the checkbox is checked
         if checkboxValue == 1
             % display grid
-            HObstacles = grid.showGridVol3D(grid.grid,'floor',false,'height',false);
+            HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
         else
             for i = 1:1:length(HObstacles.handles)
                 delete(HObstacles.handles(i))
@@ -222,18 +211,7 @@ function [f] = showMovementPandaRepulsiveOnePoint(grid, grid_repulsive, control_
     
     end
 
-    function setRepulsiveGrid(checkboxValue)
-        % Check if the checkbox is checked
-        if checkboxValue == 1
-            % display grid
-            HRepulsive = grid.showGridVol3D(grid_repulsive,'floor',false,'height',false);
-        else
-            for i = 1:1:length(HRepulsive.handles)
-                delete(HRepulsive.handles(i))
-            end
-        end    
-    
-    end
+
 
     function sliderCallback(source,event)
         % This function will be called whenever the slider's value is changed.
@@ -262,14 +240,7 @@ function [f] = showMovementPandaRepulsiveOnePoint(grid, grid_repulsive, control_
 
     end
 
-    function checkboxCallbackRepulsive(source,event)
-        % This function will be called whenever the checkbox's state is changed.
-        % You can add the code here that will be executed whenever the checkbox is checked or unchecked.
-        checkboxValue = source.Value;  % Get the current state of the checkbox
-
-        setRepulsiveGrid(checkboxValue)
-
-    end
+ 
 
 end
 
