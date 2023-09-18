@@ -41,7 +41,7 @@ q_range = [2.8973 -2.8973;
            2.8973 -2.8973];
 
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
-points_per_segment = 5*[1 1 1 1 1 1 1];
+points_per_segment = 1*[1 1 1 1 1 1 1];
 
 %% START ROBOT SETTINGS / VALUES
 % -----------------------------------------------------------
@@ -71,6 +71,8 @@ output.values_APF = [];
 output.manipulability_primary = [];
 output.manipulability_avoidance = [];
 output.repulsive_field = [];
+output.POI_locations = [];
+output.POI_values = [];
 
 manipulability_primary = 0;
 manipulability_avoidance = 0;
@@ -84,7 +86,7 @@ rep_kernels = REP_kernels();
 
 % obstacles distance kernel
 % dist_kernel = euclidian_kernel_3D(61, 61, 61);
-dist_kernel = gaussian_kernel_3d(61, 61, 61, 5);
+dist_kernel = gaussian_kernel_3d(61, 61, 61, 10);
 
 
 
@@ -95,10 +97,10 @@ dist_kernel = gaussian_kernel_3d(61, 61, 61, 5);
 f = waitbar(0, 'Running kinematic optimization')
 
 % set itarations count
-Niter = 0;
+Niter = 1;
 
 % trajectory calculation loop
-while current_dist > goal_dist && Niter < Nmax  
+while current_dist > goal_dist && Niter <= Nmax  
 
     %% UPDATE PROGRESS BAR
     waitbar(Niter/Nmax)
@@ -157,7 +159,7 @@ while current_dist > goal_dist && Niter < Nmax
 
     %% APF AVOIDANCE TASK
     % --------------------------------------------------
-    avoid_vel = [];
+    rep_values = [];
 
     % location of different POI on robot [x1 x2 ...
     %                                     y1 y2 ...
@@ -198,106 +200,106 @@ while current_dist > goal_dist && Niter < Nmax
 
             % GET POI VALUE
             % --------------------
-            obstacles_field_values = [obstacles_field_values REP_field_calculation(grid, dist_kernel, transform(1:3,4))];
+            rep_values = [rep_values REP_field_calculation(grid, rep_kernels, transform(1:3,4))'];
 
-
+            
         end
 
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
 
-        [rep_values] = REP_field_calculation(grid, rep_kernels, xyz)
-
-        % convert values to vectors (this only works for 3 kernels, in x y z
-        % directions)
-        rep_vectors = eye(3) .* rep_values';
-
-        % sum of vector components
-        rep_sum = sum(rep_vectors');
-
-        % avoidance magnitude
-        rep_magnitude = norm(rep_sum);        
-
-        % avoidance direction - unit vector
-        rep_direction = rep_sum ./ rep_magnitude;
- 
-        % sigmoid transformation and scalling
-        avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
-
-        
-        % CALCULATE JACOBIAN IN POINT0
-        % --------------------
-
-        % calculate Jacobian in that point
-        robot = transformations_list(4).tree;
-        config = homeConfiguration(robot); % set configuration
-            
-        % set joint positions
-        for i = 1:1:robot.NumBodies
-            config(i).JointPosition = q(i);
-        end
-        
-        % toolbox jacobian returns first three rows angular velocity and
-        % second three rows linear velocities, change rows to be in line with
-        % used convention in default jacobian
-        J2 = geometricJacobian(robot,config,'body'+string(robot.NumBodies));
-%         J0 = zeros(6,7);
+%         [rep_values] = REP_field_calculation(grid, rep_kernels, xyz)
+% 
+%         % convert values to vectors (this only works for 3 kernels, in x y z
+%         % directions)
+%         rep_vectors = eye(3) .* rep_values';
+% 
+%         % sum of vector components
+%         rep_sum = sum(rep_vectors');
+% 
+%         % avoidance magnitude
+%         rep_magnitude = norm(rep_sum);        
+% 
+%         % avoidance direction - unit vector
+%         rep_direction = rep_sum ./ rep_magnitude;
+%  
+%         % sigmoid transformation and scalling
+%         avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
+% 
+%         
+%         % CALCULATE JACOBIAN IN POINT0
+%         % --------------------
+% 
+%         % calculate Jacobian in that point
+%         robot = transformations_list(4).tree;
+%         config = homeConfiguration(robot); % set configuration
+%             
+%         % set joint positions
+%         for i = 1:1:robot.NumBodies
+%             config(i).JointPosition = q(i);
+%         end
+%         
+%         % toolbox jacobian returns first three rows angular velocity and
+%         % second three rows linear velocities, change rows to be in line with
+%         % used convention in default jacobian
+%         J2 = geometricJacobian(robot,config,'body'+string(robot.NumBodies));
+% %         J0 = zeros(6,7);
+% %         J0(1:3,1:size(J2,2)) = J2(4:6,:);
+% %         J0(4:6,1:size(J2,2)) = J2(1:3,:);
+% 
+%         % only positional jacobian part
+%         J0 = zeros(3,7);
 %         J0(1:3,1:size(J2,2)) = J2(4:6,:);
-%         J0(4:6,1:size(J2,2)) = J2(1:3,:);
-
-        % only positional jacobian part
-        J0 = zeros(3,7);
-        J0(1:3,1:size(J2,2)) = J2(4:6,:);
-
-        %%  MANIPULABILITY MEASUREMENTS
-        % -----------------------
-    
-        % avoidance
-        manipulability_avoidance = sqrt(det(J0*J0'))
-       
-        %% INVERSE KINEMATICS SOLUTION
-        % --------------------------------------------------
-
-        if(matches(kinematics_solution, 'exact'))
-         
-            % EXACT SOLUTION
-            % -----------------------
-    
-            % calculate pseudo inverse
-            pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(3)); %damping to avoid singularities
-     
-            % calculate avoidance joints velocities
-            q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel - J0*N*dq_mid);
-
-        elseif(matches(kinematics_solution, 'exact-reduced'))
-
-            % EXACT SOLUTION - REDUCED AVOIDANCE OPERATIONAL SPACE
-            % -----------------------
-            % REF: Obstacle Avoidance for Redundant Manipulators as Control Problem 
-            %      (page 209) Petric, Tadej ; Zlajpah, Leon
-    
-            % Jacobian that relates velocity in avoidance direction and joint velocities
-            Jd0 = (rep_direction * J0);    
-    
-            % calculate pseudo inverse
-            pinv_Jd0 = N*Jd0'*(Jd0*N*Jd0' + damping_factor_avoidance)^-1;
-     
-            % calculate avoidance joints velocities
-            q_vel = q_vel + pinv_Jd0 * (rep_magnitude - Jd0*pinv_J * ee_vel - Jd0*N*dq_mid);
-
-        elseif(matches(kinematics_solution, 'approximate'))
-           
-            % APPROXIMATE SOLUTION
-            % -----------------------
-            
-            % calculate pseudo inverse
-            pinv_J0 = J0'*(J0*J0'+ damping_factor_avoidance * eye(3))^-1;        
-        
-            % calculate avoidance joints velocities
-            q_vel = q_vel + N * pinv_J0*(avoid_vel);
-    
-        % -----------------------
-        end
+% 
+%         %%  MANIPULABILITY MEASUREMENTS
+%         % -----------------------
+%     
+%         % avoidance
+%         manipulability_avoidance = sqrt(det(J0*J0'))
+%        
+%         %% INVERSE KINEMATICS SOLUTION
+%         % --------------------------------------------------
+% 
+%         if(matches(kinematics_solution, 'exact'))
+%          
+%             % EXACT SOLUTION
+%             % -----------------------
+%     
+%             % calculate pseudo inverse
+%             pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(3)); %damping to avoid singularities
+%      
+%             % calculate avoidance joints velocities
+%             q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel - J0*N*dq_mid);
+% 
+%         elseif(matches(kinematics_solution, 'exact-reduced'))
+% 
+%             % EXACT SOLUTION - REDUCED AVOIDANCE OPERATIONAL SPACE
+%             % -----------------------
+%             % REF: Obstacle Avoidance for Redundant Manipulators as Control Problem 
+%             %      (page 209) Petric, Tadej ; Zlajpah, Leon
+%     
+%             % Jacobian that relates velocity in avoidance direction and joint velocities
+%             Jd0 = (rep_direction * J0);    
+%     
+%             % calculate pseudo inverse
+%             pinv_Jd0 = N*Jd0'*(Jd0*N*Jd0' + damping_factor_avoidance)^-1;
+%      
+%             % calculate avoidance joints velocities
+%             q_vel = q_vel + pinv_Jd0 * (rep_magnitude - Jd0*pinv_J * ee_vel - Jd0*N*dq_mid);
+% 
+%         elseif(matches(kinematics_solution, 'approximate'))
+%            
+%             % APPROXIMATE SOLUTION
+%             % -----------------------
+%             
+%             % calculate pseudo inverse
+%             pinv_J0 = J0'*(J0*J0'+ damping_factor_avoidance * eye(3))^-1;        
+%         
+%             % calculate avoidance joints velocities
+%             q_vel = q_vel + N * pinv_J0*(avoid_vel);
+%     
+%         % -----------------------
+%         end
 
  
     end
@@ -331,12 +333,12 @@ while current_dist > goal_dist && Niter < Nmax
     % save goal distance
     output.goal_distances = [output.goal_distances current_dist];
 
-    % save visited APF value
-    if exist('xyz', 'var') == 1 
-        output.values_APF(Niter+1).xyz = xyz';
-        output.values_APF(Niter+1).grad = avoid_vel';
-        output.repulsive_field = [output.repulsive_field rep_values']
-    end
+    % save poi positions
+    output.POI_locations{Niter} = poi_locations;
+
+    % save poi values
+    output.POI_values{Niter} = rep_values;
+
     % save joint velocities
     output.q_velocities = [output.q_velocities q_vel];
 

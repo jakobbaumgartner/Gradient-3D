@@ -158,7 +158,6 @@ plot(output.repulsive_field(3,:), 'b');
 legend('X', 'Y', 'Z')
 
 
-
 % Add X and Y labels
 xlabel('Iteration');
 ylabel('Repulsive field');
@@ -173,4 +172,6 @@ grid on;
 % PLOT VISUALIZATION
 % ------------------------- 
 
-showMovementPandaRepulsiveOnePoint(grid, [], control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
+% showMovementPandaRepulsiveOnePoint(grid, control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
+
+showMovementPandaMultiplePoints(grid, control_points, output.joints_positions, output.EE_positions, output.POI_values, output.POI_locations, Tbase)
