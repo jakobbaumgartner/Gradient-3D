@@ -15,6 +15,6 @@ function K = gaussian_kernel_3d(m, n, p, sigma)
     
     [x,y,z] = meshgrid(-floor(m/2):floor(m/2), -floor(n/2):floor(n/2), -floor(p/2):floor(p/2));
     K = exp(-(x.^2 + y.^2 + z.^2)/(2*sigma^2)) / (2*pi*sigma^2)^1.5;
-    K = K / sum(K(:)); % normalize the kernel
+    K = {K / sum(K(:))}; % normalize the kernel
 
 end

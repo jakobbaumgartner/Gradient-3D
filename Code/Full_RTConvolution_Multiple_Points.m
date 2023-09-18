@@ -41,7 +41,7 @@ q_range = [2.8973 -2.8973;
            2.8973 -2.8973];
 
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
-points_per_segment = 1*[1 1 1 1 1 1 1];
+points_per_segment = 5*[1 1 1 1 1 1 1];
 
 %% START ROBOT SETTINGS / VALUES
 % -----------------------------------------------------------
@@ -83,7 +83,9 @@ manipulability_avoidance = 0;
 rep_kernels = REP_kernels();
 
 % obstacles distance kernel
-dist_kernel = euclidian_kernel_3D(61, 61, 61);
+% dist_kernel = euclidian_kernel_3D(61, 61, 61);
+dist_kernel = gaussian_kernel_3d(61, 61, 61, 5);
+
 
 
 %% OPTIMIZATION LOOP
@@ -203,7 +205,7 @@ while current_dist > goal_dist && Niter < Nmax
 
         % GET VELOCITIES USING DIRECTIONAL KERNELS
         % --------------------
-        
+
         [rep_values] = REP_field_calculation(grid, rep_kernels, xyz)
 
         % convert values to vectors (this only works for 3 kernels, in x y z
