@@ -41,7 +41,7 @@ q_range = [2.8973 -2.8973;
            2.8973 -2.8973];
 
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
-points_per_segment = 1*[1 1 1 1 1 1 1];
+points_per_segment = 1*[2 1 5 2 6 2 3];
 
 %% START ROBOT SETTINGS / VALUES
 % -----------------------------------------------------------

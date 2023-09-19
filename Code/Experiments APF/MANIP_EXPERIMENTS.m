@@ -124,47 +124,20 @@ tic()
 [output] = Full_RTConvolution_Multiple_Points(grid, goal, Tbase, q);
 toc()
 
-
 %% PLOT DISTANCE AND MANIPULABILITY
 % ------------------------- 
 
-figure()
-plot(output.goal_distances, 'g')
-hold on
-plot(output.manipulability_avoidance*10, 'r')
-plot(output.manipulability_primary*10, 'b')
-
-legend('Goal Distances', 'Manipulability Avoidance x10', 'Manipulability Primary x10')
-xlabel('Iteration')
-ylabel('Value')
-title('Plot of Goal Distances and Manipulabilities')
-grid on
-
-
-%% PLOT REPULSIVE VALUES
-% ------------------------- 
-
-% Create a new figure
-figure()
-
-% Plot the grad values
-plot(output.repulsive_field(1,:), 'r');
-hold on
-plot(output.repulsive_field(2,:), 'g');
-plot(output.repulsive_field(3,:), 'b');
-
-legend('X', 'Y', 'Z')
-
-
-% Add X and Y labels
-xlabel('Iteration');
-ylabel('Repulsive field');
-
-% Add a title
-title('Repulsive field');
-
-% Display grid lines on the plot
-grid on;
+% figure()
+% plot(output.goal_distances, 'g')
+% hold on
+% plot(output.manipulability_avoidance*10, 'r')
+% plot(output.manipulability_primary*10, 'b')
+% 
+% legend('Goal Distances', 'Manipulability Avoidance x10', 'Manipulability Primary x10')
+% xlabel('Iteration')
+% ylabel('Value')
+% title('Plot of Goal Distances and Manipulabilities')
+% grid on
 
 
 %% PLOT VISUALIZATION

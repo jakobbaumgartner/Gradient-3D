@@ -64,6 +64,8 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     points_handles = gobjects(length(transforms),1);
     lines_handles = gobjects(length(transforms),1);
     field_vectors_handles = gobjects(size(output.POI_values{1},2),1);
+    field_poi_dots_handles = gobjects(size(output.POI_values{1},2),1);
+
 
     
     for i = 1:length(transforms)
@@ -71,7 +73,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
 %         plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
     
         % Plot the joint point
-        points_handles(i) = plot3(transforms(1, 4, i)*grid.resolution, transforms(2, 4, i)*grid.resolution, transforms(3, 4, i)*grid.resolution, 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
+%         points_handles(i) = plot3(transforms(1, 4, i)*grid.resolution, transforms(2, 4, i)*grid.resolution, transforms(3, 4, i)*grid.resolution, 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
     
         % Connect the joint points with thicker lines
         if i > 1
@@ -97,7 +99,10 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     for i = 1:1:size(output.POI_values{1},2)        
         % plot the arrow
         hold on
-        APF_handles(i) = quiver3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, output.POI_values{j}(1,i)*arrow_length, output.POI_values{j}(2,i)*arrow_length, output.POI_values{j}(3,i)*arrow_length, arrow_length/2,  'LineWidth', 2, 'MaxHeadSize', 1);
+        APF_handles(i) = quiver3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, output.POI_values{j}(1,i)*arrow_length, output.POI_values{j}(2,i)*arrow_length, output.POI_values{j}(3,i)*arrow_length, arrow_length/2,  'LineWidth', 2, 'MaxHeadSize', 1, 'Color', [255, 95, 21]/255);
+   
+        field_poi_dots_handles(i) = scatter3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, 'filled', 'MarkerFaceColor', [255, 95, 21]/255, 'MarkerEdgeColor', [255, 95, 21]/255);
+        
     end
 
 
@@ -114,7 +119,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     function upPlot(sliderValue)
   
         % get figure time from slider
-        j = round(sliderValue * size(output.joints_positions,2) / 100);
+        j = round(sliderValue * size(output.joints_positions,2) / 100)
 
         % calculate transforms from joint positions
         [transforms] = GeometricPandaMATLAB(output.joints_positions(:,j), Tbase);
@@ -124,9 +129,9 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     %         plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
         
             % Plot the joint point
-            points_handles(k).XData = transforms(1, 4, k)*grid.resolution;
-            points_handles(k).YData = transforms(2, 4, k)*grid.resolution;
-            points_handles(k).ZData = transforms(3, 4, k)*grid.resolution;
+%             points_handles(k).XData = transforms(1, 4, k)*grid.resolution;
+%             points_handles(k).YData = transforms(2, 4, k)*grid.resolution;
+%             points_handles(k).ZData = transforms(3, 4, k)*grid.resolution;
 
             % Connect the joint points with thicker lines
             if k > 1
@@ -154,37 +159,45 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
             APF_handles(i).UData = output.POI_values{j}(1,i) * arrow_length * show_arrows;
             APF_handles(i).VData = output.POI_values{j}(2,i) * arrow_length * show_arrows;
             APF_handles(i).WData = output.POI_values{j}(3,i) * arrow_length * show_arrows;
+
+            field_poi_dots_handles(i).XData = output.POI_locations{j}(1,i)*grid.resolution;
+            field_poi_dots_handles(i).YData = output.POI_locations{j}(2,i)*grid.resolution;
+            field_poi_dots_handles(i).ZData = output.POI_locations{j}(3,i)*grid.resolution;
                 
         
         end
         % ---------------------------------------------------------------
 
     end
-% 
-%     function setAPFArrows(checkboxValue)
-%             % Check if the checkbox is checked
-%         if checkboxValue == 1
-%             show_arrows = 1;
-%             % Execute some code here
-%         else
-%             show_arrows = 0;
-%             % Execute some code here
-%         end    
-%     
-%     end
-% 
-%     function setObstaclesGrid(checkboxValue)
-%         % Check if the checkbox is checked
-%         if checkboxValue == 1
-%             % display grid
-%             HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
-%         else
-%             for i = 1:1:length(HObstacles.handles)
-%                 delete(HObstacles.handles(i))
-%             end
-%         end    
-%     
-%     end
+
+    
+    %% TURN ON / OFF VISUALIZATIONS
+    % ---------------------------------------------------------------
+
+    function setAPFArrows(checkboxValue)
+            % Check if the checkbox is checked
+        if checkboxValue == 1
+            show_arrows = 1;
+            % Execute some code here
+        else
+            show_arrows = 0;
+            % Execute some code here
+        end    
+    
+    end
+
+    function setObstaclesGrid(checkboxValue)
+        % Check if the checkbox is checked
+        if checkboxValue == 1
+            % display grid
+            HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
+        else
+            for i = 1:1:length(HObstacles.handles)
+                delete(HObstacles.handles(i))
+            end
+        end    
+    
+    end
 
 
 
