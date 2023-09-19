@@ -1,5 +1,8 @@
 function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, output)
 
+    % APF field vector length
+    arrow_length = 10; % adjust the length to your preference
+
     %% FIGURE AND CONTROLS
     % ---------------------------------------------------------------
 
@@ -60,10 +63,12 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     % figure handles
     points_handles = gobjects(length(transforms),1);
     lines_handles = gobjects(length(transforms),1);
+    field_vectors_handles = gobjects(size(output.POI_values{1},2),1);
+
     
     for i = 1:length(transforms)
-    %         % Plot the transformation frame with thicker lines
-    %         plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
+        % Plot the transformation frame with thicker lines
+%         plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
     
         % Plot the joint point
         points_handles(i) = plot3(transforms(1, 4, i)*grid.resolution, transforms(2, 4, i)*grid.resolution, transforms(3, 4, i)*grid.resolution, 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
@@ -83,22 +88,19 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     axis equal
     view([-180.9 45.0])
     hold off;
-% 
-% 
-%     % draw APF field
-%     % ---------------------------------------------------------------
-%     if size(values_APF)
-%         arrow_length = 50; % adjust the length to your preference
-%     
-%         j = size(values_APF,2);
-%         for i = 1:1:size(values_APF(1).xyz,1)        
-%             % plot the arrow
-%             hold on
-%             APF_handles(i) = quiver3(values_APF(j).xyz(i,1)*grid.resolution, values_APF(j).xyz(i,2)*grid.resolution, values_APF(j).xyz(i,3)*grid.resolution, values_APF(j).grad(i,1) * arrow_length, values_APF(j).grad(i,2) * arrow_length, values_APF(j).grad(i,3) * arrow_length, arrow_length/2,  'LineWidth', 2, 'MaxHeadSize', 1);
-%         end
-%     end
-% 
-% 
+
+
+    % draw APF field
+    % ---------------------------------------------------------------
+
+    j = size(output.POI_values,2);
+    for i = 1:1:size(output.POI_values{1},2)        
+        % plot the arrow
+        hold on
+        APF_handles(i) = quiver3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, output.POI_values{j}(1,i)*arrow_length, output.POI_values{j}(2,i)*arrow_length, output.POI_values{j}(3,i)*arrow_length, arrow_length/2,  'LineWidth', 2, 'MaxHeadSize', 1);
+    end
+
+
     % Set the limits
     xlim([0 200]);   % X-axis limits
     ylim([0 200]);   % Y-axis limits
@@ -139,28 +141,24 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
             end
         end
 
-%             % draw APF field
-%     % --------------------------------------------------------------
-%     arrow_length = 50; % adjust the length to your preference
-% 
-% 
-%         % update quiver arrows
-%         for i = 1:1:size(values_APF(j).xyz,1)
-%             % plot the arrow
-%             hold on
-%        
-%             APF_handles(i).XData = values_APF(j).xyz(i,1)*grid.resolution;
-%             APF_handles(i).YData = values_APF(j).xyz(i,2)*grid.resolution;
-%             APF_handles(i).ZData = values_APF(j).xyz(i,3)*grid.resolution;
-%             APF_handles(i).UData = values_APF(j).grad(i,1) * arrow_length * show_arrows;
-%             APF_handles(i).VData = values_APF(j).grad(i,2) * arrow_length * show_arrows;
-%             APF_handles(i).WData = values_APF(j).grad(i,3) * arrow_length * show_arrows;
-%         
-%         
-%         
-%         end
-%     % ---------------------------------------------------------------
-% 
+        % update APF field
+        % --------------------------------------------------------------    
+    
+        for i = 1:1:size(output.POI_values{1},2)
+
+            hold on
+       
+            APF_handles(i).XData = output.POI_locations{j}(1,i)*grid.resolution;
+            APF_handles(i).YData = output.POI_locations{j}(2,i)*grid.resolution;
+            APF_handles(i).ZData = output.POI_locations{j}(3,i)*grid.resolution;
+            APF_handles(i).UData = output.POI_values{j}(1,i) * arrow_length * show_arrows;
+            APF_handles(i).VData = output.POI_values{j}(2,i) * arrow_length * show_arrows;
+            APF_handles(i).WData = output.POI_values{j}(3,i) * arrow_length * show_arrows;
+                
+        
+        end
+        % ---------------------------------------------------------------
+
     end
 % 
 %     function setAPFArrows(checkboxValue)
