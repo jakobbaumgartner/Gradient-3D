@@ -3,6 +3,11 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     % APF field vector length
     arrow_length = 10; % adjust the length to your preference
 
+    %% COLORMAP
+    % ---------------------------------------------------------------
+    cMap = interp1(0:1,[0 1 0; 1 0 0],linspace(0,1,256));
+    cMap = cMap.^(1/2.4); % linearize
+
     %% FIGURE AND CONTROLS
     % ---------------------------------------------------------------
 
@@ -99,9 +104,15 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     for i = 1:1:size(output.POI_values{1},2)        
         % plot the arrow
         hold on
-        APF_handles(i) = quiver3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, output.POI_values{j}(1,i)*arrow_length, output.POI_values{j}(2,i)*arrow_length, output.POI_values{j}(3,i)*arrow_length, arrow_length/2,  'LineWidth', 2, 'MaxHeadSize', 1, 'Color', [255, 95, 21]/255);
+
+        % calculate color
+        apf_magnitude = norm([output.POI_values{j}(1,i),output.POI_values{j}(2,i),output.POI_values{j}(3,i)]);
+        apf_magnitude_remapped = round(min(apf_magnitude,1)*255 + 1);
+        apf_color = cMap(apf_magnitude_remapped,:);
+
+        APF_handles(i) = quiver3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, output.POI_values{j}(1,i)*arrow_length, output.POI_values{j}(2,i)*arrow_length, output.POI_values{j}(3,i)*arrow_length, arrow_length/2,  'LineWidth', 2, 'MaxHeadSize', 1, 'Color', apf_color);
    
-        field_poi_dots_handles(i) = scatter3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, 'filled', 'MarkerFaceColor', [255, 95, 21]/255, 'MarkerEdgeColor', [255, 95, 21]/255);
+        field_poi_dots_handles(i) = scatter3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, 'filled', 'MarkerFaceColor', apf_color, 'MarkerEdgeColor', apf_color);
         
     end
 
@@ -119,7 +130,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     function upPlot(sliderValue)
   
         % get figure time from slider
-        j = round(sliderValue * size(output.joints_positions,2) / 100)
+        j = round(sliderValue * (size(output.joints_positions,2)-1) / 100)
 
         % calculate transforms from joint positions
         [transforms] = GeometricPandaMATLAB(output.joints_positions(:,j), Tbase);
@@ -152,7 +163,13 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
         for i = 1:1:size(output.POI_values{1},2)
 
             hold on
+
+            % calculate color
+            apf_magnitude = norm([output.POI_values{j}(1,i),output.POI_values{j}(2,i),output.POI_values{j}(3,i)]);
+            apf_magnitude_remapped = round(min(apf_magnitude,1)*255 + 1);
+            apf_color = cMap(apf_magnitude_remapped,:);
        
+            APF_handles(i).Color = apf_color;
             APF_handles(i).XData = output.POI_locations{j}(1,i)*grid.resolution;
             APF_handles(i).YData = output.POI_locations{j}(2,i)*grid.resolution;
             APF_handles(i).ZData = output.POI_locations{j}(3,i)*grid.resolution;
@@ -160,9 +177,15 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
             APF_handles(i).VData = output.POI_values{j}(2,i) * arrow_length * show_arrows;
             APF_handles(i).WData = output.POI_values{j}(3,i) * arrow_length * show_arrows;
 
+
+
             field_poi_dots_handles(i).XData = output.POI_locations{j}(1,i)*grid.resolution;
             field_poi_dots_handles(i).YData = output.POI_locations{j}(2,i)*grid.resolution;
             field_poi_dots_handles(i).ZData = output.POI_locations{j}(3,i)*grid.resolution;
+            field_poi_dots_handles(i).MarkerEdgeColor = apf_color;
+            field_poi_dots_handles(i).MarkerFaceColor = apf_color;
+
+
                 
         
         end
