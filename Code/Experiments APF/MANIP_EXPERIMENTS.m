@@ -124,10 +124,8 @@ tic()
 [output] = Full_RTConvolution_Multiple_Points(grid, goal, Tbase, q);
 toc()
 
-%% SHOW RESULTS
-% ------------------------------------------------------------
 
-% PLOT DISTANCE AND MANIPULABILITY
+%% PLOT DISTANCE AND MANIPULABILITY
 % ------------------------- 
 
 figure()
@@ -143,11 +141,11 @@ title('Plot of Goal Distances and Manipulabilities')
 grid on
 
 
-% PLOT REPULSIVE VALUES
+%% PLOT REPULSIVE VALUES
 % ------------------------- 
 
 % Create a new figure
-figure;
+figure()
 
 % Plot the grad values
 plot(output.repulsive_field(1,:), 'r');
@@ -169,9 +167,9 @@ title('Repulsive field');
 grid on;
 
 
-% PLOT VISUALIZATION
+%% PLOT VISUALIZATION
 % ------------------------- 
 
 % showMovementPandaRepulsiveOnePoint(grid, control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
 
-showMovementPandaMultiplePoints(grid, control_points, output.joints_positions, output.EE_positions, output.POI_values, output.POI_locations, Tbase)
+showMovementPandaMultiplePoints(grid, Tbase, control_points, output)
