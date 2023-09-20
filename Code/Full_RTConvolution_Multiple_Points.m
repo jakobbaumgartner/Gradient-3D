@@ -235,7 +235,7 @@ while current_dist > goal_dist && Niter <= Nmax
          for selected_poi = length(poi_indeces):-1:(length(poi_indeces)-length(weights_avoidance)+1) % biggest n-POI
 
              % avoidance magnitude
-            rep_magnitude = norm(rep_sum);        
+            rep_magnitude = poi_sizes(selected_poi);        
     
             % avoidance direction - unit vector
             rep_direction = rep_sum ./ rep_magnitude;

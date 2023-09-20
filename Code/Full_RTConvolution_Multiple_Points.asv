@@ -218,58 +218,10 @@ while current_dist > goal_dist && Niter <= Nmax
 
         end
 
-        % FIND CLOSEST POI
+        % FIND CLOSEST POI TO OBSTACLES
         % --------------------
+        [poi_sizes, poi_indeces] = sort(vecnorm(rep_values));            
 
-        % sorts points by size
-        [~, poi_indeces] = sort(vecnorm(rep_values));
-
-      
-
-        % CASES:
-            % closest point
-            % closest 2 points
-                % normal sum
-                % weighted sum
-            % closest 3 points
-                % normal sum
-                % weghted sum
-            % closest N points
-                % normal sum
-                % weighted sum
-            
-
-     
-        % avoidance magnitude
-        rep_magnitude = norm(rep_sum);        
-
-        % avoidance direction - unit vector
-        rep_direction = rep_sum ./ rep_magnitude;
-
-        % sigmoid transformation and scalling
-        avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
-
-
-        % CALCULATE JACOBIAN IN POINT0
-        % --------------------
-
-        % calculate Jacobian in that point
-        robot = transformations_list(4).tree;
-        config = homeConfiguration(robot); % set configuration
-
-        % set joint positions
-        for i = 1:1:robot.NumBodies
-            config(i).JointPosition = q(i);
-        end
-
-        % toolbox jacobian returns first three rows angular velocity and
-        % second three rows linear velocities, change rows to be in line with
-        % used convention in default jacobian
-        J2 = geometricJacobian(robot,config,'body'+string(robot.NumBodies));
-
-        % only positional jacobian part
-        J0 = zeros(3,7);
-        J0(1:3,1:size(J2,2)) = J2(4:6,:);
 
         %%  MANIPULABILITY MEASUREMENTS
         % -----------------------
@@ -280,8 +232,43 @@ while current_dist > goal_dist && Niter <= Nmax
         %% INVERSE KINEMATICS SOLUTION
         % --------------------------------------------------
 
-         for i = 1:1:length(weights_avoidance)
-            
+         for selected_poi = length(poi_indeces):-1:(length(poi_indeces)-length(weights_avoidance)+1) % biggest n-POI
+
+            % poi index
+            poi_index = poi_indeces(selected_poi);
+
+            % avoidance magnitude
+            rep_magnitude = poi_sizes(selected_poi);        
+    
+            % avoidance direction - unit vector
+            rep_direction = rep_values(:,poi_index) ./ rep_magnitude;
+    
+            % sigmoid transformation and scalling
+            avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
+    
+    
+            % CALCULATE JACOBIAN IN POINT0
+            % --------------------
+    
+            % calculate Jacobian in that point
+            robot = transformations_list(4).tree;
+            config = homeConfiguration(robot); % set configuration
+    
+            % set joint positions
+            for i = 1:1:robot.NumBodies
+                config(i).JointPosition = q(i);
+            end
+    
+            % toolbox jacobian returns first three rows angular velocity and
+            % second three rows linear velocities, change rows to be in line with
+            % used convention in default jacobian
+            J2 = geometricJacobian(robot,config,'body'+string(robot.NumBodies));
+    
+            % only positional jacobian part
+            J0 = zeros(3,7);
+            J0(1:3,1:size(J2,2)) = J2(4:6,:);
+
+                
             if(matches(kinematics_solution, 'exact'))
     
                 % EXACT SOLUTION
