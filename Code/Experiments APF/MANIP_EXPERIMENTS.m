@@ -37,11 +37,10 @@ elseif (matches(map_selection, 'column'))
 
    % Generate goal points
     % trajectory generation points (xyz position, xyz angles)
-    control_points = [1.232 1.027 0.971 0 0 0;
-                      1.4 1 0.5 0 0 0]; 
+    control_points = [1.4 1 0.5 0 0 0]; 
 
     % goal
-    goal = control_points(2,1:3);
+    goal = control_points;
     
     % Robot Base position
     % robot base transformation (move to x - 1m, y - 1m)
@@ -49,7 +48,7 @@ elseif (matches(map_selection, 'column'))
     Tbase(1:2,4) = [1 1]';
     
     % set joints starting pose
-    q = [1.74582837386633
+    q = [1.0
     0.164551561035897
     -2.28912954318266
     -0.400811659236395
