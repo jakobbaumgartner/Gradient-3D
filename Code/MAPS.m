@@ -29,7 +29,7 @@ function [grid] = MAPS(map_selection)
     elseif (matches( map_selection, 'column' ))
 
         % column
-        grid.addBox(1.15,1,0,0.2,0.2,1.5)
+        grid.addBox(1.1,1.05,0,0.2,0.2,1.5)
     
     elseif (matches( map_selection , 'cross' ))
     

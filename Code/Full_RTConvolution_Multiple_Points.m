@@ -3,24 +3,25 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 %% PARAMETERS
 
 % select which goals
-mid_joints = 0
+mid_joints = 1
 avoid_task = 1
-kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
+kinematics_solution = 'approximate' % OPTIONS: exact-reduced , exact , approximate
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
-points_per_segment = 1*[2 1 5 2 6 2 3];
+points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [10 100 1000];
+weights_avoidance = [1 1 1];
+weights_avoidance = weights_avoidance / norm(weights_avoidance);
 
 % -----------------------------------------------------------
 
 
 % weights for different tasks
-wp = 5 % primary task
-wm = 2 % mid-joints task
-wa = 100 % obstacle avoidance task
+wp = 20 % primary task
+wm = 1 % mid-joints task
+wa = 50 % obstacle avoidance task
 
 % factor that controls sigmoid function (tanh) for primary task
 sigm_factor_primary = 10
@@ -312,6 +313,10 @@ while current_dist > goal_dist && Niter <= Nmax
         % COMBINE JOINT AVOIDANCE VELOCITIES
         % -----------------------
         q_avoid_total = q_avoid_list * weights_avoidance';
+
+        % APPLY SECONDARY AVOIDANCE TASK
+        % -----------------------
+        q_vel = q_vel + q_avoid_total;
 
 
  
