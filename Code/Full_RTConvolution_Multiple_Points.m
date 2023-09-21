@@ -19,7 +19,7 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance);
 
 
 % weights for different tasks
-wp = 20 % primary task
+wp = 5 % primary task
 wm = 1 % mid-joints task
 wa = 50 % obstacle avoidance task
 
