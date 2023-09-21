@@ -5,14 +5,14 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 % select which goals
 mid_joints = 0
 avoid_task = 1
-kinematics_solution = 'approximate' % OPTIONS: exact-reduced , exact , approximate
+kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
 points_per_segment = 1*[2 1 5 2 6 2 3];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1];
+weights_avoidance = [10 100 1000];
 
 % -----------------------------------------------------------
 
@@ -218,40 +218,39 @@ while current_dist > goal_dist && Niter <= Nmax
 
         end
 
-        % FIND CLOSEST POI TO OBSTACLES
+        % SORT POI BASED ON DISTANCE FROM OBSTACLES
         % --------------------
         [poi_sizes, poi_indeces] = sort(vecnorm(rep_values));            
 
 
-        %%  MANIPULABILITY MEASUREMENTS
-        % -----------------------
-
-        % avoidance
-        manipulability_avoidance = sqrt(det(J0*J0'))
-
-        %% INVERSE KINEMATICS SOLUTION
+        %% FOR EVERY POI CALCULATE AVOIDANCE JOINT SPEEDS (USING INVERSE KINEMATICS SOLUTION)
         % --------------------------------------------------
+
+         q_avoid_list = []; % joint avoidance velocities for n-POI
 
          for selected_poi = length(poi_indeces):-1:(length(poi_indeces)-length(weights_avoidance)+1) % biggest n-POI
 
             % poi index
             poi_index = poi_indeces(selected_poi);
 
+            % avoidance vel
+            rep_vel = rep_values(:,poi_index);
+
             % avoidance magnitude
             rep_magnitude = poi_sizes(selected_poi);        
     
             % avoidance direction - unit vector
-            rep_direction = rep_values(:,poi_index) ./ rep_magnitude;
+            rep_direction = rep_vel' ./ rep_magnitude;
     
             % sigmoid transformation and scalling
-            avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
-    
+            avoid_vel = wa * tanh(rep_vel/sigm_factor_avoidance); 
+
     
             % CALCULATE JACOBIAN IN POINT0
             % --------------------
     
             % calculate Jacobian in that point
-            robot = transformations_list(4).tree;
+            robot = transformations_list(poi_index).tree;
             config = homeConfiguration(robot); % set configuration
     
             % set joint positions
@@ -260,8 +259,7 @@ while current_dist > goal_dist && Niter <= Nmax
             end
     
             % toolbox jacobian returns first three rows angular velocity and
-            % second three rows linear velocities, change rows to be in line with
-            % used convention in default jacobian
+            % second three rows linear velocities
             J2 = geometricJacobian(robot,config,'body'+string(robot.NumBodies));
     
             % only positional jacobian part
@@ -278,7 +276,7 @@ while current_dist > goal_dist && Niter <= Nmax
                 pinv_J0 = (J0*N)'*inv((J0*N)*(J0*N)' + damping_factor_avoidance * eye(3)); %damping to avoid singularities
     
                 % calculate avoidance joints velocities
-                q_vel = q_vel + pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel - J0*N*dq_mid);
+                q_avoid_list = [ q_avoid_list pinv_J0 * (avoid_vel - J0*pinv_J * ee_vel - J0*N*dq_mid)];
     
             elseif(matches(kinematics_solution, 'exact-reduced'))
     
@@ -294,7 +292,7 @@ while current_dist > goal_dist && Niter <= Nmax
                 pinv_Jd0 = N*Jd0'*(Jd0*N*Jd0' + damping_factor_avoidance)^-1;
     
                 % calculate avoidance joints velocities
-                q_vel = q_vel + pinv_Jd0 * (rep_magnitude - Jd0*pinv_J * ee_vel - Jd0*N*dq_mid);
+                q_avoid_list = [ q_avoid_list pinv_Jd0 * (rep_magnitude - Jd0*pinv_J * ee_vel - Jd0*N*dq_mid)];
     
             elseif(matches(kinematics_solution, 'approximate'))
     
@@ -305,11 +303,16 @@ while current_dist > goal_dist && Niter <= Nmax
                 pinv_J0 = J0'*(J0*J0'+ damping_factor_avoidance * eye(3))^-1;        
     
                 % calculate avoidance joints velocities
-                q_vel = q_vel + N * pinv_J0*(avoid_vel);
+                q_avoid_list = [ q_avoid_list , N * pinv_J0*(avoid_vel)];
 
             end
 
-        end
+         end
+
+        % COMBINE JOINT AVOIDANCE VELOCITIES
+        % -----------------------
+        q_avoid_total = q_avoid_list * weights_avoidance'
+
 
  
     end
