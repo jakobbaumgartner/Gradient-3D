@@ -75,10 +75,10 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     
     for i = 1:length(transforms)
         % Plot the transformation frame with thicker lines
-%         plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
+        plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
     
         % Plot the joint point
-%         points_handles(i) = plot3(transforms(1, 4, i)*grid.resolution, transforms(2, 4, i)*grid.resolution, transforms(3, 4, i)*grid.resolution, 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
+        points_handles(i) = plot3(transforms(1, 4, i)*grid.resolution, transforms(2, 4, i)*grid.resolution, transforms(3, 4, i)*grid.resolution, 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
     
         % Connect the joint points with thicker lines
         if i > 1
@@ -140,9 +140,9 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     %         plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
         
             % Plot the joint point
-%             points_handles(k).XData = transforms(1, 4, k)*grid.resolution;
-%             points_handles(k).YData = transforms(2, 4, k)*grid.resolution;
-%             points_handles(k).ZData = transforms(3, 4, k)*grid.resolution;
+            points_handles(k).XData = transforms(1, 4, k)*grid.resolution;
+            points_handles(k).YData = transforms(2, 4, k)*grid.resolution;
+            points_handles(k).ZData = transforms(3, 4, k)*grid.resolution;
 
             % Connect the joint points with thicker lines
             if k > 1

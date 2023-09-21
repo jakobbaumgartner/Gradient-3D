@@ -12,7 +12,7 @@ kinematics_solution = 'approximate' % OPTIONS: exact-reduced , exact , approxima
 points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1 1];
+weights_avoidance = [1];
 weights_avoidance = weights_avoidance / norm(weights_avoidance);
 
 % -----------------------------------------------------------
@@ -37,7 +37,7 @@ damping_factor_primary = 0.01
 damping_factor_avoidance = 0.01
 
 Tstep = 0.1 % time step
-Nmax = 100 % max number of iterations
+Nmax = 1000 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
@@ -81,7 +81,7 @@ output.POI_locations = [];
 output.POI_values = [];
 
 manipulability_primary = 0;
-manipulability_avoidance = 0;
+manipulability_avoidance = [];
 
 
 %% GET KERNELS
