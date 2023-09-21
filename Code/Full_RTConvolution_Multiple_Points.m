@@ -234,11 +234,14 @@ while current_dist > goal_dist && Niter <= Nmax
 
          for selected_poi = length(poi_indeces):-1:(length(poi_indeces)-length(weights_avoidance)+1) % biggest n-POI
 
-             % avoidance magnitude
+            % poi index
+            poi_index = poi_indeces(selected_poi);
+
+            % avoidance magnitude
             rep_magnitude = poi_sizes(selected_poi);        
     
             % avoidance direction - unit vector
-            rep_direction = rep_sum ./ rep_magnitude;
+            rep_direction = rep_values(:,poi_index) ./ rep_magnitude;
     
             % sigmoid transformation and scalling
             avoid_vel = wa * tanh(rep_sum'/sigm_factor_avoidance); 
