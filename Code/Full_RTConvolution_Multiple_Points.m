@@ -5,7 +5,7 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 % select which goals
 mid_joints = 1
 avoid_task = 1
-kinematics_solution = 'approximate' % OPTIONS: exact-reduced , exact , approximate
+kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
@@ -19,25 +19,28 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance);
 
 
 % weights for different tasks
-wp = 5 % primary task
-wm = 1 % mid-joints task
-wa = 50 % obstacle avoidance task
+wp = 1 % primary task
+wp_att = 10 % primary task - attractive component
+wp_rep = 1 % primary task - repulsive component
+wm = 0.1 % mid-joints task
+wa = 5 % obstacle avoidance task
+wa_i = 5 % obstacle avoidance 
 
 % factor that controls sigmoid function (tanh) for primary task
-sigm_factor_primary = 10
+sigm_factor_primary = 1
 
 % factor that controls sigmoid function (tanh) for avoidance task
-sigm_factor_avoidance = 50
+sigm_factor_avoidance = 1
 
 % function parameters
-goal_dist = 0.01 % distance which satisfies ending of optimization
+goal_dist = 0.02 % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
 damping_factor_primary = 0.01
 damping_factor_avoidance = 0.01
 
 Tstep = 0.1 % time step
-Nmax = 1000 % max number of iterations
+Nmax = 100 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
@@ -123,16 +126,22 @@ while current_dist > goal_dist && Niter <= Nmax
     % --------------------------------------------------
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
-    ee_vel_att = goal_point(1:3)' - ee_point;
+    ee_vel_att = goal_point(1:3)' - ee_point
 
     
     % REPULSIVE 
-    ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
+    ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point)
 
 
     % TOTAL : SUM
-    ee_vel = ee_vel_att + norm(ee_vel_att) *  ee_vel_rep';
+
+    % Calculate norm(ee_vel_att) * ee_vel_rep'
+    scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep'
+    
+    ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * scaled_ee_vel_rep);
     ee_vel = wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
+%     ee_vel = wp .* [ee_vel ; 0 ; 0 ; 0]
+
 
 
     % --------------------------------------------------
@@ -244,7 +253,7 @@ while current_dist > goal_dist && Niter <= Nmax
             rep_direction = rep_vel' ./ rep_magnitude;
     
             % sigmoid transformation and scalling
-            avoid_vel = wa * tanh(rep_vel/sigm_factor_avoidance); 
+            avoid_vel = wa * tanh(wa_i * rep_vel/sigm_factor_avoidance); 
 
     
             % CALCULATE JACOBIAN IN POINT0
