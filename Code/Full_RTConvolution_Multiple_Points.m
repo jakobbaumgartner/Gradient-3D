@@ -19,12 +19,12 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance);
 
 
 % weights for different tasks
-wp = 1 % primary task
-wp_att = 10 % primary task - attractive component
-wp_rep = 1 % primary task - repulsive component
-wm = 0.1 % mid-joints task
-wa = 5 % obstacle avoidance task
-wa_i = 5 % obstacle avoidance 
+wp = 1/10 % primary task
+wp_att = 5 % primary task - attractive component
+wp_rep = 0.1 % primary task - repulsive component
+wm = 1 % mid-joints task
+wa = 10 % obstacle avoidance task
+wa_i = 10 % obstacle avoidance 
 
 % factor that controls sigmoid function (tanh) for primary task
 sigm_factor_primary = 1
@@ -139,7 +139,7 @@ while current_dist > goal_dist && Niter <= Nmax
     scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep'
     
     ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * scaled_ee_vel_rep);
-    ee_vel = wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
+    ee_vel = Niter * wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
 %     ee_vel = wp .* [ee_vel ; 0 ; 0 ; 0]
 
 

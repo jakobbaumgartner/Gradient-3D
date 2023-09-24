@@ -37,7 +37,7 @@ elseif (matches(map_selection, 'column'))
 
    % Generate goal points
     % trajectory generation points (xyz position, xyz angles)
-    control_points = [1.3 0.9 0.5 0 0 0]; 
+    control_points = [1.4 1 0.5 0 0 0]; 
 
     % goal
     goal = control_points;
