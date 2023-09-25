@@ -4,7 +4,7 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 
 % select which goals
 mid_joints = 1
-avoid_task = 1
+avoid_task = 0
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_primary_gain_change = 1 % if selected, primary task will start with little gain and grow with time
 

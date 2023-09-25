@@ -205,10 +205,8 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
             % Check if the checkbox is checked
         if checkboxValue == 1
             show_arrows = 1;
-            % Execute some code here
         else
             show_arrows = 0;
-            % Execute some code here
         end    
     
     end
@@ -259,7 +257,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     % Callback function for the "Play" button
     function playButtonCallback(~, ~)
         % Get the current slider value
-        current_slider_value = 0;
+        current_slider_value = 1;
 
         % Define the animation parameters
         % Total animation time in seconds
@@ -271,7 +269,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
             new_slider_value = current_slider_value + i * 1;
 
             % Ensure the slider value does not exceed the maximum
-            new_slider_value = min(new_slider_value, 100);
+            new_slider_value = max(min(new_slider_value, 100),1);
 
             % Update the slider
             s.Value = new_slider_value;
