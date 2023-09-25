@@ -37,6 +37,10 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
         'Value', 1,...
         'Callback', @checkboxCallbackObstacles); 
 
+    % Create a "Play" button
+    play_button = uicontrol('Style', 'pushbutton', 'String', 'Play', ...
+        'Position', [460, 20, 60, 20], 'Callback', @playButtonCallback);
+
 
     % On/off APF vectors
     show_arrows = 1;
@@ -231,7 +235,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
         % This function will be called whenever the slider's value is changed.
         % You can add the code here that will be executed whenever the slider is moved.
         % For example, this might involve redrawing the robot with different joint positions based on the slider's current value.
-        sliderValue = source.Value;  % Get the current value of the slider
+        sliderValue = source.Value  % Get the current value of the slider
     
         upPlot(sliderValue)  
     end
@@ -252,6 +256,33 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
         setObstaclesGrid(checkboxValue)
     end
 
+    % Callback function for the "Play" button
+    function playButtonCallback(~, ~)
+        % Get the current slider value
+        current_slider_value = 0;
+
+        % Define the animation parameters
+        % Total animation time in seconds
+        animation_speed = 100;  % Frames per second
+        
+        % Iterate through slider values to animate
+        for i = 1:100
+            % Calculate the new slider value
+            new_slider_value = current_slider_value + i * 1;
+
+            % Ensure the slider value does not exceed the maximum
+            new_slider_value = min(new_slider_value, 100);
+
+            % Update the slider
+            s.Value = new_slider_value;
+
+            % Call the slider callback function to update the visualization
+            sliderCallback(s, []);
+            
+            % Pause to control the animation speed
+            pause(1 / animation_speed);
+        end
+    end
  
 
 end
