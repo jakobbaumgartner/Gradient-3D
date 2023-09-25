@@ -6,20 +6,24 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 mid_joints = 1
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
+timestep_primary_gain_change = 1 % if selected, primary task will start with little gain and grow with time
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
 points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1];
+weights_avoidance = [1 1/2 1/4];
 weights_avoidance = weights_avoidance / norm(weights_avoidance);
 
 % -----------------------------------------------------------
 
+Tstep = 0.1 % time step
+Nmax = 200 % max number of iterations
+space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
-wp = 1/10 % primary task
+wp = 5 % primary task
 wp_att = 5 % primary task - attractive component
 wp_rep = 0.1 % primary task - repulsive component
 wm = 1 % mid-joints task
@@ -38,10 +42,6 @@ goal_dist = 0.02 % distance which satisfies ending of optimization
 % damping factor to avoid inverse Jacobain matrix singularities
 damping_factor_primary = 0.01
 damping_factor_avoidance = 0.01
-
-Tstep = 0.1 % time step
-Nmax = 100 % max number of iterations
-space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % joints range
 q_range = [2.8973 -2.8973;
@@ -66,6 +66,10 @@ ee_point = robot_transforms(1:3,4,8);
 
 % calculate distance from goal
 current_dist = norm(ee_point'- goal_point(1:3));
+
+if timestep_primary_gain_change
+    wp = wp/Nmax % primary task
+end
 
 %% PREPARE LOG ARRAYS
 % -----------------------------------------------------------
@@ -139,9 +143,12 @@ while current_dist > goal_dist && Niter <= Nmax
     scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep'
     
     ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * scaled_ee_vel_rep);
-    ee_vel = Niter * wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
-%     ee_vel = wp .* [ee_vel ; 0 ; 0 ; 0]
 
+    if timestep_primary_gain_change
+        ee_vel = Niter * wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
+    else
+        ee_vel = wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
+    end
 
 
     % --------------------------------------------------
