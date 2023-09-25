@@ -1,4 +1,4 @@
-function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, q)
+function [output] = Full_RTConvolution_AvoidanceFirst(grid, goal_point, Tbase, q)
 
 %% PARAMETERS
 
