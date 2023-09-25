@@ -14,7 +14,7 @@ points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
 weights_avoidance = [1 1/2 1/4];
-weights_avoidance = weights_avoidance / norm(weights_avoidance);
+weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 
 % -----------------------------------------------------------
 
