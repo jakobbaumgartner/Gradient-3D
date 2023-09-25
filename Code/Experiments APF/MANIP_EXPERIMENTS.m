@@ -131,8 +131,6 @@ elseif (matches(map_selection, 'four_pillars'))
     0.654743179774447
     -0.0801486263893128];
 
-
-
 end
 
 

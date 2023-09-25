@@ -4,8 +4,9 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 
 % select which goals
 mid_joints = 1
-avoid_task = 0
+avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
+task_order = 'position-avoidance' % OPTIONS: position-avoidance, avoidance-position
 timestep_primary_gain_change = 1 % if selected, primary task will start with little gain and grow with time
 
 % -----------------------------------------------------------
@@ -132,16 +133,13 @@ while current_dist > goal_dist && Niter <= Nmax
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
     ee_vel_att = goal_point(1:3)' - ee_point
 
-    
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point)
-
-
-    % TOTAL : SUM
-
-    % Calculate norm(ee_vel_att) * ee_vel_rep'
-    scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep'
     
+    % scale ee_rep to not interfere with ee_att
+    scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep'
+
+    % TOTAL : SUM   
     ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * scaled_ee_vel_rep);
 
     if timestep_primary_gain_change
@@ -149,12 +147,6 @@ while current_dist > goal_dist && Niter <= Nmax
     else
         ee_vel = wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
     end
-
-
-    % --------------------------------------------------
-    % JOINT VELOCITIES : INVERSE KINEMATICS
-    q_vel = pinv_J * ee_vel;
-
 
     
     %% CALCULATE SECONDARY TASKS (AVOIDANCE + MID-JOINTS)
@@ -182,14 +174,13 @@ while current_dist > goal_dist && Niter <= Nmax
             dq_mid(i) = wm * (sum(q_range(i,:))/2) - q(i);
         end
 
-        % Primary + Null-Space Task
-        q_vel = q_vel + N * dq_mid;
-
     end
 
     %% APF AVOIDANCE TASK
     % --------------------------------------------------
     rep_values = [];
+
+    q_avoid_total = zeros(7,1);
 
     % location of different POI on robot [x1 x2 ...
     %                                     y1 y2 ...
@@ -330,13 +321,34 @@ while current_dist > goal_dist && Niter <= Nmax
         % -----------------------
         q_avoid_total = q_avoid_list * weights_avoidance';
 
-        % APPLY SECONDARY AVOIDANCE TASK
-        % -----------------------
-        q_vel = q_vel + q_avoid_total;
-
-
  
     end
+
+    %% COMBINE TASKS
+    % --------------------------------------------------
+
+    if(matches(task_order, 'position-avoidance'))
+
+        % PRIMARY: position
+        q_vel_position = pinv_J * ee_vel;
+    
+        % SECONDARY: mid-joints
+        q_vel_mid = N * dq_mid;
+            
+        % SECONDARY: avoidance
+        q_vel_avoid = q_avoid_total;
+    
+        % TOTAL:
+        % -----------------------
+        q_vel = q_vel_position + q_vel_mid + q_vel_avoid;
+        
+
+    elseif(matches(task_order, 'avoidance-position'))
+
+
+    end
+
+
 
 
     %% ONE STEP SIMULATION 
