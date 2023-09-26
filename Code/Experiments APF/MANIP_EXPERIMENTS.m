@@ -144,8 +144,14 @@ end
 
 %% RUN MOTION PLANNING - MULTIPLE POI (POINTS OF INTEREST)
 
+% tic()
+% [output] = Full_RTConvolution_Multiple_Points(grid, goal, Tbase, q);
+% toc()
+
+%% RUN MOTION PLANNING - AVOIDANCE FIRST PRIORITY
+
 tic()
-[output] = Full_RTConvolution_Multiple_Points(grid, goal, Tbase, q);
+[output] = Full_RTConvolution_AvoidanceFirst(grid, goal, Tbase, q);
 toc()
 
 %% PLOT DISTANCE AND MANIPULABILITY
