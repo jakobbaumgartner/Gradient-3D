@@ -13,7 +13,7 @@ points_per_segment = 1*[2 1 5 2 6 2 1];
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 200 % max number of iterations
+Nmax = 100 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
@@ -21,7 +21,7 @@ wp = 1 % primary task
 wp_att = 5 % primary task - attractive component
 wp_rep = 0.1 % primary task - repulsive component
 wm = 1 % mid-joints task
-wa = 1 % obstacle avoidance task
+wa = 0.5 % obstacle avoidance task
 wa_i = 1 % obstacle avoidance 
 
 % factor that controls sigmoid function (tanh) for primary task
@@ -124,7 +124,9 @@ while current_dist > goal_dist && Niter <= Nmax
     ee_vel = (wp_att * ee_vel_att + wp_rep * scaled_ee_vel_rep);
 
     % sigmoid
-    ee_vel = wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
+%     ee_vel = wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
+    ee_vel = wp .* [ee_vel ; 0 ; 0 ; 0];
+
 
     
     %% CALCULATE SECONDARY TASKS (AVOIDANCE + MID-JOINTS)
@@ -220,13 +222,14 @@ while current_dist > goal_dist && Niter <= Nmax
     rep_vel = rep_values(:,poi_index);
 
     % avoidance magnitude
-    rep_magnitude = poi_sizes(selected_poi);        
+    rep_magnitude = poi_sizes(selected_poi);
 
     % avoidance direction - unit vector
     rep_direction = rep_vel' ./ rep_magnitude;
 
     % sigmoid transformation and scalling
     avoid_vel = wa * tanh(wa_i * rep_vel/sigm_factor_avoidance); 
+%     avoid_vel = wa * rep_vel;
 
 
     %% CALCULATE JACOBIAN IN POINT0
@@ -262,10 +265,29 @@ while current_dist > goal_dist && Niter <= Nmax
     %% MODIFIED NULL SPACE
     % --------------------
 
+    % NULL SPACE TRANSPARENCY
     % calculate null space transparency (when zero, there are no limitations for
     % null space velocities, when one we have typical null space calculation)
-    null_space_transparency = 0.1;                                                            % TODO: MODIFY THIS !!! 
 
+    % critical value of avoidance field (when avoidance field is smaller than this, goal task can move only in null space)
+    dm = 0.2;
+    abs(rep_magnitude)
+    if(dm < abs(rep_magnitude))
+        % normal null space
+        null_space_transparency = 1;
+        disp('yes')
+    else
+        % partial null space only
+        null_space_transparency = (1-min((abs(rep_magnitude)),1))
+        disp('no')
+    end
+
+        
+        
+        
+        
+        
+        
     % calculate modified null-space
     N0 = eye(7) - null_space_transparency * pinv_J0*J0;
 
@@ -324,7 +346,7 @@ while current_dist > goal_dist && Niter <= Nmax
     q_vel_avoid = pinv_J0 * [ avoid_vel' 0 0 0 ]';
 
     % SECONDARY: mid-joints
-    q_vel_mid = 0% N0 * dq_mid;
+    q_vel_mid = 0;% N0 * dq_mid;
         
     % SECONDARY: avoidance
     % ...
@@ -348,7 +370,7 @@ while current_dist > goal_dist && Niter <= Nmax
     ee_point = robot_transforms(1:3,4,8);
 
     % update goal distance
-    current_dist = norm(ee_point'- goal_point(1:3))
+    current_dist = norm(ee_point'- goal_point(1:3));
 
     %% LOGS
     % -----------------------------------------------------------
