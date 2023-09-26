@@ -3,8 +3,8 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 %% PARAMETERS
 
 % select which goals
-mid_joints = 1
-avoid_task = 1
+mid_joints = 0
+avoid_task = 0
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_primary_gain_change = 1 % if selected, primary task will start with little gain and grow with time
 
@@ -13,7 +13,7 @@ timestep_primary_gain_change = 1 % if selected, primary task will start with lit
 points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1/2 1/4];
+weights_avoidance = [1 1/2 1/4];% ones(1, sum(points_per_segment));
 weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 
 % -----------------------------------------------------------
@@ -26,7 +26,7 @@ space_resolution = grid.resolution; % resolution of the obstacles grid
 wp = 5 % primary task
 wp_att = 5 % primary task - attractive component
 wp_rep = 0.1 % primary task - repulsive component
-wm = 1 % mid-joints task
+wm = 0.1 % mid-joints task
 wa = 10 % obstacle avoidance task
 wa_i = 10 % obstacle avoidance 
 
