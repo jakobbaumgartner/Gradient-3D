@@ -60,10 +60,10 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     for i = 1:1:size(control_points,1)
         scatter3(control_points(i,1)*grid.resolution,control_points(i,2)*grid.resolution,control_points(i,3)*grid.resolution,'r')
     end
-    
+
     % draw EE trajectory
     plot3(output.EE_positions(1,:)*grid.resolution,output.EE_positions(2,:)*grid.resolution,output.EE_positions(3,:)*grid.resolution,'red')
-    
+
     % draw starting pose of the robot
     j = size(output.joints_positions,2); 
     
