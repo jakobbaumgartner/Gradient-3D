@@ -55,7 +55,7 @@ function [grid] = MAPS(map_selection)
     elseif (matches(map_selection, 'roof'))
     
         % roof
-        grid.addBox(0.8,0.8,1.2,0.8,0.8,0.2)
+        grid.addBox(1.2,0.8,0.7,0.4,0.8,0.2)
     
     elseif (matches(map_selection, 'corridor'))
     

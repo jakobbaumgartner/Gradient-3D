@@ -3,6 +3,9 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     % APF field vector length
     arrow_length = 10; % adjust the length to your preference
 
+    % show floor
+    floor = false
+
     %% COLORMAP
     % ---------------------------------------------------------------
     cMap = interp1(0:1,[0 1 0; 1 0 0],linspace(0,1,256));
@@ -46,7 +49,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     show_arrows = 1;
     
     % display grid
-    HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
+    HObstacles = grid.showGridVol3D(grid.grid,'floor',floor,'height',true);
     hold on
     axis equal
 
@@ -134,7 +137,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     function upPlot(sliderValue)
   
         % get figure time from slider
-        j = round(sliderValue * (size(output.joints_positions,2)-1) / 100)
+        j = max(1,round(sliderValue * (size(output.joints_positions,2)-1) / 100))
 
         % calculate transforms from joint positions
         [transforms] = GeometricPandaMATLAB(output.joints_positions(:,j), Tbase);
@@ -215,7 +218,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
         % Check if the checkbox is checked
         if checkboxValue == 1
             % display grid
-            HObstacles = grid.showGridVol3D(grid.grid,'floor',true,'height',true);
+            HObstacles = grid.showGridVol3D(grid.grid,'floor',floor,'height',true);
         else
             for i = 1:1:length(HObstacles.handles)
                 delete(HObstacles.handles(i))

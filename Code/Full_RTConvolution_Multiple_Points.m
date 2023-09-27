@@ -4,16 +4,16 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 
 % select which goals
 mid_joints = 0
-avoid_task = 0
+avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
-timestep_primary_gain_change = 1 % if selected, primary task will start with little gain and grow with time
+timestep_primary_gain_change = 0 % if selected, primary task will start with little gain and grow with time
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
 points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1/2 1/4];% ones(1, sum(points_per_segment));
+weights_avoidance = [1] %  ones(1, sum(points_per_segment));
 weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 
 % -----------------------------------------------------------
@@ -23,12 +23,12 @@ Nmax = 200 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
-wp = 5 % primary task
-wp_att = 5 % primary task - attractive component
-wp_rep = 0.1 % primary task - repulsive component
-wm = 0.1 % mid-joints task
-wa = 10 % obstacle avoidance task
-wa_i = 10 % obstacle avoidance 
+wp = 0.2 % primary task
+wp_att = 4 % primary task - attractive component
+wp_rep = 1 % primary task - repulsive component
+wm = 0.5 % mid-joints task
+wa = 0.2 % obstacle avoidance task
+wa_i = 1 % obstacle avoidance 
 
 % factor that controls sigmoid function (tanh) for primary task
 sigm_factor_primary = 1
@@ -130,13 +130,13 @@ while current_dist > goal_dist && Niter <= Nmax
     % --------------------------------------------------
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
-    ee_vel_att = goal_point(1:3)' - ee_point
+    ee_vel_att = (goal_point(1:3)' - ee_point)/norm(goal_point(1:3)' - ee_point);
 
     % REPULSIVE 
-    ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point)
+    ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
     
     % scale ee_rep to not interfere with ee_att
-    scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep'
+    scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep';
 
     % TOTAL : SUM   
     ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * scaled_ee_vel_rep);
@@ -158,7 +158,7 @@ while current_dist > goal_dist && Niter <= Nmax
     % -----------------------
 
     % primary
-    manipulability_primary = sqrt(det(J*J'))
+    manipulability_primary = sqrt(det(J*J'));
 
 
     %% MID JOINTS
