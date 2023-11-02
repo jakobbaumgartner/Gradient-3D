@@ -130,7 +130,7 @@ while current_dist > goal_dist && Niter <= Nmax
     % --------------------------------------------------
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
-    ee_vel_att = (goal_point(1:3)' - ee_point)/norm(goal_point(1:3)' - ee_point);
+    ee_vel_att = (goal_point(1:3)' - ee_point)/norm(goal_point(1:3)' - ee_point); % direction only - normalised
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
