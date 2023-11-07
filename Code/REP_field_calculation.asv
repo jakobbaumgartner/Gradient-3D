@@ -36,35 +36,78 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
 
     if interpolation_mode
     %% USE INTERPOLATION
-
-    center_point = point * grid.resolution;
+        
+        center_point = point * grid.resolution
          
         % get nearby grid cells indexes
-        X = [floor(center_point(1)) ceil(center_point(1))];
-        Y = [floor(center_point(2)) ceil(center_point(2))];
-        Z = [floor(center_point(3)) ceil(center_point(3))];
+        X = [floor(center_point(1)) ceil(center_point(1))]
+        Y = [floor(center_point(2)) ceil(center_point(2))]
+        Z = [floor(center_point(3)) ceil(center_point(3))]
 
-        % get values of nearby cells
-        Vx = ones(2,2,2);
-        Vy = ones(2,2,2);
-        Vz = ones(2,2,2);
+        % SKIP INTERPOLATION IF TWO POINTS ARE LOCATED EXACTLY IN THE
+        % CENTER OF GRID CELLS
+        % --------------------------------------------------------------
+        no_interp_dist = 0.0001; 
+ 
+        % if x and y are in center
+        if mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist
+            % 1D interpolate - only z
 
-        for x = 1:1:2 
-            for y = 1:1:2
-                for z = 1:1:2               
-                    
-                        % set value of the point
-                        Vx(y,x,z) = calculateFieldVector([X(x),Y(y),Z(z)]);
-                        Vy(y,x,z) = calculateFieldVector([X(x),Y(y),Z(z)]);
-                        Vz(y,x,z) = calculateFieldVector([X(x),Y(y),Z(z)]);
+            Vx = ones(1,2);
+            Vy = ones(1,2);
+            Vz = ones(1,2);
 
-                           
+            % get vector field values for x,y,z
+
+            for j = 1:1:length(Z)
+                vect_val = calculateFieldVector([center_point(1),center_point(2),Z(j)]);
+                Vx(j) = vect_val(1);
+                Vy(j) = vect_val(2);
+                Vz(j) = vect_val(3);
+            end
+
+            % interpolate
+            
+%         vq = interp1(Z,,xq)
+        % if y and z are in center
+        elseif mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
+            % 1D interpolate - only x
+    
+    
+        % if x and z are in exact center cells
+        elseif mod(center_point(1),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
+            % 1D interpolate - only y
+
+
+        else
+            % FULL 3D INTERPOLATION
+
+            % get values of nearby cells
+            Vx = ones(2,2,2);
+            Vy = ones(2,2,2);
+            Vz = ones(2,2,2);
+    
+            for x = 1:1:2 
+                for y = 1:1:2
+                    for z = 1:1:2               
+                        
+                            % set value of the point
+                            vect_val = calculateFieldVector([X(x),Y(y),Z(z)]);
+                            Vx(y,x,z) = vect_val(1);
+                            Vy(y,x,z) = vect_val(2);
+                            Vz(y,x,z) = vect_val(3);
+                               
+                    end
                 end
             end
+    
+            % interpolation
+            rep_values = [interp3(X,Y,Z,Vx,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vy,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vz,center_point(1),center_point(2),center_point(3))];
+
+
         end
 
-        % interpolation
-        rep_values = interp3(X,Y,Z,V,center_point(1),center_point(2),center_point(3));
+
 
     
     else
@@ -107,7 +150,6 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             x_valid_index = find(x_cells>=1,1):find(x_cells<=size(grid.grid,3),1,'last');
             y_valid_index = find(y_cells>=1,1):find(y_cells<=size(grid.grid,3),1,'last');
             z_valid_index = find(z_cells>=1,1):find(z_cells<=size(grid.grid,3),1,'last');
-            length(z_valid_index)
 
             % read which cells are occupued / free
             window(x_valid_index, y_valid_index, z_valid_index) = grid.grid(x_cells(x_valid_index), y_cells(y_valid_index), z_cells(z_valid_index));
