@@ -7,6 +7,7 @@ mid_joints = 0
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_primary_gain_change = 0 % if selected, primary task will start with little gain and grow with time
+secondary_exec_stop_k = 0.10 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
@@ -19,7 +20,7 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 200 % max number of iterations
+Nmax = 2000 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
@@ -27,14 +28,9 @@ wp = 0.2 % primary task
 wp_att = 4 % primary task - attractive component
 wp_rep = 1 % primary task - repulsive component
 wm = 0.5 % mid-joints task
-wa = 0.2 % obstacle avoidance task
-wa_i = 1 % obstacle avoidance 
+wa = 0.1 % obstacle avoidance task
 
-% factor that controls sigmoid function (tanh) for primary task
-sigm_factor_primary = 1
 
-% factor that controls sigmoid function (tanh) for avoidance task
-sigm_factor_avoidance = 1
 
 % function parameters
 goal_dist = 0.02 % distance which satisfies ending of optimization
@@ -137,12 +133,8 @@ while current_dist > goal_dist && Niter <= Nmax
     
     % TOTAL : SUM   
     ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * ee_vel_rep');
-
-    if timestep_primary_gain_change
-        ee_vel = Niter * wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
-    else
-        ee_vel = wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
-    end
+    ee_vel = wp .* [ee_vel ; 0 ; 0 ; 0];
+    
 
     
     %% CALCULATE SECONDARY TASKS (AVOIDANCE + MID-JOINTS)
@@ -246,8 +238,8 @@ while current_dist > goal_dist && Niter <= Nmax
             % avoidance direction - unit vector
             rep_direction = rep_vel' ./ rep_magnitude;
     
-            % sigmoid transformation and scalling
-            avoid_vel = wa * tanh(wa_i * rep_vel/sigm_factor_avoidance); 
+            % scalling
+            avoid_vel = wa * rep_vel;
 
     
             % CALCULATE JACOBIAN IN POINT0
@@ -322,9 +314,10 @@ while current_dist > goal_dist && Niter <= Nmax
 
     %% COMBINE TASKS
     % --------------------------------------------------
-
+    
     % PRIMARY: position
-    q_vel_position = pinv_J * ee_vel;
+    exec_slowdown = 1 / (1 + secondary_exec_stop_k * (1/poi_sizes(end))); % stops movment of the primary task until manipulator is in safer position
+    q_vel_position = pinv_J * exec_slowdown * ee_vel;
 
     % SECONDARY: mid-joints
     q_vel_mid = N * dq_mid;

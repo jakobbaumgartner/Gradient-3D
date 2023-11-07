@@ -36,7 +36,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     %% USE INTERPOLATION
     if interpolation_mode
         
-        center_point = point * grid.resolution
+        center_point = point * grid.resolution;
          
         % get nearby grid cells indexes
         X = [floor(center_point(1)) ceil(center_point(1))];
