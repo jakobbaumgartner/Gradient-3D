@@ -25,7 +25,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     % --------------------------------------------------------------
 
     % use interpolation
-    interpolation_mode = false; % true / false
+    interpolation_mode = true; % true / false
 
     % set values outside the known grid to
     box_value = 0;
@@ -36,35 +36,35 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
 
     if interpolation_mode
     %% USE INTERPOLATION
-
-    center_point = point * grid.resolution;
+        
+        center_point = point * grid.resolution
          
         % get nearby grid cells indexes
-        X = [floor(center_point(1)) ceil(center_point(1))];
-        Y = [floor(center_point(2)) ceil(center_point(2))];
-        Z = [floor(center_point(3)) ceil(center_point(3))];
+        X = [floor(center_point(1)) ceil(center_point(1))]
+        Y = [floor(center_point(2)) ceil(center_point(2))]
+        Z = [floor(center_point(3)) ceil(center_point(3))]
 
         % get values of nearby cells
-        V = ones(2,2,2);
+        Vx = ones(2,2,2);
+        Vy = ones(2,2,2);
+        Vz = ones(2,2,2);
+
         for x = 1:1:2 
             for y = 1:1:2
                 for z = 1:1:2               
                     
-                    % check if voxel location is in the range of the distance grid
-                    if (X(x) <= 0 || Y(y) <= 0 || Z(z) <= 0 || X(x) > size(grid.grid,1) || Y(y) > size(grid.grid,2) || Z(z) > size(grid.grid,3)) 
-                        % points beyond grid are set as obstacles during interpolation
-                        V(y,x,z) = box_value;
-                    else
-                        % points in grid are set to correct voxels
-                        V(y,x,z) = grid_distance(X(x)+1,Y(y)+1,Z(z)+1);
-                    end
-        
+                        % set value of the point
+                        interp_val = calculateFieldVector([X(x),Y(y),Z(z)]);
+                        Vx(y,x,z) = interp_val(1);
+                        Vy(y,x,z) = interp_val(2);
+                        Vz(y,x,z) = interp_val(3);
+                           
                 end
             end
         end
 
         % interpolation
-        values = interp3(X,Y,Z,V,center_point(1),center_point(2),center_point(3));
+        rep_values = [interp3(X,Y,Z,Vx,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vy,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vz,center_point(1),center_point(2),center_point(3))];
 
     
     else
@@ -107,7 +107,6 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             x_valid_index = find(x_cells>=1,1):find(x_cells<=size(grid.grid,3),1,'last');
             y_valid_index = find(y_cells>=1,1):find(y_cells<=size(grid.grid,3),1,'last');
             z_valid_index = find(z_cells>=1,1):find(z_cells<=size(grid.grid,3),1,'last');
-            length(z_valid_index)
 
             % read which cells are occupued / free
             window(x_valid_index, y_valid_index, z_valid_index) = grid.grid(x_cells(x_valid_index), y_cells(y_valid_index), z_cells(z_valid_index));
@@ -138,16 +137,6 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
      
         
         end
-
-
-
-
-
-
-
-
-
-
 
 
 

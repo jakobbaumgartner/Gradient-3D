@@ -25,11 +25,10 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     % --------------------------------------------------------------
 
     % use interpolation
-    interpolation_mode = false; % true / false
+    interpolation_mode = true; % true / false
 
-    % add box around the grid
-    box_mode = false; % true / false                    % TODO
-    box_value = 1;
+    % set values outside the known grid to
+    box_value = 0;
 
 
     % --------------------------------------------------------------    
@@ -46,26 +45,26 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
         Z = [floor(center_point(3)) ceil(center_point(3))];
 
         % get values of nearby cells
-        V = ones(2,2,2);
+        Vx = ones(2,2,2);
+        Vy = ones(2,2,2);
+        Vz = ones(2,2,2);
+
         for x = 1:1:2 
             for y = 1:1:2
                 for z = 1:1:2               
                     
-                    % check if voxel location is in the range of the distance grid
-                    if (X(x) <= 0 || Y(y) <= 0 || Z(z) <= 0 || X(x) > size(grid.grid,1) || Y(y) > size(grid.grid,2) || Z(z) > size(grid.grid,3)) 
-                        % points beyond grid are set as obstacles during interpolation
-                        V(y,x,z) = box_value;
-                    else
-                        % points in grid are set to correct voxels
-                        V(y,x,z) = grid_distance(X(x)+1,Y(y)+1,Z(z)+1);
-                    end
-        
+                        % set value of the point
+                        Vx(y,x,z) = calculateFieldVector([X(x),Y(y),Z(z)]);
+                        Vy(y,x,z) = calculateFieldVector([X(x),Y(y),Z(z)]);
+                        Vz(y,x,z) = calculateFieldVector([X(x),Y(y),Z(z)]);
+
+                           
                 end
             end
         end
 
         % interpolation
-        values = interp3(X,Y,Z,V,center_point(1),center_point(2),center_point(3));
+        rep_values = interp3(X,Y,Z,V,center_point(1),center_point(2),center_point(3));
 
     
     else
@@ -75,7 +74,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
         grid_point = round(point * grid.resolution);
 
         % get field value
-        rep_values = calculateFieldVector(grid_point)
+        rep_values = calculateFieldVector(grid_point);
 
 
     end
@@ -99,21 +98,19 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             % Calculate x, y, and z ranges for the window while ensuring they are positive and within grid boundaries.
             x_cells = (grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1)); % grid goes y-x-z
             y_cells = (grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2));
-            z_cells = (grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3))
+            z_cells = (grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3));
 
             % init every cells in window to occupued by default
             window = ones(kernel_size)*box_value;
 
             % create indexes for cutout
-            x_min_index = find(x_cells>=1,1);
-            x_max_index = find(x_cells<=size(grid.grid,3),1);
-            y_min_index = find(y_cells>=1,1);
-            y_max_index = find(y_cells<=size(grid.grid,3),1,'last');
-            z_min_index = find(z_cells>=1,1);
-            z_max_index = find(z_cells<=size(grid.grid,3),1,'last');   
+            x_valid_index = find(x_cells>=1,1):find(x_cells<=size(grid.grid,3),1,'last');
+            y_valid_index = find(y_cells>=1,1):find(y_cells<=size(grid.grid,3),1,'last');
+            z_valid_index = find(z_cells>=1,1):find(z_cells<=size(grid.grid,3),1,'last');
+            length(z_valid_index)
 
             % read which cells are occupued / free
-            window(x_min_index:x_max_index, y_min_index:y_max_index, z_min_index:z_max_index) = grid.grid(x_cells, y_cells, z_cells);
+            window(x_valid_index, y_valid_index, z_valid_index) = grid.grid(x_cells(x_valid_index), y_cells(y_valid_index), z_cells(z_valid_index));
     
             % fix kernel to be only the part inside the grid
             x_start = 1 + (1 - (grid_point(2) - half_size(1) > 0)) * (1 - (grid_point(2) - half_size(1)));
@@ -141,16 +138,6 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
      
         
         end
-
-
-
-
-
-
-
-
-
-
 
 
 
