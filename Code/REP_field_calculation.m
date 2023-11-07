@@ -25,17 +25,16 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     % --------------------------------------------------------------
 
     % use interpolation
-    interpolation_mode = false; % true / false
+    interpolation_mode = true; % true / false
 
     % set values outside the known grid to
     box_value = 0;
 
 
     % --------------------------------------------------------------    
-
-
-    if interpolation_mode
+    
     %% USE INTERPOLATION
+    if interpolation_mode
         
         center_point = point * grid.resolution;
          
@@ -65,9 +64,16 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
                 Vz(j) = vect_val(3);
             end
 
+            % move sampled points coordinates to the mid of the cells
+            Z = [floor(center_point(3)) ceil(center_point(3))]+0.5;
+
             % interpolate
             rep_values = [interp1(Z,Vx,center_point(3)), interp1(Z,Vy,center_point(3)), interp1(Z,Vz,center_point(3))];
-        
+            
+            % check if value is NaN (probably because both interp. value
+            % are 0) and set it to 0
+            rep_values(isnan(rep_values)) = 0;
+
         % if y and z are in center
         elseif mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
             % 1D interpolate - only x
@@ -84,8 +90,15 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
                 Vz(j) = vect_val(3);
             end
 
+            % move sampled points coordinates to the mid of the cells
+            X = [floor(center_point(1)) ceil(center_point(1))] + 0.5;
+
             % interpolate
             rep_values = [interp1(X,Vx,center_point(1)), interp1(X,Vy,center_point(1)), interp1(X,Vz,center_point(1))];
+
+            % check if value is NaN (probably because both interp. value
+            % are 0) and set it to 0
+            rep_values(isnan(rep_values)) = 0;
        
         % if x and z are in exact center cells
         elseif mod(center_point(1),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
@@ -103,8 +116,15 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
                 Vz(j) = vect_val(3);
             end
 
+            % move sampled points coordinates to the mid of the cells
+            Y = [floor(center_point(2)) ceil(center_point(2))] + 0.5;
+
             % interpolate
             rep_values = [interp1(Y,Vx,center_point(2)), interp1(Y,Vy,center_point(2)), interp1(Y,Vz,center_point(2))];
+
+            % check if value is NaN (probably because both interp. value
+            % are 0) and set it to 0
+            rep_values(isnan(rep_values)) = 0;
 
         else
             % FULL 3D INTERPOLATION
@@ -137,9 +157,8 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
 
 
 
-    
-    else
     %% APPROXIMATE POINT VALUE ONLY
+    else
 
         % convert point to grid indices
         grid_point = round(point * grid.resolution);
