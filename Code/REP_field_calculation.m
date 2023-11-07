@@ -190,7 +190,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             half_size = floor(kernel_size / 2);
     
             % Calculate x, y, and z ranges for the window while ensuring they are positive and within grid boundaries.
-            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1))) % grid goes y-x-z
+            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1))); % grid goes y-x-z
             y_cells = round((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)));
             z_cells = round((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)));
 
@@ -198,7 +198,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             window = ones(kernel_size)*box_value;
 
             % create indexes for cutout
-            x_valid_index = find(x_cells>=1,1):find(x_cells<=size(grid.grid,3),1,'last')
+            x_valid_index = find(x_cells>=1,1):find(x_cells<=size(grid.grid,3),1,'last');
             y_valid_index = find(y_cells>=1,1):find(y_cells<=size(grid.grid,3),1,'last');
             z_valid_index = find(z_cells>=1,1):find(z_cells<=size(grid.grid,3),1,'last');
 

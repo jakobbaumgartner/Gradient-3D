@@ -13,7 +13,7 @@ timestep_primary_gain_change = 0 % if selected, primary task will start with lit
 points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1] %  ones(1, sum(points_per_segment));
+weights_avoidance = [1 1 1 1 1 1 1 1]
 weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 
 % -----------------------------------------------------------
@@ -135,11 +135,8 @@ while current_dist > goal_dist && Niter <= Nmax
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
     
-    % scale ee_rep to not interfere with ee_att
-    scaled_ee_vel_rep = norm(ee_vel_att) * ee_vel_rep';
-
     % TOTAL : SUM   
-    ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * scaled_ee_vel_rep);
+    ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * ee_vel_rep');
 
     if timestep_primary_gain_change
         ee_vel = Niter * wp .* tanh([ee_vel ; 0 ; 0 ; 0]/sigm_factor_primary);
