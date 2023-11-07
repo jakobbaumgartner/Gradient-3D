@@ -67,11 +67,27 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             end
 
             % interpolate
-            
-%         vq = interp1(Z,,xq)
+            rep_values = [interp1(Z,Vx,center_point(3)), interp1(Z,Vy,center_point(3)), interp1(Z,Vz,center_point(3))]
+        
         % if y and z are in center
         elseif mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
             % 1D interpolate - only x
+
+                        Vx = ones(1,2);
+            Vy = ones(1,2);
+            Vz = ones(1,2);
+
+            % get vector field values for x,y,z
+
+            for j = 1:1:length(Z)
+                vect_val = calculateFieldVector([center_point(1),center_point(2),Z(j)]);
+                Vx(j) = vect_val(1);
+                Vy(j) = vect_val(2);
+                Vz(j) = vect_val(3);
+            end
+
+            % interpolate
+            rep_values = [interp1(Z,Vx,center_point(3)), interp1(Z,Vy,center_point(3)), interp1(Z,Vz,center_point(3))]
     
     
         % if x and z are in exact center cells

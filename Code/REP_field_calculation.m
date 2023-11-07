@@ -25,7 +25,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     % --------------------------------------------------------------
 
     % use interpolation
-    interpolation_mode = true; % true / false
+    interpolation_mode = false; % true / false
 
     % set values outside the known grid to
     box_value = 0;
@@ -37,14 +37,14 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     if interpolation_mode
     %% USE INTERPOLATION
         
-        center_point = point * grid.resolution
+        center_point = point * grid.resolution;
          
         % get nearby grid cells indexes
-        X = [floor(center_point(1)) ceil(center_point(1))]
-        Y = [floor(center_point(2)) ceil(center_point(2))]
-        Z = [floor(center_point(3)) ceil(center_point(3))]
+        X = [floor(center_point(1)) ceil(center_point(1))];
+        Y = [floor(center_point(2)) ceil(center_point(2))];
+        Z = [floor(center_point(3)) ceil(center_point(3))];
 
-        % SKIP INTERPOLATION IF TWO POINTS ARE LOCATED EXACTLY IN THE
+        % 1D INTERPOLATION IF TWO POINTS ARE LOCATED EXACTLY IN THE
         % CENTER OF GRID CELLS
         % --------------------------------------------------------------
         no_interp_dist = 0.0001; 
@@ -58,7 +58,6 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             Vz = ones(1,2);
 
             % get vector field values for x,y,z
-
             for j = 1:1:length(Z)
                 vect_val = calculateFieldVector([center_point(1),center_point(2),Z(j)]);
                 Vx(j) = vect_val(1);
@@ -67,20 +66,49 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             end
 
             % interpolate
-            rep_values = [interp1(Z,Vx,center_point(3)), interp1(Z,Vy,center_point(3)), interp1(Z,Vz,center_point(3))]
+            rep_values = [interp1(Z,Vx,center_point(3)), interp1(Z,Vy,center_point(3)), interp1(Z,Vz,center_point(3))];
         
         % if y and z are in center
         elseif mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
             % 1D interpolate - only x
-    
-    
+
+            Vx = ones(1,2);
+            Vy = ones(1,2);
+            Vz = ones(1,2);
+
+            % get vector field values for x,y,z
+            for j = 1:1:length(X)
+                vect_val = calculateFieldVector([X(j),center_point(2),center_point(3)]);
+                Vx(j) = vect_val(1);
+                Vy(j) = vect_val(2);
+                Vz(j) = vect_val(3);
+            end
+
+            % interpolate
+            rep_values = [interp1(X,Vx,center_point(1)), interp1(X,Vy,center_point(1)), interp1(X,Vz,center_point(1))];
+       
         % if x and z are in exact center cells
         elseif mod(center_point(1),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
             % 1D interpolate - only y
 
+            Vx = ones(1,2);
+            Vy = ones(1,2);
+            Vz = ones(1,2);
+
+            % get vector field values for x,y,z
+            for j = 1:1:length(Y)
+                vect_val = calculateFieldVector([center_point(1),Y(j),center_point(3)]);
+                Vx(j) = vect_val(1);
+                Vy(j) = vect_val(2);
+                Vz(j) = vect_val(3);
+            end
+
+            % interpolate
+            rep_values = [interp1(Y,Vx,center_point(2)), interp1(Y,Vy,center_point(2)), interp1(Y,Vz,center_point(2))];
 
         else
             % FULL 3D INTERPOLATION
+            % --------------------------------------------------------------
 
             % get values of nearby cells
             Vx = ones(2,2,2);
