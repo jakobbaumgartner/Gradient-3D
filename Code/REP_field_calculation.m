@@ -36,7 +36,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     %% USE INTERPOLATION
     if interpolation_mode
         
-        center_point = point * grid.resolution;
+        center_point = point * grid.resolution
          
         % get nearby grid cells indexes
         X = [floor(center_point(1)) ceil(center_point(1))];
@@ -47,9 +47,13 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
         % CENTER OF GRID CELLS
         % --------------------------------------------------------------
         no_interp_dist = 0.0001; 
+
+        % if x and y and z are center
+        if mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
+            rep_values = calculateFieldVector(center_point)
  
         % if x and y are in center
-        if mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist
+        elseif mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist
             % 1D interpolate - only z
 
             Vx = ones(1,2);
@@ -186,15 +190,15 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             half_size = floor(kernel_size / 2);
     
             % Calculate x, y, and z ranges for the window while ensuring they are positive and within grid boundaries.
-            x_cells = (grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1)); % grid goes y-x-z
-            y_cells = (grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2));
-            z_cells = (grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3));
+            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1))) % grid goes y-x-z
+            y_cells = round((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)));
+            z_cells = round((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)));
 
             % init every cells in window to occupued by default
             window = ones(kernel_size)*box_value;
 
             % create indexes for cutout
-            x_valid_index = find(x_cells>=1,1):find(x_cells<=size(grid.grid,3),1,'last');
+            x_valid_index = find(x_cells>=1,1):find(x_cells<=size(grid.grid,3),1,'last')
             y_valid_index = find(y_cells>=1,1):find(y_cells<=size(grid.grid,3),1,'last');
             z_valid_index = find(z_cells>=1,1):find(z_cells<=size(grid.grid,3),1,'last');
 
