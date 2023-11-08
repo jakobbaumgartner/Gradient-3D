@@ -11,15 +11,19 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     %   - POINT: A 1x3 vector specifying the coordinates of the point in the grid
     %            at which to compute the representative values.
     %
+    % Optional In-Function Settings:
+    %   - interpolation_mode: A boolean (true or false) to enable or disable interpolation.
+    %                         If enabled, the function interpolates APF values based on the
+    %                         nearest grid cells. 
+    %
+    %   - box_value: Use this parameter to set occupation of the cells that
+    %     are beyond the inputed grid space.
+    %
     %   Outputs:
     %   - REP_VALUES: A 1xN vector of representative values, where N is the number
     %                 of kernels. The i-th element of REP_VALUES is the representative
     %                 value computed using the i-th kernel in KERNELS.
 
-    % TODO: set input values beyond grid as occupied or free using optional
-    % argument value
-    %
-    % TODO: box_mode add walls around the grid space
 
     %% SETTINGS:
     % --------------------------------------------------------------
