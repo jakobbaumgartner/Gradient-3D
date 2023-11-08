@@ -21,15 +21,18 @@ function [kernels] = REP_kernels()
     %    kernels - A cell array containing the generated directional kernels.
 
     % set directional kernels
-    sigma = 21;
+    sigma = 5;
     kernel_length = 31;
     kernel_width = 9;
     kernel_height = kernel_width;
     
     % form kernels
-    kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
-    kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
-    kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/1000;
+    kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/200;
+    kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/200;
+    kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/200;
+
+    figure()
+    plot(kernel_x(5,:,5))
     
     kernels = {kernel_x, kernel_y, kernel_z};
 
