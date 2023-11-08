@@ -14,7 +14,7 @@ secondary_exec_stop_k = 0.25 % primary task will slow down (>0) or stop executin
 points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1 1 1 1 1]
+weights_avoidance = [1 1 1 1 1 1 1 1 1]
 weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 
 % -----------------------------------------------------------
@@ -26,14 +26,14 @@ space_resolution = grid.resolution; % resolution of the obstacles grid
 % weights for different tasks
 wp = 0.2 % primary task
 wp_att = 4 % primary task - attractive component
-wp_rep = 1 % primary task - repulsive component
+wp_rep = 4 % primary task - repulsive component
 wm = 0.5 % mid-joints task
 wa = 0.1 % obstacle avoidance task
 
 
 
 % function parameters
-goal_dist = 0.02 % distance which satisfies ending of optimization
+goal_dist = 0.01 % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
 damping_factor_primary = 0.01
