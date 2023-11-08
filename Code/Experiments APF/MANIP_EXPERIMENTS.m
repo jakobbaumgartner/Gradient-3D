@@ -5,7 +5,7 @@ close all
 % ------------------------------------------------------------
 
 % select map
-map_selection = 'column'
+map_selection = 'corridor'
 
 [grid] = MAPS(map_selection);
 
@@ -55,8 +55,6 @@ elseif (matches(map_selection, 'column'))
     0.497594642234695
     0.654743179774447
     -0.0801486263893128];
-
-
     
 
 elseif (matches(map_selection, 'corridor'))     

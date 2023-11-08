@@ -7,14 +7,14 @@ mid_joints = 0
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_primary_gain_change = 0 % if selected, primary task will start with little gain and grow with time
-secondary_exec_stop_k = 0.10 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+secondary_exec_stop_k = 0.25 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
 points_per_segment = 1*[2 1 5 2 6 2 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1 1 1 1 1 1 1]
+weights_avoidance = [1 1 1 1 1 1]
 weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 
 % -----------------------------------------------------------
@@ -236,7 +236,11 @@ while current_dist > goal_dist && Niter <= Nmax
             rep_magnitude = poi_sizes(selected_poi);        
     
             % avoidance direction - unit vector
-            rep_direction = rep_vel' ./ rep_magnitude;
+            if(rep_magnitude > 10^-12)
+                rep_direction = rep_vel' ./ rep_magnitude;
+            else
+                rep_direction = [0 0 0];
+            end
     
             % scalling
             avoid_vel = wa * rep_vel;
@@ -309,7 +313,10 @@ while current_dist > goal_dist && Niter <= Nmax
         % -----------------------
         q_avoid_total = q_avoid_list * weights_avoidance';
 
- 
+        
+        if(isnan(q_avoid_list(1)))
+            a=1
+        end
     end
 
     %% COMBINE TASKS
