@@ -1,8 +1,11 @@
 \documentclass[]{article}
 
+ \usepackage{easyReview}
+
+
 %opening
-\title{Robotic Arm Path Planning Utilizing Interpolated 3D Voxel-Based Artificial Potential Fields}
-\author{}
+\title{Robotic Manipulator Path Planning Utilizing Interpolated 3D Voxel-Based Obstacle Avoidance Method}
+\author{Jakob Baumgartner, Gregor Klančar}
 
 \begin{document}
 
@@ -12,6 +15,43 @@
 
 \end{abstract}
 
-\section{}
+\section{Introduction}
+
+\section{Related Works}
+
+\add{
+	- method was inspired by Khatib APF (however, it evolved into a different method) \\
+	- different existing APF manipulator implementation articles \\
+	- VFH \\
+}
+
+\section{Method}
+
+\add{
+	- optimization algorithm \\
+	- robot kinematics (include the exact-reduced method) \\
+	- primary task of distance goal \\
+	- secondary task of repulsive field \\
+	- task slowdown option \\
+	- secondary task of manipulation measure \\
+	- attractive field calculation (normalization of attractive force) \\
+	- repulsive field calculation - matrix "convolution" method \\
+	- matrix size and shape selection \\
+	- PLOT: (ERK) kernel graphics \\
+	- PLOT: (ERK) linear kernel graphics \\
+	- PLOT: kernel field shape 	\\
+	- interpolation of the repulsive field \\
+}
+
+\section{Implementation}
+
+\section{Experiments and simulations}
+
+\add{
+	- include execution times}
+
+
+
+
 
 \end{document}
