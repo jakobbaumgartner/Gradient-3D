@@ -20,7 +20,7 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 2000 % max number of iterations
+Nmax = 200 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
