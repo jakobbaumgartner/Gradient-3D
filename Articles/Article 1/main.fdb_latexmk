@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1699543662 "c:/Users/Jakob/Documents/GitHub/Gradient-3D/Articles/Article 1/main.tex" "main.pdf" "main" 1699543663 0
+["pdflatex"] 1699544040 "c:/Users/Jakob/Documents/GitHub/Gradient-3D/Articles/Article 1/main.tex" "main.pdf" "main" 1699544041 0
   "C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1693232232 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/Jakob/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1675427532 23173873 5b2348b80301808231a33c7e56b684b5 ""
   "C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ectt1000.tfm" 993058740 1348 d70ddf2d5d512b838e50a335e385e919 ""
@@ -112,9 +112,9 @@
   "C:/Users/Jakob/AppData/Local/Programs/MiKTeX/tex/latex/tools/calc.sty" 1654687228 10214 de3e21cfc0eccc98ca7f8dac0ef263d2 ""
   "C:/Users/Jakob/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656233290 56148 51a9a8571c07b9921892ae11063ae853 ""
   "C:/Users/Jakob/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656233319 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/Jakob/Documents/GitHub/Gradient-3D/Articles/Article 1/main.tex" 1699543531 1258 4e85736bad91d944991af101d6ec7f78 ""
-  "main.aux" 1699543662 544 35e6c23d5c3f54037268ccfe720a4f0a "pdflatex"
-  "main.tex" 1699543531 1258 4e85736bad91d944991af101d6ec7f78 ""
+  "c:/Users/Jakob/Documents/GitHub/Gradient-3D/Articles/Article 1/main.tex" 1699544039 1262 1037a6bc719133d1ee3d823125d94d1a ""
+  "main.aux" 1699544041 624 cb1923e7d1eed463597a0c615d1a7214 "pdflatex"
+  "main.tex" 1699544039 1262 1037a6bc719133d1ee3d823125d94d1a ""
   (generated)
   "main.aux"
   "main.log"
