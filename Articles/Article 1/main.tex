@@ -4,7 +4,7 @@
 
 
 %opening
-\title{\comment{3D Voxel Grid Based Path Planning for Robotic Manipulators through Matrix Multiplication Techniques}{Alternatives:\\ - Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based Robotic Manipulator Path Planning \\ - Robotic Manipulator Path Planning Optimization Using Matrix-Derived Repulsive Fields Based on 3D Voxel Grid}}
+\title{\comment{3D Voxel Grid Based Path Planning for Robotic Manipulators using Matrix Multiplication Technique}{Alternatives:\\ - Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based Robotic Manipulator Path Planning \\ - Robotic Manipulator Path Planning Optimization Using Matrix-Derived Repulsive Fields Based on 3D Voxel Grid}}
 
 \author{Jakob Baumgartner, Gregor Klančar}
 
@@ -20,6 +20,8 @@
 
 \section{Background}
 
+\todo{1-2 PAGES}
+
 \add{
 	- method was inspired by Khatib APF (however, it evolved into a different method) \\
 	- different existing APF manipulator implementation articles \\
@@ -28,14 +30,34 @@
 
 \section{Methodology}
 
+\todo{3 PAGES}
+
+\subsection{Optimization Algorithm}
+
 \add{
 	- optimization algorithm \\
 	- robot kinematics (include the exact-reduced method) \\
 	- primary task of distance goal \\
 	- secondary task of repulsive field \\
 	- task slowdown option \\
-	- secondary task of manipulation measure \\
-	- attractive field calculation (normalization of attractive force) \\
+	- secondary task of manipulation measure \\	
+}
+
+
+
+\subsection{Task Constraints}
+
+\add{-equations of occupied and empty space}
+
+\subsection{Attractive Velocity}
+
+\add{	
+	- attractive field calculation (normalization of attractive force) 
+}
+
+\subsection{Repulsive Velocity}
+
+\add{	
 	- repulsive field calculation - matrix "convolution" method \\
 	- matrix size and shape selection \\
 	- PLOT: (ERK) kernel graphics \\
@@ -45,9 +67,12 @@
 }
 
 
+
 \section{Implementation}
 
 \section{Results}
+
+\todo{3 PAGES}
 
 \add{
 	- include execution times \\
@@ -56,8 +81,10 @@
 
 \section{Discussion}
 
+\todo{1 PAGE}
+
 \add{
-	- add the limitations of such method \\
+	- add the limitations of such method (already mentioned by Khatib) \\
 	- the limitations of local search \\
 	- number of parameters that need to be tuned (are there actually that many?)
 }
