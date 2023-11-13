@@ -4,7 +4,7 @@
 
 
 %opening
-\title{\comment{3D Voxel Grid Based Path Planning for Robotic Manipulators using Matrix Multiplication Technique}{Alternatives:\\ - Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based Robotic Manipulator Path Planning \\ - Robotic Manipulator Path Planning Optimization Using Matrix-Derived Repulsive Fields Based on 3D Voxel Grid}}
+\title{\comment{3D Voxel Grid Based Path Planning for Robotic Manipulators using Matrix Multiplication Technique}{Alternatives:\\ - Efficient distance calculation / Efficient repulsive field calculation technique \\   - Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based Robotic Manipulator Path Planning \\ - Robotic Manipulator Path Planning Optimization Using Matrix-Derived Repulsive Fields Based on 3D Voxel Grid}}
 
 \author{Jakob Baumgartner, Gregor Klančar}
 
@@ -23,6 +23,9 @@
 \todo{1-2 PAGES}
 
 \add{
+	- PRESENT DISTANCE CALCULATION FOR MANIPULATORS (sensors, lidar, ir, bounding boxes) \\
+	- PRESENT PATH PLANNING METHODS FOR MANIPULATOR (optimization, sampling, biological, learning) \\
+	- similar to Distance Transform (a kind of inverted distance transform) \\
 	- method was inspired by Khatib APF (however, it evolved into a different method) \\
 	- different existing APF manipulator implementation articles \\
 	- VFH \\
@@ -39,6 +42,7 @@
 	- robot kinematics (include the exact-reduced method) \\
 	- primary task of distance goal \\
 	- secondary task of repulsive field \\
+	- damped least squares \\
 	- task slowdown option \\
 	- secondary task of manipulation measure \\	
 }
@@ -58,13 +62,21 @@
 \subsection{Repulsive Velocity}
 
 \add{	
+	- object detection is done in task domain and not c-space (more logical) \\
 	- repulsive field calculation - matrix "convolution" method \\
 	- matrix size and shape selection \\
+	- equation for repulsive kernel values (non-linear) \\
 	- PLOT: (ERK) kernel graphics \\
 	- PLOT: (ERK) linear kernel graphics \\
 	- PLOT: kernel field shape 	\\
 	- interpolation of the repulsive field \\
+	- what if there are obstacles behind wall (usually not the case, depth sensors show only thin walls, some noise doesnt matter, non-linear kernel, possible additional pre-convolution to convert obstacle grid to edges) \\
+	- effecient calculation in dinamic environments, lacking prediction capabilities (MPC) \\
 }
+
+\subsubsection{Kernel Selection}
+
+\subsubsection{Interpolation}
 
 
 
