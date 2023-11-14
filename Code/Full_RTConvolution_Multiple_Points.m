@@ -33,7 +33,7 @@ wa = 0.5 % obstacle avoidance task
 
 
 % function parameters
-goal_dist = 0.02 % distance which satisfies ending of optimization
+goal_dist = 0.001 % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
 damping_factor_primary = 0.01
@@ -126,7 +126,8 @@ while current_dist > goal_dist && Niter <= Nmax
     % --------------------------------------------------
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
-    ee_vel_att = (goal_point(1:3)' - ee_point)/norm(goal_point(1:3)' - ee_point); % direction only - normalised
+    ee_vel_att_magn = norm(goal_point(1:3)' - ee_point)
+    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2 % direction only - normalised
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);

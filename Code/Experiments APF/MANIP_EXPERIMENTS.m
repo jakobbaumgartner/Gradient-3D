@@ -5,7 +5,7 @@ close all
 % ------------------------------------------------------------
 
 % select map
-map_selection = 'roof'
+map_selection = 'wall'
 
 [grid] = MAPS(map_selection);
 
