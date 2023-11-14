@@ -55,17 +55,36 @@
 
 \subsection{Attractive Velocity}
 
-In the context of our robotic manipulator, the primary task requires an attractive force that directs the end effector (EE) towards the desired position and orientation. In the seminal work of Khatib, this task is defined in the context of the joint coordinate system and joint error. However, we have chosen to define the error of the primary target task in Cartesian coordinate space as the orientation and position error of the EE. This approach allows us to guide the manipulator to its target position and orientation without prior knowledge of its final joint configuration. This is particularly important in scenarios where the manipulator is redundant and there are multiple or potentially infinite positions that meet the requirements of the target and secondary tasks. Our method proves beneficial in efficiently identifying an optimal position in such cases since the target joint configuration of the manipulator is unknown.
-
-To compute the positional error of the end effector (EE), we evaluate the gradient of the squared difference between the vectors representing the current position of the EE and its goal position. Mathematically, this is expressed as:
-
-\[ U_{{goalAttraction}} = -\nabla\left(\frac{(x - x_g)^2}{2}\right) \]
-
-Here, \(x\) denotes the vector of the current EE position, and \(x_g\) is the vector of the goal position. The term \((x - x_g)^2\) represents the squared Euclidean distance between these two points. The gradient of this squared distance, indicated by \(-\nabla\), provides the direction and magnitude of the error in the EE's position.
-
-\add{	
-	- attractive field calculation (normalization of attractive force) 
+\add{
+	-orientation error \\ 
+	- p = v w \\
+	- describe constants
+	- shorten
 }
+
+% FIRST DRAFT
+%In the context of our robotic manipulator, the primary task requires an attractive force that directs the end effector (EE) towards the desired position and orientation. In the seminal work of Khatib, this task is defined in the context of the joint coordinate system and joint error. However, we have chosen to define the error of the primary target task in Cartesian coordinate space as the orientation and position error of the EE. This approach allows us to guide the manipulator to its target position and orientation without prior knowledge of its final joint configuration. This is particularly important in scenarios where the manipulator is redundant and there are multiple or potentially infinite positions that meet the requirements of the target and secondary tasks. Our method proves beneficial in efficiently identifying an optimal position in such cases since the target joint configuration of the manipulator is unknown.
+%To compute the positional error of the end effector (EE), we evaluate the gradient of the squared difference between the vectors representing the current position of the EE and its goal position. Because we want the robot to move with constant velocity most of the way and only slow down when bigger precision is needed we calculate direction unit vector of this error and call it directional vector. This allows us to move at a speed that doesnt overwhelm repulsive secondary task, so that the robot has time to move around the obstacles. Just this however is not enoug, as the robot would move with a constant velocity and as such overshot the goal position. To solve this we multiply the velocity vector with a sigmoid function, specifically atan function. This allows us to have relatively constant speed most of the way and smoothly slow down when we approach the goal point and dont skip around the goal.
+
+% SHORT
+%In developing our method, an important part is a velocity profile that guides the end effector (EE) towards its target position and orientation Our methodology represents a deviation from the paradigm established by Khatib. We employ Cartesian coordinates to define the primary task's error, enabling the manipulator to reach its target without predetermined joint configurations. This is vital for redundant manipulators with multiple feasible configurations.
+%Traditional methods using the gradient of squared distance lead to high initial velocities and decreased velocity near the target, potentially hindering lower priority tasks like obstacle avoidance. Our aim is a constant velocity profile, decelerating only near the target to prevent overshooting. We achieve this by normalizing the direction vector towards the target and modulating its magnitude with a sigmoid function, specifically atan(velocity). This allows steady movement, decreasing velocity as the target nears.
+%The approach is encapsulated in the equation:
+%\begin{equation} \vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \arctan(||\vec{x}_{EE} - \vec{x}_g||) \end{equation}
+
+%LONG
+In the development of our method, a pivotal element is the integration of a velocity profile that effectively guides the end effector (EE) toward its designated target position and orientation. Our methodology represents a deviation from the paradigm established by Khatib. Instead of quantifying the primary task's error within the joint coordinate framework, we opt for a Cartesian coordinate representation. This aspect is important when the manipulator exhibits redundancy, characterized by multiple or potentially infinite configurations that satisfy the primary task's requirements and constraints. In such scenarios, it can becomes impractical, if not impossible, to predetermine the optimal goal joint configuration.
+Utilizing solely the gradient of the squared distance would result in a high initial velocity when distant from the target, followed by a progressively decreasing velocity upon nearing the target. Such a velocity profile is suboptimal, as the excessive initial velocity could potentially compromise lower priority tasks, such as obstacle avoidance and in leads to unnecessary slow speeds when approaching the target. Our objective is to maintain a consistent velocity profile for the majority of the trajectory, with a gradual deceleration as the goal is approached to avoid overshooting. To this end, we initially compute the unit vector of the distance from the target, yielding a normalized velocity in the required direction. However, this would lead to overshooting and instability near the target. To counteract this, we modulate the magnitude of this vector using a sigmoid function, specifically the atan function. This modulation ensures a constant movement for the majority of the time towards the target, with the sigmoid function effectively reducing the velocity in inverse relation when in near proximity to the target.
+The following equation encapsulates our approach:
+\begin{equation} 
+	\vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
+\end{equation}
+
+
+
+
+
+
 
 \subsection{Repulsive Velocity}
 
