@@ -55,6 +55,14 @@
 
 \subsection{Attractive Velocity}
 
+In the context of our robotic manipulator, the primary task requires an attractive force that directs the end effector (EE) towards the desired position and orientation. In the seminal work of Khatib, this task is defined in the context of the joint coordinate system and joint error. However, we have chosen to define the error of the primary target task in Cartesian coordinate space as the orientation and position error of the EE. This approach allows us to guide the manipulator to its target position and orientation without prior knowledge of its final joint configuration. This is particularly important in scenarios where the manipulator is redundant and there are multiple or potentially infinite positions that meet the requirements of the target and secondary tasks. Our method proves beneficial in efficiently identifying an optimal position in such cases since the target joint configuration of the manipulator is unknown.
+
+To compute the positional error of the end effector (EE), we evaluate the gradient of the squared difference between the vectors representing the current position of the EE and its goal position. Mathematically, this is expressed as:
+
+\[ U_{{goalAttraction}} = -\nabla\left(\frac{(x - x_g)^2}{2}\right) \]
+
+Here, \(x\) denotes the vector of the current EE position, and \(x_g\) is the vector of the goal position. The term \((x - x_g)^2\) represents the squared Euclidean distance between these two points. The gradient of this squared distance, indicated by \(-\nabla\), provides the direction and magnitude of the error in the EE's position.
+
 \add{	
 	- attractive field calculation (normalization of attractive force) 
 }
