@@ -72,13 +72,26 @@
 %The approach is encapsulated in the equation:
 %\begin{equation} \vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \arctan(||\vec{x}_{EE} - \vec{x}_g||) \end{equation}
 
-%LONG
-In the development of our method, a pivotal element is the integration of a velocity profile that effectively guides the end effector (EE) toward its designated target position and orientation. Our methodology represents a deviation from the paradigm established by Khatib. Instead of quantifying the primary task's error within the joint coordinate framework, we opt for a Cartesian coordinate representation. This aspect is important when the manipulator exhibits redundancy, characterized by multiple or potentially infinite configurations that satisfy the primary task's requirements and constraints. In such scenarios, it can becomes impractical, if not impossible, to predetermine the optimal goal joint configuration.
-Utilizing solely the gradient of the squared distance would result in a high initial velocity when distant from the target, followed by a progressively decreasing velocity upon nearing the target. Such a velocity profile is suboptimal, as the excessive initial velocity could potentially compromise lower priority tasks, such as obstacle avoidance and in leads to unnecessary slow speeds when approaching the target. Our objective is to maintain a consistent velocity profile for the majority of the trajectory, with a gradual deceleration as the goal is approached to avoid overshooting. To this end, we initially compute the unit vector of the distance from the target, yielding a normalized velocity in the required direction. However, this would lead to overshooting and instability near the target. To counteract this, we modulate the magnitude of this vector using a sigmoid function, specifically the atan function. This modulation ensures a constant movement for the majority of the time towards the target, with the sigmoid function effectively reducing the velocity in inverse relation when in near proximity to the target.
-The following equation encapsulates our approach:
+%%LONG
+%In the development of our method, a pivotal element is the integration of a velocity profile that effectively guides the end effector (EE) toward its designated target position and orientation. Our methodology represents a deviation from the paradigm established by Khatib. Instead of quantifying the primary task's error within the joint coordinate framework, we opt for a Cartesian coordinate representation. This aspect is important when the manipulator exhibits redundancy, characterized by multiple or potentially infinite configurations that satisfy the primary task's requirements and constraints. In such scenarios, it can becomes impractical, if not impossible, to predetermine the optimal goal joint configuration.
+%
+%Utilizing solely the gradient of the squared distance would result in a high initial velocity when distant from the target, followed by a progressively decreasing velocity upon nearing the target. Such a velocity profile is suboptimal, as the excessive initial velocity could potentially compromise lower priority tasks, such as obstacle avoidance and in leads to unnecessary slow speeds when approaching the target. Our objective is to maintain a consistent velocity profile for the majority of the trajectory, with a gradual deceleration as the goal is approached to avoid overshooting. To this end, we initially compute the unit vector of the distance from the target, yielding a normalized velocity in the required direction. However, this would lead to overshooting and instability near the target. To counteract this, we modulate the magnitude of this vector using a sigmoid function, specifically the atan function. This modulation ensures a constant movement for the majority of the time towards the target, with the sigmoid function effectively reducing the velocity in inverse relation when in near proximity to the target.
+%The following equation encapsulates our approach:
+%\begin{equation} 
+%	\vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
+%\end{equation}
+
+% JUST RIGHT
+Our method innovatively employs a velocity profile to direct the end effector (EE) towards its target, marking a departure from Khatib's joint coordinate approach in favor of a Cartesian coordinate framework. This is particularly beneficial in scenarios involving redundant manipulators, where determining an optimal goal joint configuration in advance is challenging.
+
+When calculating translational velocity, we avoid the conventional gradient of the squared distance approach, which leads to high initial velocities and subsequently slow speeds near the target. Our aim is a consistent velocity throughout the trajectory, with controlled deceleration near the goal. This is achieved by first calculating the unit vector towards the target for direction, then modulating its magnitude using a sigmoid function, specifically the arctangent function, to prevent overshooting and ensure stable approaching motion.
+
 \begin{equation} 
 	\vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
+	\label{eqq: v_att}
 \end{equation}
+
+In the above equation (eq.~\ref{eqq: v_att}), $\vec{v}_{ATT}$  represents the end effector's translational velocity towards the target, combining direction and magnitude. The terms $\vec{x}_{EE}$ and $\vec{x}_g$ denote the current and goal positions of the EE, respectively, in Cartesian coordinates. The unit vector calculation, $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$, ensures motion directed towards the target. Finally, the sigmoid function, particularly the arctangent component, modulates this velocity to avoid overshooting, balancing speed and precision. The constant $k_{sigm}$ allows us to set how close to the goal does the robot EE start slowing down.
 
 
 
