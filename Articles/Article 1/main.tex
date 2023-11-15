@@ -77,17 +77,23 @@
 %	\vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
 %\end{equation}
 
+\add{
+	-equation references \\
+	- citations \\
+	- check if quat log equation is correct
+}
+
 % JUST RIGHT
-Our method \remove{innovatively} employs inverse kinematics approach (IK) to guide the end effector (EE) towards its target, marking a departure from Khatib's joint coordinate approach in favor of a Cartesian coordinate framework. This is particularly beneficial in scenarios involving redundant manipulators, where determining an optimal goal joint configuration in advance is challenging.
+Our method \remove{innovatively} employs inverse kinematics approach (IK) to guide the end effector (EE) towards its target, marking a departure from Khatib's joint coordinates approach in favor of a Cartesian coordinates framework. This is particularly beneficial in scenarios involving redundant manipulators, where determining an optimal goal joint configuration in advance is challenging.
 
 When calculating translational velocity, we avoid the conventional gradient of the squared distance approach, which leads to high initial velocities and subsequently slow speeds near the target. Our aim is a consistent velocity throughout the trajectory, with controlled deceleration near the goal. This is achieved by first calculating the unit vector towards the target for direction, then modulating its magnitude using a sigmoid function, specifically the arctangent function, to prevent overshooting and ensure stable approaching motion.
 
 \begin{equation} 
-	\vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
+	\vec{v} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
 	\label{eq: v_att}
 \end{equation}
 
-In the above equation (eq.~\ref{eq: v_att}), $\vec{v}_{ATT}$  represents the end effector's translational velocity towards the target, combining direction and magnitude. The terms $\vec{x}_{EE}$ and $\vec{x}_g$ denote the current and goal positions of the EE, respectively, in Cartesian coordinates. The unit vector calculation, $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$, ensures motion directed towards the target. Finally, the sigmoid function, particularly the arctangent component, modulates this velocity to avoid overshooting, balancing speed and precision. The constant $k_{sigm}$ allows us to set how close to the goal does the robot EE start slowing down.
+In the above equation (eq.~\ref{eq: v_att}), $\vec{v}$  represents the end effector's translational velocity towards the target, combining direction and magnitude. The terms $\vec{x}_{EE}$ and $\vec{x}_g$ denote the current and goal positions of the EE, respectively, in Cartesian coordinates. The unit vector calculation, $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$, ensures motion directed towards the target. Finally, the sigmoid function, particularly the arctangent component, modulates this velocity to avoid overshooting, balancing speed and precision. The constant $k_{sigm}$ allows us to set how close to the goal does the robot EE start slowing down.
 
 The rotational velocity error of the EE is needed for ensuring goal orientation of the EE. In our approach, orientations are depicted using rotation matrices. Specifically, \( R \) represents the current EE orientation, while \( gR \) signifies the goal EE orientation. The disparity between these orientations is encapsulated by the relative rotation matrix \( dR \). This matrix is formulated by multiplying the goal orientation matrix \( gR \) with the transpose of the current orientation matrix \( cR^{T} \). To ensure that it represents a pure rotation without any scaling we than normalize the so gotten matrix .
 
