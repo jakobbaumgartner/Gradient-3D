@@ -52,9 +52,38 @@
 
 
 
-\subsection{Task Constraints}
+\subsection{Constraints and Limits}
 
-\add{-equations of occupied and empty space}
+\add{
+	- what is the point of this part anyways \\
+	- but how do we limit this - this chapter only makes sense if we describe how the limits are applied
+}
+
+In robotic manipulators, effective path planning and motion control are subject to constraints related to free space, joint position limits, and joint velocity limits. These constraints are essential to ensure safety and practical functionality.
+
+\textbf{Free Space Constraints:} These constraints ensure the manipulator operates in unoccupied space, avoiding obstacles. They are defined as:
+\begin{equation}
+	\mathcal{C}_{free}(\vec{x}) = \begin{cases} 
+		1, & \text{if }\vec{x} \text{ is in free space} \\
+		0, & \text{otherwise}
+	\end{cases}
+	\label{eq:free_space_constraint}
+\end{equation}
+This binary representation indicates whether a point in the workspace is in free space or obstructed. During the execution of our algorithm, the repulsive field guides the entire manipulator into the empty task space, which in turn moves the manipulator in the obstacle free configutaion space.
+
+\textbf{Joint Position Limits:} Each joint of the manipulator has a range of motion determined by its mechanical design. These limits prevent the joints from exceeding their design capabilities, ensuring reliable operation:
+\begin{equation}
+	\theta_{i, min} \leq \theta_i \leq \theta_{i, max}
+	\label{eq:joint_position_constraint}
+\end{equation}
+Here, \(\theta_{i, min}\) and \(\theta_{i, max}\) represent the minimum and maximum positions for each joint.
+
+\textbf{Joint Velocity Limits:} Velocity limits are set for each joint to maintain controlled movements and prevent mechanical stress. These limits facilitate precise and stable motion:
+\begin{equation}
+	\dot{\theta}_{i, min} \leq \dot{\theta}_i \leq \dot{\theta}_{i, max}
+	\label{eq:joint_velocity_constraint}
+\end{equation}
+The values \(\dot{\theta}_{i, min}\) and \(\dot{\theta}_{i, max}\) specify the minimum and maximum velocities for each joint.
 
 \subsection{Attractive Velocity}
 
@@ -126,10 +155,10 @@ The components of this quaternion, excluding the real part, form the rotational 
 	\label{eq:rot_error_vector}
 \end{equation}
 
-To get the full velocity of the end effector (EE), \( \mathrm{velocityEE} \), we combines translational and rotational velocities, which we scale using proportional gains \( k_p \) and \( k_r \).
+To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \), we combines translational and rotational velocities, which we scale using proportional gains \( k_p \) and \( k_r \).
 
 \begin{equation}
-	\vec{\mathrm{velocityEE}} = 
+	\mathrm{\vec{v}_{ATT}} = 
 	\begin{bmatrix}
 		k_p \times \vec{v}   \\
 		k_{\omega} \times \vec{\omega}
