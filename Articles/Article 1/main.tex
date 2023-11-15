@@ -1,4 +1,7 @@
+% !TeX spellcheck = en_US
 \documentclass[]{article}
+
+\usepackage{amsmath, xparse}
 
  \usepackage{easyReview}
 
@@ -55,12 +58,6 @@
 
 \subsection{Attractive Velocity}
 
-\add{
-	-orientation error \\ 
-	- p = v w \\
-	- shorten
-}
-
 % FIRST DRAFT
 %In the context of our robotic manipulator, the primary task requires an attractive force that directs the end effector (EE) towards the desired position and orientation. In the seminal work of Khatib, this task is defined in the context of the joint coordinate system and joint error. However, we have chosen to define the error of the primary target task in Cartesian coordinate space as the orientation and position error of the EE. This approach allows us to guide the manipulator to its target position and orientation without prior knowledge of its final joint configuration. This is particularly important in scenarios where the manipulator is redundant and there are multiple or potentially infinite positions that meet the requirements of the target and secondary tasks. Our method proves beneficial in efficiently identifying an optimal position in such cases since the target joint configuration of the manipulator is unknown.
 %To compute the positional error of the end effector (EE), we evaluate the gradient of the squared difference between the vectors representing the current position of the EE and its goal position. Because we want the robot to move with constant velocity most of the way and only slow down when bigger precision is needed we calculate direction unit vector of this error and call it directional vector. This allows us to move at a speed that doesnt overwhelm repulsive secondary task, so that the robot has time to move around the obstacles. Just this however is not enoug, as the robot would move with a constant velocity and as such overshot the goal position. To solve this we multiply the velocity vector with a sigmoid function, specifically atan function. This allows us to have relatively constant speed most of the way and smoothly slow down when we approach the goal point and dont skip around the goal.
@@ -87,16 +84,52 @@ When calculating translational velocity, we avoid the conventional gradient of t
 
 \begin{equation} 
 	\vec{v}_{ATT} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
-	\label{eqq: v_att}
+	\label{eq: v_att}
 \end{equation}
 
-In the above equation (eq.~\ref{eqq: v_att}), $\vec{v}_{ATT}$  represents the end effector's translational velocity towards the target, combining direction and magnitude. The terms $\vec{x}_{EE}$ and $\vec{x}_g$ denote the current and goal positions of the EE, respectively, in Cartesian coordinates. The unit vector calculation, $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$, ensures motion directed towards the target. Finally, the sigmoid function, particularly the arctangent component, modulates this velocity to avoid overshooting, balancing speed and precision. The constant $k_{sigm}$ allows us to set how close to the goal does the robot EE start slowing down.
+In the above equation (eq.~\ref{eq: v_att}), $\vec{v}_{ATT}$  represents the end effector's translational velocity towards the target, combining direction and magnitude. The terms $\vec{x}_{EE}$ and $\vec{x}_g$ denote the current and goal positions of the EE, respectively, in Cartesian coordinates. The unit vector calculation, $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$, ensures motion directed towards the target. Finally, the sigmoid function, particularly the arctangent component, modulates this velocity to avoid overshooting, balancing speed and precision. The constant $k_{sigm}$ allows us to set how close to the goal does the robot EE start slowing down.
 
+The rotational velocity error of the EE is needed for ensuring goal orientation of the EE. In our approach, orientations are depicted using rotation matrices. Specifically, \( R \) represents the current EE orientation, while \( gR \) signifies the goal EE orientation. The disparity between these orientations is encapsulated by the relative rotation matrix \( dR \). This matrix is formulated by multiplying the goal orientation matrix \( gR \) with the transpose of the current orientation matrix \( cR^{T} \). To ensure that it represents a pure rotation without any scaling we than normalize the so gotten matrix .
 
+\begin{equation}
+	dR = \frac{gR \cdot cR^{T}}{||gR \cdot cR^{T}||}
+	\label{eq: rot_diff_mat}
+\end{equation}
 
+The relative rotation matrix value is converted into a quaternion, which is then logarithmically transformed to represent the rotational error vectorially:
 
+\begin{equation}
+	dR \mapsto dQ = a + b \, i + c \, j + d \, k
+	\label{eq: quat_mapsto}
+\end{equation}
 
+\begin{equation}
+	dQl = 2 \cdot \log(dQ) = al + bl \, i + cl \, j + dl \, k
+	\label{eq:quat_log}
+\end{equation}
 
+The components of this quaternion, excluding the real part, form the rotational error vector \( \omega \):
+
+\begin{equation}
+	\vec{\omega} =
+	\begin{bmatrix}
+		bl \\
+		cl \\
+		dl
+	\end{bmatrix}
+	\label{eq:rot_error_vector}
+\end{equation}
+
+To get the full velocity of the end effector (EE), \( \mathrm{velocityEE} \), we combines translational and rotational velocities, which we scale using proportional gains \( k_p \) and \( k_r \).
+
+\begin{equation}
+	\vec{\mathrm{velocityEE}} = 
+	\begin{bmatrix}
+		k_p \times \vec{v}   \\
+		k_{\omega} \times \vec{\omega}
+	\end{bmatrix}
+	\label{eq:ee_velocity}
+\end{equation}
 
 \subsection{Repulsive Velocity}
 
