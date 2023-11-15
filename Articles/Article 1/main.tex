@@ -58,7 +58,6 @@
 \add{
 	-orientation error \\ 
 	- p = v w \\
-	- describe constants
 	- shorten
 }
 
@@ -82,7 +81,7 @@
 %\end{equation}
 
 % JUST RIGHT
-Our method innovatively employs a velocity profile to direct the end effector (EE) towards its target, marking a departure from Khatib's joint coordinate approach in favor of a Cartesian coordinate framework. This is particularly beneficial in scenarios involving redundant manipulators, where determining an optimal goal joint configuration in advance is challenging.
+Our method \remove{innovatively} employs inverse kinematics approach (IK) to guide the end effector (EE) towards its target, marking a departure from Khatib's joint coordinate approach in favor of a Cartesian coordinate framework. This is particularly beneficial in scenarios involving redundant manipulators, where determining an optimal goal joint configuration in advance is challenging.
 
 When calculating translational velocity, we avoid the conventional gradient of the squared distance approach, which leads to high initial velocities and subsequently slow speeds near the target. Our aim is a consistent velocity throughout the trajectory, with controlled deceleration near the goal. This is achieved by first calculating the unit vector towards the target for direction, then modulating its magnitude using a sigmoid function, specifically the arctangent function, to prevent overshooting and ensure stable approaching motion.
 
