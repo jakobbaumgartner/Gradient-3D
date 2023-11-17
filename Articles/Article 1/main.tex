@@ -42,6 +42,20 @@
 
 \subsection{Optimization Algorithm}
 
+We use inverse kinematics algorithm to calculate joint velocities based on the primary goal, that is EE position and secondary task of obstacle avoidance. (INSERT: a sentence or two about ik algorithm, also a reference) We also use additional secondary tasks, such as mid-joints position and more importantly manipulability task, which allows us to avoid some singularity positions of the manipulator arm and some local minima, which are a consequence of the local optimization approach used.
+
+We start our algorithm in a start joint configuration, that can be previous goal position. We run optimization loop, that runs step by step from start to goal configuration, while avoiding obstacles / applieing constraints and limits. Each step we calculate the joint velocities and integrate them into new joint positions. Each of so gotten positions is one of the points on our joints trajectory. The priamry IK task is to take the manipulator EE to the desired goal position and orientation, we describe how to calculate cartesian velocities in the chapter ref:Attractive Velocity, which are than calculated into joint velocities. The size of this primary velociti is constant for the entire part of the optimization and is reduced only when approaching the goal. 
+
+To avoid obstacles we calculate the avoidance velocities as descrubed in chapter ref:Repulsive Velocity. As one of the biggest problems of the APF Khatib method is local minima points, where the robot gets stuck in a point, where attractive and repulsive forces cancel each other out, we use transformation into the null space (INSERT: add citation of null space robotics manipulators) to only move the robot away from the obstacles in such a way as to not interfere with the main task. If not, the robot could not even approach the obstacles, which however is necessary in some situations, as it allows it to reach the goal points for which to reach the manipulator segments need to be positions in proximity to the obstacles. For this approach to work we need enough degree of manipulability left for the secondary task, so that the main / primary task doesnt overwhelm the secondary task. As described in the chapter bellow (ref: Attractive Velocity) we solve this problem by normalizing the primary attractive velocity. 
+
+\add{this can still sometimes lead to loss of manipulability, add terciary, or secondary maipulability task}
+
+To add another level of certainity that the primary task wont overwhelm the secondary task we added the primary task execution slowdown that slows down the movement of the manipulator towards the primary goal and allows the secondary task more manipulability, so that it can better configure the arm in such a way, as to avoid the obstacles. 
+
+
+
+
+
 \add{
 	- optimization algorithm \\
 	- robot kinematics (include the exact-reduced method) \\
@@ -50,16 +64,20 @@
 	- damped least squares \\
 	- task slowdown option \\
 	- secondary task of manipulation measure \\	
+	- different tasks merging equation \\
 }
 
 
 
 \subsection{Constraints and Limits}
 
-\add{
+\alert{
 	- what is the point of this part anyways \\
 	- YES, BUT HOW DO WE APPLY THOSE - this chapter only makes sense if we describe how the limits are applied \\
-	- add $x_{start}$ and $x_{goal}$
+}
+
+\add{ 
+	- add $x_{start}$ and $x_{goal}$ \\
 }
 
 In robotic manipulators, effective path planning and motion control are subject to constraints related to free space, joint position limits, and joint velocity limits. These constraints are essential to ensure safety and practical functionality.
@@ -134,7 +152,7 @@ The rotational velocity error of the EE is needed for ensuring goal orientation 
 	\label{eq: rot_diff_mat}
 \end{equation}
 
-The relative rotation matrix value is converted into a quaternion, which is then logarithmically transformed to represent the rotational error vectorially:
+The relative rotation matrix value is converted into a quaternion, which is then logarithmically transformed \remove{to represent the rotational error vectorially}. The components of this quaternion, excluding the real part, than form the rotational error vector \( \omega \).
 
 \begin{equation}
 	dR \mapsto dQ = a + b \, i + c \, j + d \, k
@@ -146,7 +164,9 @@ The relative rotation matrix value is converted into a quaternion, which is then
 	\label{eq:quat_log}
 \end{equation}
 
-The components of this quaternion, excluding the real part, form the rotational error vector \( \omega \):
+\alert{There needs to be an explanation why log, where is this from. Maybe a reference.}
+
+
 
 \begin{equation}
 	\vec{\omega} =
@@ -171,6 +191,15 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 
 \subsection{Repulsive Velocity}
 
+\add{
+	- kinematic calculations \\
+	- null spaces calculations \\
+	- how to join multiple velocities - weights \\
+	- general overview	\\
+}
+
+***
+
 \add{	
 	- object detection is done in task domain and not c-space (more logical) \\
 	- repulsive field calculation - matrix "convolution" method \\
@@ -182,6 +211,7 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 	- interpolation of the repulsive field \\
 	- what if there are obstacles behind wall (usually not the case, depth sensors show only thin walls, some noise doesnt matter, non-linear kernel, possible additional pre-convolution to convert obstacle grid to edges) \\
 	- effecient calculation in dinamic environments, lacking prediction capabilities (MPC) \\
+	- good for working in "statistical, noisy" obstacle grids
 }
 
 \subsubsection{Kernel Selection}
