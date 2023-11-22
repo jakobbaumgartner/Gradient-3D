@@ -191,7 +191,43 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 
 \subsection{Repulsive Velocity}
 
-We compute obstacle distances in task space with our unique matrix kernel method. Focusing on task space is beneficial as it provides a more direct and realistic representation of the environment, leading to better spatial awareness, quicker responsiveness, easier sensor integration, and more effective obstacle avoidance. Our method is particularly effective when integrating noisy sensor inputs like LIDAR or depth cameras for obstacle avoidance, as it efficiently processes and utilizes this spatial information, even in the presence of noise, to accurately determine repulsive velocities.
+%We compute obstacle distances in task space with our unique matrix kernel method. Focusing on task space is beneficial as it provides a more direct and realistic representation of the environment, leading to better spatial awareness, quicker responsiveness, easier sensor integration, and more effective obstacle avoidance. Our method is particularly effective when integrating noisy sensor inputs like LIDAR or depth cameras for obstacle avoidance, as it efficiently processes and utilizes this spatial information, even in the presence of noise, to accurately determine repulsive velocities.
+%
+% Odbojne sile so odvisne od oddaljenosti od ovir oz. objekotv v prostoru. Odbojno polje mora pasti na nič, ko smo oddaljeni od ovir za neko maksimalno razdaljo in narasti na maksimalno vrednost, ko smo tik ob oviri. 
+% 
+% Izračunati želimo odbojne sile v različnih točkah interesa na manipulatorju. \add{citation for this approach} Te točke strategično porazdelimo po manipulatorju tako, da je celotna okolica manipulatorja pokrita z matrikami odbojnega polja. 
+% 
+% Med izračunom odbojnega polja uporabimo kinematične enačbe, da pozicijo točk iz prostora notranjih spremenljivk (sklepov) robota transformiramo v prostor naloge, oz kartezični prostor. 
+% 
+% Ko imamo pozicijo točk na robotu v kartezičnem prostoru, predlagamo izračun vrednost odbojnega polja v posamezni točki na dva različna načina. Prostor ovir v katerem se nahaja naš robot je predstavljen kot mreža zasedenosti, v kateri imajo posamezni voxli vrednosti med 0, če se v prostoru ovira zagotovo ne nahaja in vrednost 1, če smo zagotovo prepričani, da tam je ovira, običajno pa je vrednost nekje med tema dvema skrajnostima. Prostor ovir ima svojo resolucijo, je diskreten, medtem ko je kartezični prostor zvezen. Ker za naš pristop potrebujemo poznati katere in kako zasedene celice se nahajajo v okolici našega robota predlagamo dva načina preslikave v prostor mreže zasedenosti. Enostavnejši pristop je, da točko na robotu v kateri želimo ugotoviti vrednost odbojnega polja enostavno preslikamo v center najbličje celice, glede na eulerjevo razdaljo. Včasih pa lahko zaradi te diskretizacije pride do nezveznosti. Zato predlagamo drugi pristop, linearno interpolacijo izračunanega odbojnega polja, da dobimo zvezno vrednost polja.
+% 
+% Ko smo pozicijo točke na manipulatorju z eno od metod preslikali v prostor ovir, lahko uporabimo naša odbojna konvolucijska jedra, za izračun odbojnih hitrosti. Za vsako od kartezičnih smeri (x,y,z) bomo generirali odbojno jedro, kot je opisano v poglavju "Odbojna konvolucijska jedra". Nato iz mreže ovir za vsako od treh smeri izrežemo matrično okno, ki je enake dimenzije kot je so jedra, z centrom v naši točki. Z množenjem isto ležnih elementov (Hadamardov produkt), izrezanega okna ovir in naše odbojne matrike, dobimo rezultančno matriko. Ko vse elemente matrike seštejemo, dobimo odbojno hitrost za posamezno karttezično smer v izbrani točki.
+% 
+% \subsubsection{Način najbližjega polja}
+% 
+% \subsubsection{Način interpolacije}
+
+In our method, we compute repulsive velocities within the task space using a novel matrix kernel multiplication approach. Concentrating on the task space is advantageous as it provides a more direct and realistic representation of the environment. This leads to improved spatial awareness, faster responsiveness, and is particularly well-suited for integrating noisy sensor inputs like LIDAR or depth cameras, efficiently processing and using this spatial information to accurately determine repulsive velocities, even amidst noise.
+
+Repulsive velocities tell the manipulator in which direction to move, so that it avoids nearby obstacles. These velocities drop to zero when the manipulator maintains a minimum safe distance from obstacles, and rise to their highest when it nears an obstacle, facilitating immediate evasive action. 
+
+Our goal is to calculate repulsive forces at various points of interest on the manipulator. These points are strategically distributed across the manipulator to ensure that the entire area of the robot is covered by the matrices of the repulsive field.
+
+During the calculation of the repulsive field, kinematic equations are utilized to transform the position of points from the robot's internal joint space to the Cartesian global coordinate space.
+
+The space of obstacles in which our robot operates is represented as an occupancy grid, where individual voxels have values ranging from 0 (indicating no obstacle presence) to 1 (certainty of an obstacle), with typical values lying somewhere between these extremes. Since the obstacle space is discrete (has finite resolution), while the Cartesian space is continuous, we propose two methods for mapping from Cartesian space to the occupancy grid space. The simpler approach involves mapping the point directly to the center of the nearest occupancy grid voxel, based on Euclidean distance. However, this discretization can sometimes lead to discontinuities. Therefore, we propose a second approach: linear interpolation of the calculated repulsive field to achieve a continuous field value.
+
+Once the position of a point on the manipulator has been mapped to the obstacle space using one of these methods, we can employ our repulsive convolutional kernels to calculate repulsive velocities. For each Cartesian direction (x, y, z), we will generate a repulsive kernel, as described in the "Repulsive Convolutional Kernels" chapter. Then, from the obstacle grid, for each of the three directions, we extract a matrix cutout window of the same dimension as the kernels, centered on the point of interest. By performing the Hadamard (element-wise) product of the extracted obstacle grid window and our repulsive matrix, we obtain a resultant matrix. Summing all the elements of this matrix gives us the repulsive velocity for each of the three Cartesian directions at the selected point.
+
+
+
+ 
+ \add{
+ 	-there is an option of interpolation plot different matrixes, that are sligthely moved ... \\
+ 	-in results maybe compare smoothenss of interpolated and non-interpolated method
+ }
+ 
+ 
 
 
 
@@ -242,6 +278,7 @@ We compute obstacle distances in task space with our unique matrix kernel method
 \add{
 	- add the limitations of such method (already mentioned by Khatib) \\
 	- the limitations of local search \\
+	- good for parellelization \\
 	- number of parameters that need to be tuned (are there actually that many?)
 }
 
