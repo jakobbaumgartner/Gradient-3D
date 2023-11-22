@@ -191,6 +191,10 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 
 \subsection{Repulsive Velocity}
 
+We compute obstacle distances in task space with our unique matrix kernel method. Focusing on task space is beneficial as it provides a more direct and realistic representation of the environment, leading to better spatial awareness, quicker responsiveness, easier sensor integration, and more effective obstacle avoidance. Our method is particularly effective when integrating noisy sensor inputs like LIDAR or depth cameras for obstacle avoidance, \alert{as it robustly filters and interprets spatial data.}
+
+
+
 \add{
 	- kinematic calculations \\
 	- null spaces calculations \\
