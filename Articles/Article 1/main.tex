@@ -207,11 +207,11 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 % 
 % \subsubsection{Način interpolacije}
 
-In our method, we compute repulsive velocities within the task space using a novel matrix kernel multiplication approach. Concentrating on the task space is advantageous as it provides a more direct and realistic representation of the environment. This leads to improved spatial awareness, faster responsiveness, and is particularly well-suited for integrating noisy sensor inputs like LIDAR or depth cameras, efficiently processing and using this spatial information to accurately determine repulsive velocities, even amidst noise.
+In our method, we compute repulsive velocities within the task space using a novel matrix kernel multiplication approach. Concentrating on the task space is advantageous as it provides a more direct and realistic representation of the environment. \replace{This leads to improved spatial awareness, faster responsiveness, and is particularly well-suited for integrating noisy sensor inputs like LIDAR or depth cameras, efficiently processing and using this spatial information to accurately determine repulsive velocities, even amidst noise.}{add some references for this statement}
 
 Repulsive velocities tell the manipulator in which direction to move, so that it avoids nearby obstacles. These velocities drop to zero when the manipulator maintains a minimum safe distance from obstacles, and rise to their highest when it nears an obstacle, facilitating immediate evasive action. 
 
-Our goal is to calculate repulsive forces at various points of interest on the manipulator. These points are strategically distributed across the manipulator to ensure that the entire area of the robot is covered by the matrices of the repulsive field.
+Our goal is to calculate repulsive forces at various points of interest on the manipulator. These points \add{add reference} are strategically distributed across the manipulator to ensure that the entire area of the robot is covered by the matrices of the repulsive field.
 
 During the calculation of the repulsive field, kinematic equations are utilized to transform the position of points from the robot's internal joint space to the Cartesian global coordinate space.
 
@@ -219,7 +219,15 @@ The space of obstacles in which our robot operates is represented as an occupanc
 
 Once the position of a point on the manipulator has been mapped to the obstacle space using one of these methods, we can employ our repulsive convolutional kernels to calculate repulsive velocities. For each Cartesian direction (x, y, z), we will generate a repulsive kernel, as described in the "Repulsive Convolutional Kernels" chapter. Then, from the obstacle grid, for each of the three directions, we extract a matrix cutout window of the same dimension as the kernels, centered on the point of interest. By performing the Hadamard (element-wise) product of the extracted obstacle grid window and our repulsive matrix, we obtain a resultant matrix. Summing all the elements of this matrix gives us the repulsive velocity for each of the three Cartesian directions at the selected point.
 
-
+\begin{equation}
+	\mathrm{\vec{v}_{poi}} = 
+	\begin{bmatrix}
+	\sum_{(i, j, k)} W_x \odot K_x \\
+	\sum_{(i, j, k)} W_y \odot K_y \\
+	\sum_{(i, j, k)} W_z \odot K_z	
+	\end{bmatrix}
+	\label{eq:poi_velocity}
+\end{equation}
 
  
  \add{
@@ -228,8 +236,6 @@ Once the position of a point on the manipulator has been mapped to the obstacle 
  }
  
  
-
-
 
 \add{
 	- kinematic calculations \\
