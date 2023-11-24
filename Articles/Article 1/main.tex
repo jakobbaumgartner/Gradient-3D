@@ -265,7 +265,7 @@ Once the position of a point on the manipulator has been mapped to the obstacle 
 \subsubsection{Kernel Selection}
 \label{chap:kernels}
 
-The fundamental concept of our directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. Our filters can be likened to a variation of the Sobel \add{reference} operator, a 2D convolutional \add{reference} filter frequently utilized in computer vision for calculating image gradients at specific points.
+The fundamental concept of our directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. Our filters can be likened to a variation of the Sobel \add{reference} operator, a 2D convolutional \add{reference} filter frequently utilized in computer vision for calculating image gradients at specific points. However contrary to the Sobel operator, our filter is not calculating the gradients of the matrix, as the inputs are weighted depending on the distance from the center of the kernel. 
 
 Our kernels are designed as three-dimensional structures with a primary axis aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary axes are orthogonal to this primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the magnitude reaching zero at the kernel's center. The nature of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity escalates as the manipulator approaches an obstacle.
 
