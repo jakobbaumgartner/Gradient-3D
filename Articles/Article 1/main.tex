@@ -77,6 +77,8 @@ To ensure the primary task doesn't overpower the secondary task, we've integrate
 	\frac{1}{1 + \kappa_{\text{sec}} \left(\frac{1}{\delta_{min}}\right)}
 \end{equation}
 
+\alert{Is this equation correct, maybe add a singularity damping factor.}
+
 The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \kappa_{\text{sec}} \) and the robot's minimum distance from an obstacle \( \delta_{\text{min}} \). We calculate the minimal distance in the repulsive velocities phase of the algorithm, as explained in section~\ref{chap:repulsive velocity}. As per the equation, a large \( \delta_{\text{min}} \) minimizes the slowdown effect, allowing uninterrupted primary task execution. Conversely, a small \( \delta_{\text{min}} \) increases the slowdown, by making the $\xi_{p}$ factor smaller, giving the secondary task more time for corrective actions.
 
 
