@@ -42,15 +42,15 @@
 
 \subsection{Optimization Algorithm}
 
-We use inverse kinematics algorithm to calculate joint velocities based on the primary goal, that is EE position and secondary task of obstacle avoidance. (INSERT: a sentence or two about ik algorithm, also a reference) We also use additional secondary tasks, such as mid-joints position and more importantly manipulability task, which allows us to avoid some singularity positions of the manipulator arm and some local minima, which are a consequence of the local optimization approach used.
+We use inverse kinematics algorithm to calculate joint velocities based on the primary goal, that is EE position and secondary task of obstacle avoidance. \add{(INSERT: a sentence or two about ik algorithm, also a reference)} We also use additional secondary tasks, such as mid-joints position and more importantly manipulability task, which allows us to avoid some singularity positions of the manipulator arm and some local minima, which are a consequence of the local optimization approach used.
 
 We start our algorithm in a start joint configuration, that can be previous goal position. We run optimization loop, that runs step by step from start to goal configuration, while avoiding obstacles / applieing constraints and limits. Each step we calculate the joint velocities and integrate them into new joint positions. Each of so gotten positions is one of the points on our joints trajectory. The priamry IK task is to take the manipulator EE to the desired goal position and orientation, we describe how to calculate cartesian velocities in the chapter ref:Attractive Velocity, which are than calculated into joint velocities. The size of this primary velociti is constant for the entire part of the optimization and is reduced only when approaching the goal. 
 
-To avoid obstacles we calculate the avoidance velocities as descrubed in chapter ref:Repulsive Velocity. As one of the biggest problems of the APF Khatib method is local minima points, where the robot gets stuck in a point, where attractive and repulsive forces cancel each other out, we use transformation into the null space (INSERT: add citation of null space robotics manipulators) to only move the robot away from the obstacles in such a way as to not interfere with the main task. If not, the robot could not even approach the obstacles, which however is necessary in some situations, as it allows it to reach the goal points for which to reach the manipulator segments need to be positions in proximity to the obstacles. For this approach to work we need enough degree of manipulability left for the secondary task, so that the main / primary task doesnt overwhelm the secondary task. As described in the chapter bellow (ref: Attractive Velocity) we solve this problem by normalizing the primary attractive velocity. 
+To avoid obstacles we calculate the avoidance velocities as descrubed in section~\ref{chap:repulsive velocity}. As one of the biggest problems of the APF Khatib method is local minima points, where the robot gets stuck in a point, where attractive and repulsive forces cancel each other out, we use transformation into the null space \add{(INSERT: add citation of null space robotics manipulators)} to only move the robot away from the obstacles in such a way as to not interfere with the main task. If not, the robot could not even approach the obstacles, which however is necessary in some situations, as it allows it to reach the goal points for which to reach the manipulator segments need to be positions in proximity to the obstacles. For this approach to work we need enough degree of manipulability left for the secondary task, so that the main / primary task doesnt overwhelm the secondary task. As described in the section~\ref{chap:attractive velocity} we solve this problem by normalizing the primary attractive velocity. 
 
 \add{this can still sometimes lead to loss of manipulability, add terciary, or secondary maipulability task}
 
-To add another level of certainity that the primary task wont overwhelm the secondary task we added the primary task execution slowdown that slows down the movement of the manipulator towards the primary goal and allows the secondary task more manipulability, so that it can better configure the arm in such a way, as to avoid the obstacles. 
+Another way we make sure that the primary task doesn't take over the avoidance task is using execution slowdown as described in section~\ref{chap:primary slowdown}.
 
 
 
@@ -62,10 +62,24 @@ To add another level of certainity that the primary task wont overwhelm the seco
 	- primary task of distance goal \\
 	- secondary task of repulsive field \\
 	- damped least squares \\
-	- task slowdown option \\
 	- secondary task of manipulation measure \\	
 	- different tasks merging equation \\
 }
+
+\subsubsection{Primary Task Slowdown}
+\label{chap:primary slowdown}
+
+To ensure the primary task doesn't overpower the secondary task, we've integrated a primary task execution slowdown. This mechanism can reduce the manipulator's velocity towards its primary goal, leaving more maneuverability space for the secondary tasks.
+
+\begin{equation}
+	\label{eq:slowdown}
+	\xi_{p}=
+	\frac{1}{1 + \kappa_{\text{sec}} \left(\frac{1}{\delta_{min}}\right)}
+\end{equation}
+
+The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \kappa_{\text{sec}} \) and the robot's minimum distance from an obstacle \( \delta_{\text{min}} \). We calculate the minimal distance in the repulsive velocities phase of the algorithm, as explained in section~\ref{chap:repulsive velocity}. As per the equation, a large \( \delta_{\text{min}} \) minimizes the slowdown effect, allowing uninterrupted primary task execution. Conversely, a small \( \delta_{\text{min}} \) increases the slowdown, by making the $\xi_{p}$ factor smaller, giving the secondary task more time for corrective actions.
+
+
 
 
 
@@ -80,33 +94,34 @@ To add another level of certainity that the primary task wont overwhelm the seco
 	- add $x_{start}$ and $x_{goal}$ \\
 }
 
-In robotic manipulators, effective path planning and motion control are subject to constraints related to free space, joint position limits, and joint velocity limits. These constraints are essential to ensure safety and practical functionality.
-
-\textbf{Free Space Constraints:} These constraints ensure the manipulator operates in unoccupied space, avoiding obstacles. They are defined as:
-\begin{equation}
-	\mathcal{C}_{free}(\vec{x}) = \begin{cases} 
-		1, & \text{if }\vec{x} \text{ is in free space} \\
-		0, & \text{otherwise}
-	\end{cases}
-	\label{eq:free_space_constraint}
-\end{equation}
-This binary representation indicates whether a point in the workspace is in free space or obstructed. During the execution of our algorithm, the repulsive field guides the entire manipulator into the empty task space, which in turn moves the manipulator in the obstacle free configutaion space.
-
-\textbf{Joint Position Limits:} Each joint of the manipulator has a range of motion determined by its mechanical design. These limits prevent the joints from exceeding their design capabilities, ensuring reliable operation:
-\begin{equation}
-	\theta_{i, min} \leq \theta_i \leq \theta_{i, max}
-	\label{eq:joint_position_constraint}
-\end{equation}
-Here, \(\theta_{i, min}\) and \(\theta_{i, max}\) represent the minimum and maximum positions for each joint.
-
-\textbf{Joint Velocity Limits:} Velocity limits are set for each joint to maintain controlled movements and prevent mechanical stress. These limits facilitate precise and stable motion:
-\begin{equation}
-	\dot{\theta}_{i, min} \leq \dot{\theta}_i \leq \dot{\theta}_{i, max}
-	\label{eq:joint_velocity_constraint}
-\end{equation}
-The values \(\dot{\theta}_{i, min}\) and \(\dot{\theta}_{i, max}\) specify the minimum and maximum velocities for each joint.
+%In robotic manipulators, effective path planning and motion control are subject to constraints related to free space, joint position limits, and joint velocity limits. These constraints are essential to ensure safety and practical functionality.
+%
+%\textbf{Free Space Constraints:} These constraints ensure the manipulator operates in unoccupied space, avoiding obstacles. They are defined as:
+%\begin{equation}
+%	\mathcal{C}_{free}(\vec{x}) = \begin{cases} 
+%		1, & \text{if }\vec{x} \text{ is in free space} \\
+%		0, & \text{otherwise}
+%	\end{cases}
+%	\label{eq:free_space_constraint}
+%\end{equation}
+%This binary representation indicates whether a point in the workspace is in free space or obstructed. During the execution of our algorithm, the repulsive field guides the entire manipulator into the empty task space, which in turn moves the manipulator in the obstacle free configutaion space.
+%
+%\textbf{Joint Position Limits:} Each joint of the manipulator has a range of motion determined by its mechanical design. These limits prevent the joints from exceeding their design capabilities, ensuring reliable operation:
+%\begin{equation}
+%	\theta_{i, min} \leq \theta_i \leq \theta_{i, max}
+%	\label{eq:joint_position_constraint}
+%\end{equation}
+%Here, \(\theta_{i, min}\) and \(\theta_{i, max}\) represent the minimum and maximum positions for each joint.
+%
+%\textbf{Joint Velocity Limits:} Velocity limits are set for each joint to maintain controlled movements and prevent mechanical stress. These limits facilitate precise and stable motion:
+%\begin{equation}
+%	\dot{\theta}_{i, min} \leq \dot{\theta}_i \leq \dot{\theta}_{i, max}
+%	\label{eq:joint_velocity_constraint}
+%\end{equation}
+%The values \(\dot{\theta}_{i, min}\) and \(\dot{\theta}_{i, max}\) specify the minimum and maximum velocities for each joint.
 
 \subsection{Attractive Velocity}
+\label{chap:attractive velocity}
 
 % FIRST DRAFT
 %In the context of our robotic manipulator, the primary task requires an attractive force that directs the end effector (EE) towards the desired position and orientation. In the seminal work of Khatib, this task is defined in the context of the joint coordinate system and joint error. However, we have chosen to define the error of the primary target task in Cartesian coordinate space as the orientation and position error of the EE. This approach allows us to guide the manipulator to its target position and orientation without prior knowledge of its final joint configuration. This is particularly important in scenarios where the manipulator is redundant and there are multiple or potentially infinite positions that meet the requirements of the target and secondary tasks. Our method proves beneficial in efficiently identifying an optimal position in such cases since the target joint configuration of the manipulator is unknown.
@@ -190,6 +205,7 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 \end{equation}
 
 \subsection{Repulsive Velocity}
+\label{chap:repulsive velocity}
 
 %We compute obstacle distances in task space with our unique matrix kernel method. Focusing on task space is beneficial as it provides a more direct and realistic representation of the environment, leading to better spatial awareness, quicker responsiveness, easier sensor integration, and more effective obstacle avoidance. Our method is particularly effective when integrating noisy sensor inputs like LIDAR or depth cameras for obstacle avoidance, as it efficiently processes and utilizes this spatial information, even in the presence of noise, to accurately determine repulsive velocities.
 %
