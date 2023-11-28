@@ -300,15 +300,29 @@ In the orthogonal axes, the magnitude of values diminishes with increasing dista
 
 \add{- choice of velocity profile (gaussian, linear ... maybe could move this part to implementation / experiments)}
 
-\subsubsection{Interpolation}
+\subsubsection{Interpolation of the Repulsive Velocity}
 
-Želimo, da je gibanje robota zvezno in ne skokovito. Da lahko to dosežemo je potrebno, da vsi hitrostni prispevki, ki vplivajo na robota prehajajo med seboj zvezno. Ker imamo mrežo ovir diskretno definirano, to ni res. Z zvišanjem resolucije polja ovir in se lahko zveznosti teoretično neskončno približamo, vendar pa imamo v realnosti običajno opravka z končno resolucijo. Da je velikost hitrosti kljub temu zvezna, ko prehajamo z točko interesa POI iz ene celice mreže ovir v drugo, uporabimo trilinearno interpolacijo, s katero za vsako od hitrosti v treh kartezičnih smeri posebaj interpoliramo hitrosti in dobimo zvezno in neskokovito linearno aproksimacijo pri prehodu med celicami. 
+%Želimo, da je gibanje robota zvezno in ne skokovito. Da lahko to dosežemo je potrebno, da vsi hitrostni prispevki, ki vplivajo na robota prehajajo med seboj zvezno. Ker imamo mrežo ovir diskretno definirano, to ni res. Z zvišanjem resolucije polja ovir in se lahko zveznosti teoretično neskončno približamo, vendar pa imamo v realnosti običajno opravka z končno resolucijo. Da je velikost hitrosti kljub temu zvezna, ko prehajamo z točko interesa POI iz ene celice mreže ovir v drugo, uporabimo trilinearno interpolacijo, s katero za vsako od hitrosti v treh kartezičnih smeri posebaj interpoliramo hitrosti in dobimo zvezno in neskokovito linearno aproksimacijo pri prehodu med celicami. 
+%
+%Ko poznamo koordinate naše POI izračunamo za vsako od točk x,y in z koordinate zaokrožene navzgor in navzdol, da dobimo 8 okoliških celic. 
+%
+%Ko imamo poznane celice, uporabimo našo poznano konvolucijsko metodo, da izračunamo x,y in z komponento vektorja odbojne hitrosti za vsako od celic.
+%
+%Potem izvedemo za vsako od smeri vektorja odbojne hitrosti posebaj trilinearno interpolacijo odbojne hitrosti. Pri tem upoštevamo, da se izraučunane vrednosti odbojnih hitrosti nahajajo v centrih celic, pri interpolaciji torej zamaknemo koordinate poznanih vrenodsti za polovico resolucije mreže ovir v vsaki od smeri. Rezultat je vektor odbojne hitrosti, ki zvezno prehaja med diskretnimi vrednostmi izračunanimi v diskretnih točkah mreže ovir.
+%
 
-\add{kako pridobimo vrednosti v okoliških celicah}
-\add{zakaj vrednosti definiramo v centrih voxlov (celicah)}
+It is essential that the velocity contributions affecting the robot change smoothly. However, since our obstacle grid is discretely defined, achieving perfect continuity can be challenging. Increasing the resolution of the obstacle field can theoretically bring us closer to continuous behavior, but in practice, we are constrained by finite resolution. To ensure that the velocity remains continuous when transitioning from one cell of the obstacle grid to another at a point of interest (POI), we employ trilinear interpolation. This technique allows for a smooth and continuous linear approximation of velocities in all three Cartesian directions (x, y, and z) as the POI moves between cells.
+
+Firstly, from the coordinates of our POI, we calculate the coordinates of the eight surrounding cells in the obstacle grid, by rounding the coordinates up and down in x, y, and z directions.
+
+Once we have identified these cells, we apply our established kernel matrix method to compute the x, y, and z components of the repulsive velocity vector for each of the cells.
+
+Subsequently, we separately perform trilinear interpolation for each direction of the repulsive velocity vector. It is important to consider that the calculated repulsive velocity values are located at the centers of the cells. Therefore, during interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid for each direction. This results in a repulsive velocity vector that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
+
+
+
 \add{enačbe trilinearne interpolacije}
 
-\add{	- interpolation of the repulsive field \\}
 
 
 \section{Implementation}
