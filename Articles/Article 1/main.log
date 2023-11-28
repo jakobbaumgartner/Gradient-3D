@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  27 NOV 2023 14:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  27 NOV 2023 16:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -569,10 +569,10 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 {C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 [2] [3] [4] [5] [6] [7] [8] (main.aux) ) 
 Here is how much of TeX's memory you used:
- 13786 strings out of 476375
- 286471 string characters out of 5788976
- 1872299 words of memory out of 5000000
- 33924 multiletter control sequences out of 15000+600000
+ 13788 strings out of 476375
+ 286514 string characters out of 5788976
+ 1871299 words of memory out of 5000000
+ 33926 multiletter control sequences out of 15000+600000
  518590 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  132i,9n,132p,1147b,983s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -591,7 +591,7 @@ TeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Jakob/AppData/Local/Prog
 rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/Ap
 pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on main.pdf (8 pages, 196230 bytes).
+Output written on main.pdf (8 pages, 198552 bytes).
 PDF statistics:
  97 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

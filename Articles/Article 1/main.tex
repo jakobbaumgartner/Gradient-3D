@@ -44,6 +44,8 @@
 
 We use inverse kinematics algorithm to calculate joint velocities based on the primary goal, that is EE position and secondary task of obstacle avoidance. \add{(INSERT: a sentence or two about ik algorithm, also a reference)} We also use additional secondary tasks, such as mid-joints position and more importantly manipulability task, which allows us to avoid some singularity positions of the manipulator arm and some local minima, which are a consequence of the local optimization approach used.
 
+\comment{}{optimization algorithm diagram}
+
 We start our algorithm in a start joint configuration, that can be previous goal position. We run optimization loop, that runs step by step from start to goal configuration, while avoiding obstacles / applieing constraints and limits. Each step we calculate the joint velocities and integrate them into new joint positions. Each of so gotten positions is one of the points on our joints trajectory. The priamry IK task is to take the manipulator EE to the desired goal position and orientation, we describe how to calculate cartesian velocities in the chapter ref:Attractive Velocity, which are than calculated into joint velocities. The size of this primary velociti is constant for the entire part of the optimization and is reduced only when approaching the goal. 
 
 To avoid obstacles we calculate the avoidance velocities as descrubed in section~\ref{chap:repulsive velocity}. As one of the biggest problems of the APF Khatib method is local minima points, where the robot gets stuck in a point, where attractive and repulsive forces cancel each other out, we use transformation into the null space \add{(INSERT: add citation of null space robotics manipulators)} to only move the robot away from the obstacles in such a way as to not interfere with the main task. If not, the robot could not even approach the obstacles, which however is necessary in some situations, as it allows it to reach the goal points for which to reach the manipulator segments need to be positions in proximity to the obstacles. For this approach to work we need enough degree of manipulability left for the secondary task, so that the main / primary task doesnt overwhelm the secondary task. As described in the section~\ref{chap:attractive velocity} we solve this problem by normalizing the primary attractive velocity. 
@@ -53,33 +55,20 @@ To avoid obstacles we calculate the avoidance velocities as descrubed in section
 Another way we make sure that the primary task doesn't take over the avoidance task is using execution slowdown as described in section~\ref{chap:primary slowdown}.
 
 
-
-
-
 \add{
-	- optimization algorithm \\
-	- robot kinematics (include the exact-reduced method) \\
-	- primary task of distance goal \\
-	- secondary task of repulsive field \\
-	- damped least squares \\
+	- robot kinematics the exact-reduced method \\
 	- secondary task of manipulation measure \\	
 	- different tasks merging equation \\
 }
 
-\subsubsection{Primary Task Slowdown}
-\label{chap:primary slowdown}
+\subsubsection{Exact Reduced Inverse Kinematics Method}
 
-To ensure the primary task doesn't overpower the secondary task, we've integrated a primary task execution slowdown. This mechanism can reduce the manipulator's velocity towards its primary goal, leaving more maneuverability space for the secondary tasks.
-
-\begin{equation}
-	\label{eq:slowdown}
-	\xi_{p}=
-	\frac{1}{1 + \kappa_{\text{sec}} \left(\frac{1}{\delta_{min}}\right)}
-\end{equation}
-
-\alert{Is this equation correct, maybe add a singularity damping factor.}
-
-The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \kappa_{\text{sec}} \) and the robot's minimum distance from an obstacle \( \delta_{\text{min}} \). We calculate the minimal distance in the repulsive velocities phase of the algorithm, as explained in section~\ref{chap:repulsive velocity}. As per the equation, a large \( \delta_{\text{min}} \) minimizes the slowdown effect, allowing uninterrupted primary task execution. Conversely, a small \( \delta_{\text{min}} \) increases the slowdown, by making the $\xi_{p}$ factor smaller, giving the secondary task more time for corrective actions.
+\add{
+	- cite žlajpah article \\
+	- explain how it works \\
+	- equation \\
+	- scalar simplification	
+}
 
 
 
@@ -206,6 +195,21 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 	\label{eq:ee_velocity}
 \end{equation}
 
+\subsubsection{Primary Task Slowdown}
+\label{chap:primary slowdown}
+
+To ensure the primary task doesn't overpower the secondary task, we've integrated a primary task execution slowdown. This mechanism can reduce the manipulator's velocity towards its primary goal, leaving more maneuverability space for the secondary tasks.
+
+\begin{equation}
+	\label{eq:slowdown}
+	\xi_{p}=
+	\frac{1}{1 + \kappa_{\text{sec}} \left(\frac{1}{\delta_{min}}\right)}
+\end{equation}
+
+\alert{Is this equation correct, maybe add a singularity damping factor.}
+
+The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \kappa_{\text{sec}} \) and the robot's minimum distance from an obstacle \( \delta_{\text{min}} \). We calculate the minimal distance in the repulsive velocities phase of the algorithm, as explained in section~\ref{chap:repulsive velocity}. As per the equation, a large \( \delta_{\text{min}} \) minimizes the slowdown effect, allowing uninterrupted primary task execution. Conversely, a small \( \delta_{\text{min}} \) increases the slowdown, by making the $\xi_{p}$ factor smaller, giving the secondary task more time for corrective actions.
+
 \subsection{Repulsive Velocity}
 \label{chap:repulsive velocity}
 
@@ -274,7 +278,6 @@ Once the position of a point on the manipulator has been mapped to the obstacle 
 	- PLOT: (ERK) kernel graphics \\
 	- PLOT: (ERK) linear kernel graphics \\
 	- PLOT: kernel field shape 	\\
-	- interpolation of the repulsive field \\
 	- what if there are obstacles behind wall (usually not the case, depth sensors show only thin walls, some noise doesnt matter, non-linear kernel, possible additional pre-convolution to convert obstacle grid to edges) \\
 	- effecient calculation in dinamic environments, lacking prediction capabilities (MPC) \\
 	- good for working in "statistical, noisy" obstacle grids
@@ -299,6 +302,13 @@ In the orthogonal axes, the magnitude of values diminishes with increasing dista
 
 \subsubsection{Interpolation}
 
+Želimo, da je gibanje robota zvezno in ne skokovito. Da lahko to dosežemo je potrebno, da vsi hitrostni prispevki, ki vplivajo na robota prehajajo med seboj zvezno. Ker imamo mrežo ovir diskretno definirano, to ni res. Z zvišanjem resolucije polja ovir in se lahko zveznosti teoretično neskončno približamo, vendar pa imamo v realnosti običajno opravka z končno resolucijo. Da je velikost hitrosti kljub temu zvezna, ko prehajamo z točko interesa POI iz ene celice mreže ovir v drugo, uporabimo trilinearno interpolacijo, s katero za vsako od hitrosti v treh kartezičnih smeri posebaj interpoliramo hitrosti in dobimo zvezno in neskokovito linearno aproksimacijo pri prehodu med celicami. 
+
+\add{kako pridobimo vrednosti v okoliških celicah}
+\add{zakaj vrednosti definiramo v centrih voxlov (celicah)}
+\add{enačbe trilinearne interpolacije}
+
+\add{	- interpolation of the repulsive field \\}
 
 
 \section{Implementation}
