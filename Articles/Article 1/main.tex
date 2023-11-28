@@ -27,6 +27,8 @@
 
 \todo{1-2 PAGES}
 
+\alert{Maybe add a sentence about computer effeciency of the method, as it is not dependent on the number of obstacles.}
+
 \add{
 	- PRESENT DISTANCE CALCULATION FOR MANIPULATORS (sensors, lidar, ir, bounding boxes) \\
 	- PRESENT PATH PLANNING METHODS FOR MANIPULATOR (optimization, sampling, biological, learning) \\
@@ -314,6 +316,8 @@ In the orthogonal axes, the magnitude of values diminishes with increasing dista
 It is essential that the velocity contributions affecting the robot change smoothly. However, since our obstacle grid is discretely defined, achieving perfect continuity can be challenging. Increasing the resolution of the obstacle field can theoretically bring us closer to continuous behavior, but in practice, we are constrained by finite resolution. To ensure that the velocity remains continuous when transitioning from one cell of the obstacle grid to another at a point of interest (POI), we employ trilinear interpolation. This technique allows for a smooth and continuous linear approximation of velocities in all three Cartesian directions (x, y, and z) as the POI moves between cells.
 
 Firstly, from the coordinates of our POI, we calculate the coordinates of the eight surrounding cells in the obstacle grid, by rounding the coordinates up and down in x, y, and z directions.
+
+\comment{}{PLOT: surrounding cells}
 
 Once we have identified these cells, we apply our established kernel matrix method to compute the x, y, and z components of the repulsive velocity vector for each of the cells.
 
