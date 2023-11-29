@@ -315,13 +315,117 @@ In the orthogonal axes, the magnitude of values diminishes with increasing dista
 
 It is essential that the velocity contributions affecting the robot change smoothly. However, since our obstacle grid is discretely defined, achieving perfect continuity can be challenging. Increasing the resolution of the obstacle field can theoretically bring us closer to continuous behavior, but in practice, we are constrained by finite resolution. To ensure that the velocity remains continuous when transitioning from one cell of the obstacle grid to another at a point of interest (POI), we employ trilinear interpolation. This technique allows for a smooth and continuous linear approximation of velocities in all three Cartesian directions (x, y, and z) as the POI moves between cells.
 
-Firstly, from the coordinates of our POI, we calculate the coordinates of the eight surrounding cells in the obstacle grid, by rounding the coordinates up and down in x, y, and z directions.
+Firstly we use our kernel matrix multiplication method, to calculate the repulsive velocity values for the eight surrounding cells that are closest to the chosen POI. We get the indexes of the surrounding cells by first scaling the POI position by grid resolution and than rounding the position to the nearest lower and upper integer positions.
+
+
+\begin{equation}
+ \vec{P} = \vec{p}_{\mathrm{POI}} \times\Delta \mathrm{grid}
+\end{equation}
+
+%\begin{equation}
+% X = \left[ \lfloor p_{x} \rfloor, \lceil p_{x} \rceil \right] 
+%\end{equation}
+%
+%\begin{equation}
+% Y = \left[ \lfloor p_{y} \rfloor, \lceil p_{y} \rceil \right] 
+%\end{equation}
+%
+% \begin{equation}
+% Z = \left[ \lfloor p_{z} \rfloor, \lceil p_{z} \rceil \right] 
+%\end{equation}
+
+\begin{equation}
+	\vec{P} =
+	\begin{bmatrix}
+		X \\
+ 		Y \\
+  		Z \\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\; \lfloor \vec{p}_{\mathrm{POI}}(1) \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(1) \rceil \;  \\
+		\; \lfloor \vec{p}_{\mathrm{POI}}(2) \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(2) \rceil \; \\
+		\; \lfloor \vec{p}_{\mathrm{POI}}(3) \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(3) \rceil \; 
+	\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+	\vec{V}rep_{xyz} = \mathrm{calc\_rep\_vel}(X[i], Y[j], Z[k]) \quad \forall i, j, k \in \{1, 2\}
+\end{equation}
+
+%\begin{equation}
+%	\Delta X = \frac{\left( P_x - X(1) \right)}{\left( X(2) - X(1) \right)}
+%\end{equation}
+%
+%\begin{equation}
+%	\Delta Y = \frac{\left( P_y - Y(1) \right)}{\left( Y(2) - Y(1) \right)}
+%\end{equation}
+%
+%\begin{equation}
+%	\Delta Z = \frac{\left( P_z - Z(1) \right)}{\left( Z(2) - Z(1) \right)}
+%\end{equation}
+
+\begin{equation}
+	\Delta \vec{P} =
+	\begin{bmatrix}
+		\Delta x \\
+		\Delta y \\
+		\Delta z		
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		 \frac{\left( P_x - X(1) \right)}{\left( X(2) - X(1) \right)} \\
+		 \frac{\left( P_y - Y(1) \right)}{\left( Y(2) - Y(1) \right)} \\
+		 \frac{\left( P_z - Z(1) \right)}{\left( Z(2) - Z(1) \right)} \\
+ 	\end{bmatrix}
+\end{equation}
+
+%\begin{equation}
+%	\vec{V}_{rep,00} = \vec{V}_{rep,000}(1 - x_d) + \vec{V}_{rep,100}x_d
+%\end{equation}
+%\begin{equation}
+%	\vec{V}_{rep,01} = \vec{V}_{rep,001}(1 - x_d) + \vec{V}_{rep,101}x_d
+%\end{equation}
+%\begin{equation}
+%	\vec{V}_{rep,10} = \vec{V}_{rep,010}(1 - x_d) + \vec{V}_{rep,110}x_d
+%\end{equation}
+%\begin{equation}
+%	\vec{V}_{rep,11} = \vec{V}_{rep,011}(1 - x_d) + \vec{V}_{rep,111}x_d
+%\end{equation}
+
+\begin{equation}
+	\vec{V}rep_{xyz,jk} = \vec{V}rep_{xyz,0jk}(1 - \Delta x) + \vec{V}rep_{xyz,1jk} \, \Delta x \quad \forall \, j, k \in \{1, 2\}
+\end{equation}
+
+%\begin{equation}
+%	\vec{V}rep_{xyz,0} = \vec{V}rep_{xyz,00}(1 - \Delta y) + \vec{V}rep_{xyz,10} \, \Delta y
+%\end{equation}
+%
+%\begin{equation}
+%	\vec{V}rep_{xyz,1} = \vec{V}rep_{xyz,01}(1 - \Delta y) + \vec{V}rep_{xyz,11} \, \Delta y
+%\end{equation}
+
+
+\begin{equation}
+	\vec{V}rep_{xyz,k} = \vec{V}rep_{xyz,0k}(1 - \Delta y) + \vec{V}rep_{xyz,1k} \, \Delta y \quad \forall \, k \in \{1, 2\}
+\end{equation}
+
+
+\begin{equation}
+	\vec{V}rep_{xyz} = \vec{V}rep_{xyz,0}(1 - \Delta z) + \vec{V}rep_{xyz,1} \, \Delta z 
+\end{equation}
+
+
+
+
 
 \comment{}{PLOT: surrounding cells}
 
 Once we have identified these cells, we apply our established kernel matrix method to compute the x, y, and z components of the repulsive velocity vector for each of the cells.
 
-Subsequently, we separately perform trilinear interpolation for each direction of the repulsive velocity vector. It is important to consider that the calculated repulsive velocity values are located at the centers of the cells. Therefore, during interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid for each direction. This results in a repulsive velocity vector that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
+Subsequently, we separately perform trilinear interpolation for each direction of the repulsive velocity vector. 
+
+It is important to consider that the calculated repulsive velocity values are located at the centers of the cells. Therefore, during interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid for each direction. This results in a repulsive velocity vector that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
 
 
 
