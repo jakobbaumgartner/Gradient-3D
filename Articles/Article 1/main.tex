@@ -172,7 +172,7 @@ The relative rotation matrix value is converted into a quaternion, which is then
 	\label{eq:quat_log}
 \end{equation}
 
-\alert{There needs to be an explanation why log, where is this from. Maybe a reference.}
+\alert{There needs to be an explanation why log, where is this from. Maybe a reference. cite: DMP Quaternions article Petrič, Žlajpah, Ude}
 
 
 
@@ -208,7 +208,7 @@ To ensure the primary task doesn't overpower the secondary task, we've integrate
 	\frac{1}{1 + \kappa_{\text{sec}} \left(\frac{1}{\delta_{min}}\right)}
 \end{equation}
 
-\alert{Is this equation correct, maybe add a singularity damping factor.}
+\alert{Is this equation correct, ADD a singularity damping factor. Maybe even some variation of a changing damping.}
 
 The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \kappa_{\text{sec}} \) and the robot's minimum distance from an obstacle \( \delta_{\text{min}} \). We calculate the minimal distance in the repulsive velocities phase of the algorithm, as explained in section~\ref{chap:repulsive velocity}. As per the equation, a large \( \delta_{\text{min}} \) minimizes the slowdown effect, allowing uninterrupted primary task execution. Conversely, a small \( \delta_{\text{min}} \) increases the slowdown, by making the $\xi_{p}$ factor smaller, giving the secondary task more time for corrective actions.
 
@@ -302,7 +302,10 @@ In the orthogonal axes, the magnitude of values diminishes with increasing dista
 \comment{}{PLOT: kernel with gaussian functions}
 \comment{}{EQUATION: gaussian equations}
 
-\add{- choice of velocity profile (gaussian, linear ... maybe could move this part to implementation / experiments)}
+\add{- choice of velocity profile (gaussian, linear ... maybe could move this part to implementation / experiments) \\}
+\add{- maybe first debluring - line convolution operation (if thick walls) - however this might move wall back, which could cause crash }
+
+
 
 \subsubsection{Interpolation of the Repulsive Velocity}
 
@@ -443,6 +446,7 @@ The final result is a repulsive velocity vector that transitions smoothly betwee
 	- include execution times \\
 	- PLOT: kernel on robot graphics \\
 	- IMPORTANT: maybe add 2D mobile platform results \\
+	- use pybullet or some engine that tells you distance from obstacles and run the same task, compare distances after execution, smoothness of paths (MAYBE FOR PUBLICATION, NOT CONFERENCE)
 }
 
 
