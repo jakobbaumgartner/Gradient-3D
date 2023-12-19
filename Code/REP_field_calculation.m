@@ -54,7 +54,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
 
         % if x and y and z are center
         if mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
-            rep_values = calculateFieldVector(center_point)
+            rep_values = calculateFieldVector(center_point);
  
         % if x and y are in center
         elseif mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist

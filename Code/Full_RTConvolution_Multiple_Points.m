@@ -95,7 +95,7 @@ rep_kernels = REP_kernels();
 
 % obstacles distance kernel
 % dist_kernel = euclidian_kernel_3D(61, 61, 61);
-dist_kernel = gaussian_kernel_3d(61, 61, 61, 10);
+% dist_kernel = gaussian_kernel_3d(61, 61, 61, 10);
 
 
 
