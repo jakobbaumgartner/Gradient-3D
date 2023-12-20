@@ -21,9 +21,9 @@ function [kernels] = REP_kernels()
     %    kernels - A cell array containing the generated directional kernels.
 
     % set directional kernels
-    sigma = 5;
-    kernel_length = 31;
-    kernel_width = 9;
+    sigma = 1.5;
+    kernel_length = 11;
+    kernel_width = 5;
     kernel_height = kernel_width;
     
     % form kernels

@@ -29,7 +29,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     % --------------------------------------------------------------
 
     % use interpolation
-    interpolation_mode = true; % true / false
+    interpolation_mode = false; % true / false
 
     % set values outside the known grid to
     box_value = 0;
@@ -73,7 +73,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             end
 
             % move sampled points coordinates to the mid of the cells
-            Z = [floor(center_point(3)) ceil(center_point(3))]+0.5;
+            Z = [floor(center_point(3)) ceil(center_point(3))];
 
             % interpolate
             rep_values = [interp1(Z,Vx,center_point(3)), interp1(Z,Vy,center_point(3)), interp1(Z,Vz,center_point(3))];
@@ -99,7 +99,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             end
 
             % move sampled points coordinates to the mid of the cells
-            X = [floor(center_point(1)) ceil(center_point(1))] + 0.5;
+            X = [floor(center_point(1)) ceil(center_point(1))];
 
             % interpolate
             rep_values = [interp1(X,Vx,center_point(1)), interp1(X,Vy,center_point(1)), interp1(X,Vz,center_point(1))];
@@ -125,7 +125,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             end
 
             % move sampled points coordinates to the mid of the cells
-            Y = [floor(center_point(2)) ceil(center_point(2))] + 0.5;
+            Y = [floor(center_point(2)) ceil(center_point(2))];
 
             % interpolate
             rep_values = [interp1(Y,Vx,center_point(2)), interp1(Y,Vy,center_point(2)), interp1(Y,Vz,center_point(2))];
@@ -162,6 +162,8 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
 
 
         end
+
+        
 
 
 
