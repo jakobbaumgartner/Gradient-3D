@@ -8,7 +8,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
    if strcmp('linear',kernel_type)
 
         % prepare directional weights
-        kernel = [1:1:center 0 -flip(1:1:center)] / (center); 
+        kernel = [1:1:center -flip(1:1:center)] / (center); 
 
         % extend weights to kernel width
         center_width = floor(kernel_width/2);
@@ -33,7 +33,7 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
         kernel_max = kernel(1);
         
         % generate symmetric kernel
-        kernel = [flip(kernel) 0 -kernel]/kernel_max;
+        kernel = [flip(kernel) -kernel]/kernel_max;
         
         % prepare gaussian weights for width
         center_width = floor(kernel_width/2);

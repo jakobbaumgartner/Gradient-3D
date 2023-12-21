@@ -21,19 +21,22 @@ function [kernels] = REP_kernels()
     %    kernels - A cell array containing the generated directional kernels.
 
     % set directional kernels
-    sigma = 1.5;
-    kernel_length = 11;
+    sigma = 2
+    kernel_length = 20; % floored to even number
     kernel_width = 5;
     kernel_height = kernel_width;
     
     % form kernels
-    kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/200;
-    kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/200;
-    kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian')/200;
+    kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian');
+    kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian');
+    kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, sigma, kernel_height, sigma, 'gaussian');
 
 %     figure()
-%     plot(kernel_x(5,:,5))
-    
+%     scatter(1:1:(length(kernel_x(5,:,5))),kernel_x(5,:,5))
+%     hold on
+%     plot(1:1:(length(kernel_x(5,:,5))),kernel_x(5,:,5))
+
+%     
     kernels = {kernel_x, kernel_y, kernel_z};
 
 

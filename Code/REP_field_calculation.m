@@ -29,7 +29,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     % --------------------------------------------------------------
 
     % use interpolation
-    interpolation_mode = false; % true / false
+    interpolation_mode = true; % true / false
 
     % set values outside the known grid to
     box_value = 0;
@@ -196,9 +196,9 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             half_size = floor(kernel_size / 2);
     
             % Calculate x, y, and z ranges for the window while ensuring they are positive and within grid boundaries.
-            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1))); % grid goes y-x-z
-            y_cells = round((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)));
-            z_cells = round((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)));
+            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1)) -1) +1; % grid goes y-x-z
+            y_cells = round((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)) -1) +1;
+            z_cells = round((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)) -1) +1;
 
             % init every cells in window to occupued by default
             window = ones(kernel_size)*box_value;
@@ -210,21 +210,21 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
 
             % read which cells are occupued / free
             window(x_valid_index, y_valid_index, z_valid_index) = grid.grid(x_cells(x_valid_index), y_cells(y_valid_index), z_cells(z_valid_index));
-    
-            % fix kernel to be only the part inside the grid
-            x_start = 1 + (1 - (grid_point(2) - half_size(1) > 0)) * (1 - (grid_point(2) - half_size(1)));
-            x_end = kernel_size(2) - ((grid_point(2) + half_size(1)) - size(grid.grid, 2) > 0) * ((grid_point(2) + half_size(1)) - size(grid.grid, 2));
-            
-            y_start = 1 + (1 - (grid_point(1) - half_size(2) > 0)) * (1 - (grid_point(1) - half_size(2)));
-            y_end = kernel_size(1) - ((grid_point(1) + half_size(2)) - size(grid.grid, 1) > 0) * ((grid_point(1) + half_size(2)) - size(grid.grid, 1));
-            
-            z_start = 1 + (1 - (grid_point(3) - half_size(3) > 0)) * (1 - (grid_point(3) - half_size(3)));
-            z_end = kernel_size(3) - ((grid_point(3) + half_size(3)) - size(grid.grid, 3) > 0) * ((grid_point(3) + half_size(3)) - size(grid.grid, 3));
-            
-            kernel = kernel(y_start:y_end, x_start:x_end, z_start:z_end);
-            
-            % fix the window size to match the kernel size
-            window = window(1:size(kernel,1), 1:size(kernel,2), 1:size(kernel,3));
+%     
+%             % fix kernel to be only the part inside the grid
+%             x_start = 1 + (1 - (grid_point(2) - half_size(1) > 0)) * (1 - (grid_point(2) - half_size(1)));
+%             x_end = kernel_size(2) - ((grid_point(2) + half_size(1)) - size(grid.grid, 2) > 0) * ((grid_point(2) + half_size(1)) - size(grid.grid, 2));
+%             
+%             y_start = 1 + (1 - (grid_point(1) - half_size(2) > 0)) * (1 - (grid_point(1) - half_size(2)));
+%             y_end = kernel_size(1) - ((grid_point(1) + half_size(2)) - size(grid.grid, 1) > 0) * ((grid_point(1) + half_size(2)) - size(grid.grid, 1));
+%             
+%             z_start = 1 + (1 - (grid_point(3) - half_size(3) > 0)) * (1 - (grid_point(3) - half_size(3)));
+%             z_end = kernel_size(3) - ((grid_point(3) + half_size(3)) - size(grid.grid, 3) > 0) * ((grid_point(3) + half_size(3)) - size(grid.grid, 3));
+%             
+%             kernel = kernel(y_start:y_end, x_start:x_end, z_start:z_end);
+%             
+%             % fix the window size to match the kernel size
+%             window = window(1:size(kernel,1), 1:size(kernel,2), 1:size(kernel,3));
     
             % multiply kernel and window, to get a weighted window
             weighted_window = window .* kernel;
