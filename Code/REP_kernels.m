@@ -22,7 +22,7 @@ function [kernels] = REP_kernels()
 
     % set directional kernels
     sigma = 2
-    kernel_length = 20; % floored to even number
+    kernel_length = 10; % floored to even number
     kernel_width = 5;
     kernel_height = kernel_width;
     

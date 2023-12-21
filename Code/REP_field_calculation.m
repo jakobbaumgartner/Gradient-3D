@@ -29,7 +29,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     % --------------------------------------------------------------
 
     % use interpolation
-    interpolation_mode = false; % true / false
+    interpolation_mode = true; % true / false
 
     % set values outside the known grid to
     box_value = 0;
