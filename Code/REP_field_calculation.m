@@ -62,125 +62,32 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
             Z(2) = Z(2) + 1;
         end
 
-        % 1D INTERPOLATION IF TWO POINTS ARE LOCATED EXACTLY IN THE
-        % CENTER OF GRID CELLS
+
+        % FULL 3D INTERPOLATION
         % --------------------------------------------------------------
-        no_interp_dist = 0.0001; 
 
-%         % if x and y and z are center
-%         if mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
-%             rep_values = calculateFieldVector(center_point);
-%  
-%         % if x and y are in center
-%         elseif mod(center_point(1),1) < no_interp_dist && mod(center_point(2),1) < no_interp_dist
-%             % 1D interpolate - only z
-% 
-%             Vx = ones(1,2);
-%             Vy = ones(1,2);
-%             Vz = ones(1,2);
-% 
-%             % get vector field values for x,y,z
-%             for j = 1:1:length(Z)
-%                 vect_val = calculateFieldVector([center_point(1),center_point(2),Z(j)]);
-%                 Vx(j) = vect_val(1);
-%                 Vy(j) = vect_val(2);
-%                 Vz(j) = vect_val(3);
-%             end
-% 
-%             % move sampled points coordinates to the mid of the cells
-%             Z = [floor(center_point(3)) ceil(center_point(3))];
-% 
-%             % interpolate
-%             rep_values = [interp1(Z,Vx,center_point(3)), interp1(Z,Vy,center_point(3)), interp1(Z,Vz,center_point(3))];
-%             
-%             % check if value is NaN (probably because both interp. value
-%             % are 0) and set it to 0
-%             rep_values(isnan(rep_values)) = 0;
-% 
-%         % if y and z are in center
-%         elseif mod(center_point(2),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
-%             % 1D interpolate - only x
-% 
-%             Vx = ones(1,2);
-%             Vy = ones(1,2);
-%             Vz = ones(1,2);
-% 
-%             % get vector field values for x,y,z
-%             for j = 1:1:length(X)
-%                 vect_val = calculateFieldVector([X(j),center_point(2),center_point(3)]);
-%                 Vx(j) = vect_val(1);
-%                 Vy(j) = vect_val(2);
-%                 Vz(j) = vect_val(3);
-%             end
-% 
-%             % move sampled points coordinates to the mid of the cells
-%             X = [floor(center_point(1)) ceil(center_point(1))];
-% 
-%             % interpolate
-%             rep_values = [interp1(X,Vx,center_point(1)), interp1(X,Vy,center_point(1)), interp1(X,Vz,center_point(1))];
-% 
-%             % check if value is NaN (probably because both interp. value
-%             % are 0) and set it to 0
-%             rep_values(isnan(rep_values)) = 0;
-%        
-%         % if x and z are in exact center cells
-%         elseif mod(center_point(1),1) < no_interp_dist && mod(center_point(3),1) < no_interp_dist
-%             % 1D interpolate - only y
-% 
-%             Vx = ones(1,2);
-%             Vy = ones(1,2);
-%             Vz = ones(1,2);
-% 
-%             % get vector field values for x,y,z
-%             for j = 1:1:length(Y)
-%                 vect_val = calculateFieldVector([center_point(1),Y(j),center_point(3)]);
-%                 Vx(j) = vect_val(1);
-%                 Vy(j) = vect_val(2);
-%                 Vz(j) = vect_val(3);
-%             end
-% 
-%             % move sampled points coordinates to the mid of the cells
-%             Y = [floor(center_point(2)) ceil(center_point(2))];
-% 
-%             % interpolate
-%             rep_values = [interp1(Y,Vx,center_point(2)), interp1(Y,Vy,center_point(2)), interp1(Y,Vz,center_point(2))];
-% 
-%             % check if value is NaN (probably because both interp. value
-%             % are 0) and set it to 0
-%             rep_values(isnan(rep_values)) = 0;
-% 
-%         else
-            % FULL 3D INTERPOLATION
-            % --------------------------------------------------------------
+        % get values of nearby cells
+        Vx = ones(2,2,2);
+        Vy = ones(2,2,2);
+        Vz = ones(2,2,2);
 
-            % get values of nearby cells
-            Vx = ones(2,2,2);
-            Vy = ones(2,2,2);
-            Vz = ones(2,2,2);
-    
-            for x = 1:1:2 
-                for y = 1:1:2
-                    for z = 1:1:2               
-                        
-                            % set value of the point
-                            vect_val = calculateFieldVector([X(x),Y(y),Z(z)]);
-                            Vx(y,x,z) = vect_val(1);
-                            Vy(y,x,z) = vect_val(2);
-                            Vz(y,x,z) = vect_val(3);
-                               
-                    end
+        for x = 1:1:2 
+            for y = 1:1:2
+                for z = 1:1:2               
+                    
+                        % set value of the point
+                        vect_val = calculateFieldVector([X(x),Y(y),Z(z)]);
+                        Vx(y,x,z) = vect_val(1);
+                        Vy(y,x,z) = vect_val(2);
+                        Vz(y,x,z) = vect_val(3);
+                           
                 end
             end
-    
-            % interpolation
-            rep_values = [interp3(X,Y,Z,Vx,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vy,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vz,center_point(1),center_point(2),center_point(3))];
+        end
 
-
-%         end
-
-        
-
-
+        % interpolation
+        rep_values = [interp3(X,Y,Z,Vx,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vy,center_point(1),center_point(2),center_point(3)), interp3(X,Y,Z,Vz,center_point(1),center_point(2),center_point(3))];
+      
 
     %% APPROXIMATE POINT VALUE ONLY
     else
