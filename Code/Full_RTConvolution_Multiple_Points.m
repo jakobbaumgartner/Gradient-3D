@@ -6,29 +6,30 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 mid_joints = 0
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
-timestep_primary_gain_change = 0 % if selected, primary task will start with little gain and grow with time
-secondary_exec_stop_k = 0.25 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
+secondary_exec_stop_k = 10 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will slow down
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
-points_per_segment = 1*[2 1 5 2 8 2 1];
+points_per_segment = 1*[1 1 5 2 8 1 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1 1 1 1 1 1 1 1]
-weights_avoidance = weights_avoidance / norm(weights_avoidance,1);
+weights_avoidance = [1 1 1 1 1 1];
+weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 200 % max number of iterations
+Nmax = 500 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
-wp = 0.2 % primary task
-wp_att = 4 % primary task - attractive component
-wp_rep = 4 % primary task - repulsive component
+wp = 0.75 % primary task
+wp_att = 1 % primary task - attractive component
+wp_rep = 0 % primary task - repulsive component
 wm = 0.15 % mid-joints task
-wa = 0.5 % obstacle avoidance task
+wa = 1 % obstacle avoidance task
 
 
 
@@ -62,10 +63,6 @@ ee_point = robot_transforms(1:3,4,8);
 
 % calculate distance from goal
 current_dist = norm(ee_point'- goal_point(1:3));
-
-if timestep_primary_gain_change
-    wp = wp/Nmax % primary task
-end
 
 %% PREPARE LOG ARRAYS
 % -----------------------------------------------------------
@@ -126,8 +123,8 @@ while current_dist > goal_dist && Niter <= Nmax
     % --------------------------------------------------
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
-    ee_vel_att_magn = norm(goal_point(1:3)' - ee_point)
-    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2 % direction only - normalised - sigmoid
+    ee_vel_att_magn = norm(goal_point(1:3)' - ee_point);
+    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
@@ -178,6 +175,11 @@ while current_dist > goal_dist && Niter <= Nmax
 
     % values in POI
     obstacles_field_values = [];
+
+    % if timestep_secondary_gain_change is selected, secondary task will start with normal gain and fall with time
+    if timestep_secondary_gain_change
+        wa = wa * (1 - 0.1 * Niter/Nmax);
+    end
 
 
     if avoid_task
@@ -293,7 +295,7 @@ while current_dist > goal_dist && Niter <= Nmax
                 pinv_Jd0 = N*Jd0'*(Jd0*N*Jd0' + damping_factor_avoidance)^-1;
     
                 % calculate avoidance joints velocities
-                q_avoid_list = [ q_avoid_list pinv_Jd0 * (rep_magnitude - Jd0*pinv_J * ee_vel - Jd0*N*dq_mid)];
+                q_avoid_list = [ q_avoid_list pinv_Jd0 * ( wa * rep_magnitude - Jd0*pinv_J * ee_vel - Jd0*N*dq_mid)];
     
             elseif(matches(kinematics_solution, 'approximate'))
     
@@ -314,17 +316,21 @@ while current_dist > goal_dist && Niter <= Nmax
         % -----------------------
         q_avoid_total = q_avoid_list * weights_avoidance';
 
-        
-        if(isnan(q_avoid_list(1)))
-            a=1
-        end
     end
 
     %% COMBINE TASKS
     % --------------------------------------------------
     
     % PRIMARY: position
-    exec_slowdown = 1 / (1 + secondary_exec_stop_k * (1/poi_sizes(end))); % stops movment of the primary task until manipulator is in safer position
+
+    % exec slowdown - if secondary task has big velocities, primary task will slow down to give more time to collisions avoidance
+
+    if poi_sizes(end) > min_exec_slowdown_size % if poi is too close
+        exec_slowdown = 1 / (1 + secondary_exec_stop_k * poi_sizes(end));
+    else
+        exec_slowdown = 1; % or set to the default value if no slowdown is needed
+    end
+    
     q_vel_position = pinv_J * exec_slowdown * ee_vel;
 
     % SECONDARY: mid-joints

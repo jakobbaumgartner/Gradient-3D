@@ -19,7 +19,7 @@ function [grid] = MAPS(map_selection)
     %    This function requires the OctoGrid class to be available in the MATLAB environment.
     
     % create grid
-    grid = OctoGrid(2,2,2,100);
+    grid = OctoGrid(2,2,2,10);
     
     if (matches( map_selection , 'wall' ))
     

@@ -1,7 +1,7 @@
 function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, output)
 
     % APF field vector length
-    arrow_length = 10; % adjust the length to your preference
+    arrow_length = 5; % adjust the length to your preference
 
     % show floor
     floor = false
@@ -82,7 +82,7 @@ function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, outp
     
     for i = 1:length(transforms)
         % Plot the transformation frame with thicker lines
-        plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
+%         plotTransforms(transforms(1:3, 4, i)'*grid.resolution, rotm2quat(transforms(1:3, 1:3, i)), 'FrameSize', 0.2);
     
         % Plot the joint point
         points_handles(i) = plot3(transforms(1, 4, i)*grid.resolution, transforms(2, 4, i)*grid.resolution, transforms(3, 4, i)*grid.resolution, 'o', 'MarkerSize', 10, 'MarkerFaceColor', [38/255, 151/255, 224/255], 'MarkerEdgeColor', [38/255, 151/255, 224/255]);
