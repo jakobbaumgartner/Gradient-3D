@@ -7,12 +7,12 @@ mid_joints = 0
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
-secondary_exec_stop_k = 10 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+secondary_exec_stop_k = 1 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
 min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will slow down
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
-points_per_segment = 1*[1 1 5 2 8 1 1];
+points_per_segment = 1*[1 1 2 1 3 1 1];
 
 % the number of points taken into account and weighting factors
 weights_avoidance = [1 1 1 1 1 1];
@@ -88,7 +88,7 @@ manipulability_avoidance = [];
 % -----------------------------------------------------------
 
 % repulsive kernels
-rep_kernels = REP_kernels();
+rep_kernels = REP_kernels('linear');
 
 % obstacles distance kernel
 % dist_kernel = euclidian_kernel_3D(61, 61, 61);
