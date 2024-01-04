@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  4 JAN 2024 14:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  4 JAN 2024 18:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -602,34 +602,60 @@ Overfull \hbox (15.0pt too wide) in paragraph at lines 251--252
  []
 
 [6 <./manipulator-kernels-visualization-grid-small-eps-converted-to.pdf>]
-[7] [8] [9] [10] (main.aux) ) 
+[7] [8]
+Package epstopdf Info: Source file: <field3D_visualization-3figures.eps>
+(epstopdf)                    date: 2024-01-04 18:48:50
+(epstopdf)                    size: 76789 bytes
+(epstopdf)             Output file: <field3D_visualization-3figures-eps-convert
+ed-to.pdf>
+(epstopdf)                    date: 2024-01-04 18:49:52
+(epstopdf)                    size: 64438 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=field3D_visualizatio
+n-3figures-eps-converted-to.pdf field3D_visualization-3figures.eps>
+(epstopdf)             \includegraphics on input line 452.
+Package epstopdf Info: Output file is already uptodate.
+
+
+pdfTeX warning: pdflatex.exe (file ./field3D_visualization-3figures-eps-convert
+ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
+llowed
+<field3D_visualization-3figures-eps-converted-to.pdf, id=50, 271.0125pt x 424.5
+8624pt>
+File: field3D_visualization-3figures-eps-converted-to.pdf Graphic file (type pd
+f)
+<use field3D_visualization-3figures-eps-converted-to.pdf>
+Package pdftex.def Info: field3D_visualization-3figures-eps-converted-to.pdf  u
+sed on input line 452.
+(pdftex.def)             Requested size: 258.75pt x 405.38895pt.
+[9] [10 <./field3D_visualization-3figures-eps-converted-to.pdf>] [11] (main.aux
+) ) 
 Here is how much of TeX's memory you used:
- 13823 strings out of 476375
- 287596 string characters out of 5788976
- 1878299 words of memory out of 5000000
- 33959 multiletter control sequences out of 15000+600000
+ 13830 strings out of 476375
+ 287957 string characters out of 5788976
+ 1877299 words of memory out of 5000000
+ 33965 multiletter control sequences out of 15000+600000
  518590 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  114i,10n,108p,1147b,987s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/font
-s/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Jakob/AppData/Local/Programs/Mi
-KTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Jakob/AppData/Local/Pr
-ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Jakob/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Jakob
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Us
-ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pf
-b><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmmi7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
-onts/cm/cmr10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/cm/cmr12.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cm/cmr17.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Jakob/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on main.pdf (10 pages, 304419 bytes).
+<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmbx12.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmbx9.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Jakob/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Jakob/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Jakob/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/User
+s/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+r17.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr5.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on main.pdf (11 pages, 368252 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
+ 125 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 23 words of extra memory for PDF output out of 10000 (max. 10000000)
 

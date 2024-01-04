@@ -305,7 +305,7 @@ from the robot, essentially extending the ’safety zone’ around the robot. If
 
 \begin{equation}
 	\label{eq: detect range}
-	len_{primary} = \frac{2 \times \mathrm{range}}{\Delta \mathrm{grid}}\\
+	num_{primary} = \frac{2 \times \mathrm{range}}{\Delta \mathrm{grid}}\\
 \end{equation}
 
 %\remove{In the orthogonal axes, the magnitude of values diminishes with increasing distance from the core of the kernel, nearing zero at the edges. This gradation is vital for a smooth velocity transition when obstacles emerge in the kernels range. The peak magnitude is located at the kernel's core, along the primary axis. The polarity of the values is determined by their position relative to the primary axis. }
@@ -316,7 +316,7 @@ The length of the orthogonal axes influences the peripheral detection range for 
 \comment{}{EQUATION: gaussian equations}
 
 \add{- choice of velocity profile (gaussian, linear ... maybe could move this part to implementation / experiments) \\}
-\add{- maybe first debluring - line convolution operation (if thick walls) - however this might move wall back, which could cause crash }
+%\add{- maybe first debluring - line convolution operation (if thick walls) - however this might move wall back, which could cause crash }
 
 
 
@@ -448,6 +448,8 @@ The result of the interpolation is independent of the order of the operations. W
 The final result is a repulsive velocity vector that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
 
 \comment{}{PLOT: surrounding cells, interp grid}
+
+\includegraphics[width=0.75\textwidth]{field3D_visualization-3figures.eps}
 
 \section{Implementation}
 
