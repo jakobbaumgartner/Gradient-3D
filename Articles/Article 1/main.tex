@@ -3,6 +3,9 @@
 
 \usepackage{amsmath, xparse}
 
+\usepackage{graphicx}
+
+
  \usepackage{easyReview}
 
 
@@ -245,7 +248,8 @@ The space of obstacles in which our robot operates is represented as an occupanc
 
 Once the position of a point on the manipulator has been mapped to the obstacle space using one of these methods, we can employ our repulsive convolutional kernels to calculate repulsive velocities. For each Cartesian direction $(x, y, z)$, we will generate a repulsive kernel, as described in the section~\ref{chap:kernels}. Then, from the obstacle grid, for each of the three directions, we extract a matrix cutout window of the same dimension as the kernels, centered on the point of interest. By performing the Hadamard (element-wise) product of the extracted obstacle grid window and our repulsive matrix, we obtain a resultant matrix. Summing all the elements of this matrix gives us the repulsive velocity for each of the three Cartesian directions at the selected point.
 
-\comment{}{PLOT: POI on the ROBOT + ONE OR MORE KERNELS ON THE ROBOT}
+\includegraphics[width=1\textwidth]{manipulator-kernels-visualization-grid-small.eps}
+
 
 \begin{equation}
 	\mathrm{\vec{v}_{poi}} = 
@@ -256,6 +260,8 @@ Once the position of a point on the manipulator has been mapped to the obstacle 
 	\end{bmatrix}
 	\label{eq:poi_velocity}
 \end{equation}
+
+
 
  
  \add{
@@ -290,14 +296,21 @@ Once the position of a point on the manipulator has been mapped to the obstacle 
 \subsubsection{Kernel Selection}
 \label{chap:kernels}
 
-The fundamental concept of our directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. Our filters can be likened to a variation of the Sobel \add{reference} operator, a 2D convolutional \add{reference} filter frequently utilized in computer vision for calculating image gradients at specific points. However contrary to the Sobel operator, our filter is not calculating the gradients of the matrix, as the inputs are weighted depending on the distance from the center of the kernel. 
+The fundamental concept of our directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system.\remove{ Our filters share a passing similarity to the Sobel  operator, a 2D convolutional filter frequently utilized in computer vision for calculating image gradients at specific points.}
 
-Our kernels are designed as three-dimensional structures with a primary axis aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary axes are orthogonal to this primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the magnitude reaching zero at the kernel's center. The nature of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity escalates as the manipulator approaches an obstacle.
+Our kernels are designed as three-dimensional structures with a primary kernel axis aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes are orthogonal to this primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the jump between max positive and max negative magnitude at the kernel's center. The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the point on the manipulator approaches an obstacle.
 
 The length of the primary axis is critical, as it dictates the detection range for obstacles. Longer kernels can detect obstacles further away
-from the robot, essentially extending the ’safety zone’ around the robot. If the primary axis is too long, it can lead to extra calculations and may cause the robot to unnecessarily avoid obstacles that aren't in its immediate path, making its movement and path planning less efficient. A kernel with a primary axis that is too short might restrict the robot's ability to maneuver, detecting obstacles potentially too late, compromising the robots capacity to avoid obstacles effectively.  Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity rather than a sudden spike.
+from the robot, essentially extending the ’safety zone’ around the robot. If the primary axis is too long, it can lead to extra calculations and may cause the robot to unnecessarily avoid obstacles that aren't in its immediate path, making its movement and path planning less efficient. A kernel with a primary axis that is too short might restrict the robot's ability to maneuver, detecting obstacles potentially too late, compromising the robots capacity to avoid obstacles effectively (eq. \ref{eq: detect range}). Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
 
-In the orthogonal axes, the magnitude of values diminishes with increasing distance from the core of the kernel, nearing zero at the edges \add{using gaussian distribution}. This gradation is vital for a smooth velocity transition when obstacles emerge in the kernels range. The peak magnitude is located at the kernel's core, along the primary axis. The polarity of the values is determined by their position relative to the primary axis. The length of the kernel along the secondary axes influences the peripheral detection range for obstacles. Excessively large kernels may generate repulsive velocities unnecessarily, whereas too narrow kernels might only detect obstacles aligned directly with the Cartesian direction in the point of interest. Therefore, when selecting the width and height of the kernel, one must consider the density of the neighboring points of interest on the robot, ensuring that their collective fields adequately cover the manipulator's surrounding area.
+\begin{equation}
+	\label{eq: detect range}
+	len_{primary} = \frac{2 \times \mathrm{range}}{\Delta \mathrm{grid}}\\
+\end{equation}
+
+%\remove{In the orthogonal axes, the magnitude of values diminishes with increasing distance from the core of the kernel, nearing zero at the edges. This gradation is vital for a smooth velocity transition when obstacles emerge in the kernels range. The peak magnitude is located at the kernel's core, along the primary axis. The polarity of the values is determined by their position relative to the primary axis. }
+
+The length of the orthogonal axes influences the peripheral detection range for obstacles. Excessively wide kernels may generate repulsive velocities for objects that are not in the path of the robot, whereas too narrow kernels might only detect obstacles aligned directly with the Cartesian direction in the point of interest. When selecting the width and height of the kernel, we must consider the density of the neighboring points of interest on the robot, ensuring that the \replace{collective fields}{combination of kernels} adequately cover the entire manipulator's surrounding area.
 
 \comment{}{PLOT: kernel with gaussian functions}
 \comment{}{EQUATION: gaussian equations}

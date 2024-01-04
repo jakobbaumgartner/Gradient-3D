@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  18 DEC 2023 20:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  4 JAN 2024 14:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -104,6 +104,31 @@ File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 ))
 Package: xparse 2023-01-16 L3 Experimental document command parser
 )
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks21
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen150
+\Gin@req@width=\dimen151
+)
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/easyreview\easyReview.s
 ty
 Package: easyReview 2014/06/27 Package for Easy Review on LaTeX documents
@@ -113,26 +138,26 @@ Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
 
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/soul\soul-ori.sty
 Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
-\SOUL@word=\toks21
-\SOUL@lasttoken=\toks22
-\SOUL@syllable=\toks23
-\SOUL@cmds=\toks24
-\SOUL@buffer=\toks25
-\SOUL@token=\toks26
-\SOUL@syllgoal=\dimen150
-\SOUL@syllwidth=\dimen151
-\SOUL@charkern=\dimen152
-\SOUL@hyphkern=\dimen153
-\SOUL@dimen=\dimen154
-\SOUL@dimeni=\dimen155
+\SOUL@word=\toks22
+\SOUL@lasttoken=\toks23
+\SOUL@syllable=\toks24
+\SOUL@cmds=\toks25
+\SOUL@buffer=\toks26
+\SOUL@token=\toks27
+\SOUL@syllgoal=\dimen152
+\SOUL@syllwidth=\dimen153
+\SOUL@charkern=\dimen154
+\SOUL@hyphkern=\dimen155
+\SOUL@dimen=\dimen156
+\SOUL@dimeni=\dimen157
 \SOUL@minus=\count272
 \SOUL@comma=\count273
 \SOUL@apo=\count274
 \SOUL@grave=\count275
 \SOUL@spaceskip=\skip53
-\SOUL@ttwidth=\dimen156
-\SOUL@uldp=\dimen157
-\SOUL@ulht=\dimen158
+\SOUL@ttwidth=\dimen158
+\SOUL@uldp=\dimen159
+\SOUL@ulht=\dimen160
 )
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
 ty
@@ -150,10 +175,6 @@ Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 227.
-
-(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
-File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
-)
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
@@ -176,10 +197,9 @@ Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
-\XKV@toks=\toks27
-\XKV@tempa@toks=\toks28
-
-(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\keyval.tex))
+\XKV@toks=\toks28
+\XKV@tempa@toks=\toks29
+)
 \XKV@depth=\count276
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
@@ -190,9 +210,9 @@ sty
 y
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
 -common.tex
-\pgfutil@everybye=\toks29
-\pgfutil@tempdima=\dimen159
-\pgfutil@tempdimb=\dimen160
+\pgfutil@everybye=\toks30
+\pgfutil@tempdima=\dimen161
+\pgfutil@tempdimb=\dimen162
 )
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
 -latex.def
@@ -207,24 +227,6 @@ Package: pgf 2023-01-15 v3.1.10 (3.1.10)
 
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
 sty
-(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
-Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
-
-(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
-Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
-
-(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
-Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-)
-(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
-fg
-File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
-)
-Package graphics Info: Driver file: pdftex.def on input line 107.
-)
-\Gin@req@height=\dimen161
-\Gin@req@width=\dimen162
-)
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
 sty
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
@@ -233,12 +235,12 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
 .code.tex
-\pgfkeys@pathtoks=\toks30
-\pgfkeys@temptoks=\toks31
+\pgfkeys@pathtoks=\toks31
+\pgfkeys@temptoks=\toks32
 
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
 libraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks32
+\pgfkeys@tmptoks=\toks33
 ))
 \pgf@x=\dimen163
 \pgf@y=\dimen164
@@ -256,9 +258,9 @@ libraryfiltered.code.tex
 \c@pgf@countb=\count278
 \c@pgf@countc=\count279
 \c@pgf@countd=\count280
-\t@pgf@toka=\toks33
-\t@pgf@tokb=\toks34
-\t@pgf@tokc=\toks35
+\t@pgf@toka=\toks34
+\t@pgf@tokb=\toks35
+\t@pgf@tokc=\toks36
 \pgf@sys@id@count=\count281
 
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
@@ -298,9 +300,9 @@ r.code.tex
 \pgfmath@dimen=\dimen173
 \pgfmath@count=\count284
 \pgfmath@box=\box55
-\pgfmath@toks=\toks36
-\pgfmath@stack@operand=\toks37
-\pgfmath@stack@operation=\toks38
+\pgfmath@toks=\toks37
+\pgfmath@stack@operand=\toks38
+\pgfmath@stack@operation=\toks39
 )
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
 ions.code.tex)
@@ -460,8 +462,8 @@ code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen256
 \pgffor@skip=\dimen257
-\pgffor@stack=\toks39
-\pgffor@toks=\toks40
+\pgffor@stack=\toks40
+\pgffor@toks=\toks41
 ))
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z\tikz.code.tex
@@ -525,20 +527,20 @@ LaTeX Info: Redefining \addtolength on input line 81.
 (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
 
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -548,12 +550,12 @@ ii
 \scratchbox=\box65
 \nofMPsegments=\count303
 \nofMParguments=\count304
-\everyMPshowfont=\toks41
+\everyMPshowfont=\toks42
 \MPscratchCnt=\count305
 \MPscratchDim=\dimen270
 \MPnumerator=\count306
 \makeMPintoPDFobject=\count307
-\everyMPtoPDFconversion=\toks42
+\everyMPtoPDFconversion=\toks43
 )
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -567,35 +569,67 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 )) [1
 
 {C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-[2] [3] [4] [5] [6] [7] [8] [9] (main.aux) ) 
+[2] [3] [4] [5]
+Package epstopdf Info: Source file: <manipulator-kernels-visualization-grid-sma
+ll.eps>
+(epstopdf)                    date: 2024-01-04 13:48:34
+(epstopdf)                    size: 90161 bytes
+(epstopdf)             Output file: <manipulator-kernels-visualization-grid-sma
+ll-eps-converted-to.pdf>
+(epstopdf)                    date: 2024-01-04 13:48:47
+(epstopdf)                    size: 82885 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=manipulator-kernels-
+visualization-grid-small-eps-converted-to.pdf manipulator-kernels-visualization
+-grid-small.eps>
+(epstopdf)             \includegraphics on input line 251.
+Package epstopdf Info: Output file is already uptodate.
+
+
+pdfTeX warning: pdflatex.exe (file ./manipulator-kernels-visualization-grid-sma
+ll-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most v
+ersion <1.5> allowed
+<manipulator-kernels-visualization-grid-small-eps-converted-to.pdf, id=33, 421.
+575pt x 316.18124pt>
+File: manipulator-kernels-visualization-grid-small-eps-converted-to.pdf Graphic
+ file (type pdf)
+<use manipulator-kernels-visualization-grid-small-eps-converted-to.pdf>
+Package pdftex.def Info: manipulator-kernels-visualization-grid-small-eps-conve
+rted-to.pdf  used on input line 251.
+(pdftex.def)             Requested size: 345.0pt x 258.75406pt.
+
+Overfull \hbox (15.0pt too wide) in paragraph at lines 251--252
+[][] 
+ []
+
+[6 <./manipulator-kernels-visualization-grid-small-eps-converted-to.pdf>]
+[7] [8] [9] [10] (main.aux) ) 
 Here is how much of TeX's memory you used:
- 13798 strings out of 476375
- 286688 string characters out of 5788976
- 1879299 words of memory out of 5000000
- 33936 multiletter control sequences out of 15000+600000
+ 13823 strings out of 476375
+ 287596 string characters out of 5788976
+ 1878299 words of memory out of 5000000
+ 33959 multiletter control sequences out of 15000+600000
  518590 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,10n,132p,1147b,983s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Jakob/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Jakob/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Jakob/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users
-/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-mi10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmmi5.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Jakob/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Jakob/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Jakob/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/
-AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Use
-rs/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb
->
-Output written on main.pdf (9 pages, 222007 bytes).
+ 114i,10n,108p,1147b,987s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Jakob/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Jakob/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Jakob/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Jakob
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Us
+ers/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pf
+b><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmmi7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmr10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmr12.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmr17.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Jakob/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on main.pdf (10 pages, 304419 bytes).
 PDF statistics:
- 105 PDF objects out of 1000 (max. 8388607)
+ 115 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 
