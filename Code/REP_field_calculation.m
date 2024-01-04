@@ -1,6 +1,6 @@
-function [rep_values] = REP_field_calculation(grid, kernels, point)
+function [rep_values] = REP_field_calculation(grid, kernels, point, varargin)
 
-    %   REP_VALUES = REP_FIELD_CALCULATION(GRID, KERNELS, POINT) computes a set of
+    %   REP_VALUES = REP_FIELD_CALCULATION(GRID, KERNELS, POINT, VARARGIN) computes a set of
     %   representative values for a 3D grid at a specified point, using a set of 3D kernels.
     %
     %   Inputs:
@@ -10,14 +10,10 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     %   - KERNELS: A cell array of 3D matrices, each representing a kernel.
     %   - POINT: A 1x3 vector specifying the coordinates of the point in the grid
     %            at which to compute the representative values.
-    %
-    % Optional In-Function Settings:
-    %   - interpolation_mode: A boolean (true or false) to enable or disable interpolation.
-    %                         If enabled, the function interpolates APF values based on the
-    %                         nearest grid cells. 
-    %
-    %   - box_value: Use this parameter to set occupation of the cells that
-    %     are beyond the inputed grid space.
+    %   - VARARGIN: Optional input arguments:
+    %       - 'interpolation_mode': A boolean (true or false) to enable or disable interpolation.
+    %       - 'box_value': Use this parameter to set occupation of the cells that
+    %         are beyond the inputed grid space.
     %
     %   Outputs:
     %   - REP_VALUES: A 1xN vector of representative values, where N is the number
@@ -28,12 +24,15 @@ function [rep_values] = REP_field_calculation(grid, kernels, point)
     %% SETTINGS:
     % --------------------------------------------------------------
 
-    % use interpolation
-    interpolation_mode = true; % true / false
+    % parse optional input arguments
+    p = inputParser;
+    addParameter(p, 'interpolation_mode', false);
+    addParameter(p, 'box_value', 0);
+    parse(p, varargin{:});
 
-    % set values outside the known grid to
-    box_value = 0;
-
+    % assign values from input parser
+    interpolation_mode = p.Results.interpolation_mode;
+    box_value = p.Results.box_value;
 
     % --------------------------------------------------------------    
     
