@@ -31,6 +31,8 @@
 %\usepackage{times} % assumes new font selection scheme installed
 %\usepackage{amsmath} % assumes amsmath package installed
 %\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{hyperref}
+
 
  \usepackage{easyReview}
  
@@ -72,86 +74,33 @@ This electronic document is a Olive template. The various components of your pap
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
 
-\add{
-V uvodu želimo predstaviti prvo uporabo kinematične redundance in kdo je delal na tem. Imena so Khatib, Maciejewki, Zlajpah ... \\
-\\
-Nato želimo omeniti, da so ti ljudje se problemu približali iz vidika izračuna oddaljenosti objektov. Omeniti je potrebno pristope z "bouding boxes AABB itd" in potem opisati "voxel grids". Končno je potrebno omeniti pristope z vektorskimi polji in nato pristope izračuna oddaljenosti.
-}
-
-\replace{
-	
-% PREDSTAVITEV PRISTOPOV PLANIRANJA POTI V ROBOTIKI
-Sampling based, Kinematic Optimizazion (LS, LQP), GCS, Learning-based, DMP(Hoffman), Trajectory Optimization.
-	
 % PREDSTAVITEV REDUNDANCE
-Kinematična redundanca je je pomembna značilnost modernih robotov. Kinematična redundanca je karakterizirana kot presežna količina prostorskih stopenj (DOF), sicer potrebnih za izvajanje določene naloge. Due to the redundant DOF the robot has the ability to move the end-effector along the same trajectory using different configurations of the mechanical structure. This provides means for solving sophisticated motion tasks, such as avoiding obstacles [4, 5], avoiding singularities [6], optimizing manipulability [7], minimizing joint torques [8], etc As a consequence, the dexterity of the system is significantly increased. This is important to accomplish complex tasks. Additionally, the redundancy can also have an important influence on the dynamic behavior of the robotic system.
 
-% PREDSTAVITEV PRISTOPOV 
+Kinematic redundancy enables a kinematically redundant manipulator to follow a predefined task space trajectory using the endeffector (EE), while simultaneously, executing an additional task with the remaining movement capacity without impacting the trajectory adherence. This is possible because the robot's degrees of freedom (DOF) go beyond what is required to perform the primary task. Consequently, the robot can adopt different joint configurations optimised according to the secondary task while performing the primary task. Common secondary tasks include avoiding singularities, optimising the manipulability measure, minimising joint torques and avoiding obstacles in the operating space.
 
+\add{reference za posamezne pristope, dela \\}
 
+% PREDSTAVITEV PRISTOPOV PLANIRANJA POTI V ROBOTIKI
+\add{Sampling based, Kinematic Optimizazion (LS, LQP), GCS, Learning-based, DMP(Hoffman), Trajectory Optimization.
+\\}
 
-
-}{replacement}
-
-\section{PROCEDURE FOR PAPER SUBMISSION}
-
-\subsection{Selecting a Template (Heading 2)}
-
-First, confirm that you have the correct template for your paper size. This template has been tailored for output on the US-letter paper size. 
-It may be used for A4 paper size if the paper size setting is suitably modified.
-
-\subsection{Maintaining the Integrity of the Specifications}
-
-The template is used to format your paper and style the text. All margins, column widths, line spaces, and text fonts are prescribed; please do not alter them. You may note peculiarities. For example, the head margin in this template measures proportionately more than is customary. This measurement and others are deliberate, using specifications that anticipate your paper as one part of the entire proceedings, and not as an independent document. Please do not revise any of the current designations
-
-\section{MATH}
-
-Before you begin to format your paper, first write and save the content as a separate text file. Keep your text and graphic files separate until after the text has been formatted and styled. Do not use hard tabs, and limit use of hard returns to only one return at the end of a paragraph. Do not add any kind of pagination anywhere in the paper. Do not number text heads-the template will do that for you.
-
-Finally, complete content and organizational editing before formatting. Please take note of the following items when proofreading spelling and grammar:
-
-\subsection{Abbreviations and Acronyms} Define abbreviations and acronyms the first time they are used in the text, even after they have been defined in the abstract. Abbreviations such as IEEE, SI, MKS, CGS, sc, dc, and rms do not have to be defined. Do not use abbreviations in the title or heads unless they are unavoidable.
-
-\subsection{Units}
-
-\begin{itemize}
-
-\item Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as O3.5-inch disk drive .
-\item Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.
-\item Do not mix complete spellings and abbreviations of units: OWb/m2  or  webers per square meter , not  webers/m2 .  Spell out units when they appear in text:  . . . a few henries , not  . . . a few H .
-\item Use a zero before decimal points:  0.25 , not  .25 . Use  cm3 , not  cc . (bullet list)
-
-\end{itemize}
+Motion planning is a fundamental problem in robotics \cite{IDEASLab2023}. It consists of finding a sequence of joint configurations for a robot so that the robot can move along this path from its initial configuration to the goal configuration without colliding with static obstacles or other robots in the environment. In addition to collision avoidance, motion planning for manipulators can optionally take into account various constraints, such as position, velocity, acceleration or jerk constraints for the joint angle or end effector, precision of the end effector with respect to position and orientation, stability of the manipulator, avoidance of singularities, or any number of other criteria.
 
 
-\subsection{Equations}
 
-The equations are an exception to the prescribed specifications of this template. You will need to determine whether or not your equation should be typed using either the Times New Roman or the Symbol font (please no other font). To create multileveled equations, it may be necessary to treat the equation as a graphic and insert it into the text after your paper is styled. Number equations consecutively. Equation numbers, within parentheses, are to position flush right, as in (1), using a right tab stop. To make your equations more compact, you may use the solidus ( / ), the exp function, or appropriate exponents. Italicize Roman symbols for quantities and variables, but not Greek symbols. Use a long dash rather than a hyphen for a minus sign. Punctuate equations with commas or periods when they are part of a sentence, as in
+%
+% PREDSTAVITEV PRISTOPOV RAČUNANJA ODDALJENOSTI OVIRAM
 
-$$
-\alpha + \beta = \chi \eqno{(1)}
-$$
-
-Note that the equation is centered using a center tab stop. Be sure that the symbols in your equation have been defined before or immediately following the equation. Use  (1) , not  Eq. (1)  or  equation (1) , except at the beginning of a sentence:  Equation (1) is . . . 
-
-\subsection{Some Common Mistakes}
-\begin{itemize}
+\add{
+	Nato želimo omeniti, da so ti ljudje se problemu približali iz vidika izračuna oddaljenosti objektov. Omeniti je potrebno pristope z "bouding boxes AABB itd" in potem opisati "voxel grids". Končno je potrebno omeniti pristope z vektorskimi polji in nato pristope izračuna oddaljenosti.}
 
 
-\item The word  data  is plural, not singular.
-\item The subscript for the permeability of vacuum ?0, and other common scientific constants, is zero with subscript formatting, not a lowercase letter  o .
-\item In American English, commas, semi-/colons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)
-\item A graph within a graph is an  inset , not an  insert . The word alternatively is preferred to the word  alternately  (unless you really mean something that alternates).
-\item Do not use the word  essentially  to mean  approximately  or  effectively .
-\item In your paper title, if the words  that uses  can accurately replace the word  using , capitalize the  u ; if not, keep using lower-cased.
-\item Be aware of the different meanings of the homophones  affect  and  effect ,  complement  and  compliment ,  discreet  and  discrete ,  principal  and  principle .
-\item Do not confuse  imply  and  infer .
-\item The prefix  non  is not a word; it should be joined to the word it modifies, usually without a hyphen.
-\item There is no period after the  et  in the Latin abbreviation  et al. .
-\item The abbreviation  i.e.  means  that is , and the abbreviation  e.g.  means  for example .
 
-\end{itemize}
 
+
+
+
+\clearpage
 
 \section{USING THE TEMPLATE}
 
@@ -232,6 +181,10 @@ References are important to the reader; therefore, each citation must be complet
 
 
 \begin{thebibliography}{99}
+	
+	\bibitem{IDEASLab2023}
+	IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [Online]. Available: \url{https://ideas.cs.purdue.edu/research/robotics/planning/}. Accessed on: Jan. 9, 2024.
+	
 
 \bibitem{c1} G. O. Young,  Synthetic structure of industrial plastics (Book style with paper title and editor),  	in Plastics, 2nd ed. vol. 3, J. Peters, Ed.  New York: McGraw-Hill, 1964, pp. 15 64.
 \bibitem{c2} W.-K. Chen, Linear Networks and Systems (Book style).	Belmont, CA: Wadsworth, 1993, pp. 123 135.
