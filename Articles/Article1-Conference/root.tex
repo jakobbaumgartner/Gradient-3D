@@ -88,14 +88,16 @@ There are numerous methods for planning manipulator movements. Sampling-based me
 
 \add{citations}
 
-
-%
 % PREDSTAVITEV PRISTOPOV RAČUNANJA ODDALJENOSTI OVIRAM
+To be able to generate collision free trajectory we need to have a representation of the environment. One common approach is to represent environment with geomertic primitives such as bounding boxes or spheres. These representations are often combined into hierarhical trees, such as octatree, to make calculations more efficient. Such representations are memory effective and offer simple and computationally undemanding distance calculation and collision detection. These representations are widely used in computer simulations and games, however they can be suboptimal for , where sensor measurements arent always accurate and contain only part of the surrounding space. This can lead to approximation errors, which are additionally probelmatic when we are dealing with irregular shaped objects.
 
-\add{
-	Nato želimo omeniti, da so ti ljudje se problemu približali iz vidika izračuna oddaljenosti objektov. Omeniti je potrebno pristope z "bouding boxes AABB itd" in potem opisati "voxel grids". Končno je potrebno omeniti pristope z vektorskimi polji in nato pristope izračuna oddaljenosti.}
+Point-cloud representation captures the environment by directly using a collection of points obtained from sensors like LiDAR, providing a more precise depiction of space than bounding boxes or spheres. This method can more accurately represent the complex and irregular shapes of real-world objects, although it typically requires more memory and computational power to process, which can make it chllenging fore real-time representation. 
 
+Voxel grid representation, on the other hand, divides the space into a regular grid of volumetric elements, or voxels, which can be used to create a more manageable approximation of the environment. While this approach offers a balance between detail and computational efficiency, it can still introduce discretization errors, particularly when modeling objects with smooth surfaces or intricate details. The fidelity of the representation is dependent on the size of the voxels: smaller voxels can capture more detail but require more memory and computation, while larger voxels result in coarser approximations but are more memory-efficient, adaptive voxel grids have been explored, where the voxel size can vary throughout the space to provide higher resolution in regions of interest while conserving resources in less critical areas. Voxel grids can incorporate probabilistic information, such as in occupancy grid maps, where each voxel holds a probability indicating the chance of an obstacle's presence. The occupancy probability of a voxel can be updated dynamically using sensor measurements and Bayesian updating methods. As new sensor data is collected, the probabilities are revised to reflect the increased or decreased likelihood of the presence of an obstacle in the voxel space. 
 
+Additionally, techniques such as ESDF and TSDF can be utilized in conjunction with voxel grids to encode distance information, thereby enhancing the grid's utility for navigation and path planning by providing gradient information for obstacle avoidance and facilitating smoother trajectories
+
+\add{Gradient based voxel field methods. Voxel fields including distance information.}
 
 
 

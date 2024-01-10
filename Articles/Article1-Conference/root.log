@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  10 JAN 2024 15:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  10 JAN 2024 17:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -749,10 +749,13 @@ A
 [1{C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 
+] [2
+
 ]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 108.
- [2
+(Font)              <7> on input line 110.
+
+[3
 
 ]
 
@@ -766,16 +769,16 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[3
+[4
 
 ] (root.aux)
 Package rerunfilecheck Info: File `root.out' has not changed.
 (rerunfilecheck)             Checksum: 87B469C8C19FD76CF47F321EB27026DF;712.
  ) 
 Here is how much of TeX's memory you used:
- 20172 strings out of 476375
- 388833 string characters out of 5788976
- 1872299 words of memory out of 5000000
+ 20173 strings out of 476375
+ 388839 string characters out of 5788976
+ 1875299 words of memory out of 5000000
  40193 multiletter control sequences out of 15000+600000
  549103 words of font info for 98 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -790,9 +793,9 @@ rw/courier/ucrr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1
 /urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
 1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
 1/urw/times/utmri8a.pfb>
-Output written on root.pdf (3 pages, 112971 bytes).
+Output written on root.pdf (4 pages, 115350 bytes).
 PDF statistics:
- 121 PDF objects out of 1000 (max. 8388607)
- 35 named destinations out of 1000 (max. 500000)
+ 125 PDF objects out of 1000 (max. 8388607)
+ 36 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
