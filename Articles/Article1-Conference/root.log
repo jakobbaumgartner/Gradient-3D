@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  22 JAN 2024 22:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  23 JAN 2024 22:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -747,26 +747,53 @@ A
  []
 
 
-Underfull \hbox (badness 6016) in paragraph at lines 90--91
+Underfull \hbox (badness 6016) in paragraph at lines 92--93
 []\OT1/ptm/m/n/10 Trajectory op-ti-mi-sa-tion meth-ods such as CHOMP,
  []
 
 [1{C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 
-] [2
-
 ]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 129.
+Underfull \hbox (badness 1762) in paragraph at lines 134--135
+\OT1/ptm/m/n/10 THESE SEM-I-NAL WORKS HAVE BEEN FUR-THER
+ []
 
-Underfull \hbox (badness 5696) in paragraph at lines 213--214
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+
+ []
+
+[2]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 175.
+
+Underfull \hbox (badness 5696) in paragraph at lines 259--260
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 213--214
+Underfull \hbox (badness 1990) in paragraph at lines 259--260
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
+ []
+
+
+Underfull \hbox (badness 1389) in paragraph at lines 267--268
+[]\OT1/ptm/m/n/8 T. Yoshikawa, \Dy-namic hy-brid po-si-tion/force con-trol of r
+obot
+ []
+
+
+Underfull \hbox (badness 1694) in paragraph at lines 269--270
+[]\OT1/ptm/m/n/8 O. Khatib, \A uni-fied ap-proach for mo-tion and force con-tro
+l
+ []
+
+[3
+
+]
+Underfull \hbox (badness 5302) in paragraph at lines 281--282
+\OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
 
@@ -780,20 +807,20 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[3
+[4
 
 ] (root.aux)
 Package rerunfilecheck Info: File `root.out' has not changed.
 (rerunfilecheck)             Checksum: 87B469C8C19FD76CF47F321EB27026DF;712.
  ) 
 Here is how much of TeX's memory you used:
- 20138 strings out of 476375
- 388643 string characters out of 5788976
- 1874299 words of memory out of 5000000
- 40176 multiletter control sequences out of 15000+600000
+ 20172 strings out of 476375
+ 388854 string characters out of 5788976
+ 1891299 words of memory out of 5000000
+ 40193 multiletter control sequences out of 15000+600000
  549103 words of font info for 98 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,10n,132p,1610b,431s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 132i,10n,132p,1610b,580s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
 /Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.
 pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
@@ -804,9 +831,9 @@ rw/courier/ucrr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1
 /urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
 1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
 1/urw/times/utmri8a.pfb>
-Output written on root.pdf (3 pages, 112267 bytes).
+Output written on root.pdf (4 pages, 120334 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
- 18 named destinations out of 1000 (max. 500000)
+ 124 PDF objects out of 1000 (max. 8388607)
+ 35 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
 

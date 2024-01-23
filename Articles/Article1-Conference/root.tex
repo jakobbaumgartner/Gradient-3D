@@ -83,18 +83,61 @@ Kinematic redundancy enables a manipulator to follow a predefined task space tra
 % PREDSTAVITEV PRISTOPOV PLANIRANJA POTI V ROBOTIKI
 The task of finding the joint trajectories of a manipulator is called motion planning~\cite{IDEASLab2023}. It consists of finding a sequence of joint configurations for a robot so that the robot can move along this path from its initial configuration to the goal configuration without colliding with itself, static obstacles or other agents in the environment. In addition to collision avoidance, motion planning for manipulators can optionally take into account various constraints, such as position, velocity, acceleration or jerk constraints for the joint angle or end effector, precision of the end effector with respect to position and orientation, stability of the manipulator, avoidance of singularities, or any number of other criteria.
 
-There are numerous methods for planning manipulator movements. Sampling-based methods such as PRM, RRT, RRT*, RRT-Connect, Informerd RRT*, BIT* and others offer a solution based on a global search in configuration space. However, the generated trajectories are not always smooth or optimal, and the performance of the methods may be insufficient for real-time operation. 
+There are numerous methods for planning manipulator movements, they can rougly be seperated into global and local approaches. 
+
+Sampling-based methods such as PRM, RRT, RRT*, RRT-Connect, Informerd RRT*, BIT* and others offer a solution based on a global search in configuration space. However, the generated trajectories are not always smooth or optimal, and the performance of the methods may be insufficient for real-time operation. 
 
 Recently, a number of learning-based methods using data-driven techniques have been proposed to improve or accelerate the functionality of sampling-based methods. \add{examples} 
 
 Trajectory optimisation methods such as CHOMP, STOMP and TrajOpt, on the other hand, use optimization to improve an initial seed trajectory. Consequently, the optimality of the solution is highly dependent on this initial trajectory. Nevertheless, these methods are capable of generating smooth trajectories, and although they can be too computationally intensive for high DOF dynamic real-time environments, they are generally effective in finding constrained motion plans. 
 
-Local motion planning approaches employ optimization techniques, two common ones are inverse kinematics, that is based on finding a least squares solution of the manipulator joint velocities, and quadratic programming (QP)~\cite{c21}, \cite{c22}, \cite{c23}. Different articles have proposed the control schemes based on joint velocity control, joint acceleration control and torque control. 
+Local motion planning approaches employ optimization techniques, two common ones are inverse kinematics~\cite{c29,c38}, that is based on finding a least squares solution of the manipulator joint velocities, and quadratic programming (QP)~\cite{c21,c22,c23}. In the following text we will focus on inverse kinematics based approaches.
 
-\add{-add a few different options of IK \\
- ->-using task priority or combined jacobian \\
+\remove{Different control schemes have been proposed. Acceleration-based control excels in precise handling of motion changes, velocity-based control offers consistent and smooth movement, while force and torque-based control provides direct control over joint forces for robust physical interactions. (CITATIONS in COMMENT BELLOW)}
+%\remove{Different control schemes have been proposed~\cite{c24}. Acceleration-based control excels in precise handling of motion changes, velocity-based control offers consistent and smooth movement, while force and torque-based control~\cite{c25, c26, c27, c28, c31} provides direct control over joint forces for robust physical interactions.}
+
+% ----
+
+%In our work we use velocity control strategy for obstacle avoidance using the manipulator. naša primarna naloga premik vrha robota - end efektorja (EE) v želeno pozo, to je točko in orientacijo v prostoru naloge. Naša sekundarna naloga se tako izvaja v preostalem prostoru gibanja sklepov redundance robota (DOF, DOR). ??? je predlagal razširitev jakobijeve matrike end-efektorja z dodatno matriko transformacije izogibne hitrosti iz kartzezičnega prostora v prostor sklepov. Če nalogi nista popolnoma neodvisni ena od druge, in njune sklepne hitrosti niso medsebojno ortagonalne, lahko to pripelje do medsebojnega oviranja izbajanja nalog. Zato je ??? predlagal uporabo transformacijo hitrosti sekundarne naloge v  ničelnega prostora hitrosti primarne nalgoe, to je v prostor ortagonalnih hitrosti. Posledično izvajanje sekundarne naloge ne vpliva neposredno v izvajanje primarne naloge, gledano le v enem trenutku izvajanja. 
+%
+%Različni razisklovalci so se lotili problema kinematičnega izogibanja na različne načine, kot je opisano v \cite{c30, c39}. 
+%
+%Colbaugh in Glass  1989 \cite{c31, c32} sta se problema lotila v dveh korakih. V prvem koraku sta izračunala trajektorijo vrha robota, v drugem pa sta uporabila optimizacijo za izboljšanje dinamičnega odziva robota med izvajanjem trajektorije in za druge naloge, kot so izogibanje ovir.  
+%
+%Sciavicco and Siciliano \cite{c34, c35} and Egeland~\cite{c36} independetly introduced the concept ot task-space augmentation. It was later revisited by searji~\cite{c37}. The Solution is to stack the remaining rows in Jacobian with secondary task Jacobian into square matrix, that returns only one solution.
+%
+%Macijewski in Klein (Maciejewski & Klein, 1985) \cite{c29}, Nakamura in Hanafusa 1987 \cite{c38} predstavijo koncept prioritete nalog in ničelnega prostora za izogibanje, pri čemer se sekundarna naloga lahko giblje le s hitrostmi, ki ne vplivajo neposredno na gibanje primarne naloge. pri čemer sta izogibne sklepne hitrosti izračunala funkcijo najmanjše razdalje med točko na manipulatorju in točko izogibanja / objekta / ovire.  
+%
+%Omenjeni pristopi se ne osredotočajo na okolje, tega pogosto prikažejo kot geometrijske primitive in nato razdaljo izračunajo kot razdaljo med primitivom in premicami, ki opisujejo manipulator. 
+%
+%Khatib \cite{c33} proposes the concept of Artificial Potential Field. Polje sestavljata odbojna komponenta, ki end effektor odbija od ovir, ki so predstavljene kot geometrijski primitivi in privlačna komponenta, ki manipulator privlači proti cilju. 
+%
+%
+%
+
+Various researchers have adopted different approaches to kinematic avoidance, as detailed in~\cite{c30, c39}.
+
+Colbaugh and Glass (1989)~\cite{c31, c32} tackled this problem in a two-step process. Initially, they calculated the robot's end-effector trajectory. Subsequently, they used optimization to enhance the robot's dynamic response during trajectory execution and for tasks like obstacle avoidance.
+
+Sciavicco and Siciliano~\cite{c34, c35}, as well as Egeland~\cite{c36}, independently introduced the concept of task-space augmentation, later revisited by Searji~\cite{c37}. This method involves integrating the remaining rows of the Jacobian with the secondary task Jacobian into a square matrix, yielding a singular solution.
+
+Maciejewski and Klein (1985)~\cite{c29}, and Nakamura and Hanafusa (1987)~\cite{c38}, presented the concept of task prioritization and a null space for avoidance. In this framework, the secondary task is restricted to velocities that do not directly affect the primary task's movement. Their method calculates avoidance joint velocities based on the minimum distance between a point on the manipulator and an avoidance point, object, or obstacle.
+
+These approaches typically do not focus on the environmental context, often representing it as geometric primitives and then calculating the distance between these primitives and the lines describing the manipulator.
+
+Khatib~\cite{c33} proposes the concept of an Artificial Potential Field. This field consists of a repulsive component that deflects the end effector away from obstacles, depicted as geometric primitives, and an attractive component that draws the manipulator towards its target.
+
+\add{\\
+THESE SEMINAL WORKS HAVE BEEN FURTHER DEVELOPED / APPLIED IN ... add 5-10 modern citations
+\\
+\\
+}
+
+
+\add{
  -used for obstacle avoidance \\
  -used for task manip, ... , ...
+ -fix citation styles
 }
 
  The inverse kinematics with task prioritisation,  Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account.
@@ -214,6 +257,37 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 
 \bibitem{c23} Y. Zhang, S. S. Ge, and T. H. Lee, “A Unified Quadratic-Programming-Based Dynamical System Approach to Joint Torque Optimization of Physically Constrained Redundant Manipulators,” IEEE Trans. Syst., Man, Cybern. B, vol. 34, no. 5, pp. 2126–2132, Oct. 2004. doi: 10.1109/TSMCB.2004.830347.
 
+\bibitem{c24} J. Nakanishi, R. Cory, M. Mistry, J. Peters, and S. Schaal, “Comparative experiments on task space control with redundancy resolution,” in Proc. 2005 IEEE/RSJ Int. Conf. on Intelligent Robots and Systems, Edmonton, Alta., Canada, 2005, pp. 3901–3908. doi: 10.1109/IROS.2005.1545203.
+
+\bibitem{c25} M. H. Raibert and J. J. Craig, “Hybrid Position/Force Control of Manipulators,” Journal of Dynamic Systems, Measurement, and Control, vol. 103, no. 2, pp. 126–133, Jun. 1981. doi: 10.1115/1.3139652.
+
+\bibitem{c26} T. Yoshikawa, “Dynamic hybrid position/force control of robot manipulators--Description of hand constraints and calculation of joint driving force,” IEEE J. Robot. Automat., vol. 3, no. 5, pp. 386–392, Oct. 1987. doi: 10.1109/JRA.1987.1087120.
+
+\bibitem{c27} O. Khatib, “A unified approach for motion and force control of robot manipulators: The operational space formulation,” IEEE J. Robot. Automat., vol. 3, no. 1, pp. 43–53, Feb. 1987. doi: 10.1109/JRA.1987.1087068.
+
+\bibitem{c28} N. Hogan, “Impedance Control: An Approach to Manipulation,” in Proc. 1984 American Control Conf., San Diego, CA, USA, Jul. 1984, pp. 304–313. doi: 10.23919/ACC.1984.4788393.
+
+\bibitem{c29} A. A. Maciejewski and C. A. Klein, “Obstacle Avoidance for Kinematically Redundant Manipulators in Dynamically Varying Environments,” The International Journal of Robotics Research, vol. 4, no. 3, pp. 109–117, Sep. 1985. doi: 10.1177/027836498500400308.
+
+\bibitem{c30} L. Lajpah and T. Petri, “Obstacle Avoidance for Redundant Manipulators as Control Problem,” in Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization, S. Kucuk, Ed. InTech, 2012. doi: 10.5772/32651.
+
+\bibitem{c31} R. Colbaugh and K. Glass, “Cartesian control of redundant robots,” J. Robotic Syst., vol. 6, no. 4, pp. 427–459, Aug. 1989. doi: 10.1002/rob.4620060409.
+
+\bibitem{c32} K. Glass, R. Colbaugh, D. Lim, and H. Seraji, “Real-time collision avoidance for redundant manipulators,” IEEE Trans. Robot. Automat., vol. 11, no. 3, pp. 448–457, Jun. 1995. doi: 10.1109/70.388789.
+
+\bibitem{c33} O. Khatib, “Real-time obstacle avoidance for manipulators and mobile robots,” in 1985 IEEE International Conference on Robotics and Automation Proceedings, Mar. 1985, pp. 500–505. doi: 10.1109/ROBOT.1985.1087247.
+
+\bibitem{c34} L. Sciavicco and B. Siciliano, “A solution algorithm to the inverse kinematic problem for redundant manipulators,” IEEE J. Robot. Automat., vol. 4, no. 4, pp. 403–410, Aug. 1988. doi: 10.1109/56.804.
+
+\bibitem{c35} L. Sciavicco and B. Siciliano, “Solving the Inverse Kinematic Problem for Robotic Manipulators,” in RoManSy 6, A. Morecki, G. Bianchi, and K. Kedzior, Eds., Boston, MA: Springer US, 1987, pp. 107–114. doi: 10.1007/978-1-4684-6915-8\_9.
+
+\bibitem{c36} O. Egeland, “Task-space tracking with redundant manipulators,” IEEE J. Robot. Automat., vol. 3, no. 5, pp. 471–475, Oct. 1987. doi: 10.1109/JRA.1987.1087118.
+
+\bibitem{c37} H. Seraji, “Configuration control of redundant manipulators: theory and implementation,” IEEE Trans. Robot. Automat., vol. 5, no. 4, pp. 472–490, Aug. 1989. doi: 10.1109/70.88062.
+
+\bibitem{c38} Y. Nakamura, H. Hanafusa, and T. Yoshikawa, “Task-Priority Based Redundancy Control of Robot Manipulators,” The International Journal of Robotics Research, vol. 6, no. 2, pp. 3–15, Jun. 1987. doi: 10.1177/027836498700600201.
+
+\bibitem{c39} B. Siciliano and O. Khatib, Eds., Springer Handbook of Robotics. in Springer Handbooks. Cham: Springer International Publishing, 2016. doi: 10.1007/978-3-319-32552-1.
 
 
 \end{thebibliography}
