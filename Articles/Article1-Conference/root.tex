@@ -119,13 +119,15 @@ Various researchers have adopted different approaches to kinematic avoidance, as
 
 Colbaugh and Glass (1989)~\cite{c31, c32} tackled this problem in a two-step process. Initially, they calculated the robot's end-effector trajectory. Subsequently, they used optimization to enhance the robot's dynamic response during trajectory execution and for tasks like obstacle avoidance.
 
-Sciavicco and Siciliano~\cite{c34, c35}, as well as Egeland~\cite{c36}, independently introduced the concept of task-space augmentation, later revisited by Searji~\cite{c37}. This method involves integrating the remaining rows of the Jacobian with the secondary task Jacobian into a square matrix, yielding a singular solution.
+Sciavicco and Siciliano~\cite{c34, c35}, as well as Egeland~\cite{c36}, independently introduced the concept of task-space augmentation, later revisited by Searji~\cite{c37}. This method involves extending the primary task Jacobian with the secondary task Jacobian into a square matrix, yielding a singular solution.
 
-Maciejewski and Klein (1985)~\cite{c29}, and Nakamura and Hanafusa (1987)~\cite{c38}, presented the concept of task prioritization and a null space for avoidance. In this framework, the secondary task is restricted to velocities that do not directly affect the primary task's movement. Their method calculates avoidance joint velocities based on the minimum distance between a point on the manipulator and an avoidance point, object, or obstacle.
+Maciejewski and Klein (1985)~\cite{c29}, and Nakamura and Hanafusa (1987)~\cite{c38}, presented the concept of task prioritization and a null space for avoidance. In this framework, the secondary task is restricted to velocities that do not directly affect the primary task's movement. Their method calculates avoidance joint velocities based on the minimum distance between a point on the manipulator and an avoidance point, object, or obstacle. Žlajpah~\cite{c41} improved the concept by proposing a reduced operational space formulation, that reshapes the Jacobain of the avoidance task from three cartesian axis to only the direction of obstacle avoidance. Petrič~\cite{c42} suggested a way to smoothly transition between avoidance and trajectory following tasks.
 
 These approaches typically do not focus on the environmental context, often representing it as geometric primitives and then calculating the distance between these primitives and the lines describing the manipulator.
 
-Khatib~\cite{c33} proposes the concept of an Artificial Potential Field. This field consists of a repulsive component that deflects the end effector away from obstacles, depicted as geometric primitives, and an attractive component that draws the manipulator towards its target.
+Khatib~\cite{c33} proposes the concept of an Artificial Potential Field. This field consists of a repulsive component that deflects the end effector away from obstacles, depicted as geometric primitives, and an attractive component that draws the manipulator towards its target. In the following years many different modifications and improvement of the original APF idea have been proposed, often focused on removal of local minimas in the potential field. Khim and Khosla~\cite{c40} suggested the use of harmonic functions to solve the problem of local minima. Pinto et al. \cite{c43} proposes to vary the field based on the distance of robot from obstacles to fill the local minima.
+
+Many of the recent works focus on use of a variation of artificial potential field to plan motion of the manipulator. Long~\cite{c44} suggests creating motion plan of the manipulator using APF, he extends it using RRT to calculate virtual attractive point for the robot to move towards in case of local minima. \add{cite 1 2 3 4 5}
 
 \add{\\
 THESE SEMINAL WORKS HAVE BEEN FURTHER DEVELOPED / APPLIED IN ... add 5-10 modern citations
@@ -288,6 +290,17 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 \bibitem{c38} Y. Nakamura, H. Hanafusa, and T. Yoshikawa, “Task-Priority Based Redundancy Control of Robot Manipulators,” The International Journal of Robotics Research, vol. 6, no. 2, pp. 3–15, Jun. 1987. doi: 10.1177/027836498700600201.
 
 \bibitem{c39} B. Siciliano and O. Khatib, Eds., Springer Handbook of Robotics. in Springer Handbooks. Cham: Springer International Publishing, 2016. doi: 10.1007/978-3-319-32552-1.
+
+\bibitem{c40} J.-O. Kim and P. Khosla, “Real-Time Obstacle Avoidance Using Harmonic Potential Functions,” 1992. doi: 10.1109/70.143352.
+
+\bibitem{c41} L. Zlajpah and B. Nemec, “Kinematic control algorithms for on-line obstacle avoidance for redundant manipulators,” in Proc. IEEE/RSJ International Conference on Intelligent Robots and Systems, Lausanne, Switzerland, 2002, pp. 1898–1903. doi: 10.1109/IRDS.2002.1044033.
+
+\bibitem{c42} T. Petrič and L. Žlajpah, “Smooth continuous transition between tasks on a kinematic control level: Obstacle avoidance as a control problem,” Robotics and Autonomous Systems, vol. 61, no. 9, Art. no. 9, Sep. 2013. doi: 10.1016/j.robot.2013.04.019.
+
+\bibitem{c43} M. F. Pinto, T. R. F. Mendonça, L. R. Olivi, E. B. Costa, and A. L. M. Marcato, “Modified approach using variable charges to solve inherent limitations of potential fields method,” in Proc. 2014 11th IEEE/IAS International Conference on Industry Applications, Dec. 2014, pp. 1–6. doi: 10.1109/INDUSCON.2014.7059414.
+
+\bibitem{c44} Z. Long, “Virtual target point-based obstacle-avoidance method for manipulator systems in a cluttered environment,” Engineering Optimization, vol. 52, no. 11, Art. no. 11, Nov. 2020. doi: 10.1080/0305215X.2019.1681986.
+
 
 
 \end{thebibliography}
