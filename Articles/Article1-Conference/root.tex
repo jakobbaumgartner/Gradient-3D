@@ -74,24 +74,28 @@ This electronic document is a Olive template. The various components of your pap
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
 
+\subsection{Motion Planning}
+
 % PREDSTAVITEV REDUNDANCE
 
-Kinematic redundancy enables a manipulator to follow a predefined task space trajectory using the endeffector (EE), while simultaneously, optimising for an additional task with the remaining movement capacity without impacting the trajectory adherence. This is possible because the robot's degrees of freedom (DOF) go beyond what is required to perform the primary task. Consequently, the robot can adopt different joint configurations optimised according to the secondary task while performing the primary task. Common secondary tasks include avoiding singularities, optimising the manipulability measure, minimising joint torques and avoiding obstacles in the operating space.
-
-\add{citations}
+Kinematic redundancy~\cite{siciliano1990kinematic, siciliano2016springer} enables a manipulator to follow a predefined task space trajectory using the endeffector (EE), while simultaneously, optimising for an additional task with the remaining movement capacity without impacting the trajectory adherence. This is possible because the robot's degrees of freedom (DOF) go beyond what is required to perform the primary task. Consequently, the robot can adopt different joint configurations optimised according to the secondary task while performing the primary task. Common secondary tasks~\cite{siciliano2010robot} include avoiding singularities, optimising the manipulability measure, minimising joint torques and avoiding obstacles in the operating space.
 
 % PREDSTAVITEV PRISTOPOV PLANIRANJA POTI V ROBOTIKI
 The task of finding the joint trajectories of a manipulator is called motion planning~\cite{IDEASLab2023}. It consists of finding a sequence of joint configurations for a robot so that the robot can move along this path from its initial configuration to the goal configuration without colliding with itself, static obstacles or other agents in the environment. In addition to collision avoidance, motion planning for manipulators can optionally take into account various constraints, such as position, velocity, acceleration or jerk constraints for the joint angle or end effector, precision of the end effector with respect to position and orientation, stability of the manipulator, avoidance of singularities, or any number of other criteria.
 
-There are numerous methods for planning manipulator movements, they can rougly be seperated into global and local approaches. 
+There are numerous methods for planning manipulator movements~\cite{c51, c52}, they can rougly be seperated into global and local approaches. Global, sampling-based, methods such as PRM~\cite{vsvestka1997motion}, RRT*~\cite{lavalle1998rapidly, karaman2010incremental}, RRT-Connect~\cite{kuffner2000rrt}, Informerd RRT*~\cite{gammell2014informed}, BIT*~\cite{gammell2015batch} and others offer a globally optimal solution based on a global search in configuration space. However, the generated trajectories are not always smooth or optimal, and the performance of the methods may be insufficient for real-time operation.
 
-Sampling-based methods such as PRM, RRT, RRT*, RRT-Connect, Informerd RRT*, BIT* and others offer a solution based on a global search in configuration space. However, the generated trajectories are not always smooth or optimal, and the performance of the methods may be insufficient for real-time operation. 
+%Global planning methods are typically more comprehensive, aiming to find a globally optimal trajectory for the manipulator. These methods often involve mapping out the entire path before movement begins, taking into account the known environment, which usually includes static obstacles. However, the downside of global planning methods is their computational intensity, which often renders them too slow for real-time applications. This limitation is particularly pronounced in dynamic or unpredictable environments where conditions change rapidly and require quick responses. Examples of global planning methods include graph-based algorithms like A* and Dijkstra's algorithm, which are known for their effectiveness in pathfinding but also for their computational demands [(Lavalle, 2006)].
 
-Recently, a number of learning-based methods using data-driven techniques have been proposed to improve or accelerate the functionality of sampling-based methods. \add{examples} 
+%Sampling-based methods such as PRM, RRT, RRT*, RRT-Connect, Informerd RRT*, BIT* and others offer a solution based on a global search in configuration space. However, the generated trajectories are not always smooth or optimal, and the performance of the methods may be insufficient for real-time operation. 
 
-Trajectory optimisation methods such as CHOMP, STOMP and TrajOpt, on the other hand, use optimization to improve an initial seed trajectory. Consequently, the optimality of the solution is highly dependent on this initial trajectory. Nevertheless, these methods are capable of generating smooth trajectories, and although they can be too computationally intensive for high DOF dynamic real-time environments, they are generally effective in finding constrained motion plans. 
+\remove{Recently, a number of learning-based methods using data-driven techniques have been proposed to improve or accelerate the functionality of sampling-based methods. }
 
-Local motion planning approaches employ optimization techniques, two common ones are inverse kinematics~\cite{c29,c38}, that is based on finding a least squares solution of the manipulator joint velocities, and quadratic programming (QP)~\cite{c21,c22,c23}. In the following text we will focus on inverse kinematics based approaches.
+\remove{Trajectory optimisation methods such as CHOMP, STOMP and TrajOpt, on the other hand, use optimization to improve an initial seed trajectory. Consequently, the optimality of the solution is highly dependent on this initial trajectory. Nevertheless, these methods are capable of generating smooth trajectories, and although they can be too computationally intensive for high DOF dynamic real-time environments, they are generally effective in finding constrained motion plans. }
+
+Local motion planning approaches employ optimization techniques, two common ones are inverse kinematics~\cite{c29,c38}, that is based on finding a least squares solution of the manipulator joint velocities, and quadratic programming (QP)~\cite{c21,c22,c23}.  Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account. In the following text we will focus on inverse kinematics based approaches.
+
+\subsection{Kinematic Obstacle Avoidance}
 
 \remove{Different control schemes have been proposed. Acceleration-based control excels in precise handling of motion changes, velocity-based control offers consistent and smooth movement, while force and torque-based control provides direct control over joint forces for robust physical interactions. (CITATIONS in COMMENT BELLOW)}
 %\remove{Different control schemes have been proposed~\cite{c24}. Acceleration-based control excels in precise handling of motion changes, velocity-based control offers consistent and smooth movement, while force and torque-based control~\cite{c25, c26, c27, c28, c31} provides direct control over joint forces for robust physical interactions.}
@@ -123,33 +127,21 @@ Sciavicco and Siciliano~\cite{c34, c35}, as well as Egeland~\cite{c36}, independ
 
 Maciejewski and Klein (1985)~\cite{c29}, and Nakamura and Hanafusa (1987)~\cite{c38}, presented the concept of task prioritization and a null space for avoidance. In this framework, the secondary task is restricted to velocities that do not directly affect the primary task's movement. Their method calculates avoidance joint velocities based on the minimum distance between a point on the manipulator and an avoidance point, object, or obstacle. Žlajpah~\cite{c41} improved the concept by proposing a reduced operational space formulation, that reshapes the Jacobain of the avoidance task from three cartesian axis to only the direction of obstacle avoidance. Petrič~\cite{c42} suggested a way to smoothly transition between avoidance and trajectory following tasks.
 
+\subsection{Artificial Potential Field}
+
 These approaches typically do not focus on the environmental context, often representing it as geometric primitives and then calculating the distance between these primitives and the lines describing the manipulator.
 
-Khatib~\cite{c33} proposes the concept of an Artificial Potential Field. This field consists of a repulsive component that deflects the end effector away from obstacles, depicted as geometric primitives, and an attractive component that draws the manipulator towards its target. In the following years many different modifications and improvement of the original APF idea have been proposed, often focused on removal of local minimas in the potential field. Khim and Khosla~\cite{c40} suggested the use of harmonic functions to solve the problem of local minima. Pinto et al. \cite{c43} proposes to vary the field based on the distance of robot from obstacles to fill the local minima.
+Khatib~\cite{c33} proposes the concept of an Artificial Potential Field. This field consists of a repulsive component that deflects the end effector away from obstacles, depicted as geometric primitives, and an attractive component that draws the manipulator towards its target. In the following years many different modifications and improvement of the original APF idea have been proposed, often focused on removal of local minimas in the potential field. Khim and Khosla~\cite{c40} suggested the use of harmonic functions to solve the problem of local minima. Pinto et al. \cite{c43} proposes to vary the field based on the distance of robot from obstacles to fill the local minima. Many researchers tried using APF as a heuristic to better guide sampling based approaches~\cite{c45, c46, c47}.
 
-Many of the recent works focus on use of a variation of artificial potential field to plan motion of the manipulator. Long~\cite{c44} suggests creating motion plan of the manipulator using APF, he extends it using RRT to calculate virtual attractive point for the robot to move towards in case of local minima. \add{cite 1 2 3 4 5}
-
-\add{\\
-THESE SEMINAL WORKS HAVE BEEN FURTHER DEVELOPED / APPLIED IN ... add 5-10 modern citations
-\\
-\\
-}
-
+Many of the recent works focus on use of a variation of artificial potential field to plan motion of the manipulator. Xia et al.~\cite{c49} uses a variation of APF for manipulator motion~\cite{c49}. Chen et al. proposes an application using APF in joint space and a variable kinematic optimization step~\cite{c50}. Long~\cite{c44} suggests creating motion plan of the manipulator using APF, he extends it using RRT to calculate virtual attractive point for the robot to move towards in case of local minima. Zhu et al. proposes use of APF in combination with MPC, to plan in environment with dynamic obstacles~\cite{c48}.
 
 \add{
- -used for obstacle avoidance \\
- -used for task manip, ... , ...
- -fix citation styles
+ -fix citation styles (sometimes et al, sometimes not, sometimes names, sometimes years ... not same format)
 }
-
- The inverse kinematics with task prioritisation,  Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account.
-
-\add{Maybe add optimization - global intiger programming based approaches, by Tedrake.}
-
 
 %The inverse kinematics with task prioritisation, which is based on finding a least squares solution of the manipulator joint velocities, and linear quadratic programming (LQR) are two of the local optimization methods. Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account.
 
-\add{citations}
+\subsection{Environment representation}
 
 % PREDSTAVITEV PRISTOPOV RAČUNANJA ODDALJENOSTI OVIRAM
 To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach is to represent environment with geomertic primitives such as bounding boxes or spheres. Another way is to divide the occupied space into hierarhical trees, such as octatree, to make calculations more efficient. Such representations are memory effective and offer simple and computationally undemanding distance calculation and collision detection. These representations are widely used in computer simulations and games, however they can be suboptimal for real environment, where sensor measurements arent always accurate and contain only part of the surrounding space. This can lead to approximation errors, which are additionally probelmatic when we are dealing with irregularly shaped objects.
@@ -300,6 +292,43 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 \bibitem{c43} M. F. Pinto, T. R. F. Mendonça, L. R. Olivi, E. B. Costa, and A. L. M. Marcato, “Modified approach using variable charges to solve inherent limitations of potential fields method,” in Proc. 2014 11th IEEE/IAS International Conference on Industry Applications, Dec. 2014, pp. 1–6. doi: 10.1109/INDUSCON.2014.7059414.
 
 \bibitem{c44} Z. Long, “Virtual target point-based obstacle-avoidance method for manipulator systems in a cluttered environment,” Engineering Optimization, vol. 52, no. 11, Art. no. 11, Nov. 2020. doi: 10.1080/0305215X.2019.1681986.
+
+\bibitem{c45} A. H. Qureshi and Y. Ayaz, “Potential Functions based Sampling Heuristic For Optimal Path Planning,” Auton Robot, vol. 40, no. 6, Art. no. 6, Aug. 2016. doi: 10.1007/s10514-015-9518-0.
+
+\bibitem{c46} A. H. Qureshi et al., “Adaptive Potential guided directional-RRT*,” in Proc. 2013 IEEE International Conference on Robotics and Biomimetics (ROBIO), Shenzhen, China, Dec. 2013, pp. 1887–1892. doi: 10.1109/ROBIO.2013.6739744.
+
+\bibitem{c47} J. Yi, Q. Yuan, R. Sun, and H. Bai, “Path planning of a manipulator based on an improved P\_RRT* algorithm,” Complex Intell. Syst., vol. 8, no. 3, pp. 2227–2245, Jun. 2022. doi: 10.1007/s40747-021-00628-y.
+
+\bibitem{c48} T. Zhu, J. Mao, L. Han, C. Zhang, and J. Yang, “Real-Time Dynamic Obstacle Avoidance for Robot Manipulators Based on Cascaded Nonlinear MPC With Artificial Potential Field,” IEEE Trans. Ind. Electron., pp. 1–11, 2023. doi: 10.1109/TIE.2023.3306405.
+
+\bibitem{c49} X. Xia et al., “Path Planning for Obstacle Avoidance of Robot Arm Based on Improved Potential Field Method,” Sensors, vol. 23, no. 7, Art. no. 7, Apr. 2023. doi: 10.3390/s23073754.
+
+\bibitem{c50} Y. Chen, L. Chen, J. Ding, and Y. Liu, “Research on Real-Time Obstacle Avoidance Motion Planning of Industrial Robotic Arm Based on Artificial Potential Field Method in Joint Space,” Applied Sciences, vol. 13, no. 12, p. 6973, Jan. 2023. doi: 10.3390/app13126973.
+
+\bibitem{c51} S. M. LaValle, Planning Algorithms. Cambridge: Cambridge University Press, 2006.
+
+\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, “A review of recent trend in motion planning of industrial robots,” Int J Intell Robot Appl, vol. 7, no. 2, Art. no. 2, Jun. 2023. doi: 10.1007/s41315-023-00274-2.
+
+\bibitem{vsvestka1997motion} P. {\v{S}}vestka and M. H. Overmars, “Motion planning for carlike robots using a probabilistic learning approach,” The International Journal of Robotics Research, vol. 16, no. 2, pp. 119–143, 1997.
+
+\bibitem{lavalle1998rapidly} S. LaValle, “Rapidly-exploring random trees: A new tool for path planning,” Research Report 9811, 1998.
+
+\bibitem{gammell2015batch} J. D. Gammell, S. S. Srinivasa, and T. D. Barfoot, “Batch Informed Trees (BIT*): Sampling-based Optimal Planning via the Heuristically Guided Search of Implicit Random Geometric Graphs,” in Proc. of the 2015 IEEE International Conference on Robotics and Automation (ICRA), May 2015, pp. 3067–3074. doi: 10.1109/ICRA.2015.7139620.
+
+\bibitem{karaman2010incremental} S. Karaman and E. Frazzoli, "Incremental sampling-based algorithms for optimal motion planning," in Proc. Robotics: Science and Systems (RSS), 2010.
+
+\bibitem{gammell2014informed} J. D. Gammell, S. S. Srinivasa, and T. D. Barfoot, “Informed RRT*: Optimal sampling-based path planning focused via direct sampling of an admissible ellipsoidal heuristic,” in Proc. of the 2014 IEEE/RSJ International Conference on Intelligent Robots and Systems, Chicago, IL, USA, Sep. 2014, pp. 2997–3004. doi: 10.1109/IROS.2014.6942976.
+
+\bibitem{kuffner2000rrt} J. J. Kuffner and S. M. LaValle, “RRT-connect: An efficient approach to single-query path planning,” in Proceedings of the 2000 ICRA. Millennium Conference. IEEE International Conference on Robotics and Automation. Symposia Proceedings (Cat. No.00CH37065), Apr. 2000, pp. 995–1001 vol.2. doi: 10.1109/ROBOT.2000.844730.
+
+\bibitem{siciliano1990kinematic} B. Siciliano, “Kinematic control of redundant robot manipulators: A tutorial,” J. Intell. Robot. Syst., vol. 3, no. 3, Art. no. 3, 1990, doi: 10.1007/BF00126069.
+
+\bibitem{siciliano2016springer} B. Siciliano and O. Khatib, Eds., Springer Handbook of Robotics, in Springer Handbooks. Cham: Springer International Publishing, 2016. doi: 10.1007/978-3-319-32552-1.
+
+\bibitem{siciliano2010robot} B. Siciliano, L. Sciavicco, L. Villani, and G. Oriolo, Robot. Model. Plan. Control, 2010, pp. 161–189. [Online]. Available: http://link.springer.com/10.1007/978-1-84628-642-1\_4
+
+
+
 
 
 

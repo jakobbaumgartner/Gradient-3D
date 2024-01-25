@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  9 JAN 2024 17:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  25 JAN 2024 20:00
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**"c:/Users/Jakob/Documents/GitHub/Article-Gradient-3D/Gradient-3D/Articles/Article 1/main.tex"
-(c:/Users/Jakob/Documents/GitHub/Article-Gradient-3D/Gradient-3D/Articles/Article 1/main.tex
+**./main.tex
+(main.tex
 LaTeX2e <2022-11-01> patch level 1
-L3 programming layer <2023-01-24> (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+L3 programming layer <2023-01-24>
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
 Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
 File: size10.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
@@ -22,21 +22,25 @@ File: size10.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip48
 \belowcaptionskip=\skip49
 \bibindent=\dimen140
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2022/04/08 v2.17n AMS math features
 \@mathmargin=\skip50
 
 For additional information on amsmath, use the `?' option.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks16
 \ex@=\dimen141
-)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen142
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count193
@@ -86,38 +90,53 @@ LaTeX Info: Redefining \Relbar on input line 971.
 \mathdisplay@stack=\toks20
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
+e.sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
 Package: expl3 2023-01-24 L3 programming layer (loader) 
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count271
 \l__pdf_internal_box=\box53
 ))
 Package: xparse 2023-01-16 L3 Experimental document command parser
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks21
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
 Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
 File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen150
 \Gin@req@width=\dimen151
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/easyreview\easyReview.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/easyreview\easyReview.s
+ty
 Package: easyReview 2014/06/27 Package for Easy Review on LaTeX documents
 Package: easyReview 2013/12/09 Package for Easy Review on LaTeX documents
  (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/soul\soul.sty
 Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/soul\soul-ori.sty
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/soul\soul-ori.sty
 Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
 \SOUL@word=\toks22
 \SOUL@lasttoken=\toks23
@@ -139,19 +158,24 @@ Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
 \SOUL@ttwidth=\dimen158
 \SOUL@uldp=\dimen159
 \SOUL@ulht=\dimen160
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/etexcmds\etexcmds.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/etexcmds\etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
-))) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+)))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
 Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 227.
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
 Package xcolor Info: Model `RGB' extended on input line 1369.
@@ -161,35 +185,61 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/todonotes\todonotes.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/todonotes\todonotes.sty
 Package: todonotes 2023/01/31 v1.1.6 Todonotes source and documentation.
 Package: todonotes 2023/01/31
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
 \XKV@toks=\toks28
 \XKV@tempa@toks=\toks29
 )
 \XKV@depth=\count276
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-common.tex
+))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
+sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.st
+y
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-common.tex
 \pgfutil@everybye=\toks30
 \pgfutil@tempdima=\dimen161
 \pgfutil@tempdimb=\dimen162
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-latex.def
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-latex.def
 \pgfutil@abb=\box54
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.code.tex (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.
+code.tex
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
 Package: pgf 2023-01-15 v3.1.10 (3.1.10)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys.code.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
+sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
+sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s.code.tex
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
 \pgfkeys@pathtoks=\toks31
 \pgfkeys@temptoks=\toks32
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeyslibraryfiltered.code.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+libraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks33
 ))
 \pgf@x=\dimen163
@@ -212,32 +262,76 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \t@pgf@tokb=\toks35
 \t@pgf@tokc=\toks36
 \pgf@sys@id@count=\count281
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.cfg
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
+fg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
 Driver file for pgf: pgfsys-pdftex.def
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys-pdftex.def
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-pdftex.def
 File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys-common-pdf.def
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-common-pdf.def
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
-))) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsyssoftpath.code.tex
+)))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+ssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfsyssoftpath@smallbuffer@items=\count282
 \pgfsyssoftpath@bigbuffer@items=\count283
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsysprotocol.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+sprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore.code.tex
+))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+e.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparser.code.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.
+code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
+r.code.tex
 \pgfmath@dimen=\dimen173
 \pgfmath@count=\count284
 \pgfmath@box=\box55
 \pgfmath@toks=\toks37
 \pgfmath@stack@operand=\toks38
 \pgfmath@stack@operation=\toks39
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.basic.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.trigonometric.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.random.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.comparison.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.base.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.round.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.misc.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.integerarithmetics.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.integerarithmetics.code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.
+code.tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
+.code.tex
 \c@pgfmathroundto@lastzeros=\count285
-)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.tex) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepoints.code.tex
+))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
+tex)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@picminx=\dimen174
 \pgf@picmaxx=\dimen175
@@ -253,75 +347,130 @@ File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@yy=\dimen185
 \pgf@zx=\dimen186
 \pgf@zy=\dimen187
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathconstruct.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@path@lastx=\dimen188
 \pgf@path@lasty=\dimen189
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathusage.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@shorten@end@additional=\dimen190
 \pgf@shorten@start@additional=\dimen191
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorescopes.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+escopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfpic=\box56
 \pgf@hbox=\box57
 \pgf@layerbox@main=\box58
 \pgf@picture@serial@count=\count286
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoregraphicstate.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+egraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgflinewidth=\dimen192
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretransformations.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@pt@x=\dimen193
 \pgf@pt@y=\dimen194
 \pgf@pt@temp=\dimen195
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorequick.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+equick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreobjects.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eobjects.code.tex
 File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathprocessing.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorearrows.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+earrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfarrowsep=\dimen196
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreshade.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@max=\dimen197
 \pgf@sys@shading@range@num=\count287
 \pgf@shadingcount=\count288
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreimage.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreexternal.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfexternal@startupbox=\box59
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorelayers.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+elayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretransparency.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransparency.code.tex
 File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepatterns.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epatterns.code.tex
 File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorerdf.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+erdf.code.tex
 File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduleshapes.code.tex
+)))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+shapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfnodeparttextbox=\box60
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduleplot.code.tex
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+plot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-0-65.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
 \pgf@nodesepstart=\dimen198
 \pgf@nodesepend=\dimen199
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-1-18.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
-)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.code.tex
+))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.st
+y
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.s
+ty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.
+code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen256
 \pgffor@skip=\dimen257
 \pgffor@stack=\toks40
 \pgffor@toks=\toks41
-)) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz\tikz.code.tex
+))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z\tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibraryplothandlers.code.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@plot@mark@count=\count289
 \pgfplotmarksize=\dimen258
@@ -342,18 +491,25 @@ File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikznumberofchildren=\count291
 \tikznumberofcurrentchild=\count292
 \tikz@fig@count=\count293
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulematrix.code.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+matrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfmatrixcurrentrow=\count294
 \pgfmatrixcurrentcolumn=\count295
 \pgf@matrix@numberofcolumns=\count296
 )
 \tikz@expandcount=\count297
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarytopaths.code.tex
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarypositioning.code.tex
+)))
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count298
 \calc@Bcount=\count299
@@ -367,7 +523,8 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Cskip=\skip56
 )
 \c@@todonotes@numberoftodonotes=\count301
-)) (main.aux)
+))
+(main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
@@ -384,7 +541,9 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count302
 \scratchdimen=\dimen269
@@ -397,65 +556,104 @@ LaTeX Font Info:    ... okay on input line 17.
 \MPnumerator=\count306
 \makeMPintoPDFobject=\count307
 \everyMPtoPDFconversion=\toks43
-) (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+)
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
- (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 )) [1
 
-{C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2] [3] [4] [5]
-Package epstopdf Info: Source file: <manipulator-kernels-visualization-grid-small.eps>
+{C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+[2] [3] [4] [5]
+Package epstopdf Info: Source file: <manipulator-kernels-visualization-grid-sma
+ll.eps>
 (epstopdf)                    date: 2024-01-04 13:48:34
 (epstopdf)                    size: 90161 bytes
-(epstopdf)             Output file: <manipulator-kernels-visualization-grid-small-eps-converted-to.pdf>
+(epstopdf)             Output file: <manipulator-kernels-visualization-grid-sma
+ll-eps-converted-to.pdf>
 (epstopdf)                    date: 2024-01-04 13:48:47
 (epstopdf)                    size: 82885 bytes
-(epstopdf)             Command: <miktex-epstopdf --outfile=manipulator-kernels-visualization-grid-small-eps-converted-to.pdf manipulator-kernels-visualization-grid-small.eps>
+(epstopdf)             Command: <miktex-epstopdf --outfile=manipulator-kernels-
+visualization-grid-small-eps-converted-to.pdf manipulator-kernels-visualization
+-grid-small.eps>
 (epstopdf)             \includegraphics on input line 251.
 Package epstopdf Info: Output file is already uptodate.
 
 
-pdfTeX warning: pdflatex (file ./manipulator-kernels-visualization-grid-small-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<manipulator-kernels-visualization-grid-small-eps-converted-to.pdf, id=33, 421.575pt x 316.18124pt>
-File: manipulator-kernels-visualization-grid-small-eps-converted-to.pdf Graphic file (type pdf)
+pdfTeX warning: pdflatex.exe (file ./manipulator-kernels-visualization-grid-sma
+ll-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most v
+ersion <1.5> allowed
+<manipulator-kernels-visualization-grid-small-eps-converted-to.pdf, id=33, 421.
+575pt x 316.18124pt>
+File: manipulator-kernels-visualization-grid-small-eps-converted-to.pdf Graphic
+ file (type pdf)
 <use manipulator-kernels-visualization-grid-small-eps-converted-to.pdf>
-Package pdftex.def Info: manipulator-kernels-visualization-grid-small-eps-converted-to.pdf  used on input line 251.
+Package pdftex.def Info: manipulator-kernels-visualization-grid-small-eps-conve
+rted-to.pdf  used on input line 251.
 (pdftex.def)             Requested size: 345.0pt x 258.75406pt.
 
 Overfull \hbox (15.0pt too wide) in paragraph at lines 251--252
 [][] 
  []
 
-[6 <./manipulator-kernels-visualization-grid-small-eps-converted-to.pdf>] [7] [8]
+[6 <./manipulator-kernels-visualization-grid-small-eps-converted-to.pdf>]
+[7] [8]
 Package epstopdf Info: Source file: <field3D_visualization-3figures.eps>
 (epstopdf)                    date: 2024-01-04 18:48:50
 (epstopdf)                    size: 76789 bytes
-(epstopdf)             Output file: <field3D_visualization-3figures-eps-converted-to.pdf>
+(epstopdf)             Output file: <field3D_visualization-3figures-eps-convert
+ed-to.pdf>
 (epstopdf)                    date: 2024-01-04 18:49:52
 (epstopdf)                    size: 64438 bytes
-(epstopdf)             Command: <miktex-epstopdf --outfile=field3D_visualization-3figures-eps-converted-to.pdf field3D_visualization-3figures.eps>
+(epstopdf)             Command: <miktex-epstopdf --outfile=field3D_visualizatio
+n-3figures-eps-converted-to.pdf field3D_visualization-3figures.eps>
 (epstopdf)             \includegraphics on input line 452.
 Package epstopdf Info: Output file is already uptodate.
 
 
-pdfTeX warning: pdflatex (file ./field3D_visualization-3figures-eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<field3D_visualization-3figures-eps-converted-to.pdf, id=50, 271.0125pt x 424.58624pt>
-File: field3D_visualization-3figures-eps-converted-to.pdf Graphic file (type pdf)
+pdfTeX warning: pdflatex.exe (file ./field3D_visualization-3figures-eps-convert
+ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
+llowed
+<field3D_visualization-3figures-eps-converted-to.pdf, id=50, 271.0125pt x 424.5
+8624pt>
+File: field3D_visualization-3figures-eps-converted-to.pdf Graphic file (type pd
+f)
 <use field3D_visualization-3figures-eps-converted-to.pdf>
-Package pdftex.def Info: field3D_visualization-3figures-eps-converted-to.pdf  used on input line 452.
+Package pdftex.def Info: field3D_visualization-3figures-eps-converted-to.pdf  u
+sed on input line 452.
 (pdftex.def)             Requested size: 258.75pt x 405.38895pt.
-[9] [10 <./field3D_visualization-3figures-eps-converted-to.pdf>] [11] (main.aux) ) 
+[9] [10 <./field3D_visualization-3figures-eps-converted-to.pdf>] [11] (main.aux
+) ) 
 Here is how much of TeX's memory you used:
- 13832 strings out of 476375
- 288210 string characters out of 5788976
+ 13830 strings out of 476375
+ 287957 string characters out of 5788976
  1877299 words of memory out of 5000000
  33965 multiletter control sequences out of 15000+600000
  518590 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 114i,10n,108p,1230b,987s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on main.pdf (11 pages, 368443 bytes).
+ 114i,10n,108p,1147b,987s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmbx12.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmbx9.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/font
+s/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Jakob/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Jakob/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Jakob/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/User
+s/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+<C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+r17.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr5.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on main.pdf (11 pages, 368479 bytes).
 PDF statistics:
  125 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
