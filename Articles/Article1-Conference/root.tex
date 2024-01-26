@@ -146,7 +146,7 @@ Many of the recent works focus on use of a variation of artificial potential fie
 % PREDSTAVITEV PRISTOPOV RAČUNANJA ODDALJENOSTI OVIRAM
 %To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach is to enclose the obstacles around the manipulator into a collection of simple geometric primitives and then construct a tree-like structure to achieve the goal~\cite{dai2022review}. Some of the commonly used methods are AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path}, OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}.
 
-To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach involves enclosing the obstacles around the manipulator within a collection of simple geometric primitives and then constructing a tree-like structure to facilitate efficient navigation and path planning~\cite{dai2022review}. Two of the commonly used methods for this purpose include AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path} and OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}\remove{and FDH (fixed directions hulls).}. Another significant method worth mentioning is the use of Octomaps~\cite{wurmOctoMap}. Octomaps employ an octree data structure to represent 3D environments efficiently, making them particularly suitable for areas with large open spaces. 
+To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach involves enclosing the obstacles around the manipulator within a collection of simple geometric primitives and then constructing a tree-like structure to facilitate efficient navigation and path planning~\cite{dai2022review}. Two of the commonly used methods for this purpose include AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path, luo2018collisionfree} and OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}\remove{and FDH (fixed directions hulls).}. Another significant method worth mentioning is the use of Octomaps~\cite{wurmOctoMap}. Octomaps employ an octree data structure to represent 3D environments efficiently, making them particularly suitable for areas with large open spaces. 
 
 In real environment we usually collect depth data with LiDAR, radar of RGBD camera sensors, that usually return clouds of points, that tell us the distance of objects in robots environment. While approaches have been proposed to use the point-cloud data directly to find obstacle free areas for robot operation~\cite{gao2019flying}, the data is often further converted into voxel grids~\cite{xu2021voxel, oleynikova2017voxblox, han2019fiesta}.
 
@@ -154,11 +154,13 @@ Voxel grid~\cite{xu2021voxel, elfes1989using} representation divides the space i
 
 Voxel grids can incorporate probabilistic information~\cite{thrun2002probabilistic, dryanovski2010multivolume}, such as in occupancy grid maps, where each voxel holds a probability indicating the chance of an obstacle's presence. The occupancy probability of a voxel can be updated dynamically using sensor measurements and Bayesian updating methods. As new sensor data is collected, the probabilities are revised to reflect the increased or decreased likelihood of the presence of an obstacle in the voxel space. 
 
-Voxel grids can represent ESDF (Euclidian Signed Distance Field) and TSDF (Truncated Signed Distance Field)~\cite{oleynikova2017voxblox}, in which case each of the voxels contains information how far nearest obstacle is in its vicinity.
+Another type of data that voxel fields can hold are ESDF (Euclidian Signed Distance Field) or TSDF (Truncated Signed Distance Field)~\cite{oleynikova2017voxblox}, in which case each of the voxels contains information how far nearest obstacle is in its vicinity.
+
+\subsection{ESDF creation}
 
 ESDF grids can be generated using sensor measurements. Oleynikova et al.~\cite{oleynikova2017voxblox} proposed a method for calculating the ESDF from TSDF. Han et al.~\cite{han2019fiesta} proposed a way to integrate point-cloud data into ESDF using ray-casting.  
 
-Another way is to generate ESDF from occupancy grids. One common approach is the Brushfire method, that spreads from obstacles until it calculates the distance for every field on a grid. \add{distance transforms} Jump Flooding Algorithm (JFA) is a similar method, that can be implemented on a GPU for faster parallel distance calculation.  
+Another way is to generate ESDF from occupancy grids. When generating ESDF from occupancy grid, common approach is the Brushfire method~\cite{lau2010improved}, that spreads from obstacles until it calculates the distance for every field on a grid. Jump Flooding Algorithm (JFA) is a similar method, that can be implemented on a GPU for faster parallel distance calculation.  
 
 \add{\\-Wavefront \\
 	 -D* Klančar\\
@@ -296,6 +298,9 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 
 \bibitem{thrun2002probabilistic} S. Thrun, Probabilistic robotics, vol. 45, 2002. Accessed: Jun. 14, 2023. [Online]. Available: https://dl.acm.org/doi/10.1145/504729.504754
 
+\bibitem{lau2010improved} B. Lau, C. Sprunk, and W. Burgard, “Improved updating of Euclidean distance maps and Voronoi diagrams,” in Proc. of the 2010 IEEE/RSJ International Conference on Intelligent Robots and Systems, Taipei, Oct. 2010, pp. 281–286. doi: 10.1109/IROS.2010.5650794.
+
+\bibitem{luo2018collisionfree} L. Luo et al., “Collision-Free Path-Planning for Six-DOF Serial Harvesting Robot Based on Energy Optimal and Artificial Potential Field,” Complexity, vol. 2018, pp. 1–12, Nov. 2018, doi: 10.1155/2018/3563846.
 
 
 
