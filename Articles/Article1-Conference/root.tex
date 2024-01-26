@@ -144,70 +144,33 @@ Many of the recent works focus on use of a variation of artificial potential fie
 \subsection{Environment representation}
 
 % PREDSTAVITEV PRISTOPOV RAČUNANJA ODDALJENOSTI OVIRAM
-To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach is to represent environment with geomertic primitives such as bounding boxes or spheres. Another way is to divide the occupied space into hierarhical trees, such as octatree, to make calculations more efficient. Such representations are memory effective and offer simple and computationally undemanding distance calculation and collision detection. These representations are widely used in computer simulations and games, however they can be suboptimal for real environment, where sensor measurements arent always accurate and contain only part of the surrounding space. This can lead to approximation errors, which are additionally probelmatic when we are dealing with irregularly shaped objects.
+%To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach is to enclose the obstacles around the manipulator into a collection of simple geometric primitives and then construct a tree-like structure to achieve the goal~\cite{dai2022review}. Some of the commonly used methods are AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path}, OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}.
 
-Point-cloud representation captures the environment by directly using a collection of points obtained from sensors like LiDAR, radar of RGBD camera, providing a more precise depiction of space than bounding boxes or spheres. This method can more accurately represent the complex and irregular shapes of real-world objects, although it typically requires more memory and computational power to process, which can make it chllenging for real-time representation. Point cloud data is often further converted into voxel grids.
+To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach involves enclosing the obstacles around the manipulator within a collection of simple geometric primitives and then constructing a tree-like structure to facilitate efficient navigation and path planning~\cite{dai2022review}. Two of the commonly used methods for this purpose include AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path} and OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}\remove{and FDH (fixed directions hulls).}. Another significant method worth mentioning is the use of Octomaps~\cite{wurmOctoMap}. Octomaps employ an octree data structure to represent 3D environments efficiently, making them particularly suitable for areas with large open spaces. 
 
-Voxel grid representation divides the space into a regular grid of volumetric elements, or voxels, which can be used to create a more manageable approximation of the environment. While this approach offers a balance between detail and computational efficiency, it can still introduce discretization errors, particularly when modeling objects with smooth surfaces or intricate details. The fidelity of the representation is dependent on the size of the voxels: smaller voxels can capture more detail but require more memory and computation, while larger voxels result in coarser approximations but are more memory-efficient, adaptive voxel grids have been explored, where the voxel size can vary throughout the space to provide higher resolution in regions of interest while conserving resources in less critical areas. Voxel grids can incorporate probabilistic information, such as in occupancy grid maps, where each voxel holds a probability indicating the chance of an obstacle's presence. The occupancy probability of a voxel can be updated dynamically using sensor measurements and Bayesian updating methods. As new sensor data is collected, the probabilities are revised to reflect the increased or decreased likelihood of the presence of an obstacle in the voxel space. Additionally, techniques such as ESDF (Euclidian Signed Distance Field) and TSDF (Truncated Signed Distance Field) can be utilized in conjunction with voxel grids to encode signed distance information, that describes what is the distance between the selected voxel field and the nearest occupied field.
+In real environment we usually collect depth data with LiDAR, radar of RGBD camera sensors, that usually return clouds of points, that tell us the distance of objects in robots environment. While approaches have been proposed to use the point-cloud data directly to find obstacle free areas for robot operation~\cite{gao2019flying}, the data is often further converted into voxel grids~\cite{xu2021voxel, oleynikova2017voxblox, han2019fiesta}.
 
-There has been a number of proposed algorithms for calculating ESDF. One common method is the Brushfire method, that spreads from obstacles until it calculates the distance for every field on a grid. \add{distance transforms} Jump Flooding Algorithm (JFA) is a similar method, that can be implemented on a GPU for faster parallel distance calculation.  
+Voxel grid~\cite{xu2021voxel, elfes1989using} representation divides the space into a regular grid of volumetric elements, or voxels, which can be used to create a more manageable approximation of the environment. While this approach offers a balance between detail and computational efficiency, it can introduce discretization errors, particularly when modeling objects with smooth surfaces or intricate details. The fidelity of the representation is dependent on the size of the voxels: smaller voxels can capture more detail but require more memory and computation, while larger voxels result in coarser approximations but are more memory and computation efficient. Adaptive voxel grids have been explored~\cite{xu2021voxel}, where the voxel size can vary throughout the space to provide higher resolution in regions of interest while conserving resources in less critical areas. Nießner et al.~\cite{niessner2013realtime} proposed Voxel hashing, for more efficient memory management in sparse environments. 
+
+Voxel grids can incorporate probabilistic information~\cite{thrun2002probabilistic, dryanovski2010multivolume}, such as in occupancy grid maps, where each voxel holds a probability indicating the chance of an obstacle's presence. The occupancy probability of a voxel can be updated dynamically using sensor measurements and Bayesian updating methods. As new sensor data is collected, the probabilities are revised to reflect the increased or decreased likelihood of the presence of an obstacle in the voxel space. 
+
+Voxel grids can represent ESDF (Euclidian Signed Distance Field) and TSDF (Truncated Signed Distance Field)~\cite{oleynikova2017voxblox}, in which case each of the voxels contains information how far nearest obstacle is in its vicinity.
+
+ESDF grids can be generated using sensor measurements. Oleynikova et al.~\cite{oleynikova2017voxblox} proposed a method for calculating the ESDF from TSDF. Han et al.~\cite{han2019fiesta} proposed a way to integrate point-cloud data into ESDF using ray-casting.  
+
+Another way is to generate ESDF from occupancy grids. One common approach is the Brushfire method, that spreads from obstacles until it calculates the distance for every field on a grid. \add{distance transforms} Jump Flooding Algorithm (JFA) is a similar method, that can be implemented on a GPU for faster parallel distance calculation.  
+
 \add{\\-Wavefront \\
 	 -D* Klančar\\
  	 -Euclidian distnace algorithms\\
  	 -distance transforms\\
   	 -voronoi diagrams\\
-   	 -voxblox, FIESTA \\
      -ray casting, bullet casting ...}
  
  \alert{10-ish citatov iz seznama ni klicanih v tekstu !}
 
 \clearpage
 
-\section{USING THE TEMPLATE}
-
-Use this sample document as your LaTeX source file to create your document. Save this file as {\bf root.tex}. You have to make sure to use the cls file that came with this distribution. If you use a different style file, you cannot expect to get required margins. Note also that when you are creating your out PDF file, the source file is only part of the equation. {\it Your \TeX\ $\rightarrow$ PDF filter determines the output file size. Even if you make all the specifications to output a letter file in the source - if your filter is set to produce A4, you will only get A4 output. }
-
-It is impossible to account for all possible situation, one would encounter using \TeX. If you are using multiple \TeX\ files you must make sure that the ``MAIN`` source file is called root.tex - this is particularly important if your conference is using PaperPlaza's built in \TeX\ to PDF conversion tool.
-
-\subsection{Headings, etc}
-
-Text heads organize the topics on a relational, hierarchical basis. For example, the paper title is the primary text head because all subsequent material relates and elaborates on this one topic. If there are two or more sub-topics, the next level head (uppercase Roman numerals) should be used and, conversely, if there are not at least two sub-topics, then no subheads should be introduced. Styles named  Heading 1 ,  Heading 2 ,  Heading 3 , and  Heading 4  are prescribed.
-
-\subsection{Figures and Tables}
-
-Positioning Figures and Tables: Place figures and tables at the top and bottom of columns. Avoid placing them in the middle of columns. Large figures and tables may span across both columns. Figure captions should be below the figures; table heads should appear above the tables. Insert figures and tables after they are cited in the text. Use the abbreviation  Fig. 1 , even at the beginning of a sentence.
-
-\begin{table}[h]
-\caption{An Example of a Table}
-\label{table_example}
-\begin{center}
-\begin{tabular}{|c||c|}
-\hline
-One & Two\\
-\hline
-Three & Four\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-
-   \begin{figure}[thpb]
-      \centering
-      \framebox{\parbox{3in}{We suggest that you use a text box to insert a graphic (which is ideally a 300 dpi TIFF or EPS file, with all fonts embedded) because, in an document, this method is somewhat more stable than directly inserting a picture.
-}}
-      %\includegraphics[scale=1.0]{figurefile}
-      \caption{Inductance of oscillation winding on amorphous
-       magnetic core versus DC bias magnetic field}
-      \label{figurelabel}
-   \end{figure}
-   
-
-Figure Labels: Use 8 point Times New Roman for Figure labels. Use words rather than symbols or abbreviations when writing Figure axis labels to avoid confusing the reader. As an example, write the quantity  Magnetization , or  Magnetization, M , not just  M . If including units in the label, present them within parentheses. Do not label axes only with units. In the example, write  Magnetization (A/m)  or  Magnetization {A[m(1)]} , not just  A/m . Do not label axes with a ratio of quantities and units. For example, write  Temperature (K) , not  Temperature/K. 
-
-\section{CONCLUSIONS}
-
-A conclusion section is not required. Although a conclusion may review the main points of the paper, do not replicate the abstract as the conclusion. A conclusion might elaborate on the importance of the work or suggest applications and extensions. 
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
@@ -215,30 +178,6 @@ A conclusion section is not required. Although a conclusion may review the main 
                                   % This command does not take effect until the next page
                                   % so it should come on the page before the last. Make
                                   % sure that you do not shorten the textheight too much.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{APPENDIX}
-
-Appendixes should appear before the acknowledgment.
-
-\section*{ACKNOWLEDGMENT}
-
-The preferred spelling of the word  acknowledgment  in America is without an  e  after the  g . Avoid the stilted expression,  One of us (R. B. G.) thanks . . .   Instead, try  R. B. G. thanks . Put sponsor acknowledgments in the unnumbered footnote on the first page.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-References are important to the reader; therefore, each citation must be complete and correct. If at all possible, references should be commonly available publications.
-
 
 
 \begin{thebibliography}{99}
@@ -329,7 +268,33 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 
 \bibitem{siciliano2010robot} B. Siciliano, L. Sciavicco, L. Villani, and G. Oriolo, Robot. Model. Plan. Control, 2010, pp. 161–189. [Online]. Available: http://link.springer.com/10.1007/978-1-84628-642-1\_4
 
+\bibitem{dai2022review} Y. Dai, C. Xiang, Y. Zhang, Y. Jiang, W. Qu, and Q. Zhang, “A Review of Spatial Robotic Arm Trajectory Planning,” Aerospace, vol. 9, p. 361, Jul. 2022, doi: 10.3390/aerospace9070361.
 
+\bibitem{gottschalk1996obbtree} S. Gottschalk, M. C. Lin, and D. Manocha, “OBBTree: a hierarchical structure for rapid interference detection,” in Proceedings of the 23rd Annual Conference on Computer Graphics and Interactive Techniques, ACM, Aug. 1996, pp. 171–180. doi: 10.1145/237170.237244.
+
+\bibitem{vandenbergen1997efficient} G. van den Bergen, “Efficient Collision Detection of Complex Deformable Models using AABB Trees,” Journal of Graphics Tools, vol. 2, no. 4, pp. 1–13, 1997. doi: 10.1080/10867651.1997.10487480.
+
+\bibitem{chen2018path} G. Chen, D. Liu, Y. Wang, Q. Jia, and X. Zhang, “Path planning method with obstacle avoidance for manipulators in dynamic environment,” International Journal of Advanced Robotic Systems, vol. 15, no. 6, Art. no. 1729881418820223, Nov. 2018, doi: 10.1177/1729881418820223.
+
+\bibitem{puiu2011realtime} D. Puiu and F. Moldoveanu, “Real-time collision avoidance for redundant manipulators,” in Proc. of the 2011 6th IEEE International Symposium on Applied Computational Intelligence and Informatics (SACI), Timisoara, Romania, 2011, pp. 403–408, doi: 10.1109/SACI.2011.5873037.
+
+\bibitem{oleynikova2017voxblox} H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, “Voxblox: Incremental 3D Euclidean Signed Distance Fields for on-board MAV planning,” in Proc. of the 2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Vancouver, BC, Sep. 2017, pp. 1366–1373. doi: 10.1109/IROS.2017.8202315.
+
+\bibitem{wurmOctoMap} K. M. Wurm, A. Hornung, M. Bennewitz, C. Stachniss, and W. Burgard, “OctoMap: A Probabilistic, Flexible, and Compact 3D Map Representation for Robotic Systems,” [Details of publication, e.g., in Proc. of the Conference/Journal Name, Year, pp. Page numbers]. [DOI or URL if available].
+
+\bibitem{gao2019flying} F. Gao, W. Wu, W. Gao, and S. Shen, “Flying on point clouds: Online trajectory generation and autonomous navigation for quadrotors in cluttered environments,” Journal of Field Robotics, vol. 36, no. 4, pp. 710–733, 2019, doi: 10.1002/rob.21842.
+
+\bibitem{elfes1989using} A. Elfes, “Using occupancy grids for mobile robot perception and navigation,” Computer, vol. 22, no. 6, pp. 46–57, Jun. 1989, doi: 10.1109/2.30720.
+
+\bibitem{han2019fiesta} L. Han, F. Gao, B. Zhou, and S. Shen, “FIESTA: Fast Incremental Euclidean Distance Fields for Online Motion Planning of Aerial Robots,” arXiv, Jul. 26, 2019. Accessed: Jan. 11, 2024. [Online]. Available: http://arxiv.org/abs/1903.02144
+
+\bibitem{xu2021voxel} Y. Xu, X. Tong, and U. Stilla, “Voxel-based representation of 3D point clouds: Methods, applications, and its potential use in the construction industry,” Automation in Construction, vol. 126, p. 103675, Jun. 2021, doi: 10.1016/j.autcon.2021.103675.
+
+\bibitem{niessner2013realtime} M. Nießner, M. Zollhöfer, S. Izadi, and M. Stamminger, “Real-time 3D reconstruction at scale using voxel hashing,” ACM Trans. Graph., vol. 32, no. 6, pp. 1–11, Nov. 2013, doi: 10.1145/2508363.2508374.
+
+\bibitem{dryanovski2010multivolume} I. Dryanovski, W. Morris, and J. Xiao, “Multi-volume occupancy grids: An efficient probabilistic 3D mapping model for micro aerial vehicles,” in Proc. of the 2010 IEEE/RSJ International Conference on Intelligent Robots and Systems, Taipei, Oct. 2010, pp. 1553–1559. doi: 10.1109/IROS.2010.5652494.
+
+\bibitem{thrun2002probabilistic} S. Thrun, Probabilistic robotics, vol. 45, 2002. Accessed: Jun. 14, 2023. [Online]. Available: https://dl.acm.org/doi/10.1145/504729.504754
 
 
 
