@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  26 JAN 2024 17:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  29 JAN 2024 21:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -755,12 +755,10 @@ Underfull \hbox (badness 6016) in paragraph at lines 94--95
 [1{C:/Users/Jakob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 
-]
-Underfull \hbox (badness 2626) in paragraph at lines 157--158
-\OT1/ptm/m/n/10 Dis-tance Field) or TSDF (Trun-cated Signed Dis-tance
- []
+] [2]
+[3
 
-[2]
+]
 Underfull \hbox (badness 5696) in paragraph at lines 193--194
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
@@ -814,7 +812,7 @@ Underfull \hbox (badness 2384) in paragraph at lines 263--264
 \OT1/ptm/m/n/8 Sys-tems, Chicago, IL, USA, Sep. 2014, pp. 2997{3004. doi:
  []
 
-[3
+[4
 
 ]
 Underfull \hbox (badness 2173) in paragraph at lines 271--272
@@ -846,6 +844,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 299--300
 \OT1/ptm/m/n/8 Ac-cessed: Jun. 14, 2023. [On-line]. Avail-able:
  []
 
+[5]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -857,18 +856,20 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[4] (root.aux)
+[6
+
+] (root.aux)
 Package rerunfilecheck Info: File `root.out' has not changed.
 (rerunfilecheck)             Checksum: 9CE9E6015FA68C670641C1B13D6930CD;1043.
  ) 
 Here is how much of TeX's memory you used:
- 20237 strings out of 476375
- 389574 string characters out of 5788976
+ 20245 strings out of 476375
+ 389665 string characters out of 5788976
  1928299 words of memory out of 5000000
- 40227 multiletter control sequences out of 15000+600000
+ 40230 multiletter control sequences out of 15000+600000
  546272 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,10n,132p,1047b,582s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 132i,10n,132p,1047b,585s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
 /Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.
 pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
@@ -878,9 +879,9 @@ s/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/time
 s/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/tim
 es/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/tim
 es/utmri8a.pfb>
-Output written on root.pdf (4 pages, 123056 bytes).
+Output written on root.pdf (6 pages, 125682 bytes).
 PDF statistics:
- 163 PDF objects out of 1000 (max. 8388607)
- 68 named destinations out of 1000 (max. 500000)
+ 176 PDF objects out of 1000 (max. 8388607)
+ 73 named destinations out of 1000 (max. 500000)
  69 words of extra memory for PDF output out of 10000 (max. 10000000)
 
