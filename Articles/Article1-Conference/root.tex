@@ -133,11 +133,7 @@ These approaches typically do not focus on the environmental context, often repr
 
 Khatib~\cite{c33} proposes the concept of an Artificial Potential Field. This field consists of a repulsive component that deflects the end effector away from obstacles, depicted as geometric primitives, and an attractive component that draws the manipulator towards its target. In the following years many different modifications and improvement of the original APF idea have been proposed, often focused on removal of local minimas in the potential field. Khim and Khosla~\cite{c40} suggested the use of harmonic functions to solve the problem of local minima. Pinto et al. \cite{c43} proposes to vary the field based on the distance of robot from obstacles to fill the local minima. Many researchers tried using APF as a heuristic to better guide sampling based approaches~\cite{c45, c46, c47}.
 
-Many of the recent works focus on use of a variation of artificial potential field to plan motion of the manipulator. Xia et al.~\cite{c49} uses a variation of APF for manipulator motion~\cite{c49}. Zhang et al.~\cite{zhang2021obstacle} proposes dynamic repulsive field based on direction and speed between point on robot and obstacle, it also suggests decision making force that moves the robot away from certain local minima. Chen et al. proposes\remove{ an application }using APF in joint space and a variable kinematic optimization step~\cite{c50}. Long~\cite{c44} suggests creating motion plan of the manipulator using APF, he extends it using RRT to calculate virtual attractive point for the robot to move towards in case of local minima. Zhu et al.~\cite{c48} proposes use of APF in combination with MPC, to plan in environment with dynamic obstacles.
-
-\alert{
- -fix citation styles (sometimes et al, sometimes not, sometimes names, sometimes years ... not same format)
-}
+Many of the recent works focus on use of a variation of artificial potential field to plan motion of the manipulator. Xia et al.~\cite{c49} uses a variation of APF for manipulator motion~\cite{c49}. Park et al.~\cite{park2020trajectory} used a numerical Jacobian in combination with APF for motion planning. Zhang et al.~\cite{zhang2021obstacle} proposes dynamic repulsive field based on direction and speed between point on robot and obstacle, it also suggests decision making force that moves the robot away from certain local minima. Chen et al. proposes\remove{ an application }using APF in joint space and a variable kinematic optimization step~\cite{c50}. Long~\cite{c44} suggests creating motion plan of the manipulator using APF, he extends it using RRT to calculate virtual attractive point for the robot to move towards in case of local minima. Zhu et al.~\cite{c48} proposes use of APF in combination with MPC, to plan in environment with dynamic obstacles.
 
 %The inverse kinematics with task prioritisation, which is based on finding a least squares solution of the manipulator joint velocities, and linear quadratic programming (LQR) are two of the local optimization methods. Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account.
 
@@ -146,7 +142,7 @@ Many of the recent works focus on use of a variation of artificial potential fie
 % PREDSTAVITEV PRISTOPOV RAČUNANJA ODDALJENOSTI OVIRAM
 %To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach is to enclose the obstacles around the manipulator into a collection of simple geometric primitives and then construct a tree-like structure to achieve the goal~\cite{dai2022review}. Some of the commonly used methods are AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path}, OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}.
 
-To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach involves enclosing the obstacles around the manipulator within a collection of simple geometric primitives and then constructing a tree-like structure to facilitate efficient navigation and path planning~\cite{dai2022review}. Two of the commonly used methods for this purpose include AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path, luo2018collisionfree} and OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}\remove{and FDH (fixed directions hulls).}. Another significant method worth mentioning is the use of Octomaps~\cite{wurmOctoMap}. Octomaps employ an octree data structure to represent 3D environments efficiently, making them particularly suitable for areas with large open spaces. 
+To be able to generate collision free trajectory we need to have a representation of the static environment. One common approach involves enclosing the obstacles around the manipulator within a collection of simple geometric primitives and then constructing a tree-like structure to facilitate efficient navigation and path planning~\cite{dai2022review}. Two of the commonly used methods for this purpose include AABB (axis-aligned bounding boxes)~\cite{vandenbergen1997efficient, chen2018path, luo2018collisionfree} and OBB (oriented bounding boxes)~\cite{gottschalk1996obbtree, puiu2011realtime}\remove{and FDH (fixed directions hulls).}. The problem is generation of such hulls based on partial sensor measurements of the environment. Han et al.~\cite{han2018dynamic} used a complicated pipeline to convert point-cloud sensor measurements to octree, than to voxel grid and finally into convex hulls, used for collision detections. Another significant method worth mentioning is the use of Octomaps~\cite{wurmOctoMap}. Octomaps employ an octree data structure to represent 3D environments efficiently, making them particularly suitable for areas with large open spaces. 
 
 In real environment we usually collect depth data with LiDAR, radar of RGBD camera sensors, that usually return clouds of points, that tell us the distance of objects in robots environment. While approaches have been proposed to use the point-cloud data directly to find obstacle free areas for robot operation~\cite{gao2019flying}, the data is often further converted into voxel grids~\cite{xu2021voxel, oleynikova2017voxblox, han2019fiesta}.
 
@@ -154,13 +150,23 @@ Voxel grid~\cite{xu2021voxel, elfes1989using} representation divides the space i
 
 Voxel grids can incorporate probabilistic information~\cite{thrun2002probabilistic, dryanovski2010multivolume}, such as in occupancy grid maps, where each voxel holds a probability indicating the chance of an obstacle's presence. The occupancy probability of a voxel can be updated dynamically using sensor measurements and Bayesian updating methods. As new sensor data is collected, the probabilities are revised to reflect the increased or decreased likelihood of the presence of an obstacle in the voxel space. 
 
-Another type of data that voxel fields can hold are ESDF (Euclidian Signed Distance Field) or TSDF (Truncated Signed Distance Field)~\cite{oleynikova2017voxblox}, in which case each of the voxels contains information how far nearest obstacle is in its vicinity.
+Another type of data that voxel \replace{grids}{fields} can hold are ESDF (Euclidian Signed Distance Field) or TSDF (Truncated Signed Distance Field)~\cite{oleynikova2017voxblox}, in which case each of the voxels contains information how far nearest obstacle is in its vicinity.
 
 \subsection{ESDF creation}
 
 ESDF grids can be generated directly using sensor measurements. Oleynikova et al.~\cite{oleynikova2017voxblox} proposed a method for calculating the ESDF from TSDF. Han et al.~\cite{han2019fiesta} proposed a way to integrate point-cloud data into ESDF using ray-casting.  
 
-Another way is to generate ESDF from occupancy grids, that can be previously generated using sensors. When generating ESDF from occupancy grid, common approach is the Brushfire method~\cite{lau2010improved}, that spreads from obstacles until it calculates the distance for every field on a grid. Jump Flooding Algorithm (JFA) is a similar method, that can be implemented on a GPU for faster parallel distance calculation.  
+Another way is to generate ESDF from occupancy grids, that can be previously generated using sensors or based on predefined maps. When generating ESDF from occupancy grid, common approach is the Brushfire method~\cite{lau2010improved}, that spreads from obstacles until it calculates the distance for every field on a grid. Jump Flooding Algorithm (JFA)~\cite{rong2006jump} is a similar method, that can be implemented on a GPU for faster parallelized distance calculation.  
+
+%Euclidean Signed Distance Fields (ESDFs) are valuable in robotic navigation and 3D reconstruction, providing a measure of the shortest distance to the nearest obstacle for each point in space. The creation of ESDF grids can leverage sensor measurements directly or be derived from other data structures like Truncated Signed Distance Fields (TSDFs) or occupancy grids.
+%
+%One prominent method for generating ESDFs is converting TSDFs into ESDFs. Oleynikova et al. [(2017)] introduced a technique that efficiently computes the ESDF from TSDFs, utilizing incremental updates for dynamic environments. This approach is significant for real-time applications in robotics, where rapid updates to the environment model are crucial. Similarly, Han et al. [(2019)] developed a method that integrates point-cloud data into ESDF using ray-casting, offering a way to construct ESDFs directly from sensor data.
+%
+%Alternatively, ESDFs can be generated from occupancy grids, which themselves are often derived from sensor measurements. The Brushfire algorithm, as improved by Lau et al. [(2010)], is a commonly used technique in this context. It operates by spreading from obstacles within the grid, calculating the minimum distance to an obstacle for each grid cell. This approach is particularly effective for static environments where the layout of obstacles does not change frequently.
+%
+%Furthermore, the Jump Flooding Algorithm (JFA) offers another method for generating ESDFs from occupancy grids. JFA is notable for its suitability for implementation on GPUs, enabling faster parallel distance calculations. This advantage is critical in applications requiring rapid processing of large datasets, such as in high-resolution 3D mapping and complex robotic navigation tasks.
+%
+%In conclusion, the generation of ESDFs from sensor measurements or derived data structures like TSDFs and occupancy grids is a crucial aspect of robotic navigation and 3D environment modeling. Techniques like those proposed by Oleynikova et al. [(2017)], Han et al. [(2019)], and the improvements to the Brushfire algorithm by Lau et al. [(2010)], as well as the application of JFA, highlight the ongoing advancements in efficient and accurate ESDF creation methodologies.
 
 \add{\\-Wavefront \\
 	 -D* Klančar\\
@@ -170,6 +176,11 @@ Another way is to generate ESDF from occupancy grids, that can be previously gen
      -ray casting, bullet casting ...}
  
  \alert{10-ish citatov iz seznama ni klicanih v tekstu !}
+ 
+ \comment{}{
+ 	-fix citation styles (sometimes et al, sometimes not, sometimes names, sometimes years ... not same format)
+ }
+ 
 
 \clearpage
 
@@ -303,6 +314,12 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 \bibitem{luo2018collisionfree} L. Luo et al., “Collision-Free Path-Planning for Six-DOF Serial Harvesting Robot Based on Energy Optimal and Artificial Potential Field,” Complexity, vol. 2018, pp. 1–12, Nov. 2018, doi: 10.1155/2018/3563846.
 
 \bibitem{zhang2021obstacle} W. Zhang, H. Cheng, L. Hao, X. Li, M. Liu, and X. Gao, “An obstacle avoidance algorithm for robot manipulators based on decision-making force,” Robotics and Computer-Integrated Manufacturing, vol. 71, p. 102114, Oct. 2021, doi: 10.1016/j.rcim.2020.102114.
+
+\bibitem{park2020trajectory} S.-O. Park, M. C. Lee, and J. Kim, “Trajectory Planning with Collision Avoidance for Redundant Robots Using Jacobian and Artificial Potential Field-based Real-time Inverse Kinematics,” Int. J. Control Autom. Syst., vol. 18, no. 8, Art. no. 8, Aug. 2020, doi: 10.1007/s12555-019-0076-7.
+
+\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, “Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection,” Robotics and Computer-Integrated Manufacturing, vol. 49, pp. 98–104, Feb. 2018, doi: 10.1016/j.rcim.2017.05.013.
+
+\bibitem{rong2006jump} G. Rong and T.-S. Tan, “Jump flooding in GPU with applications to Voronoi diagram and distance transform,” in Proceedings of the 2006 Symposium on Interactive 3D Graphics and Games - SI3D ’06, Redwood City, California, 2006, p. 109. doi: 10.1145/1111411.1111431.
 
 
 
