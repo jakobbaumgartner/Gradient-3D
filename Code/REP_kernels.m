@@ -57,6 +57,6 @@ function [kernels] = REP_kernels(varargin)
     kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, 0, kernel_height, 0, type);
     kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, 0, kernel_height, 0, type);
 
-    kernels = {kernel_x, kernel_y, kernel_z};
+    kernels = {kernel_x/max(kernel_x(:)), kernel_y/max(kernel_y(:)), kernel_z/max(kernel_z(:))};
 
 end

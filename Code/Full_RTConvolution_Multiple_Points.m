@@ -7,8 +7,8 @@ mid_joints = 0
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
-secondary_exec_stop_k = 1 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
-min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will slow down
+secondary_exec_stop_k = 5 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+min_exec_slowdown_size = 1 % if poi is closer than this value, primary task will slow down
 
 % -----------------------------------------------------------
 % number of points per segment for obstacle avoidance taskmanipulability_avoidance
@@ -21,7 +21,7 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 500 % max number of iterations
+Nmax = 250 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
@@ -88,13 +88,7 @@ manipulability_avoidance = [];
 % -----------------------------------------------------------
 
 % repulsive kernels
-rep_kernels = REP_kernels('linear');
-
-% obstacles distance kernel
-% dist_kernel = euclidian_kernel_3D(61, 61, 61);
-% dist_kernel = gaussian_kernel_3d(61, 61, 61, 10);
-
-
+rep_kernels = REP_kernels('type', 'linear');
 
 %% OPTIMIZATION LOOP
 % -----------------------------------------------------------
@@ -219,7 +213,8 @@ while current_dist > goal_dist && Niter <= Nmax
 
         % SORT POI BASED ON DISTANCE FROM OBSTACLES
         % --------------------
-        [poi_sizes, poi_indeces] = sort(vecnorm(rep_values));            
+        [poi_sizes, poi_indeces] = sort(vecnorm(rep_values));
+        poi_sizes            
 
 
         %% FOR EVERY POI CALCULATE AVOIDANCE JOINT SPEEDS (USING INVERSE KINEMATICS SOLUTION)
@@ -326,12 +321,12 @@ while current_dist > goal_dist && Niter <= Nmax
     % exec slowdown - if secondary task has big velocities, primary task will slow down to give more time to collisions avoidance
 
     if poi_sizes(end) > min_exec_slowdown_size % if poi is too close
-        exec_slowdown = 1 / (1 + secondary_exec_stop_k * poi_sizes(end));
+        exec_slowdown = 1 / (1 + secondary_exec_stop_k * poi_sizes(end))
     else
         exec_slowdown = 1; % or set to the default value if no slowdown is needed
     end
     
-    q_vel_position = pinv_J * exec_slowdown * ee_vel;
+    q_vel_position = pinv_J * exec_slowdown * ee_vel
 
     % SECONDARY: mid-joints
     q_vel_mid = N * dq_mid;
