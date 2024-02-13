@@ -93,7 +93,7 @@ There are numerous methods for planning manipulator movements~\cite{c51, c52}, t
 
 \remove{Trajectory optimisation methods such as CHOMP, STOMP and TrajOpt, on the other hand, use optimization to improve an initial seed trajectory. Consequently, the optimality of the solution is highly dependent on this initial trajectory. Nevertheless, these methods are capable of generating smooth trajectories, and although they can be too computationally intensive for high DOF dynamic real-time environments, they are generally effective in finding constrained motion plans. }
 
-Local motion planning approaches employ optimization techniques, two common ones are inverse kinematics~\cite{c29,c38}, that is based on finding a least squares solution of the manipulator joint velocities, and quadratic programming (QP)~\cite{c21,c22,c23}.  Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account. In the following text we will focus on inverse kinematics based approaches.
+Local motion planning approaches employ optimization techniques, two common ones are inverse kinematics~\cite{c29,c38}, that is based on finding a least squares solution of the manipulator joint velocities, and quadratic programming (QP)~\cite{c21,c22, haviland2021neo, c23}.  Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account. In the following text we will focus on inverse kinematics based approaches.
 
 \subsection{Kinematic Obstacle Avoidance}
 
@@ -146,7 +146,7 @@ To be able to generate collision free trajectory we need to have a representatio
 
 In real environment we usually collect depth data with LiDAR, radar of RGBD camera sensors, that usually return clouds of points, that tell us the distance of objects in robots environment. While approaches have been proposed to use the point-cloud data directly to find obstacle free areas for robot operation~\cite{gao2019flying}, the data is often further converted into voxel grids~\cite{xu2021voxel, oleynikova2017voxblox, han2019fiesta}.
 
-Voxel grid~\cite{xu2021voxel, elfes1989using} representation divides the space into a regular grid of volumetric elements, or voxels, which can be used to create a more manageable approximation of the environment. While this approach offers a balance between detail and computational efficiency, it can introduce discretization errors, particularly when modeling objects with smooth surfaces or intricate details. The fidelity of the representation is dependent on the size of the voxels: smaller voxels can capture more detail but require more memory and computation, while larger voxels result in coarser approximations but are more memory and computation efficient. Adaptive voxel grids have been explored~\cite{xu2021voxel}, where the voxel size can vary throughout the space to provide higher resolution in regions of interest while conserving resources in less critical areas. Nießner et al.~\cite{niessner2013realtime} proposed Voxel hashing, for more efficient memory management in sparse environments. 
+Voxel grid~\cite{xu2021voxel, elfes1989using} representation divides the space into a regular grid of volumetric elements, or voxels, which can be used to create a more manageable approximation of the environment. While this approach offers a balance between detail and computational efficiency, it can introduce discretization errors, particularly when modeling objects with smooth surfaces or intricate details. The fidelity of the representation is dependent on the size of the voxels: smaller voxels can capture more detail but require more memory and computation, while larger voxels result in coarser approximations but are more memory and computation efficient. Adaptive voxel grids have been explored~\cite{xu2021voxel}, where the voxel size can vary throughout the space to provide higher resolution in regions of interest while conserving resources in less critical areas. Nießner et al.~\cite{niessner2013realtime} proposed Voxel hashing, for more efficient memory management in sparse environments. Dryanovski et al.~\cite{dryanovski2010multivolume} proposed variable voxel height and saving information about occupied and about free measurements, as well as the information about number of measurements for a specific cell.
 
 Voxel grids can incorporate probabilistic information~\cite{thrun2002probabilistic, dryanovski2010multivolume}, such as in occupancy grid maps, where each voxel holds a probability indicating the chance of an obstacle's presence. The occupancy probability of a voxel can be updated dynamically using sensor measurements and Bayesian updating methods. As new sensor data is collected, the probabilities are revised to reflect the increased or decreased likelihood of the presence of an obstacle in the voxel space. 
 
@@ -158,6 +158,10 @@ ESDF grids can be generated directly using sensor measurements. Oleynikova et al
 
 Another way is to generate ESDF from occupancy grids, that can be previously generated using sensors or based on predefined maps. When generating ESDF from occupancy grid, common approach is the Brushfire method~\cite{lau2010improved}, that spreads from obstacles until it calculates the distance for every field on a grid. Jump Flooding Algorithm (JFA)~\cite{rong2006jump} is a similar method, that can be implemented on a GPU for faster parallelized distance calculation.  
 
+Methods that allow for the dynamical distance field generation are rare. Zhou et al.~\cite{zhou2021egoplanner} propose use of pairs of points on trajectory and obstacles in their quadcopter trajectory optimization algorithm.
+
+%\remove{The field of image processing invented many different morphological algorithms, that work on binary images and calculate a value for every pixel in image, that represents the distance from nearest occupied binary pixel~\cite{szeliski2021computer, felzenszwalb2012distance, rosenfeld1968distance}. Approaches can be seperated based on the distance metric that they use. }
+
 %Euclidean Signed Distance Fields (ESDFs) are valuable in robotic navigation and 3D reconstruction, providing a measure of the shortest distance to the nearest obstacle for each point in space. The creation of ESDF grids can leverage sensor measurements directly or be derived from other data structures like Truncated Signed Distance Fields (TSDFs) or occupancy grids.
 %
 %One prominent method for generating ESDFs is converting TSDFs into ESDFs. Oleynikova et al. [(2017)] introduced a technique that efficiently computes the ESDF from TSDFs, utilizing incremental updates for dynamic environments. This approach is significant for real-time applications in robotics, where rapid updates to the environment model are crucial. Similarly, Han et al. [(2019)] developed a method that integrates point-cloud data into ESDF using ray-casting, offering a way to construct ESDFs directly from sensor data.
@@ -167,6 +171,8 @@ Another way is to generate ESDF from occupancy grids, that can be previously gen
 %Furthermore, the Jump Flooding Algorithm (JFA) offers another method for generating ESDFs from occupancy grids. JFA is notable for its suitability for implementation on GPUs, enabling faster parallel distance calculations. This advantage is critical in applications requiring rapid processing of large datasets, such as in high-resolution 3D mapping and complex robotic navigation tasks.
 %
 %In conclusion, the generation of ESDFs from sensor measurements or derived data structures like TSDFs and occupancy grids is a crucial aspect of robotic navigation and 3D environment modeling. Techniques like those proposed by Oleynikova et al. [(2017)], Han et al. [(2019)], and the improvements to the Brushfire algorithm by Lau et al. [(2010)], as well as the application of JFA, highlight the ongoing advancements in efficient and accurate ESDF creation methodologies.
+
+
 
 \add{\\-Wavefront \\
 	 -D* Klančar\\
@@ -202,6 +208,9 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 
 
 \bibitem{c22} H. Toshani and M. Farrokhi, “Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach,” Robotics and Autonomous Systems, vol. 62, no. 6, pp. 766–781, Jun. 2014. doi: 10.1016/j.robot.2014.02.005.
+
+\bibitem{haviland2021neo} J. Haviland and P. Corke, “NEO: A Novel Expeditious Optimisation Algorithm for Reactive Motion Control of Manipulators,” IEEE Robot. Autom. Lett., vol. 6, no. 2, Art. no. 2, Apr. 2021, doi: 10.1109/LRA.2021.3056060.
+
 
 \bibitem{c23} Y. Zhang, S. S. Ge, and T. H. Lee, “A Unified Quadratic-Programming-Based Dynamical System Approach to Joint Torque Optimization of Physically Constrained Redundant Manipulators,” IEEE Trans. Syst., Man, Cybern. B, vol. 34, no. 5, pp. 2126–2132, Oct. 2004. doi: 10.1109/TSMCB.2004.830347.
 
@@ -320,6 +329,16 @@ IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [On
 \bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, “Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection,” Robotics and Computer-Integrated Manufacturing, vol. 49, pp. 98–104, Feb. 2018, doi: 10.1016/j.rcim.2017.05.013.
 
 \bibitem{rong2006jump} G. Rong and T.-S. Tan, “Jump flooding in GPU with applications to Voronoi diagram and distance transform,” in Proceedings of the 2006 Symposium on Interactive 3D Graphics and Games - SI3D ’06, Redwood City, California, 2006, p. 109. doi: 10.1145/1111411.1111431.
+
+\bibitem{szeliski2021computer} R. Szeliski, “Computer Vision: Algorithms and Applications, 2nd Edition,” Springer, 2021.
+
+\bibitem{rosenfeld1968distance} A. Rosenfeld and J. L. Pfaltz, “Distance functions on digital pictures,” Pattern Recognition, vol. 1, no. 1, pp. 33–61, Jul. 1968, doi: 10.1016/0031-3203(68)90013-7.
+
+\bibitem{felzenszwalb2012distance} P. F. Felzenszwalb and D. P. Huttenlocher, “Distance Transforms of Sampled Functions,” Theory of Comput., vol. 8, no. 1, pp. 415–428, 2012, doi: 10.4086/toc.2012.v008a019.
+
+\bibitem{zhou2021egoplanner} X. Zhou, Z. Wang, H. Ye, C. Xu, and F. Gao, “EGO-Planner: An ESDF-Free Gradient-Based Local Planner for Quadrotors,” IEEE Robot. Autom. Lett., vol. 6, no. 2, pp. 478–485, Apr. 2021, doi: 10.1109/LRA.2020.3047728.
+
+\bibitem{dryanovski2010multivolume} I. Dryanovski, W. Morris, and J. Xiao, “Multi-volume occupancy grids: An efficient probabilistic 3D mapping model for micro aerial vehicles,” in 2010 IEEE/RSJ International Conference on Intelligent Robots and Systems, Taipei: IEEE, Oct. 2010, pp. 1553–1559, doi: 10.1109/IROS.2010.5652494.
 
 
 
