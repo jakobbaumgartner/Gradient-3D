@@ -1,4 +1,4 @@
-function [rep_values] = REP_field_calculation(grid, kernels, point, varargin)
+function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, point, varargin)
 
     %   REP_VALUES = REP_FIELD_CALCULATION(GRID, KERNELS, POINT, VARARGIN) computes a set of
     %   representative values for a 3D grid at a specified point, using a set of 3D kernels.
@@ -19,6 +19,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point, varargin)
     %   - REP_VALUES: A 1xN vector of representative values, where N is the number
     %                 of kernels. The i-th element of REP_VALUES is the representative
     %                 value computed using the i-th kernel in KERNELS.
+    %   - LOGS_REP_VALUES: A list of objects containing the indexes of the cells used to calculate the representative values.
 
 
     %% SETTINGS:
@@ -26,7 +27,7 @@ function [rep_values] = REP_field_calculation(grid, kernels, point, varargin)
 
     % parse optional input arguments
     p = inputParser;
-    addParameter(p, 'interpolation_mode', false);
+    addParameter(p, 'interpolation_mode', true);
     addParameter(p, 'box_value', 0);
     parse(p, varargin{:});
 
@@ -35,6 +36,9 @@ function [rep_values] = REP_field_calculation(grid, kernels, point, varargin)
     box_value = p.Results.box_value;
 
     % --------------------------------------------------------------    
+
+    % init logs variable
+    logs_rep_values = [];
     
     %% USE INTERPOLATION
     if interpolation_mode
@@ -155,6 +159,9 @@ function [rep_values] = REP_field_calculation(grid, kernels, point, varargin)
     
             % save to list of rep_values
             rep_values(i) = rep_value;
+
+            % save cell positions to logs
+            logs_rep_values  = [logs_rep_values; {x_cells, y_cells, z_cells}]; % [x_cells, y_cells, z_cells] one line per kernel
      
         
         end

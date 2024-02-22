@@ -74,7 +74,7 @@ classdef OctoGrid < handle
         
             % Set default values for optional input arguments
             default_min_display_value = 0.5;
-            default_space_resolution = 10;
+            default_space_resolution = 1;
             color_floor = [33/256, 33/256, 33/256];
 
         

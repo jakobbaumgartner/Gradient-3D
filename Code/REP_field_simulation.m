@@ -15,7 +15,7 @@ function REP_field_simulation(grid, point, kernels)
     % The REP field calculation is performed using the REP_field_calculation function which needs to be defined separately.
 
     % generate initial REP field
-    [rep_values] = REP_field_calculation(grid, kernels, point);
+    [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, point);
     rep_vectors = eye(3) .* rep_values';
 
     % sum of vector components
@@ -23,14 +23,16 @@ function REP_field_simulation(grid, point, kernels)
 
     % create figure
     f = figure();
+    axis equal
 
     % display grid
     grid.showGridVol3D(grid.grid, 'floor',false, 'height', true);
+%     grid.showGridVoxel(grid.grid)
 
     hold on
 
     % scaling factor
-    scale = 100;
+    scale = 1;
 
     q_list = {};
 
@@ -49,6 +51,57 @@ function REP_field_simulation(grid, point, kernels)
     % plot point at the base of the vector
     p = scatter3(point(1)*grid.resolution, point(2)*grid.resolution, point(3)*grid.resolution, 'MarkerEdgeColor','k', 'MarkerFaceColor','k');
     
+    % display kernel blocks
+    grid_kernels = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
+    
+    % for every kernel (every kernel its own line)
+    for i = 1:1:size(logs_rep_values,1)
+
+        current_kernel = logs_rep_values(i,:)
+          
+        % SET COLOR BASED ON KERNEL DIRECTION
+        if(i == 1)
+        % x -> i = 1
+            RGB = [1 0 0];
+
+        elseif(i == 2)
+        % y -> i = 2
+            RGB = [0 1 0];
+
+        elseif(i == 3)
+        % z -> i = 3
+            RGB = [0 0 1];
+
+        end
+
+        % for every element of kernels
+        x_ker = current_kernel{1} % X and Y might be swapped
+        y_ker = current_kernel{2}
+        z_ker = current_kernel{3}
+
+        for x = 1:1:length(x_ker) 
+            for y = 1:1:length(y_ker)
+                for z = 1:1:length(z_ker)
+
+                    % set grid cell color
+                    grid_kernels(x_ker(x),y_ker(y),z_ker(z)) = 1; % RGB;
+                end
+            end
+        end
+
+        % display kernels
+%         grid.showGridVol3D(grid_kernels);
+%         H = vol3d('CData', grid_kernels)
+%     
+%         H.cdata = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
+%     
+%         vol3d(H)
+
+
+    end
+
+
+        
 
     % create sliders
     sx = uicontrol('Style', 'slider', 'Min', 0, 'Max', size(grid.grid, 2)/grid.resolution, 'Value', point(1), 'Units', 'normalized', 'Position', [0.05 0.11 0.4 0.04], 'Callback', @(src, event) update_vector(src, event, grid, kernels, point, q, scale));
@@ -68,7 +121,7 @@ function REP_field_simulation(grid, point, kernels)
 
         point = [sx.Value sy.Value sz.Value]
 
-        [rep_values] = REP_field_calculation(grid, kernels, point)
+        [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, point)
 
         rep_vectors = eye(3) .* rep_values';
 
@@ -101,6 +154,48 @@ function REP_field_simulation(grid, point, kernels)
          p.XData = point(1)*grid.resolution;
          p.YData = point(2)*grid.resolution;
          p.ZData = point(3)*grid.resolution;
+
+        %  update kernels display
+        grid_kernels = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
+
+        for i = 1:1:size(logs_rep_values,1)
+    
+            current_kernel = logs_rep_values(i,:)
+              
+            % SET COLOR BASED ON KERNEL DIRECTION
+            if(i == 1)
+            % x -> i = 1
+                RGB = [1 0 0];
+    
+            elseif(i == 2)
+            % y -> i = 2
+                RGB = [0 1 0];
+    
+            elseif(i == 3)
+            % z -> i = 3
+                RGB = [0 0 1];
+    
+            end
+    
+            % for every element of kernels
+            x_ker = current_kernel{1} % X and Y might be swapped
+            y_ker = current_kernel{2}
+            z_ker = current_kernel{3}
+    
+            for x = 1:1:length(x_ker) 
+                for y = 1:1:length(y_ker)
+                    for z = 1:1:length(z_ker)
+    
+                        % set grid cell color
+                        grid_kernels(x_ker(x),y_ker(y),z_ker(z)) = 1; % RGB;
+                    end
+                end
+            end
+        end
+
+        H.cdata = grid_kernels;
+    
+        vol3d(H)
 
     end
 end
