@@ -111,6 +111,12 @@ function REP_field_simulation(grid, point, kernels)
     uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.11 0.03 0.04], 'String', 'X:', 'HorizontalAlignment', 'right');
     uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.06 0.03 0.04], 'String', 'Y:', 'HorizontalAlignment', 'right');
     uicontrol('Style', 'text', 'Units', 'normalized', 'Position', [0.01 0.01 0.03 0.04], 'String', 'Z:', 'HorizontalAlignment', 'right');
+
+    % Add checkbox for kernel visualization
+    chk = uicontrol('Style', 'checkbox', 'String', 'Show Kernels', 'Value', 0, ...
+        'Units', 'normalized', 'Position', [0.01 0.95 0.4 0.05]);
+
+
     
     hold off
 
@@ -193,8 +199,15 @@ function REP_field_simulation(grid, point, kernels)
             end
         end
 
-        H.cdata = grid_kernels;
-    
+        if chk.Value
+
+            H.cdata = grid_kernels;
+
+        else
+            H.cdata = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
+
+        end
+
         vol3d(H)
 
     end
