@@ -8,17 +8,16 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
    if strcmp('linear',kernel_type)
 
         % prepare directional weights
-        kernel = [1:1:center -flip(1:1:center)] / (center); 
+        kernel = [1:1:center 0 -flip(1:1:center)] / (center); 
 
         % extend weights to kernel width
         center_width = floor(kernel_width/2);
-%         width_extender = [1:1:center_width center_width flip(1:1:center_width)]/(center_width);
         
         % if sigma_width is 0, then use a constant weight for the width
         if (sigma_width == 0)
-            width_extender = ones(1,2*center_width);
+            width_extender = [ones(1,center_width) 0 ones(1,center_width)];
         else
-            width_extender = [1:1:center_width flip(1:1:center_width)]/(center_width);
+            width_extender = [1:1:center_width 0 flip(1:1:center_width)]/(center_width);
         end
 
 
@@ -30,9 +29,9 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
 
         % if sigma_height is 0, then use a constant weight for the height
         if (sigma_height == 0)
-            height_extender = ones(1,2*center_height);
+            height_extender = [ones(1,center_width) 0 ones(1,center_width)];
         else
-            height_extender = [1:1:center_height flip(1:1:center_height)]/(center_height);
+            height_extender = [1:1:center_height 0 flip(1:1:center_height)]/(center_height);
         end
 
         
@@ -46,18 +45,17 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
         kernel = exp(-(1:center).^2/(2*sigma^2)) / (sigma * sqrt(2*pi)); 
         
         % generate symmetric kernel
-        kernel = [flip(kernel) -kernel];
+        kernel = [flip(kernel) 0 -kernel];
         
         % prepare gaussian weights for width
         center_width = floor(kernel_width/2);
 
         % if sigma_width is 0, then use a constant weight for the width
         if (sigma_width == 0)
-            width_extender = ones(1,2*center_width);
+            width_extender = [ones(1,center_width) 0 ones(1,center_width)];
         else
             width_extender = exp(-(1:center_width).^2/(2*sigma_width^2)); 
-            %         width_extender = [flip(width_extender) exp(-(center_width).^2/(2*sigma_width^2)) width_extender];
-            width_extender = [flip(width_extender) width_extender];
+            width_extender = [flip(width_extender) 0 width_extender];
         end
         
         % generate 2D kernel
@@ -68,10 +66,10 @@ function [kernel3D] = directional_kernel_3d(direction, kernel_length, sigma, ker
 
         % if sigma_height is 0, then use a constant weight for the height
         if (sigma_height == 0)
-            height_extender = ones(1,2*center_height);
+            height_extender = [ones(1,center_height) 0 ones(1,center_height)];
         else
             height_extender = exp(-(1:center_height).^2/(2*sigma_height^2));
-            height_extender = [flip(height_extender) height_extender];
+            height_extender = [flip(height_extender) 0 height_extender];
         end
 
 

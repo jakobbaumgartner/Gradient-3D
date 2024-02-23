@@ -27,7 +27,7 @@ function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, po
 
     % parse optional input arguments
     p = inputParser;
-    addParameter(p, 'interpolation_mode', true);
+    addParameter(p, 'interpolation_mode', false);
     addParameter(p, 'box_value', 0);
     parse(p, varargin{:});
 
@@ -121,9 +121,9 @@ function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, po
             half_size = floor(kernel_size / 2);
     
             % Calculate x, y, and z ranges for the window while ensuring they are positive and within grid boundaries.
-            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1)) -1) +1; % grid goes y-x-z
-            y_cells = round((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)) -1) +1;
-            z_cells = round((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)) -1) +1;
+            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1))); % grid goes y-x-z
+            y_cells = round((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)));
+            z_cells = round((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)));
 
             % init every cells in window to occupued by default
             window = ones(kernel_size)*box_value;
