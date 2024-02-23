@@ -91,11 +91,11 @@ function REP_field_simulation(grid, point, kernels)
 
         % display kernels
 %         grid.showGridVol3D(grid_kernels);
-%         H = vol3d('CData', grid_kernels)
-%     
-%         H.cdata = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
-%     
-%         vol3d(H)
+        H = vol3d('CData', grid_kernels)
+    
+        H.cdata = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
+    
+        vol3d(H)
 
 
     end
