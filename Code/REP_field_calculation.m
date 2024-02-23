@@ -27,7 +27,7 @@ function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, po
 
     % parse optional input arguments
     p = inputParser;
-    addParameter(p, 'interpolation_mode', false);
+    addParameter(p, 'interpolation_mode', true);
     addParameter(p, 'box_value', 0);
     parse(p, varargin{:});
 

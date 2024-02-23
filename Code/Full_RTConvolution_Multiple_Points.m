@@ -7,7 +7,7 @@ mid_joints = 0
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
-secondary_exec_stop_k = 5 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+secondary_exec_stop_k = 1 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
 min_exec_slowdown_size = 1 % if poi is closer than this value, primary task will slow down
 
 % -----------------------------------------------------------
