@@ -38,7 +38,7 @@ function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, po
     % --------------------------------------------------------------    
 
     % init logs variable
-    logs_rep_values = [];
+    logs_rep_values = struct('indexes', []);
     
     %% USE INTERPOLATION
     if interpolation_mode
@@ -161,7 +161,10 @@ function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, po
             rep_values(i) = rep_value;
 
             % save cell positions to logs
-            logs_rep_values  = [logs_rep_values; {x_cells, y_cells, z_cells}]; % [x_cells, y_cells, z_cells] one line per kernel
+            logs_rep_values.indexes  = [logs_rep_values.indexes; {x_cells, y_cells, z_cells}]; % [x_cells, y_cells, z_cells] one line per kernel
+
+            % save kernel weights to logs
+            logs_rep_values.kernels{i} = kernel;
      
         
         end

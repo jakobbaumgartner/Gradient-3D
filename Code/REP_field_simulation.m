@@ -57,7 +57,7 @@ function REP_field_simulation(grid, point, kernels)
     % for every kernel (every kernel its own line)
     for i = 1:1:size(logs_rep_values,1)
 
-        current_kernel = logs_rep_values(i,:)
+        current_kernel = logs_rep_values.indexes(i,:)
           
         % SET COLOR BASED ON KERNEL DIRECTION
         if(i == 1)
@@ -75,9 +75,9 @@ function REP_field_simulation(grid, point, kernels)
         end
 
         % for every element of kernels
-        x_ker = current_kernel{1} % X and Y might be swapped
-        y_ker = current_kernel{2}
-        z_ker = current_kernel{3}
+        x_ker = current_kernel{1}; % X and Y might be swapped
+        y_ker = current_kernel{2};
+        z_ker = current_kernel{3};
 
         for x = 1:1:length(x_ker) 
             for y = 1:1:length(y_ker)
@@ -90,7 +90,6 @@ function REP_field_simulation(grid, point, kernels)
         end
 
         % display kernels
-%         grid.showGridVol3D(grid_kernels);
         H = vol3d('CData', grid_kernels)
     
         H.cdata = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
@@ -158,9 +157,10 @@ function REP_field_simulation(grid, point, kernels)
         %  update kernels display
         grid_kernels = zeros(round(grid.length)*grid.resolution, round(grid.width)*grid.resolution, round(grid.height)*grid.resolution);
 
-        for i = 1:1:size(logs_rep_values,1)
+        for i = 1:1:3 % only plot first three x,y,z matrix (if interpolation is used we have 3x8=24 matrix)
     
-            current_kernel = logs_rep_values(i,:)
+            current_kernel = logs_rep_values.indexes(i,:);
+            current_kernel_weight = logs_rep_values.kernels{i};
               
             % SET COLOR BASED ON KERNEL DIRECTION
             if(i == 1)
@@ -174,20 +174,20 @@ function REP_field_simulation(grid, point, kernels)
             elseif(i == 3)
             % z -> i = 3
                 RGB = [0 0 1];
-    
             end
     
             % for every element of kernels
-            x_ker = current_kernel{1} % X and Y might be swapped
-            y_ker = current_kernel{2}
-            z_ker = current_kernel{3}
+            x_ker = current_kernel{1}; % X and Y might be swapped
+            y_ker = current_kernel{2};
+            z_ker = current_kernel{3};
     
             for x = 1:1:length(x_ker) 
                 for y = 1:1:length(y_ker)
                     for z = 1:1:length(z_ker)
     
                         % set grid cell color
-                        grid_kernels(x_ker(x),y_ker(y),z_ker(z)) = 1; % RGB;
+                        grid_kernels(x_ker(x),y_ker(y),z_ker(z)) = abs(current_kernel_weight(x,y,z));
+                        
                     end
                 end
             end
