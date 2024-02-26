@@ -43,7 +43,15 @@ function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, po
     %% USE INTERPOLATION
     if interpolation_mode
         
-        center_point = point * grid.resolution;
+        % PREPARE POINT COORDINATES
+        % --------------------------------------------------------------
+
+        % move point by 0.5 of resolution step, to basically set potential 
+        % field values to the middle of the grid cells
+        point_grid = (point + 1/grid.resolution/2);
+
+        % scale to grid resolution
+        center_point = point_grid * grid.resolution; 
          
         % get nearby grid cells indexes
         X = [floor(center_point(1)) ceil(center_point(1))];
@@ -121,9 +129,9 @@ function [rep_values, logs_rep_values] = REP_field_calculation(grid, kernels, po
             half_size = floor(kernel_size / 2);
     
             % Calculate x, y, and z ranges for the window while ensuring they are positive and within grid boundaries.
-            x_cells = round((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1))); % grid goes y-x-z
-            y_cells = round((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)));
-            z_cells = round((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)));
+            x_cells = floor((grid_point(2) - half_size(1)) : (grid_point(2) + half_size(1))); % grid goes y-x-z
+            y_cells = floor((grid_point(1) - half_size(2)) : (grid_point(1) + half_size(2)));
+            z_cells = floor((grid_point(3) - half_size(3)) : (grid_point(3) + half_size(3)));
 
             % init every cells in window to occupued by default
             window = ones(kernel_size)*box_value;
