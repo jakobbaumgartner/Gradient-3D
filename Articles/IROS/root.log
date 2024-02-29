@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  29 FEB 2024 14:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  29 FEB 2024 15:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -729,41 +729,36 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5.5> on input line 63.
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-14.
+28.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 114.
+(Font)              <8> on input line 128.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 114.
+(Font)              <6> on input line 128.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 114.
+(Font)              <5> on input line 128.
 
-Underfull \hbox (badness 5696) in paragraph at lines 119--120
+Underfull \hbox (badness 5696) in paragraph at lines 133--134
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 119--120
+Underfull \hbox (badness 1990) in paragraph at lines 133--134
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 130--131
+Underfull \hbox (badness 1389) in paragraph at lines 144--145
 []\OT1/ptm/m/n/8 T. Yoshikawa, \Dy-namic hy-brid po-si-tion/force con-trol of r
 obot
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 132--133
+Underfull \hbox (badness 1694) in paragraph at lines 146--147
 []\OT1/ptm/m/n/8 O. Khatib, \A uni-fied ap-proach for mo-tion and force con-tro
 l
- []
-
-
-Underfull \hbox (badness 5302) in paragraph at lines 144--145
-\OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
 
@@ -774,60 +769,68 @@ Overfull \vbox (336.63313pt too high) has occurred while \output is active []
 
 
 ]
-Underfull \hbox (badness 1742) in paragraph at lines 166--167
+Underfull \hbox (badness 5302) in paragraph at lines 158--159
+\OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
+ []
+
+
+Underfull \hbox (badness 1742) in paragraph at lines 180--181
 []\OT1/ptm/m/n/8 Z. Long, \Vir-tual tar-get point-based obstacle-avoidance meth
 od
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 166--167
+Underfull \hbox (badness 1389) in paragraph at lines 180--181
 \OT1/ptm/m/n/8 for ma-nip-u-la-tor sys-tems in a clut-tered en-vi-ron-ment," En
 -gi-neer-
  []
 
-
-Underfull \hbox (badness 2735) in paragraph at lines 188--189
+[2]
+Underfull \hbox (badness 2735) in paragraph at lines 202--203
 []\OT1/ptm/m/n/8 J. D. Gam-mell, S. S. Srini-vasa, and T. D. Bar-foot, \Batch
  []
 
 
-Underfull \hbox (badness 3209) in paragraph at lines 188--189
+Underfull \hbox (badness 3209) in paragraph at lines 202--203
 \OT1/ptm/m/n/8 In-formed Trees (BIT*): Sampling-based Op-ti-mal Plan-ning via
  []
 
 
-Underfull \hbox (badness 2384) in paragraph at lines 192--193
+Underfull \hbox (badness 2384) in paragraph at lines 206--207
 \OT1/ptm/m/n/8 Sys-tems, Chicago, IL, USA, Sep. 2014, pp. 2997{3004. doi:
  []
 
 
-Underfull \hbox (badness 2173) in paragraph at lines 200--201
+Underfull \hbox (badness 2173) in paragraph at lines 214--215
 []\OT1/ptm/m/n/8 B. Si-cil-iano, L. Sci-av-icco, L. Vil-lani, and G. Ori-olo, R
 obot.
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 200--201
+Underfull \hbox (badness 1939) in paragraph at lines 214--215
 \OT1/ptm/m/n/8 Model. Plan. Con-trol, 2010, pp. 161{189. [On-line]. Avail-able:
 
  []
 
-[2]
-Underfull \hbox (badness 2111) in paragraph at lines 208--209
+
+Underfull \hbox (badness 2111) in paragraph at lines 222--223
 \OT1/ptm/m/n/8 vol. 15, no. 6, Art. no. 1729881418820223, Nov. 2018, doi:
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 228--229
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 242--243
 []\OT1/ptm/m/n/8 S. Thrun, Prob-a-bilis-tic robotics, vol. 45, 2002.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 228--229
+Underfull \hbox (badness 10000) in paragraph at lines 242--243
 \OT1/ptm/m/n/8 Ac-cessed: Jun. 14, 2023. [On-line]. Avail-able:
  []
 
-[3]
+
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -839,29 +842,21 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[4
-
-] (root.aux)
+[4] (root.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
-
-Package rerunfilecheck Warning: File `root.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `root.out':
-(rerunfilecheck)             Before: D104584FA92657F991AE0CD471A9DB78;1513
-(rerunfilecheck)             After:  15A7C6E50439D3E85A6F49E074D886ED;1503.
+Package rerunfilecheck Info: File `root.out' has not changed.
+(rerunfilecheck)             Checksum: 15A7C6E50439D3E85A6F49E074D886ED;1503.
  ) 
 Here is how much of TeX's memory you used:
  20265 strings out of 476375
  389797 string characters out of 5788976
- 1883299 words of memory out of 5000000
+ 1878299 words of memory out of 5000000
  40240 multiletter control sequences out of 15000+600000
  545250 words of font info for 92 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,10n,132p,458b,585s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 132i,10n,132p,571b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
 /Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.
 pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8
@@ -870,7 +865,7 @@ a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi
 8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr
 8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on root.pdf (4 pages, 101534 bytes).
+Output written on root.pdf (4 pages, 103334 bytes).
 PDF statistics:
  189 PDF objects out of 1000 (max. 8388607)
  84 named destinations out of 1000 (max. 500000)

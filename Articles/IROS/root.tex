@@ -79,9 +79,23 @@ Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based Robotic Manipul
 
 \section{REPULSIVE FIELD CALCULATION}
 
-We want the repulsive field to push in any point of the space away from the obstacles / towards the direction away from all surrounding obstacles.
-
 The operating environment is modelled by discrete voxels. As the robots environment can dynamically change, we propose a method that looks at the surrounding space of the robot and calculates these direction away from all the surrounding obstacles in real time. We only look in a predefined area / perimeter arround the robot.  
+
+In 3D computer graphics, a voxel represents a value on a regular grid in three-dimensional space. Each of the voxels holds the probability value of its occupation. In case of voxel being empty it holds the value of 0, if the voxel is occupied it holds the value of non-zero, depending on our assurance of it being occupied. If it is definitly occupied it holds the value of 1. 
+
+Mreža voxels je lahko predefinirana, glede na model / 3d zemljevid prostora. Zasedenost voxlov lahko spreminjamo glede na poznane pozicije in trajektorije preostalih agentov v prostoru. Kot omenjeno v uvodu, pa lahko zasedenost voxlov pridobimo tudi z senzorskimi sistemi. 
+
+In our method, we compute repulsive velocities within the task space using a novel matrix kernel multiplication approach. Concentrating on the task space is advantageous as it provides a more direct and realistic representation of the environment. 
+
+Naša metoda je posebno primerna za uporabo z senzorskimi sistemi kot so LIDAR ali globinske kamere, saj zaradi upoštevanja celotne okolice točke in ne le razdalje do najbližje točke v okolici efektivno filtriramo senzorski šum.
+
+Repulsive velocities tell the agent in which direction to move, so that it avoids nearby obstacles. These velocities drop to zero when the agent maintains a minimum safe distance from obstacles, and rise to their highest when it nears an obstacle, facilitating immediate evasive action. As the repulsive field calculation is locally based, it will also go to zero when the agent is surrounded by all directions, equally spaced from all sides. That is, it is in the best local minima away from all the obstacles. 
+
+Since the obstacle space is discrete (has finite resolution), while the Cartesian space is continuous, we propose two methods for mapping from Cartesian space to the occupancy grid space. The simpler approach involves mapping the point directly to the center of the nearest occupancy grid voxel, based on Euclidean distance. However, this discretization can sometimes lead to discontinuities. Therefore, we propose a second approach: tri-linear interpolation of the calculated repulsive field to achieve a continuous repulsive field value.
+
+
+
+
 
 \subsection{AREA SELECTION}
 
