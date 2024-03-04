@@ -4,7 +4,7 @@ close all
 point = [0.7,0.7,1]
 
 %% SELECT MAP
-map_selection = 'cross'
+map_selection = 'wall'
 % -----------------------------------------------------------
 
 [grid] = MAPS(map_selection)

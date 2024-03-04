@@ -1,7 +1,7 @@
 function [f] = showMovementPandaMultiplePoints(grid, Tbase, control_points, output)
 
     % APF field vector length
-    arrow_length = 5; % adjust the length to your preference
+    arrow_length = 0.5; % adjust the length to your preference
 
     % show floor
     floor = false

@@ -3,7 +3,7 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 %% PARAMETERS
 
 % select which goals
-mid_joints = 0
+mid_joints = 1
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
@@ -21,15 +21,15 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 250 % max number of iterations
+Nmax = 500 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
 wp = 0.75 % primary task
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
-wm = 0.15 % mid-joints task
-wa = 1 % obstacle avoidance task
+wm = 0.1 % mid-joints task
+wa = 0.1 % obstacle avoidance task
 
 
 
@@ -213,8 +213,7 @@ while current_dist > goal_dist && Niter <= Nmax
 
         % SORT POI BASED ON DISTANCE FROM OBSTACLES
         % --------------------
-        [poi_sizes, poi_indeces] = sort(vecnorm(rep_values));
-        poi_sizes            
+        [poi_sizes, poi_indeces] = sort(vecnorm(rep_values));          
 
 
         %% FOR EVERY POI CALCULATE AVOIDANCE JOINT SPEEDS (USING INVERSE KINEMATICS SOLUTION)
@@ -319,14 +318,13 @@ while current_dist > goal_dist && Niter <= Nmax
     % PRIMARY: position
 
     % exec slowdown - if secondary task has big velocities, primary task will slow down to give more time to collisions avoidance
-
     if poi_sizes(end) > min_exec_slowdown_size % if poi is too close
-        exec_slowdown = 1 / (1 + secondary_exec_stop_k * poi_sizes(end))
+        exec_slowdown = 1 / (1 + secondary_exec_stop_k * poi_sizes(end));
     else
         exec_slowdown = 1; % or set to the default value if no slowdown is needed
     end
     
-    q_vel_position = pinv_J * exec_slowdown * ee_vel
+    q_vel_position = pinv_J * exec_slowdown * ee_vel;
 
     % SECONDARY: mid-joints
     q_vel_mid = N * dq_mid;
