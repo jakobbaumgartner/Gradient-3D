@@ -125,7 +125,44 @@ Our kernels are designed as three-dimensional matrixes with a primary kernel axi
 
 % KERNEL WEIGHTS
 
+% PRIMARY AXIS
 
+We propose two different primary axis weights distributions, of course there is no reason why any other distribution of weights could not be used. The choice of the weights distribution should depend on the profile of the repulsive velocities we want to archieve for the APF. 
+
+The first of the proposed functions is a mirrored normal / gaussian distribution. By changing the sigma we can control how fast or slow does the field value grow when we approach obstacles.
+
+\begin{equation}
+w_i = 
+\begin{cases} 
+	e^{-\frac{\Delta i^2}{2\sigma^2}} / (\sigma \sqrt{2\pi}) & \text{if } \Delta i > 0 \\
+	0 & \text{if } \Delta i = 0 \\
+	-e^{-\frac{\Delta i^2}{2\sigma^2}} / (\sigma \sqrt{2\pi}) & \text{if } \Delta i < 0 
+\end{cases}
+\end{equation}
+
+%\begin{equation}
+%w_i = 
+%\begin{cases} 
+%	\frac{e^{-\frac{\Delta i^2}{2\sigma^2}}}{\sigma \sqrt{2\pi}} & \text{if } \Delta i > 0 \\
+%	0 & \text{if } \Delta i = 0 \\
+%	-\frac{e^{-\frac{\Delta i^2}{2\sigma^2}}}{\sigma \sqrt{2\pi}} & \text{if } \Delta i < 0 
+%\end{cases}
+%\end{equation}
+
+Another distribution we used is mirrored linear, where the $l=\lceil width / 2 \rceil$ is the rounded up half length of the primary axis kernel. 
+
+\begin{equation}
+	w_i = 
+	\begin{cases} 
+	 	\frac{l - \Delta i}{l} & \text{if } \Delta i > 0 \\
+		0 & \text{if } \Delta i = 0 \\
+		\frac{l + \Delta i}{l}& \text{if } \Delta i < 0 
+	\end{cases}
+\end{equation}
+
+
+
+% ORTHAGONAL AXIS
 
 
 The length of the primary axis is critical, as it dictates the detection range for obstacles. Longer kernels can detect obstacles further away
