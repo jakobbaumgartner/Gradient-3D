@@ -5,7 +5,7 @@ close all
 % ------------------------------------------------------------
 
 % select map
-map_selection = 'roof'
+map_selection = 'column'
 
 [grid] = MAPS(map_selection);
 
@@ -179,22 +179,20 @@ toc()
 %% PLOT DISTANCE AND MANIPULABILITY
 % ------------------------- 
 
-% figure()
-% plot(output.goal_distances, 'g')
-% hold on
-% plot(output.manipulability_avoidance*10, 'r')
-% plot(output.manipulability_primary*10, 'b')
-% 
-% legend('Goal Distances', 'Manipulability Avoidance x10', 'Manipulability Primary x10')
-% xlabel('Iteration')
-% ylabel('Value')
-% title('Plot of Goal Distances and Manipulabilities')
-% grid on
+figure()
+plot(output.goal_distances, 'g')
+hold on
+plot(output.manipulability_avoidance*10, 'r')
+plot(output.manipulability_primary*10, 'b')
+
+legend('Goal Distances', 'Manipulability Avoidance x10', 'Manipulability Primary x10')
+xlabel('Iteration')
+ylabel('Value')
+title('Plot of Goal Distances and Manipulabilities')
+grid on
 
 
 %% PLOT VISUALIZATION
 % ------------------------- 
-
-% showMovementPandaRepulsiveOnePoint(grid, control_points, output.joints_positions, output.EE_positions, output.values_APF, Tbase)
 
 showMovementPandaMultiplePoints(grid, Tbase, control_points, output)

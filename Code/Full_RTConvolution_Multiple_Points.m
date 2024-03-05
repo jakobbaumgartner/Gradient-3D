@@ -3,15 +3,15 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 %% PARAMETERS
 
 % select which goals
-mid_joints = 1
+mid_joints = 0
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
 secondary_exec_stop_k = 1 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
-min_exec_slowdown_size = 1 % if poi is closer than this value, primary task will slow down
+min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will slow down
 
 % -----------------------------------------------------------
-% number of points per segment for obstacle avoidance taskmanipulability_avoidance
+% number of points per segment for obstacle avoidance task manipulability_avoidance
 points_per_segment = 1*[1 1 2 1 3 1 1];
 
 % the number of points taken into account and weighting factors
@@ -21,20 +21,20 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 500 % max number of iterations
+Nmax = 50 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
-wp = 0.75 % primary task
+wp = 5 % primary task
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
-wm = 0.1 % mid-joints task
-wa = 0.1 % obstacle avoidance task
+wm = 0.5 % mid-joints task
+wa = 0.5 % obstacle avoidance task
 
 
 
 % function parameters
-goal_dist = 0.001 % distance which satisfies ending of optimization
+goal_dist = 0.01 % distance which satisfies ending of optimization
 
 % damping factor to avoid inverse Jacobain matrix singularities
 damping_factor_primary = 0.01
@@ -118,7 +118,7 @@ while current_dist > goal_dist && Niter <= Nmax
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
     ee_vel_att_magn = norm(goal_point(1:3)' - ee_point);
-    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
+    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(10*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
@@ -179,7 +179,7 @@ while current_dist > goal_dist && Niter <= Nmax
     if avoid_task
         
         % for every poi
-        for index_poi = 1:1:sum(points_per_segment)
+        for index_poi = 3:1:(sum(points_per_segment)-1) % 3 <-- ignore first bottom 2 points on arm (can't move anyways away from obstacles) and last one (EE)
 
             % GET POI POSITIONS
             % --------------------
@@ -316,7 +316,7 @@ while current_dist > goal_dist && Niter <= Nmax
     % --------------------------------------------------
     
     % PRIMARY: position
-
+% poi_sizes(end)
     % exec slowdown - if secondary task has big velocities, primary task will slow down to give more time to collisions avoidance
     if poi_sizes(end) > min_exec_slowdown_size % if poi is too close
         exec_slowdown = 1 / (1 + secondary_exec_stop_k * poi_sizes(end));
