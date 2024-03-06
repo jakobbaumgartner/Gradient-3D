@@ -3,7 +3,7 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 %% PARAMETERS
 
 % select which goals
-mid_joints = 0
+mid_joints = 1
 avoid_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
@@ -21,7 +21,7 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 50 % max number of iterations
+Nmax = 1000 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
@@ -29,7 +29,7 @@ wp = 5 % primary task
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
 wm = 0.5 % mid-joints task
-wa = 0.5 % obstacle avoidance task
+wa = 1 % obstacle avoidance task
 
 
 
@@ -118,7 +118,7 @@ while current_dist > goal_dist && Niter <= Nmax
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
     ee_vel_att_magn = norm(goal_point(1:3)' - ee_point);
-    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(10*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
+    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
