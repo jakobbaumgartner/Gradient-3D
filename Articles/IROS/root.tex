@@ -106,6 +106,10 @@ By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between
 	\label{eq:hadamard}
 \end{equation}
 
+\begin{equation}
+	S = \sum_{i,j,k} (W \odot A)_{ijk} = \sum_{i}\sum_{j}\sum_{k} w_{\Delta i \Delta j \Delta k} \times  a_{\Delta i \Delta j \Delta k}
+\end{equation}
+
 Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained (eq.~\ref{eq:summation}) by summing all the values in the resulting matrix $C_d$, which can be represented as:
 
 \begin{equation}
@@ -131,8 +135,10 @@ We propose two different primary axis weights distributions, of course there is 
 
 The first of the proposed functions is a mirrored normal / gaussian distribution. By changing the sigma we can control how fast or slow does the field value grow when we approach obstacles.
 
+$\Delta i$, $\Delta j$ in $\Delta k$ predstavljajo število celic odmika od centralnega polja matrike, v katerem se nahaja naša točka na agentu v posamezno koordinatno smer.
+
 \begin{equation}
-w_i = 
+w_{\Delta i} = 
 \begin{cases} 
 	e^{-\frac{\Delta i^2}{2\sigma^2}} / (\sigma \sqrt{2\pi}) & \text{if } \Delta i > 0 \\
 	0 & \text{if } \Delta i = 0 \\
@@ -149,10 +155,10 @@ w_i =
 %\end{cases}
 %\end{equation}
 
-Another distribution we used is mirrored linear, where the $l=\lceil width / 2 \rceil$ is the rounded up half length of the primary axis kernel. 
+Another distribution we used is mirrored linear, where the $l=\lfloor width / 2 \rfloor$ is the rounded down half length of the primary axis kernel. 
 
 \begin{equation}
-	w_i = 
+	w_{\Delta i} = 
 	\begin{cases} 
 	 	\frac{l - \Delta i}{l} & \text{if } \Delta i > 0 \\
 		0 & \text{if } \Delta i = 0 \\
@@ -160,9 +166,11 @@ Another distribution we used is mirrored linear, where the $l=\lceil width / 2 \
 	\end{cases}
 \end{equation}
 
-
-
 % ORTHAGONAL AXIS
+
+If the matrix would be only 1 field width and height the field would work kind of as ray tracing in each of the main cartesian coordinate directions. Since our need is to detect also obstacles that dont align perfectly along the cartesian direction, it is important that our matrixes have width and height. However as we want bigger repulsive field when the obstacle is head on in the direction than when the obstacle is off the cardinal direction, we propose the following multiplicator, to account for the off direction obstacles.
+
+
 
 
 The length of the primary axis is critical, as it dictates the detection range for obstacles. Longer kernels can detect obstacles further away
@@ -175,14 +183,30 @@ from the robot, essentially extending the ’safety zone’ around the robot. If
 
 %\remove{In the orthogonal axes, the magnitude of values diminishes with increasing distance from the core of the kernel, nearing zero at the edges. This gradation is vital for a smooth velocity transition when obstacles emerge in the kernels range. The peak magnitude is located at the kernel's core, along the primary axis. The polarity of the values is determined by their position relative to the primary axis. }
 
-The length of the orthogonal axes influences the peripheral detection range for obstacles. Excessively wide kernels may generate repulsive velocities for objects that are not in the path of the robot, whereas too narrow kernels might only detect obstacles aligned directly with the Cartesian direction in the point of interest. When selecting the width and height of the kernel, we must consider the density of the neighboring points of interest on the robot, ensuring that the \replace{collective fields}{combination of kernels} adequately cover the entire manipulator's surrounding area.
+The length of the orthogonal axes influences the peripheral detection range for obstacles. Excessively wide kernels may generate repulsive velocities for objects that are not in the path of the robot, whereas too narrow kernels might only detect obstacles aligned directly with the Cartesian direction in the point of interest. When selecting the width and height of the kernel, we must consider the density of the neighboring points of interest on the agent, ensuring that the \replace{collective fields}{combination of kernels} adequately cover the entire agent's surrounding area. 
+
+For smooth transitions when approaching the obstacles we propose the following sinus based function for the orthagonal axis distributions. The proposed equation is the same for both of the orthagonal matrix directions / axis. That is of course while operating with axis the $r=\lfloor width / 2 \rfloor$ is the rounded down half length of the selected orthagonal axis kernel.
+
+\begin{equation}
+	w_{\Delta j} =
+	\begin{cases} 
+		sin(\left| \Delta j \right| \pi / (2 r)) & \text{if } \Delta j < 0 \text{~or }  \Delta j > 0 \\
+		1 & \text{if } \Delta j = 0 \\
+	\end{cases}
+\end{equation}
+
+Finally we get three matrix kernels, one for each of the three coordinate axis directions by multiplieing weights components for primary and orthagonal axis.
+
+\begin{equation}
+	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} * w_{\Delta j} * w_{\Delta k}
+\end{equation}
 
 Če imamo opravka s točkastim agentom, kot je recimo štirikopet - dron, potem je dobra oblika posameznih matrik enaka dimenzija dolžine, širine in višine. Tako dobimo enakomerno pokritost krogle prostora v okolici agenta in preprečimo mrtve kote, ki se sicer lahko pojavijo, ko se ovira nahaja v bližini agenta, vendar med posameznimi jedri. \add{ADD:primer,slika}
 
 \comment{}{PLOT: kernel 2D images}
 \comment{}{EQUATION: kernel generation / values equations}
 
-\add{choice of velocity profile (gaussian, linear ... maybe could move this part to implementation / experiments)}
+
 
 
 
