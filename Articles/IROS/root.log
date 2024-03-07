@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  7 MAR 2024 12:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  7 MAR 2024 14:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -812,6 +812,10 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 63.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+
+LaTeX Warning: Reference `eq:hadamard' on page 1 undefined on input line 102.
+
+
 Underfull \hbox (badness 1748) in paragraph at lines 102--103
 []\OT1/ptm/m/n/10 By em-ploy-ing the Hadamard (element-wise) prod-uct
  []
@@ -822,7 +826,7 @@ ine 120.
 
 
 ] [2]
-Overfull \hbox (12.78093pt too wide) detected at line 260
+Overfull \hbox (12.78093pt too wide) detected at line 273
 [][][][]\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 = [](\OML/cmm/m/it/10 X\OT1/cmr/
 m/n/10 [\OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ]\OML/cmm/m/it/10 ; Y\OT1/cmr/m/n/10 
 [\OML/cmm/m/it/10 j\OT1/cmr/m/n/10 ]\OML/cmm/m/it/10 ; Z\OT1/cmr/m/n/10 [\OML/c
@@ -832,7 +836,7 @@ cmsy/m/n/10 2 f\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2\OMS/cmsy/m
  []
 
 
-Overfull \hbox (41.14462pt too wide) detected at line 310
+Overfull \hbox (41.14462pt too wide) detected at line 323
 [][][][]\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 rep[]\OT1/c
 mr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 x\OT1/cmr
 /m/n/10 ) + []\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 x \OMS
@@ -841,7 +845,7 @@ cmm/m/it/10 ; \OT1/cmr/m/n/10 2\OMS/cmsy/m/n/10 g
  []
 
 
-Overfull \hbox (20.51724pt too wide) detected at line 323
+Overfull \hbox (20.51724pt too wide) detected at line 336
 [][][][]\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 rep[]\OT1/c
 mr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 y\OT1/cmr
 /m/n/10 ) + []\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 y \OMS
@@ -850,87 +854,96 @@ mr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 y\OT1/cmr
  []
 
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 3
-53.
+76.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 5696) in paragraph at lines 358--359
+Underfull \hbox (badness 5696) in paragraph at lines 381--382
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 358--359
+Underfull \hbox (badness 1990) in paragraph at lines 381--382
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 369--370
+Underfull \hbox (badness 1389) in paragraph at lines 392--393
 []\OT1/ptm/m/n/8 T. Yoshikawa, \Dy-namic hy-brid po-si-tion/force con-trol of r
 obot
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 371--372
+Underfull \hbox (badness 1694) in paragraph at lines 394--395
 []\OT1/ptm/m/n/8 O. Khatib, \A uni-fied ap-proach for mo-tion and force con-tro
 l
  []
 
-
-Underfull \hbox (badness 5302) in paragraph at lines 383--384
+[3]
+Underfull \hbox (badness 5302) in paragraph at lines 406--407
 \OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
-[3]
-Underfull \hbox (badness 1742) in paragraph at lines 405--406
+
+Underfull \vbox (badness 3009) has occurred while \output is active []
+
+
+Underfull \hbox (badness 1742) in paragraph at lines 428--429
 []\OT1/ptm/m/n/8 Z. Long, \Vir-tual tar-get point-based obstacle-avoidance meth
 od
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 405--406
+Underfull \hbox (badness 1389) in paragraph at lines 428--429
 \OT1/ptm/m/n/8 for ma-nip-u-la-tor sys-tems in a clut-tered en-vi-ron-ment," En
 -gi-neer-
  []
 
 
-Underfull \hbox (badness 2735) in paragraph at lines 427--428
+Underfull \vbox (badness 3009) has occurred while \output is active []
+
+ [4]
+Underfull \hbox (badness 2735) in paragraph at lines 450--451
 []\OT1/ptm/m/n/8 J. D. Gam-mell, S. S. Srini-vasa, and T. D. Bar-foot, \Batch
  []
 
 
-Underfull \hbox (badness 3209) in paragraph at lines 427--428
+Underfull \hbox (badness 3209) in paragraph at lines 450--451
 \OT1/ptm/m/n/8 In-formed Trees (BIT*): Sampling-based Op-ti-mal Plan-ning via
  []
 
-[4]
-Underfull \hbox (badness 2384) in paragraph at lines 431--432
+
+Underfull \hbox (badness 2384) in paragraph at lines 454--455
 \OT1/ptm/m/n/8 Sys-tems, Chicago, IL, USA, Sep. 2014, pp. 2997{3004. doi:
  []
 
 
-Underfull \hbox (badness 2173) in paragraph at lines 439--440
+Underfull \hbox (badness 2173) in paragraph at lines 462--463
 []\OT1/ptm/m/n/8 B. Si-cil-iano, L. Sci-av-icco, L. Vil-lani, and G. Ori-olo, R
 obot.
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 439--440
+Underfull \hbox (badness 1939) in paragraph at lines 462--463
 \OT1/ptm/m/n/8 Model. Plan. Con-trol, 2010, pp. 161{189. [On-line]. Avail-able:
 
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 447--448
+Underfull \hbox (badness 2111) in paragraph at lines 470--471
 \OT1/ptm/m/n/8 vol. 15, no. 6, Art. no. 1729881418820223, Nov. 2018, doi:
  []
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+ [5]
+Underfull \hbox (badness 10000) in paragraph at lines 490--491
 []\OT1/ptm/m/n/8 S. Thrun, Prob-a-bilis-tic robotics, vol. 45, 2002.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--468
+Underfull \hbox (badness 10000) in paragraph at lines 490--491
 \OT1/ptm/m/n/8 Ac-cessed: Jun. 14, 2023. [On-line]. Avail-able:
  []
 
@@ -947,19 +960,22 @@ Before submitting the final camera ready copy, remember to:
 
 [6] (root.aux)
 
+LaTeX Warning: There were undefined references.
+
+
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `root.out' has not changed.
-(rerunfilecheck)             Checksum: 38B1E5B17C9D21B16BABC2785F0A655B;1445.
+(rerunfilecheck)             Checksum: 7DEE4E09208D9B68E452D879E77BF5FB;1594.
  ) 
 Here is how much of TeX's memory you used:
- 21610 strings out of 476375
- 408091 string characters out of 5788976
- 1893299 words of memory out of 5000000
- 41528 multiletter control sequences out of 15000+600000
- 550145 words of font info for 115 fonts, out of 8000000 for 9000
+ 21616 strings out of 476375
+ 408198 string characters out of 5788976
+ 1892299 words of memory out of 5000000
+ 41531 multiletter control sequences out of 15000+600000
+ 551252 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,10n,132p,951b,860s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 132i,10n,132p,951b,863s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
 /Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex1
 0.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
@@ -978,9 +994,9 @@ Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C
 ><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb
 ><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on root.pdf (6 pages, 226670 bytes).
+Output written on root.pdf (6 pages, 231336 bytes).
 PDF statistics:
- 271 PDF objects out of 1000 (max. 8388607)
- 104 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 275 PDF objects out of 1000 (max. 8388607)
+ 106 named destinations out of 1000 (max. 500000)
+ 109 words of extra memory for PDF output out of 10000 (max. 10000000)
 

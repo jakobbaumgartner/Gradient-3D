@@ -39,7 +39,7 @@
 
 
 \title{\LARGE \bf
-Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based Robotic Manipulator Path Planning
+Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based TSDF Calculation
 }
 
 
@@ -101,10 +101,10 @@ If the agent is located near the edge of our known voxel grid we can set the ele
 
 By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between the cutout segment of the obstacle grid \(A_d\) and the corresponding 3D convolutional kernel \(K_d\) for direction \(d\), we derive the resultant matrix \(C_d\), which can be expressed as:
 
-\begin{equation}
-	C_d = A_d \odot K_d
-	\label{eq:hadamard}
-\end{equation}
+%\begin{equation}
+%	C_d = A_d \odot K_d
+%	\label{eq:hadamard}
+%\end{equation}
 
 \begin{equation}
 	S = \sum_{i,j,k} (W \odot A)_{ijk} = \sum_{i}\sum_{j}\sum_{k} w_{\Delta i \Delta j \Delta k} \times  a_{\Delta i \Delta j \Delta k}
@@ -135,7 +135,7 @@ We propose two different primary axis weights distributions, of course there is 
 
 The first of the proposed functions is a mirrored normal / gaussian distribution. By changing the sigma we can control how fast or slow does the field value grow when we approach obstacles.
 
-$\Delta i$, $\Delta j$ in $\Delta k$ predstavljajo število celic odmika od centralnega polja matrike, v katerem se nahaja naša točka na agentu v posamezno koordinatno smer.
+$\Delta i = c_i - i$, $\Delta j = c_j - j$ in $\Delta k = c_k - k$ predstavljajo število celic odmika od centralnega polja matrike, v katerem se nahaja naša točka na agentu v posamezno koordinatno smer.
 
 \begin{equation}
 w_{\Delta i} = 
@@ -181,6 +181,8 @@ from the robot, essentially extending the ’safety zone’ around the robot. If
 	num_{primary} = \frac{2 \times \mathrm{range}}{\Delta \mathrm{grid}}\\
 \end{equation}
 
+\add{mogoče dodaj še kak stavek o izbiri dimenzij matrik}
+
 %\remove{In the orthogonal axes, the magnitude of values diminishes with increasing distance from the core of the kernel, nearing zero at the edges. This gradation is vital for a smooth velocity transition when obstacles emerge in the kernels range. The peak magnitude is located at the kernel's core, along the primary axis. The polarity of the values is determined by their position relative to the primary axis. }
 
 The length of the orthogonal axes influences the peripheral detection range for obstacles. Excessively wide kernels may generate repulsive velocities for objects that are not in the path of the robot, whereas too narrow kernels might only detect obstacles aligned directly with the Cartesian direction in the point of interest. When selecting the width and height of the kernel, we must consider the density of the neighboring points of interest on the agent, ensuring that the \replace{collective fields}{combination of kernels} adequately cover the entire agent's surrounding area. 
@@ -194,6 +196,17 @@ For smooth transitions when approaching the obstacles we propose the following s
 		1 & \text{if } \Delta j = 0 \\
 	\end{cases}
 \end{equation}
+
+Another option is to use linearly falling weights.
+
+\begin{equation}
+	w_{\Delta j} =
+	\begin{cases} 
+		\frac{l - \Delta j }{l} & \text{if } \Delta j < 0 \text{~or }  \Delta j > 0 \\
+		1 & \text{if } \Delta j = 0 \\
+	\end{cases}
+\end{equation}
+
 
 Finally we get three matrix kernels, one for each of the three coordinate axis directions by multiplieing weights components for primary and orthagonal axis.
 
@@ -329,13 +342,23 @@ The result of the interpolation is independent of the order of the operations. W
 
 The final result is a repulsive velocity vector that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
 
-
-
-\section{INVERSE KINEMATICS}
-
-\section{REPULSIVE VELOCITIES CALCULATION}
-
 \section{SIMULATION RESULTS}
+
+\subsection{Repulsive Field Visualization}
+
+\add{Visualization of the repulsive field around more or less complicated obstacles.}
+
+\comment{}{we dont have the close obstacles bottlenecks}
+
+\subsection{Manipulator Examples}
+
+\add{EXAMPLE: MANIPULATOR AND COLUMN}
+
+\add{EXAMPLE: MANIPULATOR AND MOVING NOISY BALL}
+
+\subsection{Drone Example}
+
+\add{EXAMPLE: DRONE MOVING THROUGH THE MAP OF OBSTACLES USING APF}
 
 \section{CONCLUSION}
 
