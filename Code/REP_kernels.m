@@ -53,13 +53,13 @@ function [kernels] = REP_kernels(varargin)
     kernel_height = p.Results.kernel_height;
 
     % form kernels
-%     kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, 2, kernel_height, 2, type);
-%     kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, 2, kernel_height, 2, type);
-%     kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, 2, kernel_height, 2, type);
-
-    kernel_x = directional_kernel_3d_sin('x', kernel_length, sigma, kernel_width, kernel_height, type);
-    kernel_y = directional_kernel_3d_sin('y', kernel_length, sigma, kernel_width, kernel_height, type);
-    kernel_z = directional_kernel_3d_sin('z', kernel_length, sigma, kernel_width, kernel_height, type);
+    kernel_x = directional_kernel_3d('x', kernel_length, sigma, kernel_width, 2, kernel_height, 2, type);
+    kernel_y = directional_kernel_3d('y', kernel_length, sigma, kernel_width, 2, kernel_height, 2, type);
+    kernel_z = directional_kernel_3d('z', kernel_length, sigma, kernel_width, 2, kernel_height, 2, type);
+% 
+%     kernel_x = directional_kernel_3d_sin('x', kernel_length, sigma, kernel_width, kernel_height, type);
+%     kernel_y = directional_kernel_3d_sin('y', kernel_length, sigma, kernel_width, kernel_height, type);
+%     kernel_z = directional_kernel_3d_sin('z', kernel_length, sigma, kernel_width, kernel_height, type);
 
     kernels = {kernel_x/max(kernel_x(:)), kernel_y/max(kernel_y(:)), kernel_z/max(kernel_z(:))};
 
