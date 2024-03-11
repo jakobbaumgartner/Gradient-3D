@@ -1,4 +1,4 @@
-function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
+function [f] = generate_figure_keyframes_2D(grid, Tbase, control_points, output)
     % Define the keyframes
     total_frames = size(output.joints_positions, 2);
     keyframes = round(linspace(1, total_frames-1, 6));
@@ -35,8 +35,8 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
         j = keyframes(kf);
         
         % Display grid
-        grid.showGridVol3D(grid.grid, 'floor', false, 'height', true);
-%         grid.showGridVoxel(grid.grid, 'floor', false, 'height', false);
+%         grid.showGridVol3D(grid.grid, 'floor', false, 'height', true);
+        grid.showGridVoxel(grid.grid, 'floor', false, 'height', false);
 
         
         % Display control points
@@ -81,10 +81,10 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
 
 
     % 3D view
-    view([-180 45.0]);
+%     view([-180 45.0]);
 
     % bird view (top-down view)
-%     view(0, 90);
+    view(0, 90);
 
     
     hold off;

@@ -103,7 +103,7 @@ classdef OctoGrid < handle
 
                         if heightColorMap
                             % Get the value of the current voxel
-                            voxel_value = grid(x,y,z);
+                            voxel_value = grid(y,x,z);
                             % Define the scalar value
                             value = z/size(grid,3);
 
@@ -115,7 +115,7 @@ classdef OctoGrid < handle
 
                         else
                             % Get the value of the current voxel
-                            voxel_value = grid(x,y,z);
+                            voxel_value = grid(y,x,z);
                         end
         
                         % Draw the voxel as a cube if its value is above the 
