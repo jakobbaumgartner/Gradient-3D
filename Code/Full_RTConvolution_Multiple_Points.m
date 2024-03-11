@@ -28,8 +28,8 @@ space_resolution = grid.resolution; % resolution of the obstacles grid
 wp = 5 % primary task
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
-wm = 0.5 % mid-joints task
-wa = 1 % obstacle avoidance task
+wm = 1 % mid-joints task
+wa = 1.5 % obstacle avoidance task
 
 
 
@@ -119,6 +119,9 @@ while current_dist > goal_dist && Niter <= Nmax
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
     ee_vel_att_magn = norm(goal_point(1:3)' - ee_point);
     ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
+
+    % ORIENTATION
+    ee_vel_orient = 
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
