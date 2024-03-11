@@ -25,7 +25,7 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
         % Create subplot for each keyframe
         subplot(2, 3, kf);
         % Remove axis rulers
-        set(gca, 'XTick', [], 'YTick', [], 'ZTick', []);
+%         set(gca, 'XTick', [], 'YTick', [], 'ZTick', []);
         box on; % Turn the box on
 %         set(gca, 'LineWidth', 1); % Set the box line width to 1 (adjust this value as needed)
         hold on;
@@ -39,11 +39,11 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
         
         % Display control points
         for i = 1:size(control_points,1)
-            scatter3(control_points(i,1)*grid.resolution, control_points(i,2)*grid.resolution, control_points(i,3)*grid.resolution, 'r');
+            scatter3(control_points(i,1)*grid.resolution, control_points(i,2)*grid.resolution, control_points(i,3)*grid.resolution, 'xr');
         end
         
         % Draw EE trajectory up to the current keyframe
-        plot3(output.EE_positions(1,1:j)*grid.resolution, output.EE_positions(2,1:j)*grid.resolution, output.EE_positions(3,1:j)*grid.resolution, 'red');
+%         plot3(output.EE_positions(1,1:j)*grid.resolution, output.EE_positions(2,1:j)*grid.resolution, output.EE_positions(3,1:j)*grid.resolution, 'red');
         
         % Calculate transforms for the current keyframe
         [transforms] = GeometricPandaMATLAB(output.joints_positions(:,j), Tbase);
@@ -66,19 +66,24 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
         apf_magnitude_remapped = round(min(apf_magnitude,1)*255 + 1);
         apf_color = cMap(apf_magnitude_remapped,:);
         
-        quiver3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, output.POI_values{j}(1,i)*arrow_length, output.POI_values{j}(2,i)*arrow_length, output.POI_values{j}(3,i)*arrow_length, 'LineWidth', 2, 'MaxHeadSize', 1, 'Color', apf_color);
+        quiver3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, output.POI_values{j}(1,i)*arrow_length, output.POI_values{j}(2,i)*arrow_length, output.POI_values{j}(3,i)*arrow_length, 'LineWidth', 1.5, 'MaxHeadSize', 1, 'Color', apf_color);
         scatter3(output.POI_locations{j}(1,i)*grid.resolution, output.POI_locations{j}(2,i)*grid.resolution, output.POI_locations{j}(3,i)*grid.resolution, 'filled', 'MarkerFaceColor', apf_color, 'MarkerEdgeColor', apf_color);
     end
     
     % Set the subplot title to indicate the keyframe
-%     title(['Keyframe ' num2str(kf)]);
+    title(['Keyframe ' num2str(kf)]);
     
     xlabel('');
     ylabel('');
     zlabel('');
 
 
+    % 3D view
     view([-180 45.0]);
+
+    % bird view (top-down view)
+%     view(0, 90);
+
     
     hold off;
     end
