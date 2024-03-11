@@ -191,6 +191,10 @@ ylabel('Value')
 title('Plot of Goal Distances and Manipulabilities')
 grid on
 
+% PLOT ORIENTATION ERROR
+figure()
+plot(output.goal_orientation)
+
 
 %% PLOT VISUALIZATION
 % ------------------------- 

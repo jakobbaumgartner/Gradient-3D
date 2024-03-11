@@ -2,18 +2,14 @@ function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, 
 
 %% POSSIBLE GOAL ORIENTATION OPTIONS
 
-R_x = [cos(pi/2)  0 sin(pi/2);
-       0         1 0;
-      -sin(pi/2) 0 cos(pi/2)];
+Rot_z1 = [1 0 0 ; 
+         0 -1 0 ; 
+         0 0 -1 ];
 
+Rot_z2 = [-1 0 0 ;
+          0 1 0 ;
+          0 0 -1];
 
-R_y = [1 0        0;
-       0 cos(-pi/2) -sin(-pi/2);
-       0 sin(-pi/2) cos(-pi/2)];
-
-R_z = [cos(pi) 0 sin(pi);
-       0       1 0;
-      -sin(pi) 0 cos(pi)];
 
 
 %% PARAMETERS
@@ -38,18 +34,19 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 1000 % max number of iterations
+Nmax = 50 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
 wp = 5 % primary task
+wp_or = 20 % primary task - orientation component
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
 wm = 1 % mid-joints task
 wa = 1.5 % obstacle avoidance task
 
 % EE orientation goal 
-orientation_goal = R_z;
+orientation_goal = Rot_z1
 
 % function parameters
 goal_dist = 0.01 % distance which satisfies ending of optimization
@@ -86,6 +83,27 @@ ee_orient = robot_transforms(1:3,1:3,8);
 % calculate distance from goal
 current_dist = norm(ee_point'- goal_point(1:3));
 
+% starting orientation error
+    % rotation goal
+    rR = orientation_goal;    
+        
+    % current rotation
+    RR = ee_orient;
+
+    % calculate rotation
+    dR = rR*RR';
+                
+    dR = dR / norm(dR);
+        
+    eq = 2*log(quaternion(rotm2quat(dR)));
+        
+    [~, qB, qC, qD] = eq.parts;
+        
+    eR = wp_or * [qB qC qD]
+
+% calculate distance in orientation
+current_orient = norm(eR);
+
 %% PREPARE LOG ARRAYS
 % -----------------------------------------------------------
 
@@ -101,7 +119,8 @@ output.manipulability_avoidance = [];
 output.repulsive_field = [];
 output.POI_locations = [];
 output.POI_values = [];
-
+output.EE_orientation = [];
+output.goal_orientation = [];
 manipulability_primary = 0;
 manipulability_avoidance = [];
 
@@ -122,7 +141,7 @@ f = waitbar(0, 'Running kinematic optimization')
 Niter = 1;
 
 % trajectory calculation loop
-while current_dist > goal_dist && Niter <= Nmax  
+while (current_dist + current_orient) > goal_dist && Niter <= Nmax  
 
     %% UPDATE PROGRESS BAR
     waitbar(Niter/Nmax)
@@ -140,17 +159,41 @@ while current_dist > goal_dist && Niter <= Nmax
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
     ee_vel_att_magn = norm(goal_point(1:3)' - ee_point);
-    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
+    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(50*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
 
     % ORIENTATION
-%     ee_vel_orient
+
+    if orientation_task
+
+        % rotation goal
+        rR = orientation_goal;    
+            
+        % current rotation
+        RR = ee_orient;
+    
+        % calculate rotation
+        dR = rR*RR';
+                    
+        dR = dR / norm(dR);
+            
+        eq = 2*log(quaternion(rotm2quat(dR)));
+            
+        [~, qB, qC, qD] = eq.parts;
+            
+        eR = wp_or * [qB qC qD];
+
+    else
+
+        eR = [0 0 0];
+
+    end
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
     
     % TOTAL : SUM   
     ee_vel = (wp_att * ee_vel_att + wp_rep * avoid_task * ee_vel_rep');
-    ee_vel = wp .* [ee_vel ; 0 ; 0 ; 0];
+    ee_vel = wp .* [ee_vel ; eR'];
     
 
     
@@ -343,11 +386,12 @@ while current_dist > goal_dist && Niter <= Nmax
     % PRIMARY: position
 % poi_sizes(end)
     % exec slowdown - if secondary task has big velocities, primary task will slow down to give more time to collisions avoidance
-    if poi_sizes(end) > min_exec_slowdown_size % if poi is too close
+    if avoid_task && poi_sizes(end) > min_exec_slowdown_size % if poi is too close
         exec_slowdown = 1 / (1 + secondary_exec_stop_k * poi_sizes(end));
     else
         exec_slowdown = 1; % or set to the default value if no slowdown is needed
     end
+    
     
     q_vel_position = pinv_J * exec_slowdown * ee_vel;
 
@@ -379,6 +423,9 @@ while current_dist > goal_dist && Niter <= Nmax
 
     % update goal distance
     current_dist = norm(ee_point'- goal_point(1:3))
+    
+    % update goal orientation
+    current_orient = norm(eR)
 
     %% LOGS
     % -----------------------------------------------------------
@@ -391,6 +438,12 @@ while current_dist > goal_dist && Niter <= Nmax
 
     % save goal distance
     output.goal_distances = [output.goal_distances current_dist];
+
+    % save current orientation
+    output.EE_orientation = [output.EE_orientation ; eR ];
+
+    % save goal orientation
+    output.goal_orientation = [output.goal_orientation current_orient];
 
     % save poi positions
     output.POI_locations{Niter} = poi_locations;
