@@ -1,10 +1,27 @@
 function [output] = Full_RTConvolution_Multiple_Points(grid, goal_point, Tbase, q)
 
+%% POSSIBLE GOAL ORIENTATION OPTIONS
+
+R_x = [cos(pi/2)  0 sin(pi/2);
+       0         1 0;
+      -sin(pi/2) 0 cos(pi/2)];
+
+
+R_y = [1 0        0;
+       0 cos(-pi/2) -sin(-pi/2);
+       0 sin(-pi/2) cos(-pi/2)];
+
+R_z = [cos(pi) 0 sin(pi);
+       0       1 0;
+      -sin(pi) 0 cos(pi)];
+
+
 %% PARAMETERS
 
 % select which goals
 mid_joints = 1
 avoid_task = 1
+orientation_task = 1
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
 secondary_exec_stop_k = 1 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
@@ -31,7 +48,8 @@ wp_rep = 0 % primary task - repulsive component
 wm = 1 % mid-joints task
 wa = 1.5 % obstacle avoidance task
 
-
+% EE orientation goal 
+orientation_goal = R_z;
 
 % function parameters
 goal_dist = 0.01 % distance which satisfies ending of optimization
@@ -60,6 +78,10 @@ transformations_list = getPartialTransformationsListPanda('points_per_segment', 
 
 % set current ee point to start point
 ee_point = robot_transforms(1:3,4,8);
+
+% set current ee orientation to start orientation matrix
+ee_orient = robot_transforms(1:3,1:3,8);
+
 
 % calculate distance from goal
 current_dist = norm(ee_point'- goal_point(1:3));
@@ -121,7 +143,7 @@ while current_dist > goal_dist && Niter <= Nmax
     ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(100*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
 
     % ORIENTATION
-    ee_vel_orient = 
+%     ee_vel_orient
 
     % REPULSIVE 
     ee_vel_rep = REP_field_calculation(grid, rep_kernels, ee_point);
@@ -349,9 +371,11 @@ while current_dist > goal_dist && Niter <= Nmax
     % limit positions within joint limits
     [q, ~] = checkPositionLimits(q);
 
-    % calculate new EE position
+    % calculate new EE position, orientation
     [robot_transforms] = GeometricPandaMATLAB(q, Tbase);
     ee_point = robot_transforms(1:3,4,8);
+    ee_orient = robot_transforms(1:3,1:3,8);
+
 
     % update goal distance
     current_dist = norm(ee_point'- goal_point(1:3))
