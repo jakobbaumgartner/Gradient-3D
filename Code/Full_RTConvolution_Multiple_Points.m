@@ -28,7 +28,7 @@ min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will
 points_per_segment = 1*[1 1 2 1 3 1 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1 1 1 1 1];
+weights_avoidance = [3 2 1 1 1 1];
 weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 
 % -----------------------------------------------------------
