@@ -20,7 +20,7 @@ avoid_task = 1
 orientation_task = 0
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
-secondary_exec_stop_k = 0.5 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+secondary_exec_stop_k = 0 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
 min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will slow down
 
 % -----------------------------------------------------------
@@ -28,7 +28,7 @@ min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will
 points_per_segment = 1*[1 1 2 1 3 1 1];
 
 % the number of points taken into account and weighting factors
-weights_avoidance = [1 1 1 1 1 1];
+weights_avoidance = [1 1 1 1 1];
 weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 
 % -----------------------------------------------------------
@@ -39,7 +39,7 @@ space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
 wp = 2 % primary task
-wp_or = 1 % primary task - orientation component
+wp_or = 5 % primary task - orientation component
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
 wm = 1 % mid-joints task
@@ -146,7 +146,7 @@ while Niter <= Nmax
     %% UPDATE BALL POSITION
     x_ball = 1.25;
     y_ball = 0.4 + (1.4 - 0.4) * Niter / Nmax;
-    z_ball = 0.6;
+    z_ball = 0.7;
 
     % clear previous ball position
     grid.clearGrid();
@@ -181,7 +181,10 @@ while Niter <= Nmax
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
     ee_vel_att_magn = norm(goal_point(1:3)' - ee_point);
-    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(10*ee_vel_att_magn)/pi*2 % direction only - normalised - sigmoid
+
+    distance_scale = atan(10*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
+
+    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * distance_scale; % direction only - normalised - sigmoid
 
     % ORIENTATION
 
