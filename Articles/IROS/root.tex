@@ -426,6 +426,7 @@ The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \ka
 
 \subsection{AVOIDANCE VELOCITIES}
 
+To move the manipulator away from the obstacles in its environment, we cover the manipulator evenly with virtual points. Gostota virtualnih točk je odvisna od velikosti matrik. Če je $w$ širina matrike v smeri pravokotno na primarno smer, je dobro, če so točke medsebojno razmaknjene glede na potek segmentov za $\Delta = \frac{1 * w}{3}$. Tedaj se bodo posamezne matrike deloma pokrivale in dosežemo enakomerno porazdelitev točk (POI) po celotnem robotu. Med izvajanjem kinematične optimizacije izračunavamo izogibne / odbojne hitrosti za vsako od točk po postopku opisanem v zgornjem poglavju. \add{referenca poglavja} To dobimo tako, da izvedemo preslikavo vsake od točk v task space, kjer izvajamo izračun odbojne hitrosti. Pri tem je posamezna kartezična preslikava sestavljena iz kinematične preslikave iz baze robota do začetka segmenta na katerem se točka nahaja in dodane preslikave do izbrane točke (od začetka segmenta do dela kjer se nahaja točka).Za vsako od točk dobimo tri komponente kartezične hitrosti. 
 
 
 \section{SIMULATION RESULTS}
@@ -503,9 +504,8 @@ The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \ka
 %	\label{fig:keyframes-2-column-ball}
 %\end{figure}
 %
-%\remove{Drone Example}
 
-\remove{EXAMPLE: DRONE MOVING THROUGH THE MAP OF OBSTACLES USING APF}
+
 
 \section{CONCLUSION}
 
