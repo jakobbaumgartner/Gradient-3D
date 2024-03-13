@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  27 JUL 2023 20:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  13 MAR 2024 16:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -720,11 +720,11 @@ Overfull \hbox (5.04596pt too wide) in paragraph at lines 190--191
 
 Package epstopdf Info: Source file: <Repulsive-Velocities-Along-the-Y-Axis-wide
 .eps>
-(epstopdf)                    date: 2023-07-24 14:37:41
-(epstopdf)                    size: 24246 bytes
+(epstopdf)                    date: 2023-11-14 13:57:24
+(epstopdf)                    size: 24712 bytes
 (epstopdf)             Output file: <Repulsive-Velocities-Along-the-Y-Axis-wide
 -eps-converted-to.pdf>
-(epstopdf)                    date: 2023-07-24 14:37:45
+(epstopdf)                    date: 2023-11-14 13:57:24
 (epstopdf)                    size: 9880 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=Repulsive-Velocities
 -Along-the-Y-Axis-wide-eps-converted-to.pdf Repulsive-Velocities-Along-the-Y-Ax
@@ -745,10 +745,10 @@ Package pdftex.def Info: Repulsive-Velocities-Along-the-Y-Axis-wide-eps-convert
 ed-to.pdf  used on input line 196.
 (pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
 Package epstopdf Info: Source file: <Y-Positions.eps>
-(epstopdf)                    date: 2023-07-24 14:35:25
-(epstopdf)                    size: 53273 bytes
+(epstopdf)                    date: 2023-11-14 13:57:24
+(epstopdf)                    size: 53899 bytes
 (epstopdf)             Output file: <Y-Positions-eps-converted-to.pdf>
-(epstopdf)                    date: 2023-07-24 14:35:28
+(epstopdf)                    date: 2023-11-14 13:57:24
 (epstopdf)                    size: 52537 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=Y-Positions-eps-conv
 erted-to.pdf Y-Positions.eps>
@@ -766,11 +766,11 @@ Package pdftex.def Info: Y-Positions-eps-converted-to.pdf  used on input line 2
 (pdftex.def)             Requested size: 227.62206pt x 170.72084pt.
 Package epstopdf Info: Source file: <7-DOF_Robot_Positions_Standard_vs_Avoidanc
 e.eps>
-(epstopdf)                    date: 2023-07-24 17:47:32
-(epstopdf)                    size: 31331 bytes
+(epstopdf)                    date: 2023-11-14 13:57:23
+(epstopdf)                    size: 31685 bytes
 (epstopdf)             Output file: <7-DOF_Robot_Positions_Standard_vs_Avoidanc
 e-eps-converted-to.pdf>
-(epstopdf)                    date: 2023-07-24 17:47:58
+(epstopdf)                    date: 2023-11-14 13:57:23
 (epstopdf)                    size: 30392 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=7-DOF_Robot_Position
 s_Standard_vs_Avoidance-eps-converted-to.pdf 7-DOF_Robot_Positions_Standard_vs_
@@ -816,7 +816,7 @@ Underfull \hbox (badness 2027) in paragraph at lines 255--259
 ] (erk.aux) ) 
 Here is how much of TeX's memory you used:
  15243 strings out of 476375
- 316059 string characters out of 5788976
+ 316159 string characters out of 5788976
  1869299 words of memory out of 5000000
  35313 multiletter control sequences out of 15000+600000
  527766 words of font info for 58 fonts, out of 8000000 for 9000
