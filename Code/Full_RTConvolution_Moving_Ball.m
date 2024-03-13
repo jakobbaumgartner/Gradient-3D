@@ -15,12 +15,12 @@ Rot_z2 = [-1 0 0 ;
 %% PARAMETERS
 
 % select which goals
-mid_joints = 1
+mid_joints = 0
 avoid_task = 1
-orientation_task = 1
+orientation_task = 0
 kinematics_solution = 'exact-reduced' % OPTIONS: exact-reduced , exact , approximate
 timestep_secondary_gain_change = 0 % if selected, secondary task will start with normal gain and fall with time
-secondary_exec_stop_k = 1 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
+secondary_exec_stop_k = 0.5 % primary task will slow down (>0) or stop executing if secondary task has big velocities 
 min_exec_slowdown_size = 0 % if poi is closer than this value, primary task will slow down
 
 % -----------------------------------------------------------
@@ -34,16 +34,16 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 50 % max number of iterations
+Nmax = 100 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
-wp = 5 % primary task
-wp_or = 20 % primary task - orientation component
+wp = 2 % primary task
+wp_or = 1 % primary task - orientation component
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
 wm = 1 % mid-joints task
-wa = 1.5 % obstacle avoidance task
+wa = 3 % obstacle avoidance task
 
 % EE orientation goal 
 orientation_goal = Rot_z1
@@ -78,7 +78,6 @@ ee_point = robot_transforms(1:3,4,8);
 
 % set current ee orientation to start orientation matrix
 ee_orient = robot_transforms(1:3,1:3,8);
-
 
 % calculate distance from goal
 current_dist = norm(ee_point'- goal_point(1:3));
@@ -121,6 +120,7 @@ output.POI_locations = [];
 output.POI_values = [];
 output.EE_orientation = [];
 output.goal_orientation = [];
+output.grids = {};
 manipulability_primary = 0;
 manipulability_avoidance = [];
 
@@ -141,7 +141,29 @@ f = waitbar(0, 'Running kinematic optimization')
 Niter = 1;
 
 % trajectory calculation loop
-while (current_dist + current_orient) > goal_dist && Niter <= Nmax  
+while Niter <= Nmax  
+
+    %% UPDATE BALL POSITION
+    x_ball = 1.25;
+    y_ball = 0.4 + (1.4 - 0.4) * Niter / Nmax;
+    z_ball = 0.6;
+
+    % clear previous ball position
+    grid.clearGrid();
+
+    % add ball to new position
+    grid.addSphere(x_ball, y_ball, z_ball, 0.2)
+
+%     if Niter == 1
+%         figure()
+%         imagesc(grid.grid(:,:,6))
+%     end
+% 
+%     if Niter == 25
+%         figure()
+%         imagesc(grid.grid(:,:,6))
+%     end
+
 
     %% UPDATE PROGRESS BAR
     waitbar(Niter/Nmax)
@@ -159,7 +181,7 @@ while (current_dist + current_orient) > goal_dist && Niter <= Nmax
 
     % ATTRACTIVE ( OPTION KINEMATICS CLASSIC END EFFECTOR )
     ee_vel_att_magn = norm(goal_point(1:3)' - ee_point);
-    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(50*ee_vel_att_magn)/pi*2; % direction only - normalised - sigmoid
+    ee_vel_att = (goal_point(1:3)' - ee_point)/ee_vel_att_magn * atan(10*ee_vel_att_magn)/pi*2 % direction only - normalised - sigmoid
 
     % ORIENTATION
 
@@ -458,6 +480,8 @@ while (current_dist + current_orient) > goal_dist && Niter <= Nmax
     output.manipulability_primary = [output.manipulability_primary manipulability_primary];
     output.manipulability_avoidance = [output.manipulability_avoidance manipulability_avoidance];
 
+    % save grid values
+    output.grids{Niter} = grid.grid;
 
     % ITER COUNTER
     % -----------------------------------------------------------

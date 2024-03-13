@@ -20,13 +20,12 @@ close all
     
     % set joints starting pose
     q = [0.0319913344656175
-0.164451369212247
-0.00933902434572278
--2.38024192403430
-0.00518018325880462
-2.53266747724704
-0.0400646905027541];
-    
+        0.164451369212247
+        0.00933902434572278
+        -2.38024192403430
+        0.00518018325880462
+        2.53266747724704
+        0.0400646905027541];  
 
 
 
@@ -76,4 +75,9 @@ plot(output.goal_orientation)
 %% PLOT VISUALIZATION
 % ------------------------- 
 
-showMovementPandaMultiplePoints(grid, Tbase, control_points, output)
+% showMovementPandaMultiplePoints(grid, Tbase, control_points, output)
+
+%% PLOT VISUALIZATION - CHANGING GRID
+
+[f] = showMovementPandaChangingGrid(Tbase, control_points, output)
+
