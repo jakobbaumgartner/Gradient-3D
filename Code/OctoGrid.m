@@ -266,5 +266,81 @@ classdef OctoGrid < handle
 
         end
 
+        function addSphere(obj, centerX, centerY, centerZ, radius)
+
+            %ADDSPHERE Adds a spherical object to the occupancy grid.
+            %
+            % This method colors voxels within the specified sphere's radius based
+            % on their occupancy level. For voxels fully enclosed by the sphere, they
+            % are set to 1. For voxels partially covered by the sphere, a value
+            % proportional to the volume of occupancy is assigned. This function
+            % assumes a simplistic linear model for partial volume occupancy.
+            %
+            % Parameters:
+            % obj - The instance of the OctoGrid class
+            % centerX, centerY, centerZ - The center coordinates of the sphere in meters
+            % radius - The radius of the sphere in meters
+            %
+            % Example:
+            % grid.addSphere(0.5, 0.5, 0.5, 0.1)
+            % This example adds a sphere with a radius of 0.1 meters centered at
+            % coordinates (0.5, 0.5, 0.5) meters in the occupancy grid.
+            %
+            % Note: This method modifies the grid property of the OctoGrid object,
+            % updating the occupancy values of the voxels within the sphere's influence.
+        
+            % Convert center coordinates and radius to grid indices
+            centerX_idx = round(centerX * obj.resolution);
+            centerY_idx = round(centerY * obj.resolution);
+            centerZ_idx = round(centerZ * obj.resolution);
+            radius_idx = round(radius * obj.resolution);
+        
+            % Calculate the index range to iterate over, ensuring we stay within bounds
+            x_range = max(1, centerX_idx-radius_idx):min(size(obj.grid, 2), centerX_idx+radius_idx);
+            y_range = max(1, centerY_idx-radius_idx):min(size(obj.grid, 1), centerY_idx+radius_idx);
+            z_range = max(1, centerZ_idx-radius_idx):min(size(obj.grid, 3), centerZ_idx+radius_idx);
+        
+            for x = x_range
+                for y = y_range
+                    for z = z_range
+                        % Calculate the distance from the voxel center to the sphere center in grid indices
+                        dist = sqrt((x - centerX_idx)^2 + (y - centerY_idx)^2 + (z - centerZ_idx)^2);
+        
+                        if dist < radius_idx
+                            % Calculate approximate occupancy
+                            if dist <= radius_idx - 1
+                                occupancy = 1;  % Fully within the sphere
+                            else
+                                % Simple approximation for partial occupancy
+                                % Assuming occupancy decreases linearly from the surface inward
+                                partial_volume_ratio = 1 - (dist - (radius_idx - 1)) / 1;
+                                occupancy = partial_volume_ratio;
+                            end
+                            
+                            % Set or update the voxel value
+                            obj.grid(y, x, z) = max(obj.grid(y, x, z), occupancy);
+                        end
+                    end
+                end
+            end
+        end
+
+        function clearGrid(obj)
+
+            %CLEARGRID Clears the occupancy grid, setting all voxels to unoccupied.
+            %
+            % This method resets all values in the occupancy grid to zero, effectively
+            % "emptying" the grid. It can be useful for reinitializing the grid state
+            % without creating a new OctoGrid object.
+            %
+            % Example:
+            % grid.clearGrid()
+            % This example empties the grid, setting all occupancy values to zero.
+        
+            obj.grid = zeros(round(obj.length) * obj.resolution, round(obj.width) * obj.resolution, round(obj.height) * obj.resolution);
+        end
+
+
+
     end
 end
