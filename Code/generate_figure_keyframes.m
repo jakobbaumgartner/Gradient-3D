@@ -1,6 +1,6 @@
 function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
     % Define the keyframes
-    total_frames = size(output.joints_positions, 2);
+    total_frames = 80% size(output.joints_positions, 2);
     keyframes = round(linspace(1, total_frames-1, 6));
 
     % APF field vector length
@@ -16,11 +16,7 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
 
     % Loop through each keyframe
     for kf = 1:length(keyframes)
-        % Set the axes limits to ensure consistency across subplots
-        xlim([0 20]);   
-        ylim([0 20]);   
-        zlim([0 10]);
-%         axis equal;  
+
 
         % Create subplot for each keyframe
         subplot(2, 3, kf);
@@ -35,7 +31,7 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
         j = keyframes(kf);
         
         % Display grid
-        grid.showGridVol3D(grid.grid, 'floor', false, 'height', true);
+        grid.showGridVol3D(output.grids{j}, 'floor', false, 'height', true);
 %         grid.showGridVoxel(grid.grid, 'floor', false, 'height', false);
 
         
@@ -81,10 +77,19 @@ function [f] = generate_figure_keyframes(grid, Tbase, control_points, output)
 
 
     % 3D view
-    view([-180 45.0]);
+%     view([-180 45.0]);
+%     view(50,10)
+
+    % side-view
+    view(+90,0)
 
     % bird view (top-down view)
 %     view(0, 90);
+
+        xlim([5 20]);   
+        ylim([5 15]);   
+        zlim([0 10]);
+%         axis equal;  
 
     
     hold off;

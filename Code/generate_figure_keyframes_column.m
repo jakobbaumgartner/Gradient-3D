@@ -4,7 +4,7 @@ function [f] = generate_figure_keyframes_column(grid, Tbase, control_points, out
     keyframes = round(linspace(1, total_frames-1, 4)); % Change number of keyframes to 4
 
     % APF field vector length
-    arrow_length = 0.5; % adjust the length to your preference
+    arrow_length = 2 % adjust the length to your preference
 
     %% COLORMAP for APF vectors
     cMap = interp1(0:1,[0 1 0; 1 0 0],linspace(0,1,256));
@@ -34,9 +34,9 @@ function [f] = generate_figure_keyframes_column(grid, Tbase, control_points, out
             
             % Display grid
             if viewMode == 1
-                grid.showGridVol3D(grid.grid, 'floor', false, 'height', true);            
+                grid.showGridVol3D(output.grids{j}, 'floor', false, 'height', true);            
             else
-                grid.showGridVoxel(grid.grid, 'floor', false, 'height', false);            
+                grid.showGridVoxel(output.grids{j}, 'floor', false, 'height', false);            
             end
             
             % Display control points
@@ -71,10 +71,10 @@ function [f] = generate_figure_keyframes_column(grid, Tbase, control_points, out
             % Set the subplot title to indicate the keyframe and view
             if viewMode == 1
                 title([num2str(kf) ' - 3D']);
-                view([-180 45.0]); % 3D view
+                view(50,10); % 3D view
             else
                 title([num2str(kf) ' - Top Down']);
-                view(2); % Bird's eye view (top-down view)
+                view(90, 0); % Bird's eye view (top-down view)
             end
             
             hold off;
