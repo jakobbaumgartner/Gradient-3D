@@ -120,9 +120,10 @@ output.repulsive_field = [];
 output.POI_locations = [];
 output.POI_values = [];
 output.EE_orientation = [];
-output.goal_orientation = [];
+output.goal_orientation = [current_orient];
 manipulability_primary = 0;
 manipulability_avoidance = [];
+output.exec_slowdown = [];
 
 
 %% GET KERNELS
@@ -457,6 +458,9 @@ while (current_dist + current_orient) > goal_dist && Niter <= Nmax
     % save manipulability measurements of jacobians
     output.manipulability_primary = [output.manipulability_primary manipulability_primary];
     output.manipulability_avoidance = [output.manipulability_avoidance manipulability_avoidance];
+
+    % save exec slowdown value
+    output.exec_slowdown = [output.exec_slowdown exec_slowdown];
 
 
     % ITER COUNTER

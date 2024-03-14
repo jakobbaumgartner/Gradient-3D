@@ -1,39 +1,61 @@
+% Set the maximum step for the x-axis
+Nmax = 50; % You can adjust this value as needed
+
 figure()
 
-%% distance,velocity, angular_vel, exec_Stop, avoidance_total
+%% Subplot 1: distance, velocity, angular_vel, exec_Stop
 subplot(2,2,1)
 
 % distance
+plot(output.goal_distances, 'DisplayName', 'Position error')
+title('Primary Task')
+hold on
 
-% velocity
-
-
-% angular_vel
-
+% orientation
+plot(output.goal_orientation, 'DisplayName', 'Orientation error')
 
 % exec_Stop
+plot(output.exec_slowdown*50, 'DisplayName', 'Primary Task Slowdown')
+hold off
 
-% avoidance_total
+% Add legend
+legend('show')
 
+% Set x-axis limits
+xlim([0 Nmax])
 
-%% joint velocities
+%% Subplot 2: joint velocities (theta dot with index)
 subplot(2,2,2)
+hold on
+for i = 1:size(output.q_velocities, 1)
+    plot(output.q_velocities(i, :)', 'DisplayName', ['$\dot{\theta}_{' num2str(i) '}$'])
+end
+title('Joint Velocities')
+hold off
 
-plot((output.q_velocities)')
+% Add legend
+legend('Interpreter', 'latex', 'Location', 'east')
 
+% Set x-axis limits
+xlim([0 Nmax])
 
-%% joint positions
-
+%% Subplot 3: joint positions (theta with index)
 subplot(2,2,3)
+hold on
+for i = 1:size(output.joints_positions, 1)
+    plot(output.joints_positions(i, :)', 'DisplayName', ['$\theta_{' num2str(i) '}$'])
+end
+title('Joint Positions')
+hold off
 
-plot((output.joints_positions)')
+% Add legend
+legend('Interpreter', 'latex', 'Location', 'east')
 
+% Set x-axis limits
+xlim([0 Nmax])
 
-
-%% repulsive velocities
-
+%% Subplot 4: repulsive velocities (v_rep with index)
 subplot(2,2,4)
-
 % Assuming the cell array is stored in a variable called 'POI_values'
 numTimesteps = 50; % Number of timesteps to process
 numVectors = 7; % Number of velocity vectors per timestep
@@ -54,9 +76,16 @@ for t = 1:numTimesteps
     end
 end
 
-% Now, velocityNorms contains the norms of the velocity vectors for each object at each timestep
-disp(velocityNorms);
+% Plotting the repulsive velocities norms with index
+hold on
+for v = 1:numVectors
+    plot(velocityNorms(:, v), 'DisplayName', ['$v_{rep' num2str(v) '}$'])
+end
+title('Repulsive Velocities (norms)')
+hold off
 
+% Add legend
+legend('Interpreter', 'latex', 'Location', 'east')
 
-plot(velocityNorms)
-
+% Set x-axis limits
+xlim([0 Nmax])
