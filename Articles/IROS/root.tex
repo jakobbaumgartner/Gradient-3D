@@ -99,7 +99,7 @@ Once the mapping of these points to the voxel grid is completed, we proceed to e
 
 If the agent is located near the edge of our known voxel grid we can set the eleemnts of the window would be located in the space beyond the matrix as empty in which case the robot might want to move towards this space or as occupied, which will prevent the robot from moving out of the known grid space.
 
-By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between the cutout segment of the obstacle grid \(A_d\) and the corresponding 3D convolutional kernel \(K_d\) for direction \(d\), we derive the resultant matrix \(C_d\), which can be expressed as:
+By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between the cutout segment of the obstacle grid \(G_d\) and the corresponding 3D convolutional kernel \(W_d\) and than summoning all of the matrix values for each of the directions $d \in \{x, y, z\}$, we derive the resultant repulsive velocities vector \( \vec{v}_i = \left[ v_{x_i} v_{y_i} v_{z_i}\right] \).
 
 %\begin{equation}
 %	C_d = A_d \odot K_d
@@ -107,19 +107,18 @@ By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between
 %\end{equation}
 
 \begin{equation}
-	S = \sum_{i,j,k} (W \odot A)_{ijk} = \sum_{i}\sum_{j}\sum_{k} w_{\Delta i \Delta j \Delta k} ~  a_{\Delta i \Delta j \Delta k}
+	v_d = \sum_{i,j,k} (G \odot W)_{ijk} = \sum_{i}\sum_{j}\sum_{k} g_{\Delta i \Delta j \Delta k} ~  w_{\Delta i \Delta j \Delta k}
 \end{equation}
 
-Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained (eq.~\ref{eq:summation}) by summing all the values in the resulting matrix $C_d$, which can be represented as:
 
-\begin{equation}
-	\dot{x}_{poi} = \sum_{i}\sum_{j}\sum_{k} c_{dijk} 
-	\label{eq:summation}
-\end{equation}
-
-\alert{remove the above equation and add a vector of calculated velocities equation instead}
-
-\comment{}{TODO: add the indexes for x,y,z directions}
+%\begin{equation}
+%	\dot{x}_{poi} = \sum_{i}\sum_{j}\sum_{k} c_{dijk} 
+%	\label{eq:summation}
+%\end{equation}
+%
+%\alert{remove the above equation and add a vector of calculated velocities equation instead}
+%
+%\comment{}{TODO: add the indexes for x,y,z directions}
 
 
 
@@ -219,7 +218,6 @@ Finally we get three matrix kernels, one for each of the three coordinate axis d
 Če imamo opravka s točkastim agentom, kot je recimo štirikopet - dron, potem je dobra oblika posameznih matrik enaka dimenzija dolžine, širine in višine. Tako dobimo enakomerno pokritost krogle prostora v okolici agenta in preprečimo mrtve kote, ki se sicer lahko pojavijo, ko se ovira nahaja v bližini agenta, vendar med posameznimi jedri. \add{ADD:primer,slika}
 
 \comment{}{PLOT: kernel 2D images}
-\comment{}{EQUATION: kernel generation / values equations}
 
 \subsection{3D INTERPOLATION} 
 
