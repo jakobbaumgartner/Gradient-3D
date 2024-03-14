@@ -87,7 +87,7 @@ Mreža voxels je lahko predefinirana, glede na model / 3d zemljevid prostora. Za
 
 In our method, we compute repulsive velocities within the task space using a novel matrix kernel multiplication approach. Concentrating on the task space is advantageous as it provides a more direct and realistic representation of the environment. 
 
-Naša metoda je posebno primerna za uporabo z senzorskimi sistemi kot so LIDAR ali globinske kamere, saj zaradi upoštevanja celotne okolice točke in ne le razdalje do najbližje točke v okolici efektivno filtriramo senzorski šum.
+\replace{Naša metoda je posebno primerna za uporabo z senzorskimi sistemi kot so LIDAR ali globinske kamere, saj zaradi upoštevanja celotne okolice točke in ne le razdalje do najbližje točke v okolici efektivno filtriramo senzorski šum.}{prestavi to v diskusijo}
 
 Repulsive velocities tell the agent in which direction to move, so that it avoids nearby obstacles. These velocities drop to zero when the agent maintains a minimum safe distance from obstacles, and rise to their highest when it nears an obstacle, facilitating immediate evasive action. As the repulsive field calculation is locally based, it will also go to zero when the agent is surrounded by all directions, equally spaced from all sides. That is, it is in the best local minima away from all the obstacles. 
 
@@ -346,7 +346,15 @@ The final result is a repulsive velocity vector that transitions smoothly betwee
 
 The desired movement of the end-effector is achieved by using inverse kinematics velocity control scheme with task prioritisation. 
 
-\add{inverse kinematics equation with task prioritization}  
+\begin{equation}
+	\dot{q} = J^+ \xi_{p} \mathrm{\vec{v}_{ATT}} + \dot{q}_{REP}
+\end{equation}
+
+The damped Moore-Penrose pseudo-inverse, \(J^+~=~J'(JJ' + \sigma I)^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{q}_{REP}$ are the weighted sum of avoidance joint velocities. \remove{For redundant robots, it optimizes solution selection by minimizing the joint velocity norm, while damping is applied to limit excessive joint velocities near singular configurations, thus improving solution robustness.}
+
+\add{maybe add the middle joints component in the equation (it is not necessary, doesn't make much change in the chosen experiments)}
+
+We run the inverse kinematics algorithm once for every time step, until we reach the desired cost function or reach the selected time limit. 
 
 \subsection{END-EFFECTOR VELOCITY}
 
@@ -419,17 +427,17 @@ To ensure the primary task doesn't overpower the secondary task, we've integrate
 	\frac{1}{1 + \kappa_{\text{sec}} \delta_{min}}
 \end{equation}
 
-\alert{Is this equation correct, ADD a singularity damping factor. Maybe even some variation of a changing damping.}
-
 The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \kappa_{\text{sec}} \) and the robot's minimum distance from an obstacle \( \delta_{\text{min}} \). We calculate the minimal distance in the repulsive velocities phase of the algorithm, as explained in section~\ref{chap:repulsive velocity}. As per the equation, a large \( \delta_{\text{min}} \) minimizes the slowdown effect, allowing uninterrupted primary task execution. Conversely, a small \( \delta_{\text{min}} \) increases the slowdown, by making the $\xi_{p}$ factor smaller, giving the secondary task more time for corrective actions.
 
 
 \subsection{AVOIDANCE VELOCITIES}
 
-To move the manipulator away from the obstacles in its environment, we cover the manipulator evenly with virtual points. Gostota virtualnih točk je odvisna od velikosti matrik. Če je $w$ širina matrike v smeri pravokotno na primarno smer, je dobro, če so točke medsebojno razmaknjene glede na potek segmentov za $\Delta = \frac{1 * w}{3}$. Tedaj se bodo posamezne matrike deloma pokrivale in dosežemo enakomerno porazdelitev točk (POI) po celotnem robotu. Med izvajanjem kinematične optimizacije izračunavamo izogibne / odbojne hitrosti za vsako od točk po postopku opisanem v zgornjem poglavju. \add{referenca poglavja} To dobimo tako, da izvedemo preslikavo vsake od točk v task space, kjer izvajamo izračun odbojne hitrosti. Pri tem je posamezna kartezična preslikava sestavljena iz kinematične preslikave iz baze robota do začetka segmenta na katerem se točka nahaja in dodane preslikave do izbrane točke (od začetka segmenta do dela kjer se nahaja točka).Za vsako od točk dobimo tri komponente kartezične hitrosti. 
+To move the manipulator away from the obstacles in its environment, we cover the manipulator evenly with virtual points. Gostota virtualnih točk je odvisna od velikosti matrik. Če je $w$ širina matrike v smeri pravokotno na primarno smer, je dobro, če so točke medsebojno razmaknjene glede na potek segmentov za $\Delta = \frac{w}{3}$. Tedaj se bodo posamezne matrike deloma pokrivale in dosežemo enakomerno porazdelitev točk (POI) po celotnem robotu. Med izvajanjem kinematične optimizacije izračunavamo izogibne / odbojne hitrosti za vsako od točk po postopku opisanem v zgornjem poglavju. \add{referenca poglavja} To dobimo tako, da izvedemo preslikavo vsake od točk v task space, kjer izvajamo izračun odbojne hitrosti. Pri tem je posamezna kartezična preslikava sestavljena iz kinematične preslikave iz baze robota do začetka segmenta na katerem se točka nahaja in dodane preslikave do izbrane točke (od začetka segmenta do dela kjer se nahaja točka).Za vsako od točk dobimo tri komponente kartezične hitrosti. 
 
 
 \section{SIMULATION RESULTS}
+
+\add{describe inverse kinematics integration of velocities}
 
 \subsection{Repulsive Field Visualization}
 

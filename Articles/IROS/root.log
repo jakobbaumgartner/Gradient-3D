@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  13 MAR 2024 22:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  14 MAR 2024 12:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -853,96 +853,108 @@ mr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 y\OT1/cmr
 /m/it/10 ; \OT1/cmr/m/n/10 2\OMS/cmsy/m/n/10 g
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
+[]\OT1/ptm/m/n/10 The damped Moore-Penrose pseudo-inverse,
+ []
+
 [3]
 
 LaTeX Warning: Reference `chap:repulsive velocity' on page 4 undefined on input
- line 424.
+ line 430.
 
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
-23.
+31.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 5696) in paragraph at lines 528--529
+Underfull \hbox (badness 5696) in paragraph at lines 536--537
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 528--529
+Underfull \hbox (badness 1990) in paragraph at lines 536--537
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
-
-Underfull \hbox (badness 1389) in paragraph at lines 539--540
+[4]
+Underfull \hbox (badness 1389) in paragraph at lines 547--548
 []\OT1/ptm/m/n/8 T. Yoshikawa, \Dy-namic hy-brid po-si-tion/force con-trol of r
 obot
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 541--542
+Underfull \hbox (badness 1694) in paragraph at lines 549--550
 []\OT1/ptm/m/n/8 O. Khatib, \A uni-fied ap-proach for mo-tion and force con-tro
 l
  []
 
 
-Underfull \hbox (badness 5302) in paragraph at lines 553--554
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+
+Underfull \hbox (badness 5302) in paragraph at lines 561--562
 \OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
-[4]
-Underfull \hbox (badness 1742) in paragraph at lines 575--576
+[5]
+Underfull \hbox (badness 1742) in paragraph at lines 583--584
 []\OT1/ptm/m/n/8 Z. Long, \Vir-tual tar-get point-based obstacle-avoidance meth
 od
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 575--576
+Underfull \hbox (badness 1389) in paragraph at lines 583--584
 \OT1/ptm/m/n/8 for ma-nip-u-la-tor sys-tems in a clut-tered en-vi-ron-ment," En
 -gi-neer-
  []
 
 
-Underfull \hbox (badness 2735) in paragraph at lines 597--598
+Underfull \hbox (badness 2735) in paragraph at lines 605--606
 []\OT1/ptm/m/n/8 J. D. Gam-mell, S. S. Srini-vasa, and T. D. Bar-foot, \Batch
  []
 
 
-Underfull \hbox (badness 3209) in paragraph at lines 597--598
+Underfull \hbox (badness 3209) in paragraph at lines 605--606
 \OT1/ptm/m/n/8 In-formed Trees (BIT*): Sampling-based Op-ti-mal Plan-ning via
  []
 
-[5]
-Underfull \hbox (badness 2384) in paragraph at lines 601--602
+
+Underfull \hbox (badness 2384) in paragraph at lines 609--610
 \OT1/ptm/m/n/8 Sys-tems, Chicago, IL, USA, Sep. 2014, pp. 2997{3004. doi:
  []
 
 
-Underfull \hbox (badness 2173) in paragraph at lines 609--610
+Underfull \hbox (badness 2173) in paragraph at lines 617--618
 []\OT1/ptm/m/n/8 B. Si-cil-iano, L. Sci-av-icco, L. Vil-lani, and G. Ori-olo, R
 obot.
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 609--610
+Underfull \hbox (badness 1939) in paragraph at lines 617--618
 \OT1/ptm/m/n/8 Model. Plan. Con-trol, 2010, pp. 161{189. [On-line]. Avail-able:
 
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 617--618
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+ [6]
+Underfull \hbox (badness 2111) in paragraph at lines 625--626
 \OT1/ptm/m/n/8 vol. 15, no. 6, Art. no. 1729881418820223, Nov. 2018, doi:
  []
 
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 637--638
+
+Underfull \hbox (badness 10000) in paragraph at lines 645--646
 []\OT1/ptm/m/n/8 S. Thrun, Prob-a-bilis-tic robotics, vol. 45, 2002.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 637--638
+Underfull \hbox (badness 10000) in paragraph at lines 645--646
 \OT1/ptm/m/n/8 Ac-cessed: Jun. 14, 2023. [On-line]. Avail-able:
  []
 
+[7]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -954,7 +966,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[7] (root.aux)
+[8
+
+] (root.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -965,13 +979,13 @@ Package rerunfilecheck Info: File `root.out' has not changed.
 (rerunfilecheck)             Checksum: 858E43667512912F9A70DD8E4B74371D;1980.
  ) 
 Here is how much of TeX's memory you used:
- 21635 strings out of 476375
- 408457 string characters out of 5788976
- 1906299 words of memory out of 5000000
+ 21637 strings out of 476375
+ 408476 string characters out of 5788976
+ 1914299 words of memory out of 5000000
  41540 multiletter control sequences out of 15000+600000
  552330 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,10n,132p,951b,860s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 132i,10n,132p,1068b,860s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
 /Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex1
 0.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
@@ -990,9 +1004,9 @@ Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C
 ><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb
 ><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on root.pdf (7 pages, 248952 bytes).
+Output written on root.pdf (8 pages, 254419 bytes).
 PDF statistics:
- 300 PDF objects out of 1000 (max. 8388607)
- 115 named destinations out of 1000 (max. 500000)
+ 305 PDF objects out of 1000 (max. 8388607)
+ 117 named destinations out of 1000 (max. 500000)
  125 words of extra memory for PDF output out of 10000 (max. 10000000)
 
