@@ -107,7 +107,7 @@ By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between
 %\end{equation}
 
 \begin{equation}
-	S = \sum_{i,j,k} (W \odot A)_{ijk} = \sum_{i}\sum_{j}\sum_{k} w_{\Delta i \Delta j \Delta k} \times  a_{\Delta i \Delta j \Delta k}
+	S = \sum_{i,j,k} (W \odot A)_{ijk} = \sum_{i}\sum_{j}\sum_{k} w_{\Delta i \Delta j \Delta k} ~  a_{\Delta i \Delta j \Delta k}
 \end{equation}
 
 Subsequently, the avoidance velocity in the Cartesian coordinate system is obtained (eq.~\ref{eq:summation}) by summing all the values in the resulting matrix $C_d$, which can be represented as:
@@ -432,9 +432,12 @@ The slowdown factor (eq.~\ref{eq:slowdown}) is influenced by the constant \( \ka
 
 \subsection{AVOIDANCE VELOCITIES}
 
-To move the manipulator away from the obstacles in its environment, we cover the manipulator evenly with virtual points. Gostota virtualnih točk je odvisna od velikosti matrik. Če je $w$ širina matrike v smeri pravokotno na primarno smer, je dobro, če so točke medsebojno razmaknjene glede na potek segmentov za $\Delta = \frac{w}{3}$. Tedaj se bodo posamezne matrike deloma pokrivale in dosežemo enakomerno porazdelitev točk (POI) po celotnem robotu. Med izvajanjem kinematične optimizacije izračunavamo izogibne / odbojne hitrosti za vsako od točk po postopku opisanem v zgornjem poglavju. \add{referenca poglavja} To dobimo tako, da izvedemo preslikavo vsake od točk v task space, kjer izvajamo izračun odbojne hitrosti. Pri tem je posamezna kartezična preslikava sestavljena iz kinematične preslikave iz baze robota do začetka segmenta na katerem se točka nahaja in dodane preslikave do izbrane točke (od začetka segmenta do dela kjer se nahaja točka).Za vsako od točk dobimo tri komponente kartezične hitrosti. 
+To move the manipulator away from the obstacles in its environment, we cover the manipulator evenly with virtual points. Gostota virtualnih točk je odvisna od velikosti matrik. Če je $w$ širina matrike v smeri pravokotno na primarno smer, je dobro, če so točke medsebojno razmaknjene glede na potek segmentov za $\Delta = \frac{w}{3}$. Tedaj se bodo posamezne matrike deloma pokrivale in dosežemo enakomerno porazdelitev točk (POI) po celotnem robotu. Med izvajanjem kinematične optimizacije izračunavamo izogibne / odbojne hitrosti za vsako od točk po postopku opisanem v zgornjem poglavju. \add{referenca poglavja} To dobimo tako, da izvedemo preslikavo vsake od točk v task space, kjer izvajamo izračun odbojne hitrosti. Pri tem je posamezna kartezična preslikava sestavljena iz kinematične preslikave iz baze robota do začetka segmenta na katerem se točka nahaja in dodane preslikave do izbrane točke (od začetka segmenta do dela kjer se nahaja točka). \(T_{\text{base} \rightarrow \text{POI}} = T_{\text{base} \rightarrow 1} \cdot T_{1 \rightarrow 2} \cdot \ldots \cdot T_{(j-1) \rightarrow j} \cdot T_{j \rightarrow \text{POI}}\) Za vsako od točk dobimo tri komponente kartezične hitrosti. 
 
-\add{EQUATION: transformation of position}
+\begin{equation}
+	T_{\text{base} \rightarrow \text{POI}} = T_{\text{base} \rightarrow 1} \cdot T_{1 \rightarrow 2} \cdot \ldots \cdot T_{(j-1) \rightarrow j} \cdot T_{j \rightarrow \text{POI}}	
+\end{equation}
+
 
 Ko dobimo za vsako od točk odbojno hitrost (repulsive / avoidance velocity), izračunamo drugo normo vsake od hitrosti. Za $K$ točk, v katerih so izogibne hitrosti največje in so posledično najbližje oviri nato izračunamo sklepne hitrosti, ki povzročijo izogibanje oviri. 
 
