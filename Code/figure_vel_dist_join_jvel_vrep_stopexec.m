@@ -23,7 +23,7 @@ legend('show', 'Interpreter', 'latex')
 
 % Add labels
 xlabel('Step', 'Interpreter', 'latex')
-ylabel('Pos. [cm], Orient. [1], Slowd. [%]', 'Interpreter', 'latex')
+ylabel('Pos. [dm] Orient. [1] Slowd. [\%]', 'Interpreter', 'latex')
 
 % Set x-axis limits
 xlim([0 Nmax])
