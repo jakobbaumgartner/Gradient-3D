@@ -34,7 +34,7 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 100 % max number of iterations
+Nmax = 75 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
@@ -119,7 +119,8 @@ output.repulsive_field = [];
 output.POI_locations = [];
 output.POI_values = [];
 output.EE_orientation = [];
-output.goal_orientation = [];
+output.goal_orientation = [current_orient];
+output.exec_slowdown = [];
 output.grids = {};
 manipulability_primary = 0;
 manipulability_avoidance = [];
@@ -142,6 +143,7 @@ Niter = 1;
 
 % trajectory calculation loop
 while Niter <= Nmax  
+    Niter
 
     %% UPDATE BALL POSITION
     x_ball = 1.25;
@@ -482,6 +484,9 @@ while Niter <= Nmax
     % save manipulability measurements of jacobians
     output.manipulability_primary = [output.manipulability_primary manipulability_primary];
     output.manipulability_avoidance = [output.manipulability_avoidance manipulability_avoidance];
+
+    % save exec slowdown value
+    output.exec_slowdown = [output.exec_slowdown exec_slowdown];
 
     % save grid values
     output.grids{Niter} = grid.grid;
