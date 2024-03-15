@@ -456,7 +456,7 @@ Ko dobimo za vsako od točk odbojno hitrost (repulsive / avoidance velocity), iz
 Za vsako od točk na robotu izračunamo Jacobijevo transformacijo hitrosti, ki preslika translacijske hitrosti izbrane točke na robotu iz kartezičnega prostora, v prostor sklepov na robotu, ki povezujejo bazo z izbrano točko. Transforamcije kotnih hitrosti v točki nas ne zanimajo. V resnici nas zanima samo komponenta translacijske hitrosti v smeri normale, ki kaže od najbližje točke na objektu proti izbrani točki interesa (POI) na manipulatorju. Naš prostor operacij se posledično skrči na eno dimenzijo in the Jacobian, which relates the joint space velocities q and the velocity in the direction of do, can be calculated as  $J_{d_i} = \vec{n}_i^T J_i$.  \add{citat:žlajpah} Pri čemer je vektor normale želene avoidance velocity kar enotski vektor hitrosti, ki ga dobimo s pomočjo naših matrik $\vec{n}_{i} = \frac{\vec{v}_{poi i}}{||\vec{v}_{poi i}||}$. This method offers computational efficiency by eliminating complex matrix inversions, as the Jacobian changes from matrix into a vector dimensions $1 \times n$, where n is number of joints that are located from before the POI and simplifying repulsive velocity calculations.
 
 \begin{equation}
-	\dot{q}_{rep} = \sum_{i=1}^{K} \alpha_i J_{d_i}^{+} \left(v_i - J_{d_i} J^{+} \xi_{p} \vec{v}_{att}\right)
+	\dot{q}_{rep} = k_r \sum_{i=1}^{K} \alpha_i J_{d_i}^{+} \left(v_i - J_{d_i} J^{+} \xi_{p} \vec{v}_{att}\right)
 \end{equation}
 
 Celotne izogibne sklepne hitrosti dobimo z obteženo vsoto izogibnih sklepnih hitrosti izbranih $K$ najbližjih točk, pri čemer upoštevamo vpliv primarne naloge gibanja vrha manipulatorja na sklepne hitrosti.
@@ -497,7 +497,7 @@ The operation of the potential field is demonstrated on two different manipulato
 %V prvem primeru \ref{fig:keyframes-3d-column} manipulator z uporabo potencialnega polja izračunanega na predlagani način, se manipulator varno "zvije" oziroma izbere pot do točke, ki se nahaja na drugi strani stebra. Izbrane konstante primarne naloge so $k_v=5$ in $k_w=20$. Izbrane konstante obteženosti posameznih POI so $\alpha=\frac{\left[ \frac{3}{9}, \frac{2}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9}
 % \right]}{10}$. Najkrajša pot vrha v točko pelje direktno skozi steber. Primarna naloga je, da vrh preide v želeno pozicijo in orientacijo. Ker je naloga vrha primarna, moramo uvesti znižanje primarne hitrosti v bližini ovire $\xi_{p}=1$, da ima sekundarna naloga dovolj prostosti in časa, da lahko izvede rekonfiguracijo za obhod stebra. Simulacijo izvajamo $50$ korakov. 
 
-In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}), the manipulator safely 'curls' or selects a path to a point located on the other side of a column, avoiding the obstacle with the potential field calculated by the proposed method. The constants chosen for the primary task are \( k_v = 5 \) and \( k_w = 20 \). The weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{3}{9}, \frac{2}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9} ]}{10} \), where the biggest weight belongs to the point on the manipulator which is closest to the obstacle and so on. As the most direct path for the end-effector to the target passes straight through the column, an approach that would result in a collision, we implement a reduction of the primary speed in the vicinity of the obstacle, setting \( \xi_{p} = 1 \). The simulation is performed for 50 steps. 
+In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}), the manipulator safely 'curls' or selects a path to a point located on the other side of a column, avoiding the obstacle with the potential field calculated by the proposed method. The constants chosen for the primary task are \( k_v = 5 \) and \( k_w = 1.5 \), for the avoidance task \(k_r=20\). The weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{3}{9}, \frac{2}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9} ]}{10} \), where the biggest weight belongs to the point on the manipulator which is closest to the obstacle and so on. As the most direct path for the end-effector to the target passes straight through the column, an approach that would result in a collision, we implement a reduction of the primary speed in the vicinity of the obstacle, setting \( \xi_{p} = 1 \). The simulation is performed for 50 steps. 
 
 \begin{figure}
 	\centering
@@ -513,6 +513,10 @@ In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}
 	\caption{Visualization of the manipulator's path around the column obstacle: (a) Primary Task errors and percentage of the primary speed after applying slowdown, (b) Joint Velocities $\dot{\theta}$, (c) Joint Positions $\theta$, and (d) Norms of Repulsive Velocities $v_{rep}$.}
 	\label{fig:plots-3d-column}
 \end{figure}
+
+%V drugem primeru (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}) se naš robot giblje v dinamične okolju. Predlagan način izračuna odbojnih hitrosti je dobra izbira v primeru, ko potrebujemo lokalno optimizacijsko metodo za upoštevanje dinamičnih spremeb. V izbranem primeru imamo žogo, ki se med potekom optimizacije enakomerno premika iz leve strani grafa proti desni strani (torej v smeri y osi od 0.4 v trenutku 0 do 1.4 v zadnjem koraku simulacije). Primarna naloga ima sedaj nalogo vzdrževati vrh robota v eni točki, pri čemer smo za večjo sposobnost izogibanja oviri zanemarili izbiro orientacije vrha EE. To nam poveča sposobnost gibanja, posledično ne potrebujemo primary speed task slowdown  \( \xi_{p} = 0 \). The constants chosen for the primary task are \( k_v = 2 \) and \( k_w = 0 \), for the avoidance task \(k_r=3\). The weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5} ]}{10} \). 
+
+In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}), our robot operates within a dynamic environment. The proposed method for calculating repulsive velocities proves to be a suitable choice when a local optimization approach is needed to accommodate dynamic changes. In this scenario, a ball moves consistently from the left to the right side of the graph (i.e., along the y-axis from 0.4 at the initial moment to 1.4 in the final step of the simulation), as governed by the equation \( y_{\text{ball}} = 0.4 + (1.4 - 0.4) \times \frac{N_{\text{step}}}{75} \),  with \( x_{\text{ball}} = 1.25 \) and \( z_{\text{ball}} = 0.7 \). The primary task is now to maintain the robot's end-effector (EE) at a fixed point, disregarding EE orientation to enhance obstacle avoidance capability. This increases maneuverability, thereby eliminating the need for primary speed task slowdown (\( \xi_{p} = 0 \)). Constants selected for the primary task are \( k_v = 2 \) and \( k_w = 0 \), and for the avoidance task \( k_r = 3 \). Weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5} ]}{10} \). The simulation is performed for 75 steps. 
 
 %\begin{figure}
 %	\centering
@@ -531,12 +535,12 @@ In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}
 %
 %\add{EXAMPLE: MANIPULATOR AND MOVING NOISY BALL}
 %
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=1\linewidth]{keyframes_3D_ball.eps} % Replace 'example-image' with the filename of your image
-%	\caption{Example Image}
-%	\label{fig:keyframes-3d-ball}
-%\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{keyframes_2D_ball.eps} % Replace 'example-image' with the filename of your image
+	\caption{Dynamic obstacle avoidance scenario: Sequential keyframes illustrating the robot’s maneuvering in response to a progressively moving ball from left to right across the workspace.}
+	\label{fig:keyframes-3d-ball}
+\end{figure}
 %
 %\begin{figure}
 %	\centering
@@ -545,17 +549,19 @@ In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}
 %	\label{fig:keyframes-2d-ball}
 %\end{figure}
 %
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=0.75\linewidth]{keyframes_2_columns_ball.eps} % Replace 'example-image' with the filename of your image
-%	\caption{Example Image}
-%	\label{fig:keyframes-2-column-ball}
-%\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{4plots_ball.eps} % Replace 'example-image' with the filename of your image
+	\caption{Performance in a dynamic obstacle avoidance scenario: (a) Primary Task error (b) Joint Velocities $\dot{\theta}$, (c) Joint Positions $\theta$, and (d) Norms of Repulsive Velocities $v_{rep}$.}
+	\label{fig:plots-ball}
+\end{figure}
 %
 
 
 
 \section{CONCLUSION}
+
+\add{TODO}
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
