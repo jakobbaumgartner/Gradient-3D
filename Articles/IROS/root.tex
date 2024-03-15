@@ -338,6 +338,13 @@ The result of the interpolation is independent of the order of the operations. W
 
 The final result is a repulsive velocity vector that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{non_and_interp_4_plots.eps} % Replace 'example-image' with the filename of your image
+	\caption{Repulsive field generation via convolutional kernels. Left: Original repulsive fields in X (top) and Y (bottom) directions. Right: Corresponding fields using interpolation, showcasing enhanced smoothness.}
+	\label{fig:interp-experiment}
+\end{figure}
+
 \section{MANIPULATOR KINEMATICS}
 
 \subsection{INVERSE KINEMATIC CONTROL}
@@ -407,7 +414,7 @@ To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{ATT}} \),
 \begin{equation}
 	\mathrm{\vec{v}_{att}} = 
 	\begin{bmatrix}
-		k_p * \vec{v}   \\
+		k_pv* \vec{v}   \\
 		k_{\omega} * \vec{\omega}
 	\end{bmatrix}
 	\label{eq:ee_velocity}
@@ -462,43 +469,37 @@ Celotne izogibne sklepne hitrosti dobimo z obteženo vsoto izogibnih sklepnih hi
 
 \section{SIMULATION RESULTS}
 
-\add{describe inverse kinematics integration of velocities}
-
 \subsection{Repulsive Field Visualization}
 
-\add{Visualization of the repulsive field around more or less complicated obstacles.}
-%
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=0.95\linewidth]{demo-field1c.eps} % Replace 'example-image' with the filename of your image
-%	\caption{Example Image}
-%	\label{fig:example-field}
-%\end{figure}
+Prvo predstavimo rezultirajoče se odbojno polje za 2D - dvo dimenzijski zemljevid. Načeloma je delovanje na treh dimenzijah enako, seveda pa je to težje vizualizirati. Pri tem smo uporabili našo metodo izračuna odbojnega potencialnega polja hitrosti. Namesto uporabe v točkah robotskem manipulatorju smo točke vzorčili preko celotnega zemljevida ovir, kot je vidno na figuri \ref{fig:example-field}. V vsaki od vzorčenih točk smo izvedli v članku opisani postopek pridobivanja odbojnega polja v X in Y smeri. Na spodnjem prikazu figure smo nato vizualizirali odbojno poljo kot vektorsko polje sestavljene iz X in Y komponente.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{demo-field1c.eps} % Replace 'example-image' with the filename of your image
+	\caption{Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along X (left) and Y (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance.}
+	\label{fig:example-field}
+\end{figure}
 %
 %\add{add label, caption, every plot has different axis scale}
 %
 %\comment{}{we dont have the close obstacles bottlenecks, we do have weird bottlenecks in the orthagonal directions - maybe}
 %
-%\subsection{Repulsive Field Interpolation}
-%
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=1\linewidth]{non_and_interp_4_plots.eps} % Replace 'example-image' with the filename of your image
-%	\caption{Example Image}
-%	\label{fig:interp-experiment}
-%\end{figure}
-%
-%\subsection{Manipulator Examples}
-%
-%\add{EXAMPLE: MANIPULATOR AND COLUMN}
-%
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=1\linewidth]{keyframes_3D.eps} % Replace 'example-image' with the filename of your image
-%	\caption{Example Image}
-%	\label{fig:keyframes-3d-column}
-%\end{figure}
-%
+\subsection{Manipulator Examples}
+
+Delovanje potencialnega polja smo prikazali na dveh različnih primerih manipulatorja. Pri tem je ločljivost naše mreže voxlov ovir $R=10cm$. Uporaba interpolacije nam omogoča, da imamo relativno grobo mrežo voxlov, kar zniža spominsko zahtevnost mreže prostora, ter pospeši izračun. POI so na grafih prikazani s pikami na manipulatorju. V bližini ovir iz njih segajo vektorji, ki prikazujejo izračunane odbojno hitrost v točkah.
+
+Med izvajanjem simulacije izvajamo eulerjevo integracijo izračunanih sklepnih hitrosti, s korakom $T_{step}=0.1s$.
+
+V prvem primeru \ref{fig:keyframes-3d-column} manipulator z uporabo potencialnega polja izračunanega na predlagani način, se manipulator varno "zvije" oziroma izbere pot do točke, ki se nahaja na drugi strani stebra. V primeru smo izbrali $K = 7$ POI točk interesa, v katerih gledamo oddaljenost od ovir, ki so enakomerno razporejene po segmentih in sklepih od drugega sklepa robota do vrha manipulatorja, torej od prve točke naprej, kjer se je manipulator sposoben izogniti oviri. Izbrane konstante primarne naloge so $k_v=5$ in $k_w=20$. Izbrane konstante obteženosti posameznih POI so $\alpha=\frac{\left[ \frac{3}{9}, \frac{2}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9}
+ \right]}{10}$. Najkrajša pot vrha v točko pelje direktno skozi steber. Primarna naloga je, da vrh preide v želeno pozicijo in orientacijo. Ker je naloga vrha primarna, moramo uvesti znižanje primarne hitrosti v bližini ovire $\xi_{p}=1$, da ima sekundarna naloga dovolj prostosti in časa, da lahko izvede rekonfiguracijo za obhod stebra. Simulacijo izvajamo $50$ korakov. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{keyframes_3D.eps} % Replace 'example-image' with the filename of your image
+	\caption{Example Image}
+	\label{fig:keyframes-3d-column}
+\end{figure}
+
 %\begin{figure}
 %	\centering
 %	\includegraphics[width=1\linewidth]{keyframes_2D_a.eps} % Replace 'example-image' with the filename of your image
