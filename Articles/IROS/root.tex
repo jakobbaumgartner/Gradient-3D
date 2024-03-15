@@ -108,35 +108,6 @@ This section introduces our novel approach for calculating repulsive fields, a c
 
 %The occupancy map representation of the robots environment is discrete (has finite resolution), while the Cartesian space is continuous, as rounding the point directly to the center of the nearest occupancy grid voxel, based on Euclidean distance.\add{is this clear, do i need equation?} However, this discretization can sometimes lead to discontinuities. Therefore, we propose a second approach: tri-linear interpolation of the calculated repulsive field to achieve a continuous repulsive field value.
 
-The occupancy map representation of the robots environment is discrete (has finite resolution), while the Cartesian space is continuous. In the transition from Cartesian space coordinates to discrete occupancy grid representations, approximating or rounding can induce discontinuities in the resulting repulsive field. To mitigate this effect, we employ tri-linear interpolation, enabling a seamless transition to a continuous repulsive field value.
-
-Once the mapping of these points to the voxel grid is completed, we proceed to employ a specialized kernel convolution method. This method is tailored to calculate the components of the avoidance velocity vector in the Cartesian space, we generate the corresponding kernel and extract a segment of the obstacle grid of matching size, centered at agent or the point of interest (POI), resulting in two same size 3D matrices—one is a "window" from the obstacle grid $A_d$ and the other representing the kernel $K_d$.
-
-If the agent is located near the edge of our known voxel grid we can set the eleemnts of the window would be located in the space beyond the matrix as empty in which case the robot might want to move towards this space or as occupied, which will prevent the robot from moving out of the known grid space.
-
-By employing the Hadamard (element-wise) product (eq.~\ref{eq:hadamard}) between the cutout segment of the obstacle grid \(G_d\) and the corresponding 3D convolutional kernel \(W_d\) and than summoning all of the matrix values for each of the directions $d \in \{x, y, z\}$, we derive the resultant repulsive velocities vector \( \vec{v}_i = \left[ v_{x_i} v_{y_i} v_{z_i}\right] \).
-
-%\begin{equation}
-%	C_d = A_d \odot K_d
-%	\label{eq:hadamard}
-%\end{equation}
-
-\begin{equation}
-	v_d = \sum_{i,j,k} (G \odot W)_{ijk} = \sum_{i}\sum_{j}\sum_{k} g_{\Delta i \Delta j \Delta k} ~  w_{\Delta i \Delta j \Delta k}
-\end{equation}
-
-
-%\begin{equation}
-%	\dot{x}_{poi} = \sum_{i}\sum_{j}\sum_{k} c_{dijk} 
-%	\label{eq:summation}
-%\end{equation}
-%
-%\alert{remove the above equation and add a vector of calculated velocities equation instead}
-%
-%\comment{}{TODO: add the indexes for x,y,z directions}
-
-
-
 \subsection{KERNELS AND THEIR MATRIX APPLICATIONS}
 %\subsection{Selecting Kernels and Matrix Operations}
 
@@ -231,11 +202,39 @@ Finally we get three matrix kernels, one for each of the three coordinate axis d
 	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} * w_{\Delta j} * w_{\Delta k}
 \end{equation}
 
-\add{ADD:primer,slika}
+%Once the weights of the repulsive kernels have been generated, we can use kernel multiplication to get the repulsive velocity components. This method is tailored to calculate the components of the avoidance velocity vector in the Cartesian space, we generate the corresponding kernel and extract a segment of the obstacle grid of matching size, centered at agent or the point of interest (POI), resulting in two same size 3D matrices—one is a "window" from the obstacle grid $A_d$ and the other representing the kernel $K_d$.
+
+Following the establishment of repulsive kernel weights, kernel multiplication is employed to ascertain the repulsive velocity components within Cartesian space. We select a corresponding segment from the obstacle grid, aligning in size and centered around the point of interest (POI) on the robot, where we want to calculate the repulsive velocities. This results in two identically sized 3D matrices: one serving as a "window" into the obstacle grid (\(A_d\)) and the other as the representative kernel (\(K_d\)).
+
+%If the agent is located near the edge of our known voxel grid we can set the elements of the window would be located in the space beyond the matrix as empty in which case the robot might want to move towards this space or as occupied, which will prevent the robot from moving out of the known grid space.
+
+Positioning of the agent at the edge of the known voxel grid necessitates a strategic decision regarding the window's boundary elements. These elements, located beyond the matrix's spatial domain, can either be considered vacant—encouraging the robot to explore these new areas—or occupied—thereby deterring the robot from exiting the mapped grid space.
+
+%By employing the Hadamard (element-wise) product (eq.~\ref{eq:matrix-product}) between the cutout segment of the obstacle grid \(G_d\) and the corresponding 3D convolutional kernel \(W_d\) and than summoning all of the matrix values for each of the directions $d \in \{x, y, z\}$, we derive the resultant repulsive velocities vector \( \vec{v}_i = \left[ v_{x_i} v_{y_i} v_{z_i}\right] \).
+
+Applying the Hadamard (element-wise) product to the segment of the obstacle grid \(G_d\) and the kernel \(W_d\) results in a new matrix for each Cartesian direction (\(d \in \{x, y, z\}\)). By summing over all values in this resultant matrix, we calculate the repulsive velocity component for that specific direction. This process is independently conducted for each Cartesian coordinate, ultimately yielding the comprehensive repulsive velocity vector \(\vec{v}_i = [ v_{x_i}, v_{y_i}, v_{z_i}]\).
+
+\begin{equation}
+	v_d = \sum_{i,j,k} (G \odot W)_{ijk} = \sum_{i}\sum_{j}\sum_{k} g_{\Delta i \Delta j \Delta k} ~  w_{\Delta i \Delta j \Delta k}
+	\label{eq:matrix-product}
+\end{equation}
+
+
+%\begin{equation}
+%	\dot{x}_{poi} = \sum_{i}\sum_{j}\sum_{k} c_{dijk} 
+%	\label{eq:summation}
+%\end{equation}
+%
+
 
 \comment{}{PLOT: kernel 2D images}
 
 \subsection{3D INTERPOLATION} 
+
+
+The occupancy map representation of the robots environment is discrete (has finite resolution), while the Cartesian space is continuous. In the transition from Cartesian space coordinates to discrete occupancy grid representations, approximating or rounding can induce discontinuities in the resulting repulsive field. To mitigate this effect, we employ tri-linear interpolation, enabling a seamless transition to a continuous repulsive field value.
+
+\remove{---}
 
 
 It is essential that the velocity contributions affecting the robot change smoothly. However, since our obstacle grid is discretely defined, achieving perfect continuity can be challenging. Increasing the resolution of the obstacle field can theoretically bring us closer to continuous behavior, but in practice, we are constrained by finite resolution. To ensure that the velocity remains continuous when transitioning from one cell of the obstacle grid to another at a point of interest (POI), we employ trilinear interpolation. \remove{This technique allows for a smooth and continuous linear approximation of velocities in all three Cartesian directions (x, y, and z) as the POI moves between cells.}
