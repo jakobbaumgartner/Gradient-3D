@@ -79,21 +79,21 @@ Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based TSDF Calculatio
 %
 %In 3D computer graphics, a voxel represents a value on a regular grid in three-dimensional space. Each of the voxels holds the probability value of its occupation. In case of voxel being empty it holds the value of 0, if the voxel is occupied it holds the value of non-zero, depending on our assurance of it being occupied. If it is definitly occupied it holds the value of 1. 
 
-Robots need to quickly adapt to changes in dynamic environment, especially when obstacles appear. Our method helps a robot calculate safe directions away from obstacles by looking at the space around it in real-time. The focus is on a set area around the robot.
+In dynamic environments, a robot manipulator must swiftly respond to emerging obstacles. Our approach enables the robot to determine safe movement directions and velocities by real-time assessment of nearby space for obstacles.
 
-In 3D graphics, a voxel is like a tiny cube in a grid that makes up the space. We use voxels to map the workspace of the robot, each voxel has a value that tells us if it’s probably empty or occupied. A zero means empty, and a one means definitely something is there, with values in between showing varying levels of certainty.
+In 3D graphics, a voxel is like a tiny cube in a grid that makes up the 3D space. We use voxels to represent the workspace of the robot, each voxel has a value that tells us if it’s probabilistically empty or occupied. A zero means empty, and a one means definitely something is there, with values in between showing varying levels of certainty.
 
-Mreža voxels je lahko predefinirana, glede na model / 3d zemljevid prostora. Zasedenost voxlov lahko spreminjamo glede na poznane pozicije in trajektorije preostalih agentov v prostoru. Kot omenjeno v uvodu, pa lahko zasedenost voxlov pridobimo tudi z senzorskimi sistemi. 
+%Mreža voxels je lahko predefinirana, glede na model / 3d zemljevid prostora. Zasedenost voxlov lahko spreminjamo glede na poznane pozicije in trajektorije preostalih agentov v prostoru. Kot omenjeno v uvodu, pa lahko zasedenost voxlov pridobimo tudi z senzorskimi sistemi. 
 
-The grid of voxels can be set in advance to match the layout of the space. We can also change the values in the voxels if we know where other objects or agents are moving. Besides pre-setting, we can use sensors to detect what's around.
+The occupancy grid of voxels can be set in advance to match the layout of the space. We can also change the values in the voxels if we know where other objects or agents are moving. Besides pre-setting, we can use depth sensors to detect what's around.
 
-Our method calculates repulsive velocities, which are vectors that guide the robot on where not to go by pointing away from potential collisions. These vectors gain strength as the robot approaches an obstacle, signaling an urgent need to maneuver to safety. Conversely, when the robot is positioned at an equal distance from obstacles in the vicinity—safely away from all potential collisions—the repulsive velocities weaken because there’s no immediate need to move. 
+Our method calculates repulsive velocities from existing occupancy voxel grid, which are vectors that guide the robot on where to go by pointing away from potential collisions. These vectors gain strength as the robot approaches an obstacle, signaling an urgent need to maneuver to safety. Conversely, when the robot is positioned at an equal distance from obstacles in the vicinity—safely away from all potential collisions—the repulsive velocities weaken because there’s no immediate need to move. 
 
 %In our method, we compute repulsive velocities within the task space using a novel matrix kernel multiplication approach. Concentrating on the task space is advantageous as it provides a more direct and realistic representation of the environment. 
 
 %\replace{Naša metoda je posebno primerna za uporabo z senzorskimi sistemi kot so LIDAR ali globinske kamere, saj zaradi upoštevanja celotne okolice točke in ne le razdalje do najbližje točke v okolici efektivno filtriramo senzorski šum.}{prestavi to v diskusijo}
 
-Repulsive velocities tell the agent in which direction to move, so that it avoids nearby obstacles. These velocities drop to zero when the agent maintains a minimum safe distance from obstacles, and rise to their highest when it nears an obstacle, facilitating immediate evasive action. As the repulsive field calculation is locally based, it will also go to zero when the agent is surrounded by all directions, equally spaced from all sides. That is, it is in the best local minima away from all the obstacles. 
+Repulsive velocities tell the agent in which direction to move, so that it avoids nearby obstacles. These velocities drop to zero when the agent maintains a minimum safe distance from obstacles, and rise to their highest when it nears an obstacle, facilitating immediate evasive action. As the repulsive field calculation is locally based, it will also go to zero when the agent is surrounded by all directions, equally spaced from all sides. That is, it is in the best local minima away from all the obstacles in its proximity. 
 
 
 \section{RELATED WORKS}

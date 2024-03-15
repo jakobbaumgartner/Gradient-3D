@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  15 MAR 2024 03:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  15 MAR 2024 14:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -812,6 +812,10 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 63.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+Underfull \hbox (badness 1472) in paragraph at lines 82--83
+[]\OT1/ptm/m/n/10 In dy-namic en-vi-ron-ments, a robot ma-nip-u-la-tor must
+ []
+
 
 LaTeX Warning: Reference `eq:hadamard' on page 1 undefined on input line 113.
 
@@ -954,7 +958,7 @@ Package pdftex.def Info: 4plots_column-eps-converted-to.pdf  used on input line
  523.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
 
-Underfull \vbox (badness 3428) has occurred while \output is active []
+Underfull \vbox (badness 2293) has occurred while \output is active []
 
  [5 <./demo-field1c-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <keyframes_2D_ball.eps>
@@ -971,7 +975,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_2D_ball-eps-converted-to.pdf): P
 DF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_2D_ball-eps-converted-to.pdf, id=159, 376.40625pt x 225.84375pt>
+<keyframes_2D_ball-eps-converted-to.pdf, id=161, 376.40625pt x 225.84375pt>
 File: keyframes_2D_ball-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_2D_ball-eps-converted-to.pdf>
 Package pdftex.def Info: keyframes_2D_ball-eps-converted-to.pdf  used on input 
@@ -991,18 +995,14 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./4plots_ball-eps-converted-to.pdf): PDF inc
 lusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_ball-eps-converted-to.pdf, id=160, 421.575pt x 316.18124pt>
+<4plots_ball-eps-converted-to.pdf, id=162, 421.575pt x 316.18124pt>
 File: 4plots_ball-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_ball-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_ball-eps-converted-to.pdf  used on input line 5
 65.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
 88.
-
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
@@ -1015,15 +1015,15 @@ Underfull \hbox (badness 1990) in paragraph at lines 593--594
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
-[6 <./keyframes_3D-eps-converted-to.pdf> <./4plots_column-eps-converted-to.pdf>
- <./keyframes_2D_ball-eps-converted-to.pdf> <./4plots_ball-eps-converted-to.pdf
->]
+
 Underfull \hbox (badness 1389) in paragraph at lines 604--605
 []\OT1/ptm/m/n/8 T. Yoshikawa, \Dy-namic hy-brid po-si-tion/force con-trol of r
 obot
  []
 
-
+[6 <./keyframes_3D-eps-converted-to.pdf> <./4plots_column-eps-converted-to.pdf>
+ <./keyframes_2D_ball-eps-converted-to.pdf> <./4plots_ball-eps-converted-to.pdf
+>]
 Underfull \hbox (badness 1694) in paragraph at lines 606--607
 []\OT1/ptm/m/n/8 O. Khatib, \A uni-fied ap-proach for mo-tion and force con-tro
 l
@@ -1046,7 +1046,10 @@ Underfull \hbox (badness 1389) in paragraph at lines 640--641
 -gi-neer-
  []
 
-[7]
+
+Underfull \vbox (badness 3009) has occurred while \output is active []
+
+ [7]
 Underfull \hbox (badness 2735) in paragraph at lines 662--663
 []\OT1/ptm/m/n/8 J. D. Gam-mell, S. S. Srini-vasa, and T. D. Bar-foot, \Batch
  []
@@ -1078,7 +1081,10 @@ Underfull \hbox (badness 2111) in paragraph at lines 682--683
 \OT1/ptm/m/n/8 vol. 15, no. 6, Art. no. 1729881418820223, Nov. 2018, doi:
  []
 
-[8]
+
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+ [8]
 Underfull \hbox (badness 10000) in paragraph at lines 702--703
 []\OT1/ptm/m/n/8 S. Thrun, Prob-a-bilis-tic robotics, vol. 45, 2002.
  []
@@ -1088,7 +1094,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 702--703
 \OT1/ptm/m/n/8 Ac-cessed: Jun. 14, 2023. [On-line]. Avail-able:
  []
 
-[9]
+
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+ [9]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -1115,7 +1124,7 @@ Package rerunfilecheck Info: File `root.out' has not changed.
 Here is how much of TeX's memory you used:
  21693 strings out of 476375
  410140 string characters out of 5788976
- 1905299 words of memory out of 5000000
+ 1904299 words of memory out of 5000000
  41579 multiletter control sequences out of 15000+600000
  553408 words of font info for 118 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1140,7 +1149,7 @@ imes/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/t
 imes/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
 times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on root.pdf (10 pages, 743932 bytes).
+Output written on root.pdf (10 pages, 743737 bytes).
 PDF statistics:
  377 PDF objects out of 1000 (max. 8388607)
  126 named destinations out of 1000 (max. 500000)
