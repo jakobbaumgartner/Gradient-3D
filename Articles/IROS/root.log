@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  15 MAR 2024 01:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  15 MAR 2024 02:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -901,7 +901,7 @@ Package epstopdf Info: Source file: <demo-field1c.eps>
 (epstopdf)                    size: 80184 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=demo-field1c-eps-con
 verted-to.pdf demo-field1c.eps>
-(epstopdf)             \includegraphics on input line 478.
+(epstopdf)             \includegraphics on input line 480.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -911,12 +911,8 @@ clusion: found PDF version <1.7>, but at most version <1.5> allowed
 File: demo-field1c-eps-converted-to.pdf Graphic file (type pdf)
 <use demo-field1c-eps-converted-to.pdf>
 Package pdftex.def Info: demo-field1c-eps-converted-to.pdf  used on input line 
-478.
+480.
 (pdftex.def)             Requested size: 245.71811pt x 444.10152pt.
-
-Underfull \vbox (badness 1320) has occurred while \output is active []
-
- [5 <./demo-field1c-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <keyframes_3D.eps>
 (epstopdf)                    date: 2024-03-13 16:42:26
 (epstopdf)                    size: 35662 bytes
@@ -925,17 +921,17 @@ Package epstopdf Info: Source file: <keyframes_3D.eps>
 (epstopdf)                    size: 31370 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=keyframes_3D-eps-con
 verted-to.pdf keyframes_3D.eps>
-(epstopdf)             \includegraphics on input line 502.
+(epstopdf)             \includegraphics on input line 504.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_3D-eps-converted-to.pdf): PDF in
 clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_3D-eps-converted-to.pdf, id=155, 376.40625pt x 225.84375pt>
+<keyframes_3D-eps-converted-to.pdf, id=141, 376.40625pt x 225.84375pt>
 File: keyframes_3D-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_3D-eps-converted-to.pdf>
 Package pdftex.def Info: keyframes_3D-eps-converted-to.pdf  used on input line 
-502.
+504.
 (pdftex.def)             Requested size: 245.71811pt x 147.43422pt.
 Package epstopdf Info: Source file: <4plots_column.eps>
 (epstopdf)                    date: 2024-03-14 23:21:15
@@ -945,105 +941,108 @@ Package epstopdf Info: Source file: <4plots_column.eps>
 (epstopdf)                    size: 124843 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=4plots_column-eps-co
 nverted-to.pdf 4plots_column.eps>
-(epstopdf)             \includegraphics on input line 510.
+(epstopdf)             \includegraphics on input line 512.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./4plots_column-eps-converted-to.pdf): PDF i
 nclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_column-eps-converted-to.pdf, id=156, 421.575pt x 316.18124pt>
+<4plots_column-eps-converted-to.pdf, id=142, 421.575pt x 316.18124pt>
 File: 4plots_column-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_column-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_column-eps-converted-to.pdf  used on input line
- 510.
+ 512.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
-69.
+71.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 5696) in paragraph at lines 574--575
+Underfull \vbox (badness 3428) has occurred while \output is active []
+
+ [5 <./demo-field1c-eps-converted-to.pdf>]
+Underfull \hbox (badness 5696) in paragraph at lines 576--577
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 574--575
+Underfull \hbox (badness 1990) in paragraph at lines 576--577
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
-
-Underfull \hbox (badness 1389) in paragraph at lines 585--586
+[6 <./keyframes_3D-eps-converted-to.pdf> <./4plots_column-eps-converted-to.pdf>
+]
+Underfull \hbox (badness 1389) in paragraph at lines 587--588
 []\OT1/ptm/m/n/8 T. Yoshikawa, \Dy-namic hy-brid po-si-tion/force con-trol of r
 obot
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 587--588
+Underfull \hbox (badness 1694) in paragraph at lines 589--590
 []\OT1/ptm/m/n/8 O. Khatib, \A uni-fied ap-proach for mo-tion and force con-tro
 l
  []
 
 
-Underfull \hbox (badness 5302) in paragraph at lines 599--600
+Underfull \hbox (badness 5302) in paragraph at lines 601--602
 \OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
-[6 <./keyframes_3D-eps-converted-to.pdf> <./4plots_column-eps-converted-to.pdf>
-]
-Underfull \hbox (badness 1742) in paragraph at lines 621--622
+
+Underfull \hbox (badness 1742) in paragraph at lines 623--624
 []\OT1/ptm/m/n/8 Z. Long, \Vir-tual tar-get point-based obstacle-avoidance meth
 od
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 621--622
+Underfull \hbox (badness 1389) in paragraph at lines 623--624
 \OT1/ptm/m/n/8 for ma-nip-u-la-tor sys-tems in a clut-tered en-vi-ron-ment," En
 -gi-neer-
  []
 
-
-Underfull \hbox (badness 2735) in paragraph at lines 643--644
+[7]
+Underfull \hbox (badness 2735) in paragraph at lines 645--646
 []\OT1/ptm/m/n/8 J. D. Gam-mell, S. S. Srini-vasa, and T. D. Bar-foot, \Batch
  []
 
 
-Underfull \hbox (badness 3209) in paragraph at lines 643--644
+Underfull \hbox (badness 3209) in paragraph at lines 645--646
 \OT1/ptm/m/n/8 In-formed Trees (BIT*): Sampling-based Op-ti-mal Plan-ning via
  []
 
 
-Underfull \hbox (badness 2384) in paragraph at lines 647--648
+Underfull \hbox (badness 2384) in paragraph at lines 649--650
 \OT1/ptm/m/n/8 Sys-tems, Chicago, IL, USA, Sep. 2014, pp. 2997{3004. doi:
  []
 
 
-Underfull \hbox (badness 2173) in paragraph at lines 655--656
+Underfull \hbox (badness 2173) in paragraph at lines 657--658
 []\OT1/ptm/m/n/8 B. Si-cil-iano, L. Sci-av-icco, L. Vil-lani, and G. Ori-olo, R
 obot.
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 655--656
+Underfull \hbox (badness 1939) in paragraph at lines 657--658
 \OT1/ptm/m/n/8 Model. Plan. Con-trol, 2010, pp. 161{189. [On-line]. Avail-able:
 
  []
 
-[7]
-Underfull \hbox (badness 2111) in paragraph at lines 663--664
+
+Underfull \hbox (badness 2111) in paragraph at lines 665--666
 \OT1/ptm/m/n/8 vol. 15, no. 6, Art. no. 1729881418820223, Nov. 2018, doi:
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 683--684
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 685--686
 []\OT1/ptm/m/n/8 S. Thrun, Prob-a-bilis-tic robotics, vol. 45, 2002.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 683--684
+Underfull \hbox (badness 10000) in paragraph at lines 685--686
 \OT1/ptm/m/n/8 Ac-cessed: Jun. 14, 2023. [On-line]. Avail-able:
  []
 
-[8]
+[9]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -1055,7 +1054,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[9
+[10
 
 ] (root.aux)
 
@@ -1068,8 +1067,8 @@ Package rerunfilecheck Info: File `root.out' has not changed.
 (rerunfilecheck)             Checksum: 114C7C54E1088133E1AC79A9DAC1CA78;2141.
  ) 
 Here is how much of TeX's memory you used:
- 21673 strings out of 476375
- 409574 string characters out of 5788976
+ 21674 strings out of 476375
+ 409581 string characters out of 5788976
  1904299 words of memory out of 5000000
  41565 multiletter control sequences out of 15000+600000
  552330 words of font info for 117 fonts, out of 8000000 for 9000
@@ -1095,9 +1094,9 @@ imes/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/t
 imes/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
 times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on root.pdf (9 pages, 611451 bytes).
+Output written on root.pdf (10 pages, 611891 bytes).
 PDF statistics:
- 357 PDF objects out of 1000 (max. 8388607)
- 123 named destinations out of 1000 (max. 500000)
+ 361 PDF objects out of 1000 (max. 8388607)
+ 124 named destinations out of 1000 (max. 500000)
  153 words of extra memory for PDF output out of 10000 (max. 10000000)
 
