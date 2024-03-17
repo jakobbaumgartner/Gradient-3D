@@ -334,6 +334,8 @@ The result of the interpolation is agnostic of the order of the operations. We f
 	\vec{V}rep_{xyz,jk} = \vec{V}rep_{xyz,0jk}(1 - \Delta x) + \vec{V}rep_{xyz,1jk} \, \Delta x \quad \forall \, j, k \in \{1, 2\}
 \end{equation}
 
+\alert{equations break column}
+
 %\begin{equation}
 %	\vec{V}rep_{xyz,0} = \vec{V}rep_{xyz,00}(1 - \Delta y) + \vec{V}rep_{xyz,10} \, \Delta y
 %\end{equation}
@@ -369,30 +371,37 @@ The end product is a uniformly smooth repulsive velocity field, facilitating con
 
 The desired movement of the end-effector is achieved by using inverse kinematics velocity control scheme with task prioritisation. 
 
+%\begin{equation}
+%	\dot{\vec{q}} = J^+ \xi_{p} \mathrm{\vec{v}_{att}} + \dot{\vec{q}}_{rep}
+%\end{equation}
+
 \begin{equation}
-	\dot{q} = J^+ \xi_{p} \mathrm{\vec{v}_{att}} + \dot{q}_{rep}
+	\dot{\vec{q}} = \mathbf{J}^+ \xi_{p} \mathrm{\vec{v}{att}} + \dot{\vec{q}}_{rep}
 \end{equation}
 
-The damped Moore-Penrose pseudo-inverse, \(J^+~=~J'(JJ' + \sigma_{ee} I)^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{q}_{REP}$ are the weighted sum of avoidance joint velocities, each transformed into the null space of primary velocities, as described in the chapter below. \remove{For redundant robots, it optimizes solution selection by minimizing the joint velocity norm, while damping is applied to limit excessive joint velocities near singular configurations, thus improving solution robustness.}
+The damped Moore-Penrose pseudo-inverse, \(\mathbf{J}^+~=~\mathbf{J}'(\mathbf{J}\mathbf{J}' + \sigma_{ee} \mathbf{I})^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{\vec{q}}_{rep}$ are the weighted sum of avoidance joint velocities, each transformed into the null space of primary velocities, as described in the chapter below. 
 
-\add{maybe add the middle joints component in the equation (it is not necessary, doesn't make much change in the chosen experiments)}
+%\remove{For redundant robots, it optimizes solution selection by minimizing the joint velocity norm, while damping is applied to limit excessive joint velocities near singular configurations, thus improving solution robustness.}
+
+%\add{maybe add the middle joints component in the equation (it is not necessary, doesn't make much change in the chosen experiments)}
 
 We run the inverse kinematics algorithm once for every time step, until we reach the desired cost function or reach the selected time limit. 
 
 \subsection{END-EFFECTOR VELOCITY}
 
-Vodenje vrha manipulatorja (end-effector) je naloga z najvišjo prioriteto. 
+%Vodenje vrha manipulatorja (end-effector) je naloga z najvišjo prioriteto. 
 
-\remove{Our method employs inverse kinematics approach (IK) to guide the end effector (EE) towards its target, marking a departure from Khatib's joint coordinates approach in favor of a Cartesian coordinates framework. This is particularly beneficial in scenarios involving redundant manipulators, where determining an optimal goal joint configuration in advance is challenging.}
-
-When calculating translational velocity, we avoid the conventional gradient of the squared distance approach, which leads to high initial velocities and subsequently slow speeds near the target. Our aim is a consistent velocity throughout the trajectory, with controlled deceleration near the goal. This is achieved by first calculating the unit vector towards the target for direction, then modulating its magnitude using a sigmoid function, specifically the arctangent function, to prevent overshooting and ensure stable approaching motion.
+Prioritizing control over the end-effector's (EE) translational velocity is essential for a consistent and stable target approach. The commonly used method, where translational velocity is proportional to squared distance, leads to impractically high initial velocities, which can prevent obstacle avoidance and real-world execution, followed by disproportionately slow velocities when nearing the goal position. Our aim is a consistent velocity profile throughout the trajectory, with controlled deceleration near the goal. This is achieved by first calculating the unit vector towards the target for direction, then modulating its magnitude using a sigmoid function, specifically the arctangent function (Eq. \ref{eq: v_att}).
 
 \begin{equation} 
 	\vec{v} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{pi/2}
 	\label{eq: v_att}
 \end{equation}
 
-In the above equation (eq.~\ref{eq: v_att}), $\vec{v}$  represents the end effector's translational velocity towards the target, combining direction and magnitude. The terms $\vec{x}_{EE}$ and $\vec{x}_g$ denote the current and goal positions of the EE, respectively, in Cartesian coordinates. The unit vector calculation, $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$, ensures motion directed towards the target. Finally, the sigmoid function, particularly the arctangent component, modulates this velocity to avoid overshooting, balancing speed and precision. The constant $k_{sigm}$ allows us to set how close to the goal does the robot EE start slowing down.
+%In the above equation (eq.~\ref{eq: v_att}), $\vec{v}$  represents the end effector's translational velocity towards the target, combining direction and magnitude. The terms $\vec{x}_{EE}$ and $\vec{x}_g$ denote the current and goal positions of the EE, respectively, in Cartesian coordinates. The unit vector calculation, $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$, ensures motion directed towards the target. Finally, the sigmoid function, particularly the arctangent component, modulates this velocity to avoid overshooting, balancing speed and precision. The EE velocity will be transformed using the sigmoid curve when near the goal. When the distance from goal point is high, the sigmoid will cause the velocity to get into saturation, that is upper limit. The constant $k_{sigm}$ allows us to set how close to the goal does the robot EE start slowing down and what is the velocity profile when approaching the goal point.
+
+
+In Eq.~\ref{eq: v_att}, $\vec{v}$ specifies the end-effector's (EE) translational velocity directed towards the target, integrating both its direction and magnitude. Here, $\vec{x}_{EE}$ represents the EE's current position, and $\vec{x}g$ is the target position, both in Cartesian coordinates. The calculation $\frac{\vec{x}{EE}-\vec{x}g}{||\vec{x}{EE}-\vec{x}g||}$ generates a unit vector pointing towards the target, ensuring targeted movement. The velocity's modulation by the arctangent sigmoid function curtails overshooting by moderating speed in proximity to the target and saturating velocity at a predefined upper limit when distant. The parameter \(k_{sigm}\) in the arctangent function adjusts the curve's steepness, affecting how quickly the end-effector decelerates near the target. A higher \(k_{sigm}\) maintains speed until closer to the target for a sharp deceleration, while a lower value starts slowing down earlier for a gradual approach. 
 
 The rotational velocity error of the EE is needed for ensuring goal orientation of the EE. In our approach, orientations are depicted using rotation matrices. Specifically, \( R \) represents the current EE orientation, while \( gR \) signifies the goal EE orientation. The disparity between these orientations is encapsulated by the relative rotation matrix \( dR \). This matrix is formulated by multiplying the goal orientation matrix \( gR \) with the transpose of the current orientation matrix \( cR^{T} \). To ensure that it represents a pure rotation without any scaling we than normalize the so gotten matrix .
 
@@ -506,6 +515,8 @@ We introduce the resultant repulsive field on a two-dimensional map. While analo
 %
 \subsection{Manipulator Examples}
 
+\alert{add the limits of joint positions}
+
 %Delovanje potencialnega polja smo prikazali na dveh različnih primerih manipulatorja. Pri tem je ločljivost naše mreže voxlov ovir $R=10cm$. Uporaba interpolacije nam omogoča, da imamo relativno grobo mrežo voxlov, kar zniža spominsko zahtevnost mreže prostora, ter pospeši izračun. V primerih smo izbrali $K = 7$ POI točk interesa, v katerih gledamo oddaljenost od ovir, ki so enakomerno razporejene po segmentih in sklepih od drugega sklepa robota do vrha manipulatorja, torej od prve točke naprej, kjer se je manipulator sposoben izogniti oviri. POI so na grafih prikazani s pikami na manipulatorju. V bližini ovir iz njih segajo vektorji, ki prikazujejo izračunane odbojno hitrost v točkah. 
 
 %Med izvajanjem simulacije izvajamo eulerjevo integracijo izračunanih sklepnih hitrosti, s korakom $T_{step}=0.1s$.
@@ -537,6 +548,8 @@ In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}
 In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}), our robot operates within a dynamic environment. The proposed method for calculating repulsive velocities proves to be a suitable choice when a local optimization approach is needed to accommodate dynamic changes. In this scenario, a ball moves consistently from the left to the right side of the graph (i.e., along the y-axis from 0.4 at the initial moment to 1.4 in the final step of the simulation), as governed by the equation \( y_{\text{ball}} = 0.4 + (1.4 - 0.4) \times \frac{N_{\text{step}}}{75} \),  with \( x_{\text{ball}} = 1.25 \) and \( z_{\text{ball}} = 0.7 \). The primary task is now to maintain the robot's end-effector (EE) at a fixed point, disregarding EE orientation to enhance obstacle avoidance capability. This increases maneuverability, thereby eliminating the need for primary speed task slowdown (\( \xi_{p} = 0 \)). Constants selected for the primary task are \( k_v = 2 \) and \( k_w = 0 \), and for the avoidance task \( k_r = 3 \). Weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5} ]}{10} \). The simulation is performed for 75 steps. 
 
 \add{describe weights and distributions used in the kernels}
+
+\add{sigmoid weights}
 
 %\begin{figure}
 %	\centering
