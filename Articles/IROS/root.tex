@@ -232,18 +232,19 @@ Applying the Hadamard (element-wise) product to the segment of the obstacle grid
 \subsection{3D INTERPOLATION} 
 
 
-The occupancy map representation of the robots environment is discrete (has finite resolution), while the Cartesian space is continuous. In the transition from Cartesian space coordinates to discrete occupancy grid representations, approximating or rounding can induce discontinuities in the resulting repulsive field. To mitigate this effect, we employ tri-linear interpolation, enabling a seamless transition to a continuous repulsive field value.
+%The occupancy map representation of the robots environment is discrete (has finite resolution), while the Cartesian space is continuous. In the transition from Cartesian space coordinates to discrete occupancy grid representations, approximating or rounding can induce discontinuities in the resulting repulsive field. To mitigate this effect, we employ tri-linear interpolation, enabling a seamless transition to a continuous repulsive field value (Fig. \ref{fig:interp-experiment}).
+%
+%It is essential that the velocity contributions affecting the robot change smoothly. However, since our obstacle grid is discretely defined, achieving perfect continuity can be challenging. Increasing the resolution of the obstacle field can theoretically bring us closer to continuous behavior, but in practice, we are constrained by finite resolution of our sensors and of the grid. Poleg tega bo višja resolucija posledično povzročila povečanje spomina potrebnega za shranjevanje zemljevida / mreže okolja in potrebne procesorske moči. To ensure that the velocity remains continuous when transitioning from one cell of the obstacle grid to another at a point of interest (POI), we employ trilinear interpolation. 
 
-\remove{---}
+The occupancy grid's representation of the robot's environment is inherently discrete, possessing finite resolution, in contrast to the continuous nature of Cartesian space. The approximation or rounding necessary to transition from Cartesian coordinates to discrete grid representations may introduce discontinuities in the calculated repulsive field. To counteract this, tri-linear interpolation is utilized, facilitating a smooth transition to a continuous repulsive field value, as illustrated in Fig. \ref{fig:interp-experiment}.
 
-
-It is essential that the velocity contributions affecting the robot change smoothly. However, since our obstacle grid is discretely defined, achieving perfect continuity can be challenging. Increasing the resolution of the obstacle field can theoretically bring us closer to continuous behavior, but in practice, we are constrained by finite resolution. To ensure that the velocity remains continuous when transitioning from one cell of the obstacle grid to another at a point of interest (POI), we employ trilinear interpolation. \remove{This technique allows for a smooth and continuous linear approximation of velocities in all three Cartesian directions (x, y, and z) as the POI moves between cells.}
+Maintaining a smooth change in velocity contributions to the robot is crucial. However, the discrete nature of our obstacle grid presents a challenge in achieving complete continuity. While enhancing the obstacle grid's resolution could theoretically yield a more continuous behavior, practical limitations arise due to the finite resolution of sensors and the grid representation itself. Moreover, an increase in resolution would inevitably require more memory for storing the occupancy grid and additional computational resources. Thus, to ensure velocity continuity across adjacent cells within the obstacle grid for a point of interest (POI), trilinear interpolation is employed.
 
 We start by scalling the coordinates of POI into the grid koordinate system, by multiplying it by grid resolution (eq.~\ref{eq:scale grid}). 
 
 \begin{equation}
 	\label{eq:scale grid}
-	\vec{P} = \vec{p}_{\mathrm{POI}} \times\Delta \mathrm{grid}
+	\vec{P} = \vec{p}_{\mathrm{POI}} \times\Delta \mathrm{R}
 \end{equation}
 
 We get the indexes of the surrounding cells by first scaling the POI position by grid resolution and than rounding the position to the nearest lower and upper integer positions (eq.~\ref{eq:floor and ceil}).
@@ -283,7 +284,7 @@ Once we got the indexes of the eight surrounding cells of our POI, we use our ke
 	\vec{V}rep_{xyz,ijk} = \mathrm{calc\_rep\_vel}(X[i], Y[j], Z[k]) \quad \forall i, j, k \in \{1, 2\}
 \end{equation}
 
-Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). \replace{Since the repulsive values we calculate for the cells are alligned with the centers of the cells, we need to move before the interpolation the positions of known grid points by half of the cell width.}{The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid for each direction. }
+Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid for each direction. That is, the cell coordinates are same as x,y,z, cell index and a half multiplied by grid resolution $\Delta \mathrm{R}$.
 
 %\begin{equation}
 %	\Delta X = \frac{\left( P_x - \left( X(1) + \frac{1}{2} \Delta \mathrm{grid} \right)  \right)}{\left( X(2) - X(1) \right)}
@@ -307,13 +308,13 @@ Trilinear interpolation method works on a 3-dimensional regular grid. Before we 
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		\frac{\left( P_x - \left( X(1) + \frac{1}{2} \Delta \mathrm{grid} \right)  \right)}{\left( X(2) - X(1) \right)} \\
-		\frac{\left( P_y - \left( Y(1) + \frac{1}{2} \Delta \mathrm{grid} \right)  \right)}{\left( Y(2) - Y(1) \right)} \\
-		\frac{\left( P_z - \left( Z(1) + \frac{1}{2} \Delta \mathrm{grid} \right)  \right)}{\left( Z(2) - Z(1) \right)} \\
+		\frac{\left( P_x - \left( X(1) + \frac{1}{2} \Delta \mathrm{R} \right)  \right)}{\left( X(2) - X(1) \right)} \\
+		\frac{\left( P_y - \left( Y(1) + \frac{1}{2} \Delta \mathrm{R} \right)  \right)}{\left( Y(2) - Y(1) \right)} \\
+		\frac{\left( P_z - \left( Z(1) + \frac{1}{2} \Delta \mathrm{R} \right)  \right)}{\left( Z(2) - Z(1) \right)} \\
 	\end{bmatrix}
 \end{equation}
 
-The result of the interpolation is independent of the order of the operations. We first interpolate along the x-axis, followed by along the y-axis and finally along z-axis.
+The result of the interpolation is agnostic of the order of the operations. We first interpolate along the x-axis, followed by along the y-axis and finally along z-axis.
 
 %\begin{equation}
 %	\vec{V}_{rep,00} = \vec{V}_{rep,000}(1 - x_d) + \vec{V}_{rep,100}x_d
@@ -351,7 +352,9 @@ The result of the interpolation is independent of the order of the operations. W
 	\vec{V}rep_{xyz} = \vec{V}rep_{xyz,0}(1 - \Delta z) + \vec{V}rep_{xyz,1} \, \Delta z 
 \end{equation}
 
-The final result is a repulsive velocity vector that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
+%The final result is a smooth repulsive velocity field that transitions smoothly between the discrete values calculated at distinct points in the obstacle grid.
+
+The end product is a uniformly smooth repulsive velocity field, facilitating continuous transitions across discrete points determined within the obstacle grid.
 
 \begin{figure}
 	\centering
