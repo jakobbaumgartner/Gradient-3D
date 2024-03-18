@@ -39,7 +39,7 @@
 
 
 \title{\LARGE \bf
-Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based TSDF Calculation
+Matrix Multiplication-Driven Repulsive Fields for Manipulator Kinematic Obstacle Avoidance
 }
 
 
@@ -80,6 +80,52 @@ Matrix Multiplication-Driven Repulsive Fields for 3D Voxel-Based TSDF Calculatio
 %The robots environment is modelled by discrete voxels. As the robots environment can dynamically change, we propose a method that looks at the surrounding space of the robot and calculates these direction away from all the surrounding obstacles in real time. We only look in a predefined area / perimeter arround the robot.  
 %
 %In 3D computer graphics, a voxel represents a value on a regular grid in three-dimensional space. Each of the voxels holds the probability value of its occupation. In case of voxel being empty it holds the value of 0, if the voxel is occupied it holds the value of non-zero, depending on our assurance of it being occupied. If it is definitly occupied it holds the value of 1. 
+
+\alert{---}
+
+\subsection{Motion Planning}
+
+% PREDSTAVITEV REDUNDANCE
+
+Kinematic redundancy~\cite{siciliano1990kinematic, siciliano2016springer} enables a manipulator to follow a predefined task space trajectory using the endeffector (EE), while simultaneously, optimising for an additional task with the remaining movement capacity without impacting the trajectory adherence. This is possible because the robot's degrees of freedom (DOF) go beyond what is required to perform the primary task. Consequently, the robot can adopt different joint configurations optimised according to the secondary task while performing the primary task. Common secondary tasks~\cite{siciliano2010robot} include avoiding singularities, optimising the manipulability measure, minimising joint torques and avoiding obstacles in the operating space.
+
+% PREDSTAVITEV PRISTOPOV PLANIRANJA POTI V ROBOTIKI
+The task of finding the joint trajectories of a manipulator is called motion planning~\cite{IDEASLab2023}. It consists of finding a sequence of joint configurations for a robot so that the robot can move along this path from its initial configuration to the goal configuration without colliding with itself, static obstacles or other agents in the environment. In addition to collision avoidance, motion planning for manipulators can optionally take into account various constraints, such as position, velocity, acceleration or jerk constraints for the joint angle or end effector, precision of the end effector with respect to position and orientation, stability of the manipulator, avoidance of singularities, or any number of other criteria.
+
+There are numerous methods for planning manipulator movements~\cite{c51, c52}, they can rougly be seperated into global and local approaches. Global, sampling-based, methods such as PRM~\cite{vsvestka1997motion}, RRT*~\cite{lavalle1998rapidly, karaman2010incremental}, RRT-Connect~\cite{kuffner2000rrt}, Informerd RRT*~\cite{gammell2014informed}, BIT*~\cite{gammell2015batch} and others offer a globally optimal solution based on a global search in configuration space. However, the generated trajectories are not always smooth or optimal, and the performance of the methods may be insufficient for real-time operation.
+
+%Global planning methods are typically more comprehensive, aiming to find a globally optimal trajectory for the manipulator. These methods often involve mapping out the entire path before movement begins, taking into account the known environment, which usually includes static obstacles. However, the downside of global planning methods is their computational intensity, which often renders them too slow for real-time applications. This limitation is particularly pronounced in dynamic or unpredictable environments where conditions change rapidly and require quick responses. Examples of global planning methods include graph-based algorithms like A* and Dijkstra's algorithm, which are known for their effectiveness in pathfinding but also for their computational demands [(Lavalle, 2006)].
+
+%Sampling-based methods such as PRM, RRT, RRT*, RRT-Connect, Informerd RRT*, BIT* and others offer a solution based on a global search in configuration space. However, the generated trajectories are not always smooth or optimal, and the performance of the methods may be insufficient for real-time operation. 
+
+%\remove{Recently, a number of learning-based methods using data-driven techniques have been proposed to improve or accelerate the functionality of sampling-based methods. }
+%
+%\remove{Trajectory optimisation methods such as CHOMP, STOMP and TrajOpt, on the other hand, use optimization to improve an initial seed trajectory. Consequently, the optimality of the solution is highly dependent on this initial trajectory. Nevertheless, these methods are capable of generating smooth trajectories, and although they can be too computationally intensive for high DOF dynamic real-time environments, they are generally effective in finding constrained motion plans. }
+
+Local motion planning approaches employ optimization techniques, two common ones are inverse kinematics~\cite{c29,c38}, that is based on finding a least squares solution of the manipulator joint velocities, and quadratic programming (QP)~\cite{c21,c22, haviland2021neo, c23}.  Both methods are fast, suitable for real-time applications in dynamic environments and provide smooth solutions. However, since they do not plan further than one step ahead, they tend to get stuck in local minima. Therefore, they are often combined with a higher-level planner, for global static environment based \replace{motion}{path} planning, while local optimisation takes dynamic environment changes into account. In the following text we will focus on inverse kinematics based approaches.
+
+\subsection{Kinematic Obstacle Avoidance}
+
+%\remove{Different control schemes have been proposed. Acceleration-based control excels in precise handling of motion changes, velocity-based control offers consistent and smooth movement, while force and torque-based control provides direct control over joint forces for robust physical interactions. (CITATIONS in COMMENT BELLOW)}
+
+Various researchers have adopted different approaches to kinematic avoidance, as detailed in~\cite{c30, c39}.
+
+Colbaugh and Glass (1989)~\cite{c31, c32} tackled this problem in a two-step process. Initially, they calculated the robot's end-effector trajectory. Subsequently, they used optimization to enhance the robot's dynamic response during trajectory execution and for tasks like obstacle avoidance.
+
+Sciavicco and Siciliano~\cite{c34, c35}, as well as Egeland~\cite{c36}, independently introduced the concept of task-space augmentation, later revisited by Searji~\cite{c37}. This method involves extending the primary task Jacobian with the secondary task Jacobian into a square matrix, yielding a singular solution.
+
+Maciejewski and Klein (1985)~\cite{c29}, and Nakamura and Hanafusa (1987)~\cite{c38}, presented the concept of task prioritization and a null space for avoidance. In this framework, the secondary task is restricted to velocities that do not directly affect the primary task's movement. Their method calculates avoidance joint velocities based on the minimum distance between a point on the manipulator and an avoidance point, object, or obstacle. Žlajpah~\cite{c41} improved the concept by proposing a reduced operational space formulation, that reshapes the Jacobain of the avoidance task from three cartesian axis to only the direction of obstacle avoidance. Petrič~\cite{c42} suggested a way to smoothly transition between avoidance and trajectory following tasks.
+
+\subsection{Artificial Potential Field}
+
+These approaches typically do not focus on the environmental context, often representing it as geometric primitives and then calculating the distance between these primitives and the lines describing the manipulator.
+
+Khatib~\cite{c33} proposes the concept of an Artificial Potential Field. This field consists of a repulsive component that deflects the end effector away from obstacles, depicted as geometric primitives, and an attractive component that draws the manipulator towards its target. In the following years many different modifications and improvement of the original APF idea have been proposed, often focused on removal of local minimas in the potential field. Khim and Khosla~\cite{c40} suggested the use of harmonic functions to solve the problem of local minima. Pinto et al. \cite{c43} proposes to vary the field based on the distance of robot from obstacles to fill the local minima. Many researchers tried using APF as a heuristic to better guide sampling based approaches~\cite{c45, c46, c47}.
+
+Many of the recent works focus on use of a variation of artificial potential field to plan motion of the manipulator. Xia et al.~\cite{c49} uses a variation of APF for manipulator motion~\cite{c49}. Park et al.~\cite{park2020trajectory} used a numerical Jacobian in combination with APF for motion planning. Zhang et al.~\cite{zhang2021obstacle} proposes dynamic repulsive field based on direction and speed between point on robot and obstacle, it also suggests decision making force that moves the robot away from certain local minima. Chen et al. proposes\remove{ an application }using APF in joint space and a variable kinematic optimization step~\cite{c50}. Long~\cite{c44} suggests creating motion plan of the manipulator using APF, he extends it using RRT to calculate virtual attractive point for the robot to move towards in case of local minima. Zhu et al.~\cite{c48} proposes use of APF in combination with MPC, to plan in environment with dynamic obstacles.
+
+
+\alert{---}
 
 In dynamic environments, a robot manipulator must swiftly respond to emerging obstacles. Our approach enables the robot to determine safe movement directions and velocities by real-time assessment of nearby space for obstacles.
 
