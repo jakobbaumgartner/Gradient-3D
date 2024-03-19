@@ -110,17 +110,26 @@ This article introduces a method for obstacle avoidance in robotic manipulators 
 
 We leverage a voxel-based representation of the surrounding space, to dynamically assesses potential collision threats and calculates directional repulsive velocities for smooth and safe navigation through complex environments. 
 
+Kernel multiplication is employed to ascertain the repulsive velocity components within Cartesian space. We select a segment from the occupation grid, that is centered in the point of interest (POI) on the robot, where we want to calculate the repulsive velocities. The segment needs to be of the same size as the directional matrix, for the cordinate axis in which we are calulating the repulsive velocity. This results in two identically sized 3D matrices: one serving as a "window" into the obstacle grid (\(G_d\)) and the other as the directional kernel (\(W_d\)).
+
+Applying the Hadamard (element-wise) product to the segment of the occupation grid \(G_d\) and the kernel \(W_d\) results in a new matrix for each Cartesian direction (\(d \in \{x, y, z\}\)). By summing over all values in this resultant matrix, we calculate the repulsive velocity component for that specific direction. This process is independently conducted for each Cartesian coordinate, ultimately yielding the comprehensive repulsive velocity vector \(\vec{v}_i = [ v_{x_i}, v_{y_i}, v_{z_i}]\).
+
+\begin{equation}
+	v_d = \sum_{i,j,k} (G \odot W)_{ijk} = \sum_{i}\sum_{j}\sum_{k} g_{\Delta i \Delta j \Delta k} ~  w_{\Delta i \Delta j \Delta k}
+	\label{eq:matrix-product}
+\end{equation}
+
+If the agent is positioned at the edge of the known voxel grid, elements beyond the window's boundary must be filled. These elements, located outside the matrix's spatial domain, can either be considered vacant—encouraging the robot to explore these new areas—or occupied—thereby deterring the robot from exiting the mapped grid space.
+
 \subsection{KERNELS AND THEIR MATRIX APPLICATIONS}
 
 The fundamental concept of directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. 
 
-Kernels are designed as three-dimensional matrixes with a primary kernel axis aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes are orthogonal to the primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the zero valued cell in the center of the kernel, where the values jump from max negative to max positive magnitude (Fig.~\cite{fig:kernels}). The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the agent approaches an obstacle. Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
+Kernels are designed as three-dimensional matrixes with a primary kernel axis $i$ aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes $j,k$ are orthogonal to the primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the zero valued cell in the center of the kernel, where the values jump from max negative to max positive magnitude (Fig.~\cite{fig:kernels} \alert{TBA}). The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the agent approaches an obstacle. Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
 
-We introduce two distributions for the primary axis weights. The selection of weight distribution is contingent on the desired profile of repulsive velocities within the Artificial Potential Field (APF).
+We introduce two distributions for the primary axis weights, namely gaussian and linear. The selection of weight distribution is contingent on the desired profile of repulsive velocities within the Artificial Potential Field (APF).
 
 First proposed function is mirrored normal or Gaussian distribution, the standard deviation (\(\sigma\)) modulates the rate at which field values escalate as obstacles are approached.
-
-Terms \(\Delta i = c_i - i\), \(\Delta j = c_j - j\), and \(\Delta k = c_k - k\) denote the displacement index from the matrix's central field, where fields' components are calculated.
 
 \begin{equation}
 w_{\Delta i} = 
@@ -131,7 +140,9 @@ w_{\Delta i} =
 \end{cases}
 \end{equation}
 
-Another distribution we used is mirrored linear, where the $\Delta i_{max} = \lfloor \frac{\mathrm{range}}{\Delta \mathrm{R}} \rfloor$ is the rounded down half length of the primary axis kernel. 
+Terms \(\Delta i = c_i - i\), \(\Delta j = c_j - j\), and \(\Delta k = c_k - k\) denote the displacement index from the matrix's central field, where fields' components are calculated.
+
+Second proposed distribution is mirrored linear, where the $\Delta i_{max} = \lfloor \frac{\mathrm{range}}{\Delta \mathrm{R}} \rfloor$ is the rounded down half length of the primary axis kernel. 
 
 \begin{equation}
 	w_{\Delta i} = 
@@ -144,9 +155,9 @@ Another distribution we used is mirrored linear, where the $\Delta i_{max} = \lf
 
 The length $i_{max}$ of the primary axis is critical, as it dictates the detection range for obstacles. Longer kernels can detect obstacles further away from the robot, essentially extending the ’safety zone’ around the robot. If the primary axis is too long, it can lead to extra calculations and may cause the robot to unnecessarily avoid obstacles that aren't in its immediate path, making its movement and path planning less efficient. 
 
-If the matrix would be only 1 field width and height the field would work kind of as ray tracing in each of the main cartesian coordinate directions. Since our need is to detect also obstacles that dont align perfectly along the cartesian direction, it is important that our matrixes have width and height. However as we want bigger repulsive field when the obstacle is head on in the direction than when the obstacle is off the cardinal direction, we propose the following multiplicator, to account for the off direction obstacles.
+If the matrix would be only 1 field width and height the field would work kind of as ray tracing in each of the main cartesian coordinate directions. Since our need is to detect also obstacles that dont align perfectly along the cartesian direction, it is important that our matrixes have width ($i$ axis) and height ($j$ axis). However as we want bigger repulsive field when the obstacle is head on in the direction than when the obstacle is off the cardinal direction, we propose the following multiplicator, to account for the off direction obstacles.
 
-The length $\Delta j_{max} = \lfloor \frac{\mathrm{width}}{2 \Delta \mathrm{R}} \rfloor$ of the orthogonal axes influences the peripheral detection range for obstacles. Excessively wide kernels may generate repulsive velocities for objects that are not in the path of the robot, whereas too narrow kernels might only detect obstacles aligned directly with the Cartesian direction in the point of interest. When selecting the width and height of the kernel, we must consider the density of the neighboring points of interest on the agent, ensuring that the combination of kernels adequately cover the entire agent's surrounding area. 
+The length $\Delta j_{max} = \lfloor \frac{\mathrm{width}}{2 \Delta \mathrm{R}} \rfloor$ and height $\Delta k_{max} = \lfloor \frac{\mathrm{height}}{2 \Delta \mathrm{R}} \rfloor$ of the orthogonal axes influences the peripheral detection range for obstacles. Excessively wide kernels may generate repulsive velocities for objects that are not in the path of the robot, whereas too narrow kernels might only detect obstacles aligned directly with the Cartesian direction in the point of interest. When selecting the width and height of the kernel, we must consider the density of the neighboring points of interest on the agent, ensuring that the combination of kernels adequately cover the entire agent's surrounding area. 
 
 For point-based agents, such as quadcopters, it is practical to align the dimensions of each matrix—length, width, and height—to be identical. This configuration ensures uniform coverage of the spherical area surrounding the agent and reduces the risk of blind spots that might occur when obstacles are close to the agent but situated between the discrete kernels.
 
@@ -171,21 +182,10 @@ Another option is to use linearly falling weights.
 \end{equation}
 
 
-Finally we get three matrix kernels, one for each of the three coordinate axis directions by multiplieing weights components for primary and orthagonal axis.
+By multiplieing weights components for primary and both orthagonal axis we get matrix kernels. We get one kernel for every cartesian direction.
 
 \begin{equation}
 	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} * w_{\Delta j} * w_{\Delta k}
-\end{equation}
-
-Following the establishment of repulsive kernel weights, kernel multiplication is employed to ascertain the repulsive velocity components within Cartesian space. We select a corresponding segment from the obstacle grid, aligning in size and centered around the point of interest (POI) on the robot, where we want to calculate the repulsive velocities. This results in two identically sized 3D matrices: one serving as a "window" into the obstacle grid (\(A_d\)) and the other as the representative kernel (\(K_d\)).
-
-Positioning of the agent at the edge of the known voxel grid necessitates a strategic decision regarding the window's boundary elements. These elements, located beyond the matrix's spatial domain, can either be considered vacant—encouraging the robot to explore these new areas—or occupied—thereby deterring the robot from exiting the mapped grid space.
-
-Applying the Hadamard (element-wise) product to the segment of the obstacle grid \(G_d\) and the kernel \(W_d\) results in a new matrix for each Cartesian direction (\(d \in \{x, y, z\}\)). By summing over all values in this resultant matrix, we calculate the repulsive velocity component for that specific direction. This process is independently conducted for each Cartesian coordinate, ultimately yielding the comprehensive repulsive velocity vector \(\vec{v}_i = [ v_{x_i}, v_{y_i}, v_{z_i}]\).
-
-\begin{equation}
-	v_d = \sum_{i,j,k} (G \odot W)_{ijk} = \sum_{i}\sum_{j}\sum_{k} g_{\Delta i \Delta j \Delta k} ~  w_{\Delta i \Delta j \Delta k}
-	\label{eq:matrix-product}
 \end{equation}
 
 \comment{}{PLOT: kernel 2D images}
@@ -196,14 +196,7 @@ The occupancy grid's representation of the robot's environment is inherently dis
 
 Maintaining a smooth change in velocity contributions to the robot is crucial. However, the discrete nature of our obstacle grid presents a challenge in achieving complete continuity. While enhancing the obstacle grid's resolution could theoretically yield a more continuous behavior, practical limitations arise due to the finite resolution of sensors and the grid representation itself. Moreover, an increase in resolution would inevitably require more memory for storing the occupancy grid and additional computational resources. Thus, to ensure velocity continuity across adjacent cells within the obstacle grid for a point of interest (POI), trilinear interpolation is employed.
 
-We start by scalling the coordinates of POI into the grid koordinate system, by multiplying it by grid resolution (eq.~\ref{eq:scale grid}). 
-
-\begin{equation}
-	\label{eq:scale grid}
-	\vec{P} = \vec{p}_{\mathrm{POI}} \times\Delta \mathrm{R}
-\end{equation}
-
-We get the indexes of the surrounding cells by first scaling the POI position by grid resolution and than rounding the position to the nearest lower and upper integer positions (eq.~\ref{eq:floor and ceil}).
+The indexes of the eight surrounding cells are calculated by scaling the POI $x,y,z$ by grid resolution and than rounding the position to the nearest lower and upper integer positions (eq.~\ref{eq:floor and ceil}).
 
 \begin{equation}
 	\label{eq:floor and ceil}
@@ -215,24 +208,23 @@ We get the indexes of the surrounding cells by first scaling the POI position by
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		\; \lfloor \vec{p}_{\mathrm{POI}}(1) \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(1) \rceil \;  \\
-		\; \lfloor \vec{p}_{\mathrm{POI}}(2) \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(2) \rceil \; \\
-		\; \lfloor \vec{p}_{\mathrm{POI}}(3) \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(3) \rceil \; 
+		\; \lfloor \vec{p}_{\mathrm{POI}}(1) \times\Delta \mathrm{R} \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(1) \times\Delta \mathrm{R} \rceil \;  \\
+		\; \lfloor \vec{p}_{\mathrm{POI}}(2) \times\Delta \mathrm{R} \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(2) \times\Delta \mathrm{R} \rceil \; \\
+		\; \lfloor \vec{p}_{\mathrm{POI}}(3) \times\Delta \mathrm{R} \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(3) \times\Delta \mathrm{R} \rceil \; 
 	\end{bmatrix}
 \end{equation}
 
-Once we got the indexes of the eight surrounding cells of our POI, we use our kernel matrix multiplication method, to calculate the 3x1 repulsive velocity vectors for all the cells (eq.~\ref{eq: calc rep vel}).
+Once we got the indexes of the eight surrounding cells of our POI, we calculate the repulsive velocity vectors in each point using kernel matrix multiplication method (seperately for each cartesian direction) (eq.~\ref{eq: calc rep vel}).
 
 \begin{equation}
 	\label{eq: calc rep vel}
 	\vec{V}rep_{xyz,ijk} = \mathrm{calc\_rep\_vel}(X[i], Y[j], Z[k]) \quad \forall i, j, k \in \{1, 2\}
 \end{equation}
 
-Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid for each direction. That is, the cell coordinates are same as x,y,z, cell index and a half multiplied by grid resolution $\Delta \mathrm{R}$.
+Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid in each direction. That is, the cell coordinates are same as $x,y,z$, cell index and a half multiplied by grid resolution $\Delta \mathrm{R}$.
 
 \begin{equation}
 	\label{eq: deltas interp}
-	\Delta \vec{P} =
 	\begin{bmatrix}
 		\Delta x \\
 		\Delta y \\
@@ -362,6 +354,13 @@ The deceleration factor (eq.~\ref{eq:slowdown}) is determined by the constant \(
 
 \subsection{AVOIDANCE VELOCITIES}
 
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{manipulator-kernels-visualization-small.eps} % Replace 'example-image' with the filename of your image
+	\caption{Visualization of 3 repulsive Y-direction kernels in POI on the manipulator.}
+	\label{fig:kernels}
+\end{figure}
+
 To enable the avoidance of obstacles by the manipulator within its operating environment, the manipulator is uniformly coated with virtual detection points (POIs). The density of these virtual points is dependent upon the dimensions of matrices. Given a matrix width $w$ perpendicular to the primary direction, it is advantageous for these points to be spaced at intervals of $\Delta = \frac{w}{3}$. This spacing ensures partial overlap between matrices, thereby achieving a uniform distribution of POIs across the entirety of the robot.
 
 During kinematic optimization, repulsive velocities for each point are computed following the methodology described in the previous section (sect. \ref{section:repulsive_vel}). This is achieved by mapping each point into the task space, where the calculation of repulsive velocity is performed. The cartesian mapping for each point comprises a kinematic transformation from the robot's base to the beginning of the segment where the point is located, followed by an additional mapping to the specific point on the segment (eq. \ref{eq:transformations}).  For each point, three components of cartesian velocity are obtained.
@@ -422,7 +421,7 @@ In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}
 
 In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}), our robot operates within a dynamic environment. The proposed method for calculating repulsive velocities proves to be a suitable choice when a local optimization approach is needed to accommodate dynamic changes. In this scenario, a ball moves consistently from the left to the right side of the graph (i.e., along the y-axis from 0.4 at the initial moment to 1.4 in the final step of the simulation), as governed by the equation \( y_{\text{ball}} = 0.4 + (1.4 - 0.4) \times \frac{N_{\text{step}}}{75} \),  with \( x_{\text{ball}} = 1.25 \) and \( z_{\text{ball}} = 0.7 \). The primary task is now to maintain the robot's end-effector (EE) at a fixed point, disregarding EE orientation to enhance obstacle avoidance capability. This increases maneuverability, thereby eliminating the need for primary speed task slowdown (\( \xi_{p} = 0 \)). Constants selected for the primary task are \( k_v = 2 \) and \( k_w = 0 \), and for the avoidance task \( k_r = 3 \). Weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5} ]}{10} \). The simulation is performed for 75 steps. 
 
-\add{describe weights and distributions used in the kernels}
+\add{describe weights and distributions used in experiments the kernels}
 
 \add{sigmoid weights}
 
