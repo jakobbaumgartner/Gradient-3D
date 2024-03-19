@@ -218,7 +218,7 @@ Once we got the indexes of the eight surrounding cells of our POI, we calculate 
 
 \begin{equation}
 	\label{eq: calc rep vel}
-	\vec{V}rep_{xyz,ijk} = \mathrm{calc\_rep\_vel}(X[i], Y[j], Z[k]) \quad \forall i, j, k \in \{1, 2\}
+	\vec{V}rep_{xyz,ijk} = \mathrm{rep}(X[i], Y[j], Z[k]) \quad \forall i, j, k \in \{1, 2\}
 \end{equation}
 
 Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid in each direction. That is, the cell coordinates are same as $x,y,z$, cell index and a half multiplied by grid resolution $\Delta \mathrm{R}$.
@@ -273,7 +273,7 @@ The end product is a uniformly smooth repulsive velocity field, facilitating con
 The desired movement of the end-effector is achieved by using inverse kinematics velocity control scheme with task prioritisation. 
 
 \begin{equation}
-	\dot{\vec{q}} = \mathbf{J}^+ \xi_{p} \mathrm{\vec{v}{att}} + \dot{\vec{q}}_{rep}
+	\dot{\vec{q}} = \mathbf{J}^+ \xi_{p} \mathrm{\vec{v}_{att}} + \dot{\vec{q}}_{rep}
 \end{equation}
 
 The damped Moore-Penrose pseudo-inverse, \(\mathbf{J}^+~=~\mathbf{J}'(\mathbf{J}\mathbf{J}' + \sigma_{ee} \mathbf{I})^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{\vec{q}}_{rep}$ are the weighted sum of avoidance joint velocities, each transformed into the null space of primary velocities, as described in the chapter below. 
