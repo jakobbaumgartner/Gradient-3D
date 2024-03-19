@@ -89,9 +89,9 @@ Matrix Multiplication-Driven Repulsive Fields for Manipulator Kinematic Obstacle
 %
 %For dynamic environments, strategies like ESDF grids, calculated directly from sensor data or occupancy grids, assist in real-time obstacle detection and avoidance~\cite{oleynikova2017voxblox,han2019fiesta,lau2010improved,rong2006jump,zhou2021egoplanner}. Our novel approach utilizes occupancy voxel grids to generate repulsive velocities, dynamically directing the robot away from obstacles based on proximity, thus enabling effective navigation in changing environments. This method ensures the robot maintains a safe distance from obstacles, with repulsive velocities adjusting in real-time to navigate the manipulator through the safest path possible.
 
-Motion planning is a technique in robotics, that is used to calculate joint changes leading manipulators from initial to a target configuration, while addressing constraints and optimization criteria. This task is facilitated by the manipulators' redundant degrees of freedom (DOF), enabling it to undertake various configurations to not only reach their End Effector (EE) target but also optimize for secondary objectives such as obstacle avoidance and minimizing joint torques~\cite{siciliano1990kinematic, siciliano2010robot}.
+Motion planning~\cite{c52} is a technique in robotics, that is used to calculate joint changes leading manipulators from initial to a target configuration, while addressing constraints and optimization criteria. This task is facilitated by the manipulators' redundant degrees of freedom (DOF), enabling it to undertake various configurations to not only reach their End Effector (EE) target but also optimize for secondary objectives such as obstacle avoidance and minimizing joint torques~\cite{siciliano1990kinematic}.
 
-While global motion planning techniques provide comprehensive solutions by examining the entire configuration space, they fall short in terms of smoothness and real-time application, making them less ideal for dynamic settings~\cite{lavalle1998rapidly, gammell2015batch, karaman2010incremental,kuffner2000rrt}. Conversely, local planning methods, particularly inverse kinematics~\cite{c29,c38} and quadratic programming~\cite{c21,c23}, offer prompt, smooth trajectories suitable for real-time operations. However, these methods are prone to fall into local minima due to their incremental planning approach.
+While global motion planning techniques provide comprehensive solutions by examining the entire configuration space, they fall short in terms of smoothness and real-time application, making them less ideal for dynamic settings~\cite{lavalle1998rapidly, gammell2015batch, karaman2010incremental,kuffner2000rrt}. Conversely, local planning methods, particularly inverse kinematics~\cite{c29,c38} and quadratic programming~\cite{c21,c23, haviland2021neo}, offer prompt, smooth trajectories suitable for real-time operations. However, these methods are prone to fall into local minima due to their incremental planning approach.
 
 Often used approach is a combination of global and local planning strategies~\cite{c44}, leveraging global planners for static environment navigation and local planners for adjusting to dynamic changes. This implementation enhances the manipulator's ability to navigate complex environments by combining the comprehensive pathfinding capabilities of global methods with the adaptability and efficiency of local techniques.
 
@@ -101,7 +101,7 @@ In addressing dynamic environments, technologies such as ESDF grids, derived fro
 
 %Our approach advances this field by utilizing occupancy voxel grids to generate repulsive velocities that guide the robot away from obstacles based on their proximity, thereby ensuring safe navigation. This technique dynamically adjusts repulsive forces to steer the manipulator along the safest path, maintaining an optimal distance from potential hazards.
 
-Our approach utilizes occupancy voxel grids to enable safe and dynamic navigation for robot manipulators in changing environments. By representing the workspace with voxels and calculating repulsive velocities based on proximity to obstacles, our method allows the robot to determine safe movement directions and velocities in real-time. Repulsive velocities gain strength as the robot approaches an obstacle, guiding it to move away from potential collisions, and weaken when the robot is at a safe distance, maintaining an optimal distance from hazards. This locally-calculated repulsive field ensures the robot moves safely and efficiently in dynamic environments.
+Our approach utilizes occupancy voxel grids~\cite{han2018dynamic} to enable safe and dynamic navigation for robot manipulators in changing environments. By representing the workspace with voxels and calculating repulsive velocities based on proximity to obstacles, our method allows the robot to determine safe movement directions and velocities in real-time. Repulsive velocities gain strength as the robot approaches an obstacle, guiding it to move away from potential collisions, and weaken when the robot is at a safe distance, maintaining an optimal distance from hazards. This locally-calculated repulsive field ensures the robot moves safely and efficiently in dynamic environments.
 
 This article introduces a method for obstacle avoidance in robotic manipulators via matrix multiplication-driven repulsive fields. Section II outlines the mathematical framework for generating repulsive velocities. Section III integrates this with inverse kinematic control, focusing on obstacle navigation. Section IV presents simulations demonstrating the method's effectiveness in various scenarios, highlighting its potential in robotic motion planning and obstacle avoidance.
 
@@ -757,11 +757,11 @@ In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}),
 
 \begin{thebibliography}{99}
 	
+\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, “A review of recent trend in motion planning of industrial robots,” Int J Intell Robot Appl, vol. 7, no. 2, Art. no. 2, Jun. 2023. doi: 10.1007/s41315-023-00274-2.
+	
 \bibitem{siciliano1990kinematic} B. Siciliano, “Kinematic control of redundant robot manipulators: A tutorial,” J. Intell. Robot. Syst., vol. 3, no. 3, Art. no. 3, 1990, doi: 10.1007/BF00126069.
 
-\bibitem{siciliano2010robot} B. Siciliano, L. Sciavicco, L. Villani, and G. Oriolo, Robot. Model. Plan. Control, 2010, pp. 161–189. [Online]. Available: http://link.springer.com/10.1007/978-1-84628-642-1\_4
-
-%\bibitem{vsvestka1997motion} P. {\v{S}}vestka and M. H. Overmars, “Motion planning for carlike robots using a probabilistic learning approach,” The International Journal of Robotics Research, vol. 16, no. 2, pp. 119–143, 1997.
+%\bibitem{siciliano2010robot} B. Siciliano, L. Sciavicco, L. Villani, and G. Oriolo, Robot. Model. Plan. Control, 2010, pp. 161–189. [Online]. Available: http://link.springer.com/10.1007/978-1-84628-642-1\_4
 
 \bibitem{lavalle1998rapidly} S. LaValle, “Rapidly-exploring random trees: A new tool for path planning,” Research Report 9811, 1998.
 
@@ -779,19 +779,15 @@ In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}),
 
 \bibitem{c23} H. Toshani and M. Farrokhi, “Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach,” Robotics and Autonomous Systems, vol. 62, no. 6, pp. 766–781, Jun. 2014. doi: 10.1016/j.robot.2014.02.005.
 
-%\bibitem{c22} Y. Zhang, S. S. Ge, and T. H. Lee, “A Unified Quadratic-Programming-Based Dynamical System Approach to Joint Torque Optimization of Physically Constrained Redundant Manipulators,” IEEE Trans. Syst., Man, Cybern. B, vol. 34, no. 5, pp. 2126–2132, Oct. 2004. doi: 10.1109/TSMCB.2004.830347.
+\bibitem{haviland2021neo} J. Haviland and P. Corke, “NEO: A Novel Expeditious Optimisation Algorithm for Reactive Motion Control of Manipulators,” IEEE Robot. Autom. Lett., vol. 6, no. 2, Art. no. 2, Apr. 2021, doi: 10.1109/LRA.2021.3056060.
 
 \bibitem{c44} Z. Long, “Virtual target point-based obstacle-avoidance method for manipulator systems in a cluttered environment,” Engineering Optimization, vol. 52, no. 11, Art. no. 11, Nov. 2020. doi: 10.1080/0305215X.2019.1681986.
 
 \bibitem{c33} O. Khatib, “Real-time obstacle avoidance for manipulators and mobile robots,” in 1985 IEEE International Conference on Robotics and Automation Proceedings, Mar. 1985, pp. 500–505. doi: 10.1109/ROBOT.1985.1087247.
 
-%\bibitem{c40} J.-O. Kim and P. Khosla, “Real-Time Obstacle Avoidance Using Harmonic Potential Functions,” 1992. doi: 10.1109/70.143352.
-
 \bibitem{c43} M. F. Pinto, T. R. F. Mendonça, L. R. Olivi, E. B. Costa, and A. L. M. Marcato, “Modified approach using variable charges to solve inherent limitations of potential fields method,” in Proc. 2014 11th IEEE/IAS International Conference on Industry Applications, Dec. 2014, pp. 1–6. doi: 10.1109/INDUSCON.2014.7059414.
 
 \bibitem{c45} A. H. Qureshi and Y. Ayaz, “Potential Functions based Sampling Heuristic For Optimal Path Planning,” Auton Robot, vol. 40, no. 6, Art. no. 6, Aug. 2016. doi: 10.1007/s10514-015-9518-0.
-
-%\bibitem{c46} A. H. Qureshi et al., “Adaptive Potential guided directional-RRT*,” in Proc. 2013 IEEE International Conference on Robotics and Biomimetics (ROBIO), Shenzhen, China, Dec. 2013, pp. 1887–1892. doi: 10.1109/ROBIO.2013.6739744.
 
 \bibitem{c47} J. Yi, Q. Yuan, R. Sun, and H. Bai, “Path planning of a manipulator based on an improved P\_RRT* algorithm,” Complex Intell. Syst., vol. 8, no. 3, pp. 2227–2245, Jun. 2022. doi: 10.1007/s40747-021-00628-y.
 
@@ -815,142 +811,13 @@ J. Baumgartner, T. Petrič, and G. Klančar, “Potential Field Control of a Red
 
 \bibitem{zhou2021egoplanner} X. Zhou, Z. Wang, H. Ye, C. Xu, and F. Gao, “EGO-Planner: An ESDF-Free Gradient-Based Local Planner for Quadrotors,” IEEE Robot. Autom. Lett., vol. 6, no. 2, pp. 478–485, Apr. 2021, doi: 10.1109/LRA.2020.3047728.
 
+\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, “Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection,” Robotics and Computer-Integrated Manufacturing, vol. 49, pp. 98–104, Feb. 2018, doi: 10.1016/j.rcim.2017.05.013.
 
-
-
-
-
-
-%\bibitem{gammell2014informed} J. D. Gammell, S. S. Srinivasa, and T. D. Barfoot, “Informed RRT*: Optimal sampling-based path planning focused via direct sampling of an admissible ellipsoidal heuristic,” in Proc. of the 2014 IEEE/RSJ International Conference on Intelligent Robots and Systems, Chicago, IL, USA, Sep. 2014, pp. 2997–3004. doi: 10.1109/IROS.2014.6942976.
-%
-%	
-%\bibitem{IDEASLab2023}
-%IDEAS Lab, "Motion and Path Planning," presented at Purdue University, 2023. [Online]. Available: \url{https://ideas.cs.purdue.edu/research/robotics/planning/}. Accessed on: Jan. 9, 2024.
-%	
-
-
-
-
-
-\bibitem{haviland2021neo} J. Haviland and P. Corke, “NEO: A Novel Expeditious Optimisation Algorithm for Reactive Motion Control of Manipulators,” IEEE Robot. Autom. Lett., vol. 6, no. 2, Art. no. 2, Apr. 2021, doi: 10.1109/LRA.2021.3056060.
-
-
-
-
-\bibitem{c24} J. Nakanishi, R. Cory, M. Mistry, J. Peters, and S. Schaal, “Comparative experiments on task space control with redundancy resolution,” in Proc. 2005 IEEE/RSJ Int. Conf. on Intelligent Robots and Systems, Edmonton, Alta., Canada, 2005, pp. 3901–3908. doi: 10.1109/IROS.2005.1545203.
-
-\bibitem{c25} M. H. Raibert and J. J. Craig, “Hybrid Position/Force Control of Manipulators,” Journal of Dynamic Systems, Measurement, and Control, vol. 103, no. 2, pp. 126–133, Jun. 1981. doi: 10.1115/1.3139652.
-
-\bibitem{c26} T. Yoshikawa, “Dynamic hybrid position/force control of robot manipulators--Description of hand constraints and calculation of joint driving force,” IEEE J. Robot. Automat., vol. 3, no. 5, pp. 386–392, Oct. 1987. doi: 10.1109/JRA.1987.1087120.
-
-\bibitem{c27} O. Khatib, “A unified approach for motion and force control of robot manipulators: The operational space formulation,” IEEE J. Robot. Automat., vol. 3, no. 1, pp. 43–53, Feb. 1987. doi: 10.1109/JRA.1987.1087068.
-
-\bibitem{c28} N. Hogan, “Impedance Control: An Approach to Manipulation,” in Proc. 1984 American Control Conf., San Diego, CA, USA, Jul. 1984, pp. 304–313. doi: 10.23919/ACC.1984.4788393.
-
-
-
-\bibitem{c30} L. Lajpah and T. Petri, “Obstacle Avoidance for Redundant Manipulators as Control Problem,” in Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization, S. Kucuk, Ed. InTech, 2012. doi: 10.5772/32651.
-
-\bibitem{c31} R. Colbaugh and K. Glass, “Cartesian control of redundant robots,” J. Robotic Syst., vol. 6, no. 4, pp. 427–459, Aug. 1989. doi: 10.1002/rob.4620060409.
+\bibitem{c30} L. Žlajpah and T. Petrič, “Obstacle Avoidance for Redundant Manipulators as Control Problem,” in Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization, S. Kucuk, Ed. InTech, 2012. doi: 10.5772/32651.
 
 \bibitem{c32} K. Glass, R. Colbaugh, D. Lim, and H. Seraji, “Real-time collision avoidance for redundant manipulators,” IEEE Trans. Robot. Automat., vol. 11, no. 3, pp. 448–457, Jun. 1995. doi: 10.1109/70.388789.
 
-
-
-\bibitem{c34} L. Sciavicco and B. Siciliano, “A solution algorithm to the inverse kinematic problem for redundant manipulators,” IEEE J. Robot. Automat., vol. 4, no. 4, pp. 403–410, Aug. 1988. doi: 10.1109/56.804.
-
-\bibitem{c35} L. Sciavicco and B. Siciliano, “Solving the Inverse Kinematic Problem for Robotic Manipulators,” in RoManSy 6, A. Morecki, G. Bianchi, and K. Kedzior, Eds., Boston, MA: Springer US, 1987, pp. 107–114. doi: 10.1007/978-1-4684-6915-8\_9.
-
-\bibitem{c36} O. Egeland, “Task-space tracking with redundant manipulators,” IEEE J. Robot. Automat., vol. 3, no. 5, pp. 471–475, Oct. 1987. doi: 10.1109/JRA.1987.1087118.
-
-\bibitem{c37} H. Seraji, “Configuration control of redundant manipulators: theory and implementation,” IEEE Trans. Robot. Automat., vol. 5, no. 4, pp. 472–490, Aug. 1989. doi: 10.1109/70.88062.
-
-
-
-\bibitem{c39} B. Siciliano and O. Khatib, Eds., Springer Handbook of Robotics. in Springer Handbooks. Cham: Springer International Publishing, 2016. doi: 10.1007/978-3-319-32552-1.
-
-
-
-\bibitem{c41} L. Zlajpah and B. Nemec, “Kinematic control algorithms for on-line obstacle avoidance for redundant manipulators,” in Proc. IEEE/RSJ International Conference on Intelligent Robots and Systems, Lausanne, Switzerland, 2002, pp. 1898–1903. doi: 10.1109/IRDS.2002.1044033.
-
-\bibitem{c42} T. Petrič and L. Žlajpah, “Smooth continuous transition between tasks on a kinematic control level: Obstacle avoidance as a control problem,” Robotics and Autonomous Systems, vol. 61, no. 9, Art. no. 9, Sep. 2013. doi: 10.1016/j.robot.2013.04.019.
-
-
-
-
-
-
-
-\bibitem{c48} T. Zhu, J. Mao, L. Han, C. Zhang, and J. Yang, “Real-Time Dynamic Obstacle Avoidance for Robot Manipulators Based on Cascaded Nonlinear MPC With Artificial Potential Field,” IEEE Trans. Ind. Electron., pp. 1–11, 2023. doi: 10.1109/TIE.2023.3306405.
-
-
-
-\bibitem{c50} Y. Chen, L. Chen, J. Ding, and Y. Liu, “Research on Real-Time Obstacle Avoidance Motion Planning of Industrial Robotic Arm Based on Artificial Potential Field Method in Joint Space,” Applied Sciences, vol. 13, no. 12, p. 6973, Jan. 2023. doi: 10.3390/app13126973.
-
-\bibitem{c51} S. M. LaValle, Planning Algorithms. Cambridge: Cambridge University Press, 2006.
-
-\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, “A review of recent trend in motion planning of industrial robots,” Int J Intell Robot Appl, vol. 7, no. 2, Art. no. 2, Jun. 2023. doi: 10.1007/s41315-023-00274-2.
-
-
-
-
-
-
-
-\bibitem{siciliano2016springer} B. Siciliano and O. Khatib, Eds., Springer Handbook of Robotics, in Springer Handbooks. Cham: Springer International Publishing, 2016. doi: 10.1007/978-3-319-32552-1.
-
-
-
-\bibitem{dai2022review} Y. Dai, C. Xiang, Y. Zhang, Y. Jiang, W. Qu, and Q. Zhang, “A Review of Spatial Robotic Arm Trajectory Planning,” Aerospace, vol. 9, p. 361, Jul. 2022, doi: 10.3390/aerospace9070361.
-
-\bibitem{gottschalk1996obbtree} S. Gottschalk, M. C. Lin, and D. Manocha, “OBBTree: a hierarchical structure for rapid interference detection,” in Proceedings of the 23rd Annual Conference on Computer Graphics and Interactive Techniques, ACM, Aug. 1996, pp. 171–180. doi: 10.1145/237170.237244.
-
-\bibitem{vandenbergen1997efficient} G. van den Bergen, “Efficient Collision Detection of Complex Deformable Models using AABB Trees,” Journal of Graphics Tools, vol. 2, no. 4, pp. 1–13, 1997. doi: 10.1080/10867651.1997.10487480.
-
-\bibitem{chen2018path} G. Chen, D. Liu, Y. Wang, Q. Jia, and X. Zhang, “Path planning method with obstacle avoidance for manipulators in dynamic environment,” International Journal of Advanced Robotic Systems, vol. 15, no. 6, Art. no. 1729881418820223, Nov. 2018, doi: 10.1177/1729881418820223.
-
-\bibitem{puiu2011realtime} D. Puiu and F. Moldoveanu, “Real-time collision avoidance for redundant manipulators,” in Proc. of the 2011 6th IEEE International Symposium on Applied Computational Intelligence and Informatics (SACI), Timisoara, Romania, 2011, pp. 403–408, doi: 10.1109/SACI.2011.5873037.
-
-
-
-\bibitem{wurmOctoMap} K. M. Wurm, A. Hornung, M. Bennewitz, C. Stachniss, and W. Burgard, “OctoMap: A Probabilistic, Flexible, and Compact 3D Map Representation for Robotic Systems,” [Details of publication, e.g., in Proc. of the Conference/Journal Name, Year, pp. Page numbers]. [DOI or URL if available].
-
-\bibitem{gao2019flying} F. Gao, W. Wu, W. Gao, and S. Shen, “Flying on point clouds: Online trajectory generation and autonomous navigation for quadrotors in cluttered environments,” Journal of Field Robotics, vol. 36, no. 4, pp. 710–733, 2019, doi: 10.1002/rob.21842.
-
-\bibitem{elfes1989using} A. Elfes, “Using occupancy grids for mobile robot perception and navigation,” Computer, vol. 22, no. 6, pp. 46–57, Jun. 1989, doi: 10.1109/2.30720.
-
-
-
-\bibitem{xu2021voxel} Y. Xu, X. Tong, and U. Stilla, “Voxel-based representation of 3D point clouds: Methods, applications, and its potential use in the construction industry,” Automation in Construction, vol. 126, p. 103675, Jun. 2021, doi: 10.1016/j.autcon.2021.103675.
-
-\bibitem{niessner2013realtime} M. Nießner, M. Zollhöfer, S. Izadi, and M. Stamminger, “Real-time 3D reconstruction at scale using voxel hashing,” ACM Trans. Graph., vol. 32, no. 6, pp. 1–11, Nov. 2013, doi: 10.1145/2508363.2508374.
-
-\bibitem{dryanovski2010multivolume} I. Dryanovski, W. Morris, and J. Xiao, “Multi-volume occupancy grids: An efficient probabilistic 3D mapping model for micro aerial vehicles,” in Proc. of the 2010 IEEE/RSJ International Conference on Intelligent Robots and Systems, Taipei, Oct. 2010, pp. 1553–1559. doi: 10.1109/IROS.2010.5652494.
-
-\bibitem{thrun2002probabilistic} S. Thrun, Probabilistic robotics, vol. 45, 2002. Accessed: Jun. 14, 2023. [Online]. Available: https://dl.acm.org/doi/10.1145/504729.504754
-
-
-
-\bibitem{luo2018collisionfree} L. Luo et al., “Collision-Free Path-Planning for Six-DOF Serial Harvesting Robot Based on Energy Optimal and Artificial Potential Field,” Complexity, vol. 2018, pp. 1–12, Nov. 2018, doi: 10.1155/2018/3563846.
-
-\bibitem{zhang2021obstacle} W. Zhang, H. Cheng, L. Hao, X. Li, M. Liu, and X. Gao, “An obstacle avoidance algorithm for robot manipulators based on decision-making force,” Robotics and Computer-Integrated Manufacturing, vol. 71, p. 102114, Oct. 2021, doi: 10.1016/j.rcim.2020.102114.
-
-
-
-\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, “Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection,” Robotics and Computer-Integrated Manufacturing, vol. 49, pp. 98–104, Feb. 2018, doi: 10.1016/j.rcim.2017.05.013.
-
-
-
-\bibitem{szeliski2021computer} R. Szeliski, “Computer Vision: Algorithms and Applications, 2nd Edition,” Springer, 2021.
-
-\bibitem{rosenfeld1968distance} A. Rosenfeld and J. L. Pfaltz, “Distance functions on digital pictures,” Pattern Recognition, vol. 1, no. 1, pp. 33–61, Jul. 1968, doi: 10.1016/0031-3203(68)90013-7.
-
-\bibitem{felzenszwalb2012distance} P. F. Felzenszwalb and D. P. Huttenlocher, “Distance Transforms of Sampled Functions,” Theory of Comput., vol. 8, no. 1, pp. 415–428, 2012, doi: 10.4086/toc.2012.v008a019.
-
-
-
-\bibitem{dryanovski2010multivolume} I. Dryanovski, W. Morris, and J. Xiao, “Multi-volume occupancy grids: An efficient probabilistic 3D mapping model for micro aerial vehicles,” in 2010 IEEE/RSJ International Conference on Intelligent Robots and Systems, Taipei: IEEE, Oct. 2010, pp. 1553–1559, doi: 10.1109/IROS.2010.5652494.
-
+\bibitem{c41} L. Žlajpah and B. Nemec, “Kinematic control algorithms for on-line obstacle avoidance for redundant manipulators,” in Proc. IEEE/RSJ International Conference on Intelligent Robots and Systems, Lausanne, Switzerland, 2002, pp. 1898–1903. doi: 10.1109/IRDS.2002.1044033.
 
 
 \end{thebibliography}
