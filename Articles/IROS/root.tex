@@ -108,19 +108,19 @@ This article introduces a method for obstacle avoidance in robotic manipulators 
 \section{REPULSIVE FIELD CALCULATION}
 \label{section:repulsive_vel}
 
-This section introduces our novel approach for calculating repulsive fields, a critical component in enabling robots to detect and avoid obstacles in real-time. By leveraging a voxel-based representation of the surrounding space, our method dynamically assesses potential collision threats and calculates directional repulsive velocities. These velocities are essential for guiding the robot away from obstacles, ensuring smooth and safe navigation through complex environments. Our innovative use of kernel convolution methods allows for the precise calculation of avoidance velocities, providing a robust solution for obstacle avoidance that can be integrated seamlessly into robotic control systems. The following subsections delve into the technical details of our approach, including the mapping of Cartesian space to a discrete occupancy grid, kernel selection for optimized field calculation, and the application of tri-linear interpolation for smooth velocity transitions. 
+We leverage a voxel-based representation of the surrounding space, to dynamically assesses potential collision threats and calculates directional repulsive velocities for smooth and safe navigation through complex environments. 
 
 \subsection{KERNELS AND THEIR MATRIX APPLICATIONS}
 
-The fundamental concept of our directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. 
+The fundamental concept of directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. 
 
-Our kernels are designed as three-dimensional matrixes with a primary kernel axis aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes are orthogonal to this primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the zero valued cell in the center of the kernel, where jump between max positive and max negative magnitude is. The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the agent approaches an obstacle. Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
+Kernels are designed as three-dimensional matrixes with a primary kernel axis aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes are orthogonal to the primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the zero valued cell in the center of the kernel, where the values jump from max negative to max positive magnitude (Fig.~\cite{fig:kernels}). The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the agent approaches an obstacle. Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
 
-We introduce two distinct distributions for the primary axis weights, although other distributions could also be applicable. The selection of weight distribution is contingent on the desired profile of repulsive velocities within the Artificial Potential Field (APF).
+We introduce two distributions for the primary axis weights. The selection of weight distribution is contingent on the desired profile of repulsive velocities within the Artificial Potential Field (APF).
 
-The inaugural proposed function adheres to a mirrored normal or Gaussian distribution, wherein adjusting the standard deviation (\(\sigma\)) modulates the rate at which field values escalate as obstacles are approached.
+First proposed function is mirrored normal or Gaussian distribution, the standard deviation (\(\sigma\)) modulates the rate at which field values escalate as obstacles are approached.
 
-The terms \(\Delta i = c_i - i\), \(\Delta j = c_j - j\), and \(\Delta k = c_k - k\) denote the displacement count from the matrix's central field, where the field components are calculated, in their respective coordinate directions.
+Terms \(\Delta i = c_i - i\), \(\Delta j = c_j - j\), and \(\Delta k = c_k - k\) denote the displacement index from the matrix's central field, where fields' components are calculated.
 
 \begin{equation}
 w_{\Delta i} = 
@@ -460,8 +460,6 @@ In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}),
 \bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, “A review of recent trend in motion planning of industrial robots,” Int J Intell Robot Appl, vol. 7, no. 2, Art. no. 2, Jun. 2023. doi: 10.1007/s41315-023-00274-2.
 	
 \bibitem{siciliano1990kinematic} B. Siciliano, “Kinematic control of redundant robot manipulators: A tutorial,” J. Intell. Robot. Syst., vol. 3, no. 3, Art. no. 3, 1990, doi: 10.1007/BF00126069.
-
-%\bibitem{siciliano2010robot} B. Siciliano, L. Sciavicco, L. Villani, and G. Oriolo, Robot. Model. Plan. Control, 2010, pp. 161–189. [Online]. Available: http://link.springer.com/10.1007/978-1-84628-642-1\_4
 
 \bibitem{lavalle1998rapidly} S. LaValle, “Rapidly-exploring random trees: A new tool for path planning,” Research Report 9811, 1998.
 
