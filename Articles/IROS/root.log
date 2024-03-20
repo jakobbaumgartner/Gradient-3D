@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 16:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 23:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -857,7 +857,7 @@ Package epstopdf Info: Output file is already uptodate.
 pdfTeX warning: pdflatex.exe (file ./manipulator-kernels-visualization-small-ep
 s-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most versio
 n <1.5> allowed
-<manipulator-kernels-visualization-small-eps-converted-to.pdf, id=115, 421.575p
+<manipulator-kernels-visualization-small-eps-converted-to.pdf, id=116, 421.575p
 t x 316.18124pt>
 File: manipulator-kernels-visualization-small-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -879,7 +879,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./demo-field1c-eps-converted-to.pdf): PDF in
 clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<demo-field1c-eps-converted-to.pdf, id=119, 276.03125pt x 498.86375pt>
+<demo-field1c-eps-converted-to.pdf, id=120, 276.03125pt x 498.86375pt>
 File: demo-field1c-eps-converted-to.pdf Graphic file (type pdf)
 <use demo-field1c-eps-converted-to.pdf>
 Package pdftex.def Info: demo-field1c-eps-converted-to.pdf  used on input line 
@@ -968,14 +968,7 @@ Package pdftex.def Info: 4plots_ball-eps-converted-to.pdf  used on input line 4
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
 [5 <./demo-field1c-eps-converted-to.pdf> <./keyframes_3D-eps-converted-to.pdf> 
 <./4plots_column-eps-converted-to.pdf>]
-Underfull \hbox (badness 2735) in paragraph at lines 479--480
-[]\OT1/ptm/m/n/8 J. D. Gam-mell, S. S. Srini-vasa, and T. D. Bar-foot, \Batch
- []
-
-
-Underfull \hbox (badness 3209) in paragraph at lines 479--480
-\OT1/ptm/m/n/8 In-formed Trees (BIT*): Sampling-based Op-ti-mal Plan-ning via
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \hbox (badness 5696) in paragraph at lines 491--492
@@ -988,24 +981,10 @@ Underfull \hbox (badness 1990) in paragraph at lines 491--492
  []
 
 
-Underfull \hbox (badness 1742) in paragraph at lines 495--496
-[]\OT1/ptm/m/n/8 Z. Long, \Vir-tual tar-get point-based obstacle-avoidance meth
-od
- []
-
-
-Underfull \hbox (badness 1389) in paragraph at lines 495--496
-\OT1/ptm/m/n/8 for ma-nip-u-la-tor sys-tems in a clut-tered en-vi-ron-ment," En
--gi-neer-
- []
-
-
 Underfull \hbox (badness 5302) in paragraph at lines 497--498
 \OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
-[6 <./keyframes_2D_ball-eps-converted-to.pdf> <./4plots_ball-eps-converted-to.p
-df>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -1017,18 +996,19 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[7] (root.aux)
+[6 <./keyframes_2D_ball-eps-converted-to.pdf> <./4plots_ball-eps-converted-to.p
+df>] (root.aux)
 Package rerunfilecheck Info: File `root.out' has not changed.
 (rerunfilecheck)             Checksum: 749827BC2B878080DA471BEC541074FA;2045.
  ) 
 Here is how much of TeX's memory you used:
- 21510 strings out of 476375
- 407390 string characters out of 5788976
+ 21479 strings out of 476375
+ 407092 string characters out of 5788976
  1876299 words of memory out of 5000000
- 41445 multiletter control sequences out of 15000+600000
+ 41429 multiletter control sequences out of 15000+600000
  553334 words of font info for 120 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,10n,132p,1278b,587s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 132i,10n,132p,1278b,441s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
 /Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
@@ -1049,9 +1029,9 @@ C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
 1/urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmri8a.pfb>
-Output written on root.pdf (7 pages, 786819 bytes).
+Output written on root.pdf (6 pages, 781026 bytes).
 PDF statistics:
- 310 PDF objects out of 1000 (max. 8388607)
- 77 named destinations out of 1000 (max. 500000)
+ 287 PDF objects out of 1000 (max. 8388607)
+ 62 named destinations out of 1000 (max. 500000)
  152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
