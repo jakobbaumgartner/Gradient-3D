@@ -71,23 +71,11 @@ Matrix Multiplication-Driven Repulsive Fields for Manipulator Kinematic Obstacle
 
 \end{abstract}
 
-\add{ADD}
+The article presents a new method for obstacle avoidance in robotic manipulators. It uses occupancy voxel grids to calculate repulsive velocities based on the proximity of obstacles. This approach allows for safe and agile navigation in changing environments. Repulsive velocities generated through matrix multiplication are processed using tri-linear interpolation, resulting in smooth and efficient movement away from potential hazards. The integration of this method with inverse kinematic control improves manipulator motion planning and obstacle avoidance capabilities. Simulation results indicate the effectiveness of this method in various scenarios, showcasing its potential for local motion planning and obstacle avoidance.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
-
-%The robots environment is modelled by discrete voxels. As the robots environment can dynamically change, we propose a method that looks at the surrounding space of the robot and calculates these direction away from all the surrounding obstacles in real time. We only look in a predefined area / perimeter arround the robot.  
-%
-%In 3D computer graphics, a voxel represents a value on a regular grid in three-dimensional space. Each of the voxels holds the probability value of its occupation. In case of voxel being empty it holds the value of 0, if the voxel is occupied it holds the value of non-zero, depending on our assurance of it being occupied. If it is definitly occupied it holds the value of 1. 
-
-%Motion planning involves finding paths for manipulators through joint configurations from an initial to a goal position, respecting constraints and optimization criteria due to redundant degrees of freedom (DOF)~\cite{siciliano1990kinematic}. This redundancy allows for diverse configurations, optimizing secondary tasks like avoiding singularities and obstacles while maintaining the primary goal of reaching the End Effector (EE) target~\cite{siciliano2010robot}.
-%
-%Global motion planning methods search the entire configuration space for optimal paths but lack real-time applicability and smoothness~\cite{vsvestka1997motion,lavalle1998rapidly, karaman2010incremental,kuffner2000rrt,gammell2015batch}. Local methods, notably inverse kinematics and quadratic programming, offer real-time, smooth solutions but can get stuck in local minima due to their short-sighted planning approach~\cite{c29,c38,c21,c23}.
-%
-%The Artificial Potential Field (APF) concept by Khatib~\cite{c33}, which integrates repulsive forces for obstacle avoidance and attractive forces towards goals, has seen various improvements to mitigate issues like local minima~\cite{c40,c43,c45,c46,c47}. Recent works have adapted APF variations for manipulator motion planning, combining them with techniques like numerical Jacobians for enhanced path planning~\cite{c49,park2020trajectory}.
-%
-%For dynamic environments, strategies like ESDF grids, calculated directly from sensor data or occupancy grids, assist in real-time obstacle detection and avoidance~\cite{oleynikova2017voxblox,han2019fiesta,lau2010improved,rong2006jump,zhou2021egoplanner}. Our novel approach utilizes occupancy voxel grids to generate repulsive velocities, dynamically directing the robot away from obstacles based on proximity, thus enabling effective navigation in changing environments. This method ensures the robot maintains a safe distance from obstacles, with repulsive velocities adjusting in real-time to navigate the manipulator through the safest path possible.
 
 Motion planning~\cite{c52} is a technique in robotics, that is used to calculate joint changes leading manipulators from initial to a target configuration, while addressing constraints and optimization criteria. This task is facilitated by the manipulators' redundant degrees of freedom (DOF), enabling it to undertake various configurations to not only reach their End Effector (EE) target but also optimize for secondary objectives such as obstacle avoidance and minimizing joint torques~\cite{siciliano1990kinematic}.
 
