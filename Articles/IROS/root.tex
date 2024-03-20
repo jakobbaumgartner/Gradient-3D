@@ -110,7 +110,7 @@ If the agent is positioned at the edge of the known voxel grid, elements beyond 
 
 The fundamental concept of directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. 
 
-Kernels are designed as three-dimensional matrixes with a primary kernel axis $i$ aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes $j,k$ are orthogonal to the primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the zero valued cell in the center of the kernel, where the values jump from max negative to max positive magnitude (Fig.~\cite{fig:kernels} \alert{TBA}). The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the agent approaches an obstacle. Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
+Kernels are designed as three-dimensional matrixes with a primary kernel axis $i$ aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes $j,k$ are orthogonal to the primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the zero valued cell in the center of the kernel, where the values jump from max negative to max positive magnitude. The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the agent approaches an obstacle. Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
 
 We introduce two distributions for the primary axis weights, namely gaussian and linear. The selection of weight distribution is contingent on the desired profile of repulsive velocities within the Artificial Potential Field (APF).
 
@@ -172,8 +172,6 @@ By multiplieing weights components for primary and both orthagonal axis we get m
 \begin{equation}
 	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} * w_{\Delta j} * w_{\Delta k}
 \end{equation}
-
-\comment{}{PLOT: kernel 2D images}
 
 \subsection{3D INTERPOLATION} 
 
