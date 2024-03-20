@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 15:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 15:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -874,7 +874,7 @@ Package epstopdf Info: Output file is already uptodate.
 pdfTeX warning: pdflatex.exe (file ./manipulator-kernels-visualization-small-ep
 s-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most versio
 n <1.5> allowed
-<manipulator-kernels-visualization-small-eps-converted-to.pdf, id=114, 421.575p
+<manipulator-kernels-visualization-small-eps-converted-to.pdf, id=113, 421.575p
 t x 316.18124pt>
 File: manipulator-kernels-visualization-small-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -897,7 +897,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./demo-field1c-eps-converted-to.pdf): PDF in
 clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<demo-field1c-eps-converted-to.pdf, id=133, 276.03125pt x 498.86375pt>
+<demo-field1c-eps-converted-to.pdf, id=132, 276.03125pt x 498.86375pt>
 File: demo-field1c-eps-converted-to.pdf Graphic file (type pdf)
 <use demo-field1c-eps-converted-to.pdf>
 Package pdftex.def Info: demo-field1c-eps-converted-to.pdf  used on input line 
@@ -923,7 +923,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_3D-eps-converted-to.pdf): PDF in
 clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_3D-eps-converted-to.pdf, id=152, 376.40625pt x 225.84375pt>
+<keyframes_3D-eps-converted-to.pdf, id=151, 376.40625pt x 225.84375pt>
 File: keyframes_3D-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_3D-eps-converted-to.pdf>
 Package pdftex.def Info: keyframes_3D-eps-converted-to.pdf  used on input line 
@@ -943,7 +943,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./4plots_column-eps-converted-to.pdf): PDF i
 nclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_column-eps-converted-to.pdf, id=153, 421.575pt x 316.18124pt>
+<4plots_column-eps-converted-to.pdf, id=152, 421.575pt x 316.18124pt>
 File: 4plots_column-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_column-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_column-eps-converted-to.pdf  used on input line
@@ -963,7 +963,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_2D_ball-eps-converted-to.pdf): P
 DF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_2D_ball-eps-converted-to.pdf, id=156, 376.40625pt x 225.84375pt>
+<keyframes_2D_ball-eps-converted-to.pdf, id=155, 376.40625pt x 225.84375pt>
 File: keyframes_2D_ball-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_2D_ball-eps-converted-to.pdf>
 Package pdftex.def Info: keyframes_2D_ball-eps-converted-to.pdf  used on input 
@@ -983,7 +983,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./4plots_ball-eps-converted-to.pdf): PDF inc
 lusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_ball-eps-converted-to.pdf, id=157, 421.575pt x 316.18124pt>
+<4plots_ball-eps-converted-to.pdf, id=156, 421.575pt x 316.18124pt>
 File: 4plots_ball-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_ball-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_ball-eps-converted-to.pdf  used on input line 4
@@ -1046,7 +1046,7 @@ Package rerunfilecheck Info: File `root.out' has not changed.
 Here is how much of TeX's memory you used:
  21580 strings out of 476375
  409149 string characters out of 5788976
- 1876299 words of memory out of 5000000
+ 1931299 words of memory out of 5000000
  41514 multiletter control sequences out of 15000+600000
  553334 words of font info for 120 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1071,9 +1071,9 @@ C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
 1/urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmri8a.pfb>
-Output written on root.pdf (7 pages, 789646 bytes).
+Output written on root.pdf (7 pages, 805432 bytes).
 PDF statistics:
- 312 PDF objects out of 1000 (max. 8388607)
+ 311 PDF objects out of 1000 (max. 8388607)
  78 named destinations out of 1000 (max. 500000)
  152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
