@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 15:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 15:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -812,7 +812,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ] [2]
-Overfull \hbox (41.14462pt too wide) detected at line 229
+Overfull \hbox (41.14462pt too wide) detected at line 239
 [][][][]\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 rep[]\OT1/c
 mr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 x\OT1/cmr
 /m/n/10 ) + []\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 x \OMS
@@ -821,7 +821,7 @@ cmm/m/it/10 ; \OT1/cmr/m/n/10 2\OMS/cmsy/m/n/10 g
  []
 
 
-Overfull \hbox (20.51724pt too wide) detected at line 236
+Overfull \hbox (20.51724pt too wide) detected at line 246
 [][][][]\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 rep[]\OT1/c
 mr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 y\OT1/cmr
 /m/n/10 ) + []\OML/cmm/m/it/10 rep[] \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 y \OMS
@@ -838,20 +838,20 @@ f>
 (epstopdf)                    size: 97617 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=non_and_interp_4_plo
 ts-eps-converted-to.pdf non_and_interp_4_plots.eps>
-(epstopdf)             \includegraphics on input line 247.
+(epstopdf)             \includegraphics on input line 259.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./non_and_interp_4_plots-eps-converted-to.pd
 f): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<non_and_interp_4_plots-eps-converted-to.pdf, id=91, 421.575pt x 316.18124pt>
+<non_and_interp_4_plots-eps-converted-to.pdf, id=95, 421.575pt x 316.18124pt>
 File: non_and_interp_4_plots-eps-converted-to.pdf Graphic file (type pdf)
 <use non_and_interp_4_plots-eps-converted-to.pdf>
 Package pdftex.def Info: non_and_interp_4_plots-eps-converted-to.pdf  used on i
-nput line 247.
+nput line 259.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 262--263
+Underfull \hbox (badness 10000) in paragraph at lines 274--275
 []\OT1/ptm/m/n/10 The damped Moore-Penrose pseudo-inverse,
  []
 
@@ -867,22 +867,21 @@ s-converted-to.pdf>
 (epstopdf)             Command: <miktex-epstopdf --outfile=manipulator-kernels-
 visualization-small-eps-converted-to.pdf manipulator-kernels-visualization-smal
 l.eps>
-(epstopdf)             \includegraphics on input line 342.
+(epstopdf)             \includegraphics on input line 358.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./manipulator-kernels-visualization-small-ep
 s-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most versio
 n <1.5> allowed
-<manipulator-kernels-visualization-small-eps-converted-to.pdf, id=113, 421.575p
+<manipulator-kernels-visualization-small-eps-converted-to.pdf, id=115, 421.575p
 t x 316.18124pt>
 File: manipulator-kernels-visualization-small-eps-converted-to.pdf Graphic file
  (type pdf)
 <use manipulator-kernels-visualization-small-eps-converted-to.pdf>
 Package pdftex.def Info: manipulator-kernels-visualization-small-eps-converted-
-to.pdf  used on input line 342.
+to.pdf  used on input line 358.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
-[4 <./manipulator-kernels-visualization-small-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <demo-field1c.eps>
 (epstopdf)                    date: 2024-03-13 16:42:26
 (epstopdf)                    size: 92549 bytes
@@ -891,24 +890,23 @@ Package epstopdf Info: Source file: <demo-field1c.eps>
 (epstopdf)                    size: 80184 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=demo-field1c-eps-con
 verted-to.pdf demo-field1c.eps>
-(epstopdf)             \includegraphics on input line 379.
+(epstopdf)             \includegraphics on input line 395.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./demo-field1c-eps-converted-to.pdf): PDF in
 clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<demo-field1c-eps-converted-to.pdf, id=132, 276.03125pt x 498.86375pt>
+<demo-field1c-eps-converted-to.pdf, id=119, 276.03125pt x 498.86375pt>
 File: demo-field1c-eps-converted-to.pdf Graphic file (type pdf)
 <use demo-field1c-eps-converted-to.pdf>
 Package pdftex.def Info: demo-field1c-eps-converted-to.pdf  used on input line 
-379.
+395.
 (pdftex.def)             Requested size: 245.71811pt x 444.10152pt.
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 384.
+ine 400.
+[4 <./manipulator-kernels-visualization-small-eps-converted-to.pdf>]
+Underfull \vbox (badness 2293) has occurred while \output is active []
 
-Underfull \vbox (badness 1320) has occurred while \output is active []
-
- [5 <./demo-field1c-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <keyframes_3D.eps>
 (epstopdf)                    date: 2024-03-13 16:42:26
 (epstopdf)                    size: 35662 bytes
@@ -917,17 +915,17 @@ Package epstopdf Info: Source file: <keyframes_3D.eps>
 (epstopdf)                    size: 31370 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=keyframes_3D-eps-con
 verted-to.pdf keyframes_3D.eps>
-(epstopdf)             \includegraphics on input line 394.
+(epstopdf)             \includegraphics on input line 410.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_3D-eps-converted-to.pdf): PDF in
 clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_3D-eps-converted-to.pdf, id=151, 376.40625pt x 225.84375pt>
+<keyframes_3D-eps-converted-to.pdf, id=139, 376.40625pt x 225.84375pt>
 File: keyframes_3D-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_3D-eps-converted-to.pdf>
 Package pdftex.def Info: keyframes_3D-eps-converted-to.pdf  used on input line 
-394.
+410.
 (pdftex.def)             Requested size: 245.71811pt x 147.43422pt.
 Package epstopdf Info: Source file: <4plots_column.eps>
 (epstopdf)                    date: 2024-03-14 23:21:15
@@ -937,18 +935,20 @@ Package epstopdf Info: Source file: <4plots_column.eps>
 (epstopdf)                    size: 124843 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=4plots_column-eps-co
 nverted-to.pdf 4plots_column.eps>
-(epstopdf)             \includegraphics on input line 402.
+(epstopdf)             \includegraphics on input line 418.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./4plots_column-eps-converted-to.pdf): PDF i
 nclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_column-eps-converted-to.pdf, id=152, 421.575pt x 316.18124pt>
+<4plots_column-eps-converted-to.pdf, id=140, 421.575pt x 316.18124pt>
 File: 4plots_column-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_column-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_column-eps-converted-to.pdf  used on input line
- 402.
+ 418.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
+[5 <./demo-field1c-eps-converted-to.pdf> <./keyframes_3D-eps-converted-to.pdf> 
+<./4plots_column-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <keyframes_2D_ball.eps>
 (epstopdf)                    date: 2024-03-13 19:16:23
 (epstopdf)                    size: 27233 bytes
@@ -957,17 +957,17 @@ Package epstopdf Info: Source file: <keyframes_2D_ball.eps>
 (epstopdf)                    size: 24372 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=keyframes_2D_ball-ep
 s-converted-to.pdf keyframes_2D_ball.eps>
-(epstopdf)             \includegraphics on input line 415.
+(epstopdf)             \includegraphics on input line 431.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_2D_ball-eps-converted-to.pdf): P
 DF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_2D_ball-eps-converted-to.pdf, id=155, 376.40625pt x 225.84375pt>
+<keyframes_2D_ball-eps-converted-to.pdf, id=170, 376.40625pt x 225.84375pt>
 File: keyframes_2D_ball-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_2D_ball-eps-converted-to.pdf>
 Package pdftex.def Info: keyframes_2D_ball-eps-converted-to.pdf  used on input 
-line 415.
+line 431.
 (pdftex.def)             Requested size: 245.71811pt x 147.43422pt.
 Package epstopdf Info: Source file: <4plots_ball.eps>
 (epstopdf)                    date: 2024-03-14 23:19:54
@@ -977,57 +977,57 @@ Package epstopdf Info: Source file: <4plots_ball.eps>
 (epstopdf)                    size: 109049 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=4plots_ball-eps-conv
 erted-to.pdf 4plots_ball.eps>
-(epstopdf)             \includegraphics on input line 422.
+(epstopdf)             \includegraphics on input line 438.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./4plots_ball-eps-converted-to.pdf): PDF inc
 lusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_ball-eps-converted-to.pdf, id=156, 421.575pt x 316.18124pt>
+<4plots_ball-eps-converted-to.pdf, id=171, 421.575pt x 316.18124pt>
 File: 4plots_ball-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_ball-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_ball-eps-converted-to.pdf  used on input line 4
-22.
+38.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
-[6 <./keyframes_3D-eps-converted-to.pdf> <./4plots_column-eps-converted-to.pdf>
- <./keyframes_2D_ball-eps-converted-to.pdf> <./4plots_ball-eps-converted-to.pdf
->]
-Underfull \hbox (badness 2735) in paragraph at lines 456--457
+
+Underfull \hbox (badness 2735) in paragraph at lines 472--473
 []\OT1/ptm/m/n/8 J. D. Gam-mell, S. S. Srini-vasa, and T. D. Bar-foot, \Batch
  []
 
 
-Underfull \hbox (badness 3209) in paragraph at lines 456--457
+Underfull \hbox (badness 3209) in paragraph at lines 472--473
 \OT1/ptm/m/n/8 In-formed Trees (BIT*): Sampling-based Op-ti-mal Plan-ning via
  []
 
 
-Underfull \hbox (badness 5696) in paragraph at lines 468--469
+Underfull \hbox (badness 5696) in paragraph at lines 484--485
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 468--469
+Underfull \hbox (badness 1990) in paragraph at lines 484--485
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
 
-Underfull \hbox (badness 1742) in paragraph at lines 472--473
+Underfull \hbox (badness 1742) in paragraph at lines 488--489
 []\OT1/ptm/m/n/8 Z. Long, \Vir-tual tar-get point-based obstacle-avoidance meth
 od
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 472--473
+Underfull \hbox (badness 1389) in paragraph at lines 488--489
 \OT1/ptm/m/n/8 for ma-nip-u-la-tor sys-tems in a clut-tered en-vi-ron-ment," En
 -gi-neer-
  []
 
 
-Underfull \hbox (badness 5302) in paragraph at lines 474--475
+Underfull \hbox (badness 5302) in paragraph at lines 490--491
 \OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
+[6 <./keyframes_2D_ball-eps-converted-to.pdf> <./4plots_ball-eps-converted-to.p
+df>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -1046,7 +1046,7 @@ Package rerunfilecheck Info: File `root.out' has not changed.
 Here is how much of TeX's memory you used:
  21580 strings out of 476375
  409149 string characters out of 5788976
- 1931299 words of memory out of 5000000
+ 1876299 words of memory out of 5000000
  41514 multiletter control sequences out of 15000+600000
  553334 words of font info for 120 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1071,7 +1071,7 @@ C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
 1/urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmri8a.pfb>
-Output written on root.pdf (7 pages, 805432 bytes).
+Output written on root.pdf (7 pages, 787442 bytes).
 PDF statistics:
  311 PDF objects out of 1000 (max. 8388607)
  78 named destinations out of 1000 (max. 500000)
