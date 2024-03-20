@@ -60,30 +60,21 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-A}INVERSE KINEMATIC CONTROL}{3}{subsection.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-B}END-EFFECTOR VELOCITY}{3}{subsection.3.2}\protected@file@percent }
 \newlabel{eq: v_att}{{14}{3}{END-EFFECTOR VELOCITY}{equation.3.14}{}}
-\newlabel{eq: rot_diff_mat}{{15}{4}{END-EFFECTOR VELOCITY}{equation.3.15}{}}
-\newlabel{eq: quat_mapsto}{{16}{4}{END-EFFECTOR VELOCITY}{equation.3.16}{}}
-\newlabel{eq:quat_log}{{17}{4}{END-EFFECTOR VELOCITY}{equation.3.17}{}}
-\newlabel{eq:rot_error_vector}{{18}{4}{END-EFFECTOR VELOCITY}{equation.3.18}{}}
-\newlabel{eq:ee_velocity}{{19}{4}{END-EFFECTOR VELOCITY}{equation.3.19}{}}
+\citation{Zlajpah2017}
+\newlabel{eq:ee_velocity}{{15}{4}{END-EFFECTOR VELOCITY}{equation.3.15}{}}
+\newlabel{chap:primary slowdown}{{III-B}{4}{END-EFFECTOR VELOCITY}{equation.3.15}{}}
+\newlabel{eq:slowdown}{{16}{4}{END-EFFECTOR VELOCITY}{equation.3.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {III-C}AVOIDANCE VELOCITIES}{4}{subsection.3.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visualization of 3 repulsive Y-direction kernels in POI on the manipulator.}}{4}{figure.2}\protected@file@percent }
 \newlabel{fig:kernels}{{2}{4}{Visualization of 3 repulsive Y-direction kernels in POI on the manipulator}{figure.2}{}}
-\newlabel{chap:primary slowdown}{{III-B}{4}{END-EFFECTOR VELOCITY}{equation.3.19}{}}
-\newlabel{eq:slowdown}{{20}{4}{END-EFFECTOR VELOCITY}{equation.3.20}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {III-C}AVOIDANCE VELOCITIES}{4}{subsection.3.3}\protected@file@percent }
-\newlabel{eq:transformations}{{21}{5}{AVOIDANCE VELOCITIES}{equation.3.21}{}}
+\newlabel{eq:transformations}{{17}{4}{AVOIDANCE VELOCITIES}{equation.3.17}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}SIMULATION RESULTS}{5}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-A}Repulsive Field Visualization}{5}{subsection.4.1}\protected@file@percent }
+\@writefile{tdo}{\contentsline {todo}{fix units in plots}{5}{section*.2}\protected@file@percent }
+\pgfsyspdfmark {pgfid2}{11587521}{24030876}
+\@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}Manipulator Examples}{5}{subsection.4.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along X (left) and Y (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance.}}{5}{figure.3}\protected@file@percent }
 \newlabel{fig:example-field}{{3}{5}{Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along X (left) and Y (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance}{figure.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}Manipulator Examples}{5}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Sequential keyframes demonstrating the manipulator's path planning and column obstacle avoidance strategy.}}{6}{figure.4}\protected@file@percent }
-\newlabel{fig:keyframes-3d-column}{{4}{6}{Sequential keyframes demonstrating the manipulator's path planning and column obstacle avoidance strategy}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Visualization of the manipulator's path around the column obstacle: (a) Primary Task errors and percentage of the primary speed after applying slowdown, (b) Joint Velocities $\dot  {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$.}}{6}{figure.5}\protected@file@percent }
-\newlabel{fig:plots-3d-column}{{5}{6}{Visualization of the manipulator's path around the column obstacle: (a) Primary Task errors and percentage of the primary speed after applying slowdown, (b) Joint Velocities $\dot {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$}{figure.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Dynamic obstacle avoidance scenario: Sequential keyframes illustrating the robot’s maneuvering in response to a progressively moving ball from left to right across the workspace.}}{6}{figure.6}\protected@file@percent }
-\newlabel{fig:keyframes-3d-ball}{{6}{6}{Dynamic obstacle avoidance scenario: Sequential keyframes illustrating the robot’s maneuvering in response to a progressively moving ball from left to right across the workspace}{figure.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Performance in a dynamic obstacle avoidance scenario: (a) Primary Task error (b) Joint Velocities $\dot  {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$.}}{6}{figure.7}\protected@file@percent }
-\newlabel{fig:plots-ball}{{7}{6}{Performance in a dynamic obstacle avoidance scenario: (a) Primary Task error (b) Joint Velocities $\dot {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$}{figure.7}{}}
 \bibcite{c52}{1}
 \bibcite{siciliano1990kinematic}{2}
 \bibcite{lavalle1998rapidly}{3}
@@ -91,6 +82,16 @@
 \bibcite{karaman2010incremental}{5}
 \bibcite{kuffner2000rrt}{6}
 \bibcite{c29}{7}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Sequential keyframes demonstrating the manipulator's path planning and column obstacle avoidance strategy.}}{6}{figure.4}\protected@file@percent }
+\newlabel{fig:keyframes-3d-column}{{4}{6}{Sequential keyframes demonstrating the manipulator's path planning and column obstacle avoidance strategy}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Visualization of the manipulator's path around the column obstacle: (a) Primary Task errors and percentage of the primary speed after applying slowdown, (b) Joint Velocities $\dot  {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$.}}{6}{figure.5}\protected@file@percent }
+\newlabel{fig:plots-3d-column}{{5}{6}{Visualization of the manipulator's path around the column obstacle: (a) Primary Task errors and percentage of the primary speed after applying slowdown, (b) Joint Velocities $\dot {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$}{figure.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}CONCLUSION}{6}{section.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Dynamic obstacle avoidance scenario: Sequential keyframes illustrating the robot’s maneuvering in response to a progressively moving ball from left to right across the workspace.}}{6}{figure.6}\protected@file@percent }
+\newlabel{fig:keyframes-3d-ball}{{6}{6}{Dynamic obstacle avoidance scenario: Sequential keyframes illustrating the robot’s maneuvering in response to a progressively moving ball from left to right across the workspace}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Performance in a dynamic obstacle avoidance scenario: (a) Primary Task error (b) Joint Velocities $\dot  {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$.}}{6}{figure.7}\protected@file@percent }
+\newlabel{fig:plots-ball}{{7}{6}{Performance in a dynamic obstacle avoidance scenario: (a) Primary Task error (b) Joint Velocities $\dot {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$}{figure.7}{}}
+\@writefile{toc}{\contentsline {section}{References}{6}{section*.3}\protected@file@percent }
 \bibcite{c38}{8}
 \bibcite{c21}{9}
 \bibcite{c23}{10}
@@ -102,8 +103,6 @@
 \bibcite{c47}{16}
 \bibcite{klancar2022robot}{17}
 \bibcite{c49}{18}
-\@writefile{toc}{\contentsline {section}{\numberline {V}CONCLUSION}{7}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{7}{section*.2}\protected@file@percent }
 \bibcite{park2020trajectory}{19}
 \bibcite{baumgartner2023potential}{20}
 \bibcite{oleynikova2017voxblox}{21}
@@ -115,4 +114,5 @@
 \bibcite{c30}{27}
 \bibcite{c32}{28}
 \bibcite{c41}{29}
+\bibcite{Zlajpah2017}{30}
 \gdef \@abspage@last{8}
