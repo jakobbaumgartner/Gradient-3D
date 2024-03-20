@@ -233,17 +233,30 @@ Trilinear interpolation method works on a 3-dimensional regular grid. Before we 
 
 The result of the interpolation is agnostic of the order of the operations. We first interpolate along the x-axis, followed by along the y-axis and finally along z-axis.
 	
-\begin{equation}
-	\label{eq: interp x}
-	\vec{V}rep_{xyz,jk} = \vec{V}rep_{xyz,0jk}(1 - \Delta x) + \vec{V}rep_{xyz,1jk} \, \Delta x \quad \forall \, j, k \in \{1, 2\}
-\end{equation}
-
-\alert{equations break column}
+%\begin{equation}
+%	\label{eq: interp x}
+%	\vec{V}rep_{xyz,jk} = \vec{V}rep_{xyz,0jk}(1 - \Delta x) + \vec{V}rep_{xyz,1jk} \, \Delta x \quad \forall \, j, k \in \{1, 2\}
+%\end{equation}
 
 \begin{equation}
-	\label{eq: interp y}
-	\vec{V}rep_{xyz,k} = \vec{V}rep_{xyz,0k}(1 - \Delta y) + \vec{V}rep_{xyz,1k} \, \Delta y \quad \forall \, k \in \{1, 2\}
+\begin{aligned}
+	\vec{V}rep_{xyz,jk} = &\vec{V}rep_{xyz,0jk}(1 - \Delta x) \\
+	&+ \vec{V}rep_{xyz,1jk} \, \Delta x \quad \forall \, j, k \in \{1, 2\}
+\end{aligned}
 \end{equation}
+
+%\begin{equation}
+%	\label{eq: interp y}
+%	\vec{V}rep_{xyz,k} = \vec{V}rep_{xyz,0k}(1 - \Delta y) + \vec{V}rep_{xyz,1k} \, \Delta y \quad \forall \, k \in \{1, 2\}
+%\end{equation}
+
+\begin{equation}
+	\begin{aligned}
+		\vec{V}rep_{xyz,k} = &\vec{V}rep_{xyz,0k}(1 - \Delta y) \\
+		&+ \vec{V}rep_{xyz,1k} \, \Delta y \quad \forall \, k \in \{1, 2\}
+	\end{aligned}
+\end{equation}
+
 
 \begin{equation}
 	\label{eq: interp z}
@@ -392,12 +405,10 @@ We introduce the resultant repulsive field on a two-dimensional map. While analo
 
 \begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{demo-field1c.eps} % Replace 'example-image' with the filename of your image
+	\includegraphics[width=0.8\linewidth]{demo-field1c.eps} % Replace 'example-image' with the filename of your image
 	\caption{Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along X (left) and Y (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance.}
 	\label{fig:example-field}
 \end{figure}
-
-\comment{}{fix units in  plots}
 
 \subsection{Manipulator Examples}
 
@@ -421,10 +432,6 @@ In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}
 \end{figure}
 
 In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}), our robot operates within a dynamic environment. The proposed method for calculating repulsive velocities proves to be a suitable choice when a local optimization approach is needed to accommodate dynamic changes. In this scenario, a ball moves consistently from the left to the right side of the graph (i.e., along the y-axis from 0.4 at the initial moment to 1.4 in the final step of the simulation), as governed by the equation \( y_{\text{ball}} = 0.4 + (1.4 - 0.4) \times \frac{N_{\text{step}}}{75} \),  with \( x_{\text{ball}} = 1.25 \) and \( z_{\text{ball}} = 0.7 \). The primary task is now to maintain the robot's end-effector (EE) at a fixed point, disregarding EE orientation to enhance obstacle avoidance capability. This increases maneuverability, thereby eliminating the need for primary speed task slowdown (\( \xi_{p} = 0 \)). Constants selected for the primary task are \( k_v = 2 \) and \( k_w = 0 \), and for the avoidance task \( k_r = 3 \). Weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5} ]}{10} \). The simulation is performed for 75 steps. 
-
-\add{describe weights and distributions used in experiments the kernels}
-
-\add{sigmoid weights}
 
 \begin{figure}
 	\centering
