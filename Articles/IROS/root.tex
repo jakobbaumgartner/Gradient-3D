@@ -177,7 +177,7 @@ Another option is to use linearly falling weights.
 \end{equation}
 
 
-By multiplieing weights components for primary and both orthagonal axis we get matrix kernels. We get one kernel for every cartesian direction.
+By multiplieing weights components for primary and both orthagonal axis we get matrix kernels. We calculate a different kernel for every cartesian direction.
 
 \begin{equation}
 	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} * w_{\Delta j} * w_{\Delta k}
@@ -185,7 +185,7 @@ By multiplieing weights components for primary and both orthagonal axis we get m
 
 \subsection{3D INTERPOLATION} 
 
-The occupancy grid's representation of the robot's environment is inherently discrete, possessing finite resolution, in contrast to the continuous nature of Cartesian space. The approximation or rounding necessary to transition from Cartesian coordinates to discrete grid representations may introduce discontinuities in the calculated repulsive field. To counteract this, tri-linear interpolation is utilized, facilitating a smooth transition to a continuous repulsive field value, as illustrated in Fig. \ref{fig:interp-experiment}.
+The occupancy grid's representation of the robot's environment is inherently discrete, possessing finite resolution, in contrast to the continuous nature of Cartesian space. The approximation or rounding necessary to transition from Cartesian coordinates to discrete grid representations introduces discontinuities in the calculated repulsive field. To counteract this, tri-linear interpolation is utilized, facilitating a smooth transition to a continuous repulsive field value, as illustrated in Fig. \ref{fig:interp-experiment}.
 
 %\remove{Maintaining a smooth change in velocity contributions to the robot is crucial. However, the discrete nature of our obstacle grid presents a challenge in achieving complete continuity. While enhancing the obstacle grid's resolution could theoretically yield a more continuous behavior, practical limitations arise due to the finite resolution of sensors and the grid representation itself. Moreover, an increase in resolution would inevitably require more memory for storing the occupancy grid and additional computational resources. Thus, to ensure velocity continuity across adjacent cells within the obstacle grid for a point of interest (POI), trilinear interpolation is employed.}
 
@@ -214,7 +214,7 @@ Once we got the indexes of the eight surrounding cells of our POI, we calculate 
 	\vec{V}rep_{xyz,ijk} = \mathrm{rep}(X[i], Y[j], Z[k]) \quad \forall i, j, k \in \{1, 2\}
 \end{equation}
 
-Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid in each direction. That is, the cell coordinates are same as $x,y,z$, cell index and a half multiplied by grid resolution $\Delta \mathrm{R}$.
+Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid in each direction. That is, the cell coordinates are same as $x,y,z$, cell index and plus a half of grid resolution $\Delta \mathrm{R}$ step.
 
 \begin{equation}
 	\label{eq: deltas interp}
