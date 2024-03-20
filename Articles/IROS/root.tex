@@ -67,12 +67,9 @@ Matrix Multiplication-Driven Repulsive Fields for Manipulator Kinematic Obstacle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-
-
-\end{abstract}
-
 The article presents a new method for obstacle avoidance in robotic manipulators. It uses occupancy voxel grids to calculate repulsive velocities based on the proximity of obstacles. This approach allows for safe and agile navigation in changing environments. Repulsive velocities generated through matrix multiplication are processed using tri-linear interpolation, resulting in smooth and efficient movement away from potential hazards. The integration of this method with inverse kinematic control improves manipulator motion planning and obstacle avoidance capabilities. Simulation results indicate the effectiveness of this method in various scenarios, showcasing its potential for local motion planning and obstacle avoidance.
 
+\end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
@@ -344,7 +341,7 @@ The deceleration factor (eq.~\ref{eq:slowdown}) is determined by the constant \(
 
 \begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{manipulator-kernels-visualization-small.eps} % Replace 'example-image' with the filename of your image
+	\includegraphics[width=1.0\linewidth]{manipulator-kernels-visualization-small.eps} % Replace 'example-image' with the filename of your image
 	\caption{Visualization of 3 repulsive Y-direction kernels in POI on the manipulator.}
 	\label{fig:kernels}
 \end{figure}
@@ -434,7 +431,13 @@ In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}),
 
 \section{CONCLUSION}
 
-\add{ADD}
+%The article proposes a new method for calculating repulsive velocities for obstacle avoidance when path planning using for robotic manipulators. The environment is presented using discretized voxel grids, that represent obstacles. The presented method uses matrix multiplication to generate values for the repuslive field in each of the centers of this voxels. Tri-linear interpolation is than used to generate a smooth and continues velocity field for the points located between the centers of voxels. This method was than combined with an modified inverse-kinematics optimization approach, that combines EE goal task execution and obstacle avoidance using these fields. Method is highely efficient, as the voxels can be quite big, which speeds up the calculation of the avoidance velocities and makes lower grid representation size. The method was tested in the simulated environemnt, where it was shown that the mathod is applicable for local path planning and for dynamic enviornemt path corrections. 
+%
+%In the future we aim to modify this repulsive field, to be one kernel shaped arround the manipulator instead of the seperate directional kernels located on the POI. As the balance of multiple repulsive velocities can be complicated, we plan to use learning based approach, to create a combined controller for primary and avoidance task. Potential path of research is also to use Model Predictive Controller (MPC), to calculate movement of the arm in accordance with more than just one step ahead.  
+
+This study introduces an innovative methodology for computing repulsive velocities to facilitate obstacle avoidance in the motion planning of robotic manipulators. It employs discretized voxel grids to model environmental obstacles and utilizes matrix multiplication for calculating repulsive field values at voxel centers. Tri-linear interpolation is applied to achieve a continuous and smooth velocity field between voxels. The approach is further integrated with a modified inverse kinematics optimization strategy, which concurrently manages the end-effector's goal attainment and obstacle circumvention. The method's efficiency is heightened by the permissible largeness of voxel dimensions, which accelerates the computation of avoidance velocities and allows for a coarser grid resolution. The technique's efficacy and applicability for local path planning and dynamic environment adjustments were validated through simulation.
+
+Future work will focus on refining the repulsive field generation by encapsulating the manipulator within a singular kernel, rather than relying on separate directional kernels at points of interest. Given the complexity of balancing multiple repulsive velocities, a learning-based approach is proposed for developing a unified controller for primary tasks and obstacle avoidance. Additionally, the exploration of a Model Predictive Control (MPC) strategy is anticipated, aiming to extend the manipulator's motion planning capabilities beyond immediate step considerations.
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
