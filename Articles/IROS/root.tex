@@ -284,7 +284,7 @@ The desired movement of the end-effector is achieved by using inverse kinematics
 	\dot{\vec{q}} = \mathbf{J}^+ \xi_{p} \mathrm{\vec{v}_{att}} + \dot{\vec{q}}_{rep}
 \end{equation}
 
-The damped Moore-Penrose pseudo-inverse, \(\mathbf{J}^+~=~\mathbf{J}'(\mathbf{J}\mathbf{J}' + \sigma_{ee} \mathbf{I})^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{\vec{q}}_{rep}$ are the weighted sum of avoidance joint velocities, each transformed into the null space of primary velocities, as described in the chapter below. 
+The damped Moore-Penrose pseudo-inverse, \(\mathbf{J}^+~=~\mathbf{J}'(\mathbf{J}\mathbf{J}' + \sigma_{ee} \mathbf{I})^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{\vec{q}}_{rep}$ are the weighted sum of avoidance joint velocities, each transformed into the null space of primary velocities.
 
 %\remove{We run the inverse kinematics algorithm once for every time step, until we reach the desired cost function or reach the selected time limit. }
 
@@ -336,7 +336,7 @@ The current orientation of the end-effector (EE) and its goal orientation are en
 %	\label{eq:rot_error_vector}
 %\end{equation}
 
-To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{att}} \), we combines translational and rotational velocities, which we scale using proportional gains \( k_v \) and \( k_\omega \).
+To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{att}} \), translational and rotational velocities are scaled using proportional gains and combined \( k_v \) and \( k_\omega \).
 
 \begin{equation}
 	\mathrm{\vec{v}_{att}} = 
@@ -353,7 +353,7 @@ Utilizing the mapping into the null space of the primary velocity, it becomes ev
 
 \label{chap:primary slowdown}
 
-To mitigate the dominance of the primary task over the secondary task, a mechanism for the deceleration of the primary task's execution has been implemented. This strategy effectively decreases the velocity of the manipulator towards its primary objective, thereby allocating additional maneuverability for secondary tasks.
+To mitigate the dominance of the primary task over the secondary task, a mechanism for the deceleration of the primary task's execution has been implemented. This strategy effectively decreases the velocity of the manipulator towards its primary objective, thereby allocating additional maneuverability for secondary task.
 
 \begin{equation}
 	\label{eq:slowdown}
