@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 23:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  20 MAR 2024 23:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -971,17 +971,17 @@ Package pdftex.def Info: 4plots_ball-eps-converted-to.pdf  used on input line 4
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Underfull \hbox (badness 5696) in paragraph at lines 491--492
+Underfull \hbox (badness 5696) in paragraph at lines 481--482
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 491--492
+Underfull \hbox (badness 1990) in paragraph at lines 481--482
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
 
-Underfull \hbox (badness 5302) in paragraph at lines 497--498
+Underfull \hbox (badness 5302) in paragraph at lines 485--486
 \OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
@@ -1029,7 +1029,7 @@ C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
 1/urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmri8a.pfb>
-Output written on root.pdf (6 pages, 781026 bytes).
+Output written on root.pdf (6 pages, 781059 bytes).
 PDF statistics:
  287 PDF objects out of 1000 (max. 8388607)
  62 named destinations out of 1000 (max. 500000)
