@@ -361,7 +361,7 @@ To mitigate the dominance of the primary task over the secondary task, a mechani
 	\frac{1}{1 + \kappa_{\text{sec}} ||v_{\text{Rmax}}||}
 \end{equation}
 
-The deceleration factor (eq.~\ref{eq:slowdown}) is determined by the constant \( \kappa_{\text{sec}} \) and the magnitude of the maximum repulsive velocity vectors, which is contingent upon the robot's minimal distance from an obstacle \( v_{\text{Rmax}} \). According to the equation, a small \( v_{\text{Rmax}} \) diminishes the deceleration effect, permitting the uninterrupted execution of the primary task. Conversely, large \( v_{\text{Rmax}} \) enhances the deceleration by reducing the $\xi_{p}$ factor, thereby affording the secondary task increased opportunity for obstacles avoidance motion.
+The deceleration factor (eq.~\ref{eq:slowdown}) is determined by the constant \( \kappa_{\text{sec}} \) and the magnitude of the maximum repulsive velocity vectors, which is contingent upon the robot's minimal distance from an obstacle \( v_{\text{Rmax}} \). According to the equation, a small \( v_{\text{Rmax}} \) minimizes the deceleration effect, permitting the uninterrupted execution of the primary task. Conversely, large \( v_{\text{Rmax}} \) boosts the deceleration by reducing the $\xi_{p}$ factor, thereby affording the secondary task increased opportunity for obstacles avoidance motion.
 
 
 \subsection{AVOIDANCE VELOCITIES}
@@ -373,7 +373,7 @@ The deceleration factor (eq.~\ref{eq:slowdown}) is determined by the constant \(
 	\label{fig:kernels}
 \end{figure}
 
-To enable the avoidance of obstacles by the manipulator within its operating environment, the manipulator is uniformly coated with virtual detection points (POIs). The density of these virtual points is dependent upon the dimensions of matrices. Given a matrix width $w$ perpendicular to the primary direction, it is advantageous for these points to be spaced at intervals of $\Delta = \frac{w}{3}$. This spacing ensures partial overlap between matrices, thereby achieving a uniform distribution of POIs across the entirety of the robot.
+To enable the avoidance of obstacles by the manipulator within its operating environment, the manipulator is uniformly coated with virtual detection points (POIs). The density of these virtual points is dependent upon the dimensions of matrices. Given a matrix width $w$ perpendicular to the primary direction, it is advantageous for these points to be spaced at intervals of $\Delta = \frac{w}{3}$. This spacing ensures partial overlap between matrices, thereby achieving a uniform distribution of repulsive vectors across the entirety of the robot.
 
 During kinematic optimization, repulsive velocities for each point are computed following the methodology described in the previous section (sect. \ref{section:repulsive_vel}). This is achieved by mapping each point into the task space, where the calculation of repulsive velocity is performed. The cartesian mapping for each point comprises a kinematic transformation from the robot's base to the beginning of the segment where the point is located, followed by an additional mapping to the specific point on the segment (eq. \ref{eq:transformations}).  For each point, three components of cartesian velocity are obtained.
 
@@ -382,10 +382,11 @@ During kinematic optimization, repulsive velocities for each point are computed 
 	\label{eq:transformations}
 \end{equation}
 
-Upon obtaining the repulsive velocity for each point, the second norm of each velocity is calculated. For a number of $K$ points where the avoidance velocities are greatest, indicative of closest proximity to an obstacle, the resulting joint velocities that facilitate obstacle avoidance are computed using inverse kinematic equations for the selected points on the manipulator and transformed into the null-space velocities of the primary task.
+Upon obtaining the repulsive velocity for each point, the second norm of each velocity is calculated. For a number of $K$ points where the avoidance velocities are greatest, indicative of closest proximity to an obstacle, the resulting joint velocities that facilitate obstacle avoidance are computed using inverse kinematic equations for the selected points on the manipulator and transformed into the null-space velocities of the primary task (eq.~\ref{eq:point_nullspace}).
 
 \begin{equation}
 	\mathbf{J}_{d_i}^{+} = \mathbf{N} \mathbf{J}_{d_i}' (\mathbf{J}_{d_i} \mathbf{N} \mathbf{J}_{d_i}' + \sigma_{rep} \mathbf{I})^{-1}, \quad \text{for } i = 1, 2, \ldots, K;
+	\label{eq:point_nullspace}
 \end{equation}
 
 The translational velocity Jacobian is calculated for each of the $K$ selected points on the robot. Velocity space can be restricted to just one dimension, on the velocity component that directs movement away from obstacles. Consequently, the Jacobian, correlating joint space velocities \(q\) with the directional velocity \(d_i\), is represented as \(J_{d_i} = \vec{n}_i^T \mathbf{J}_i\). The normal vector, signifying the desired avoidance velocity, is essentially the unit velocity vector, derived from our matrices as \(\vec{n}_{i} = \frac{\vec{v}_{poi i}}{||\vec{v}_{poi i}||}\). This approach streamlines computational processes by avoiding the necessity for complex matrix inversions, transforming the Jacobian from a matrix to a vector of dimensions \(1 \times n\), where \(n\) signifies the count of joints preceding the POI, thus facilitating more straightforward calculations of repulsive velocities.
