@@ -67,7 +67,7 @@ Matrix Multiplication-Driven Repulsive Fields for Manipulator Kinematic Obstacle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-The article presents a new method for obstacle avoidance for robotic manipulators. It uses occupancy voxel grids to calculate repulsive velocities based on the proximity of obstacles. This approach allows for safe and agile navigation in changing environments. Repulsive velocities generated through matrix multiplication are processed using tri-linear interpolation, resulting in smooth and efficient movement away from potential hazards. The integration of this method with inverse kinematic control enables manipulator motion planning and obstacle avoidance capabilities. Simulation results prove the effectiveness of this method in various scenarios, showcasing its potential for local motion planning and obstacle avoidance.
+The article presents a new method for obstacle avoidance for robotic manipulators. It uses occupancy voxel grids and convolutional matrix kernels to calculate repulsive velocities based on the proximity of obstacles. This approach allows for safe and agile navigation in changing environments. Repulsive velocities generated through matrix multiplication are processed using tri-linear interpolation, resulting in smooth and efficient movement away from potential hazards. The integration of this method with inverse kinematic control enables manipulator motion planning and obstacle avoidance capabilities. Simulation results prove the effectiveness of this method in various scenarios, showcasing its potential for local motion planning and obstacle avoidance.
 
 \end{abstract}
 
@@ -78,7 +78,7 @@ Motion planning~\cite{c52} is a technique in robotics, that is used to calculate
 
 While global motion planning techniques provide comprehensive solutions by examining the entire configuration space, they fall short in terms of smoothness and real-time application, making them less ideal for dynamic settings~\cite{c52}. Conversely, local planning methods, particularly inverse kinematics~\cite{c38} and quadratic programming~\cite{c21,c23, haviland2021neo}, offer prompt, smooth trajectories suitable for real-time operations. However, these methods are prone to fall into local minima due to their incremental planning approach.
 
-Often used approach is a combination of global and local planning strategies, leveraging global planners for static environment navigation and local planners for adjusting to dynamic changes. This implementation enhances the manipulator's ability to navigate complex environments by combining the comprehensive pathfinding capabilities of global methods with the adaptability and efficiency of local techniques.
+Often used approach is a combination~\cite{a15} of global and local planning strategies, leveraging global planners for static environment navigation and local planners for adjusting to dynamic changes. This implementation enhances the manipulator's ability to navigate complex environments by combining the comprehensive pathfinding capabilities of global methods with the adaptability and efficiency of local techniques.
 
 The Artificial Potential Field (APF) concept~\cite{c33}, employs repulsive forces for obstacle repulsion and attractive forces to guide the robot towards target. Different variations of the method have been proposed adapting APF for manipulator motion planning~\cite{klancar2022robot, c49,park2020trajectory,baumgartner2023potential, c30}.
 
@@ -95,24 +95,27 @@ Section II outlines the mathematical framework for generating repulsive velociti
 
 The method leverages a voxel-based representation of the surrounding space, to dynamically assess potential collision threats and calculate directional repulsive velocities for smooth and safe navigation through complex environments. 
 
-Kernel multiplication is employed to ascertain the repulsive velocity components within Cartesian space. We select a segment from the occupation grid, that is centered in the point of interest (POI) on the robot, where we want to calculate the repulsive velocities. The segment needs to be of the same size as the directional matrix, for the cordinate axis in which we are calulating the repulsive velocity. This results in two identically sized 3D matrices: one serving as a "window" into the obstacle grid (\(G_d\)) and the other as the directional kernel (\(W_d\)).
+Kernel multiplication is employed to ascertain the repulsive velocity components within Cartesian space. We select a segment from the occupation grid, that is centered in the point of interest (POI) on the robot, where we want to calculate the repulsive velocities. The segment needs to be of the same size as the directional matrix, for the cordinate axis in which we are calulating the repulsive velocity. This results in two identically sized 3D matrices: one serving as a "window" into the obstacle grid $\mathbf{(G_d)}$ and the other as the directional kernel $\mathbf{(W_d)}$.
 
-Applying the Hadamard (element-wise) product to the segment of the occupation grid \(G_d\) and the kernel \(W_d\) results in a new matrix. By summing over all values in this resultant matrix, we calculate the repulsive velocity component for that specific direction. This process is independently conducted for each Cartesian coordinate, ultimately yielding the comprehensive repulsive velocity vector \(\vec{v}_i = [ v_{x_i}, v_{y_i}, v_{z_i}]\).
+Applying the Hadamard (element-wise) product to the segment of the occupation grid $\mathbf{(G_d)}$ and the kernel $\mathbf{(W_d)}$ results in a new matrix. By summing over all values in this resultant matrix, we calculate the repulsive velocity component for that specific direction. This process is independently conducted for each Cartesian coordinate, ultimately yielding the comprehensive repulsive velocity vector \(\mathbf{v}_i = [ v_{x_i}, v_{y_i}, v_{z_i}]\).
 
 \begin{equation}
-	v_d = \sum_{i,j,k} (G \odot W)_{ijk} = \sum_{i}\sum_{j}\sum_{k} g_{\Delta i \Delta j \Delta k} ~  w_{\Delta i \Delta j \Delta k}
+	v_d = \sum_{i,j,k} (\mathbf{G} \odot \mathbf{W})_{ijk} = \sum_{i}\sum_{j}\sum_{k} g_{\Delta i \Delta j \Delta k} ~  w_{\Delta i \Delta j \Delta k}
 	\label{eq:matrix-product}
 \end{equation}
+
+Where $g_{\Delta i \Delta j \Delta k}$ and $w_{\Delta i \Delta j \Delta k}$ denote $i$-th, $j$-th, $k$-th indexed elements of each matrix.
+
 
 %\remove{If the agent is positioned at the edge of the known voxel grid, elements beyond the window's boundary must be filled. These elements, located outside the matrix's spatial domain, can either be considered vacant—encouraging the robot to explore these new areas—or occupied—thereby deterring the robot from exiting the mapped grid space.}
 
 \subsection{KERNELS AND THEIR MATRIX APPLICATIONS}
 
-The fundamental concept of directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. 
+The fundamental concept of convolutional directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. 
 
 Kernels are designed as three-dimensional matrixes with a primary kernel axis $i$ aligned along a specific Cartesian direction, corresponding to the calculated repulsive velocity. The two secondary kernel axes $j,k$ are orthogonal to the primary axis. The distribution of values along the primary axis is inversely symmetric, exhibiting positive values on one side and negative values on the other, with the zero valued cell in the center of the kernel, where the values jump from max negative to max positive magnitude. The function of the increase in magnitude along the primary axis of the kernel defines the shape of the repulsive velocity field, determining how the repulsive velocity changes as the agent approaches an obstacle. Moreover, it is essential for the magnitudes at the kernel's periphery to be minimal, promoting a smooth increase in repulsive velocity when approaching the obstacle rather than a sudden spike.
 
-We introduce two distributions for the primary axis weights, namely gaussian and linear. The selection of weight distribution is contingent on the desired profile of repulsive velocities within the Artificial Potential Field (APF).
+We introduce two distributions for the primary axis weights, namely Gaussian and linear. The selection of weight distribution is contingent on the desired profile of repulsive velocities within the Artificial Potential Field (APF).
 
 First proposed function is mirrored normal or Gaussian distribution, the standard deviation (\(\sigma\)) modulates the rate at which field values escalate as obstacles are approached.
 
@@ -161,7 +164,7 @@ We propose a sinusoidal function for smooth orthogonal axis transitions when app
 \begin{equation}
 	w_{\Delta j} =
 	\begin{cases} 
-		sin(\left| \Delta j \right| \pi / (2 \Delta j_{max})) & \text{if } \Delta j < 0 \text{~or }  \Delta j > 0 \\
+		\sin(\left| \Delta j \right| \pi / (2 \Delta j_{max})) & \text{if } \Delta j < 0 \text{~or }  \Delta j > 0 \\
 		1 & \text{if } \Delta j = 0 \\
 	\end{cases}
 \end{equation}
@@ -180,7 +183,7 @@ Another option is to use linearly falling weights.
 By multiplieing weights components for primary and both orthagonal axis we get matrix kernels. We calculate a different kernel for every cartesian direction.
 
 \begin{equation}
-	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} * w_{\Delta j} * w_{\Delta k}
+	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} \cdot w_{\Delta j} \cdot w_{\Delta k}
 \end{equation}
 
 \subsection{3D INTERPOLATION} 
@@ -189,32 +192,32 @@ The occupancy grid's representation of the robot's environment is inherently dis
 
 %\remove{Maintaining a smooth change in velocity contributions to the robot is crucial. However, the discrete nature of our obstacle grid presents a challenge in achieving complete continuity. While enhancing the obstacle grid's resolution could theoretically yield a more continuous behavior, practical limitations arise due to the finite resolution of sensors and the grid representation itself. Moreover, an increase in resolution would inevitably require more memory for storing the occupancy grid and additional computational resources. Thus, to ensure velocity continuity across adjacent cells within the obstacle grid for a point of interest (POI), trilinear interpolation is employed.}
 
-The indexes of the eight surrounding cells are calculated by scaling the POI $x,y,z$ by grid resolution and than rounding the position to the nearest lower and upper integer positions (eq.~\ref{eq:floor and ceil}).
+The indexes of the eight surrounding cells $s=1...8$ are calculated by scaling the selected POI coordinates $x,y,z$ by grid resolution and than rounding the position to the nearest lower and upper integer positions (eq.~(\ref{eq:floor and ceil})).
 
 \begin{equation}
 	\label{eq:floor and ceil}
 	\vec{P} =
 	\begin{bmatrix}
-		X \\
-		Y \\
-		Z \\
+		\mathbf{X} \\
+		\mathbf{Y} \\
+		\mathbf{Z} \\
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		\; \lfloor \vec{p}_{\mathrm{POI}}(1) \times\Delta \mathrm{R} \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(1) \times\Delta \mathrm{R} \rceil \;  \\
-		\; \lfloor \vec{p}_{\mathrm{POI}}(2) \times\Delta \mathrm{R} \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(2) \times\Delta \mathrm{R} \rceil \; \\
-		\; \lfloor \vec{p}_{\mathrm{POI}}(3) \times\Delta \mathrm{R} \rfloor \; \lceil \vec{p}_{\mathrm{POI}}(3) \times\Delta \mathrm{R} \rceil \; 
+		\; \lfloor \mathbf{p}_{\mathrm{POI}}(1) \times\Delta \mathrm{R} \rfloor \; \lceil \mathbf{p}_{\mathrm{POI}}(1) \times\Delta \mathrm{R} \rceil \;  \\
+		\; \lfloor \mathbf{p}_{\mathrm{POI}}(2) \times\Delta \mathrm{R} \rfloor \; \lceil \mathbf{p}_{\mathrm{POI}}(2) \times\Delta \mathrm{R} \rceil \; \\
+		\; \lfloor \mathbf{p}_{\mathrm{POI}}(3) \times\Delta \mathrm{R} \rfloor \; \lceil \mathbf{p}_{\mathrm{POI}}(3) \times\Delta \mathrm{R} \rceil \; 
 	\end{bmatrix}
 \end{equation}
 
-Once we got the indexes of the eight surrounding cells of our POI, we calculate the repulsive velocity vectors in each point using kernel matrix multiplication method (seperately for each cartesian direction) (eq.~\ref{eq: calc rep vel}).
+Once we got the indexes of the eight surrounding cells of our POI, we calculate the repulsive velocity vectors in each point using kernel matrix multiplication method (seperately for each cartesian direction) (eq.~(\ref{eq: calc rep vel})).
 
 \begin{equation}
 	\label{eq: calc rep vel}
-	\vec{V}rep_{xyz,ijk} = \mathrm{rep}(X[i], Y[j], Z[k]) \quad \forall i, j, k \in \{1, 2\}
+	\mathbf{V}rep_{xyz,nml} = \mathrm{rep}(\mathbf{X}[n], \mathbf{Y}[m], \mathbf{Z}[l]) \quad \forall n, m, l \in \{1, 2\}
 \end{equation}
 
-Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~\ref{eq: deltas interp}). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid in each direction. That is, the cell coordinates are same as $x,y,z$, cell index and plus a half of grid resolution $\Delta \mathrm{R}$ step.
+Trilinear interpolation method works on a 3-dimensional regular grid. Before we can start with the interpolation we need to calculate the distance between POI and smaller coordinates of the cells where we calculated the repulsive velocities (eq.~(\ref{eq: deltas interp})). The calculated repulsive velocity values are located at the centers of the cells. Therefore, before interpolation, we shift the values of the cells coordinates by half the resolution of the obstacle grid in each direction. That is, the cell coordinates are same as $x,y,z$, cell index and plus a half of grid resolution $\Delta \mathrm{R}$ step.
 
 \begin{equation}
 	\label{eq: deltas interp}
@@ -225,9 +228,9 @@ Trilinear interpolation method works on a 3-dimensional regular grid. Before we 
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		\frac{\left( P_x - \left( X(1) + \frac{1}{2} \Delta \mathrm{R} \right)  \right)}{\left( X(2) - X(1) \right)} \\
-		\frac{\left( P_y - \left( Y(1) + \frac{1}{2} \Delta \mathrm{R} \right)  \right)}{\left( Y(2) - Y(1) \right)} \\
-		\frac{\left( P_z - \left( Z(1) + \frac{1}{2} \Delta \mathrm{R} \right)  \right)}{\left( Z(2) - Z(1) \right)} \\
+		\frac{\left( P_x - \left( \mathbf{X}(1) + \frac{1}{2} \Delta \mathit{R} \right)  \right)}{\left( \mathbf{X}(2) - \mathbf{X}(1) \right)} \\
+		\frac{\left( P_y - \left( \mathbf{Y}(1) + \frac{1}{2} \Delta \mathit{R} \right)  \right)}{\left( \mathbf{Y}(2) - \mathbf{Y}(1) \right)} \\
+		\frac{\left( P_z - \left( \mathbf{Z}(1) + \frac{1}{2} \Delta \mathit{R} \right)  \right)}{\left( \mathbf{Z}(2) - \mathbf{Z}(1) \right)} \\
 	\end{bmatrix}
 \end{equation}
 
@@ -240,8 +243,8 @@ The result of the interpolation is agnostic of the order of the operations. We f
 
 \begin{equation}
 \begin{aligned}
-	\vec{V}rep_{xyz,jk} = &\vec{V}rep_{xyz,0jk}(1 - \Delta x) \\
-	&+ \vec{V}rep_{xyz,1jk} \, \Delta x \quad \forall \, j, k \in \{1, 2\}
+	\mathbf{V}rep_{xyz,jk} = &\mathbf{V}rep_{xyz,0jk}(1 - \Delta x) \\
+	&+ \mathbf{V}rep_{xyz,1jk} \, \Delta x \quad \forall \, j, k \in \{1, 2\}
 \end{aligned}
 \end{equation}
 
@@ -252,15 +255,15 @@ The result of the interpolation is agnostic of the order of the operations. We f
 
 \begin{equation}
 	\begin{aligned}
-		\vec{V}rep_{xyz,k} = &\vec{V}rep_{xyz,0k}(1 - \Delta y) \\
-		&+ \vec{V}rep_{xyz,1k} \, \Delta y \quad \forall \, k \in \{1, 2\}
+		\mathbf{V}rep_{xyz,k} = &\mathbf{V}rep_{xyz,0k}(1 - \Delta y) \\
+		&+ \mathbf{V}rep_{xyz,1k} \, \Delta y \quad \forall \, k \in \{1, 2\}
 	\end{aligned}
 \end{equation}
 
 
 \begin{equation}
 	\label{eq: interp z}
-	\vec{V}rep_{xyz} = \vec{V}rep_{xyz,0}(1 - \Delta z) + \vec{V}rep_{xyz,1} \, \Delta z 
+	\mathbf{V}rep_{xyz} = \mathbf{V}rep_{xyz,0}(1 - \Delta z) + \mathbf{V}rep_{xyz,1} \, \Delta z 
 \end{equation}
 
 The end product is a uniformly smooth repulsive velocity field vector. 
@@ -270,7 +273,7 @@ The end product is a uniformly smooth repulsive velocity field vector.
 \begin{figure}
 	\centering
 	\includegraphics[width=1\linewidth]{non_and_interp_4_plots.eps} 
-	\caption{Repulsive field generation via convolutional kernels. Left: Original repulsive fields in X (top) and Y (bottom) directions. Right: Corresponding fields using interpolation, showcasing enhanced smoothness.}
+	\caption{Repulsive field generation via convolutional kernels. Left: Original repulsive fields in $\mathit{X}$ (top) and $\mathit{Y}$ (bottom) directions. Right: Corresponding fields using interpolation, showcasing enhanced smoothness.}
 	\label{fig:interp-experiment}
 \end{figure}
 
@@ -281,10 +284,10 @@ The end product is a uniformly smooth repulsive velocity field vector.
 The desired movement of the end-effector is achieved by using inverse kinematics velocity control scheme with task prioritisation. 
 
 \begin{equation}
-	\dot{\vec{q}} = \mathbf{J}^+ \xi_{p} \mathrm{\vec{v}_{att}} + \dot{\vec{q}}_{rep}
+	\dot{\mathbf{q}} = \mathbf{J}^+ \xi_{p} \mathrm{\mathbf{v}_{att}} + \dot{\mathbf{q}}_{rep}
 \end{equation}
 
-The damped Moore-Penrose pseudo-inverse, \(\mathbf{J}^+~=~\mathbf{J}'(\mathbf{J}\mathbf{J}' + \sigma_{ee} \mathbf{I})^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{\vec{q}}_{rep}$ are the weighted sum of avoidance joint velocities, each transformed into the null space of primary velocities.
+The damped Moore-Penrose pseudo-inverse, \(\mathbf{J}^+~=~\mathbf{J}'(\mathbf{J}\mathbf{J}' + \sigma_{ee} \mathbf{I})^{-1}\), is utilized to mitigate singularity issues and improve numerical stability in inverse kinematics computations. $\xi_{p}$ is the primary task execution slowdown constant. Finally $\dot{\mathbf{q}}_{rep}$ are the weighted sum of avoidance joint velocities, each transformed into the null space of primary velocities.
 
 %\remove{We run the inverse kinematics algorithm once for every time step, until we reach the desired cost function or reach the selected time limit. }
 
@@ -295,11 +298,11 @@ Prioritizing control over the end-effector's (EE) translational velocity is esse
 %\remove{Our aim is a consistent velocity profile throughout the trajectory, with controlled deceleration near the goal. This is achieved by first calculating the unit vector towards the target for direction, then modulating its magnitude using a sigmoid function, specifically the arctangent function }%(eq. \ref{eq: v_att}).
 
 \begin{equation} 
-	\vec{v} = \frac{\vec{x}_{EE} - \vec{x}_g}{||\vec{x}_{EE} - \vec{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\vec{x}_{EE} - \vec{x}_g||) }{\pi/2}
+	\mathbf{v} = \frac{\mathbf{x}_{EE} - \mathbf{x}_g}{||\mathbf{x}_{EE} - \mathbf{x}_g||} \times \frac{\arctan(k_{sigm} \; ||\mathbf{x}_{EE} - \mathbf{x}_g||) }{\pi/2}
 	\label{eq: v_att}
 \end{equation}
 
-In Eq.~\ref{eq: v_att}, $\vec{v}$ specifies the end-effector's (EE) translational velocity directed towards the target, integrating both its direction and magnitude. Here, $\vec{x}_{EE}$ represents the EE's current position, and $\vec{x}_g$ is the target position, both in Cartesian coordinates. The calculation $\frac{\vec{x}_{EE}-\vec{x}_g}{||\vec{x}_{EE}-\vec{x}_g||}$ generates a unit vector pointing towards the target, ensuring targeted movement. The velocity's modulation by the arctangent sigmoid function curtails overshooting by moderating speed in proximity to the target and saturating velocity at a predefined upper limit when distant. The parameter \(k_{sigm}\) in the arctangent function adjusts the curve's steepness, affecting how quickly the end-effector decelerates near the target. A higher \(k_{sigm}\) maintains speed until closer to the target for a sharp deceleration, while a lower value starts slowing down earlier for a gradual approach. 
+In Eq.~(\ref{eq: v_att}), $\mathbf{v}$ specifies the end-effector's (EE) translational velocity directed towards the target, integrating both its direction and magnitude. Here, $\mathbf{x}_{EE}$ represents the EE's current position, and $\mathbf{x}_g$ is the target position, both in Cartesian coordinates. The calculation $\frac{\mathbf{x}_{EE}-\mathbf{x}_g}{||\mathbf{x}_{EE}-\mathbf{x}_g||}$ generates a unit vector pointing towards the target, ensuring targeted movement. The velocity's modulation by the arctangent sigmoid function curtails overshooting by moderating speed in proximity to the target and saturating velocity at a predefined upper limit when distant. The parameter \(k_{sigm}\) in the arctangent function adjusts the curve's steepness, affecting how quickly the end-effector decelerates near the target. A higher \(k_{sigm}\) maintains speed until closer to the target for a sharp deceleration, while a lower value starts slowing down earlier for a gradual approach. 
 
 The current orientation of the end-effector (EE) and its goal orientation are encoded through rotation matrices, \(\mathbf{cR}\) for the current state and \(\mathbf{gR}\) for the goal state. The necessary rotational adjustment is identified through the relative rotation matrix \(\mathbf{dR}\), which is transformed into a quaternion representation, where we than calculate the rotational error using method presented in the article \cite{Zlajpah2017}. 
 %
@@ -336,13 +339,13 @@ The current orientation of the end-effector (EE) and its goal orientation are en
 %	\label{eq:rot_error_vector}
 %\end{equation}
 
-To get the full velocity of the end effector (EE), \( \mathrm{\vec{v}_{att}} \), translational and rotational velocities are scaled using proportional gains and combined \( k_v \) and \( k_\omega \).
+To get the full velocity of the end effector (EE), \( \mathrm{\mathbf{v}_{att}} \), translational and rotational components are multiplied using proportional gains and combined.
 
 \begin{equation}
-	\mathrm{\vec{v}_{att}} = 
+	\mathrm{\mathbf{v}_{att}} = 
 	\begin{bmatrix}
-		k_{v} * \vec{v}   \\
-		k_{\omega} * \vec{\omega}
+		k_{v} \cdot \mathbf{v}   \\
+		k_{\omega} \cdot \mathbf{\omega}
 	\end{bmatrix}
 	\label{eq:ee_velocity}
 \end{equation}
@@ -361,7 +364,7 @@ To mitigate the dominance of the primary task over the secondary task, a mechani
 	\frac{1}{1 + \kappa_{\text{sec}} ||v_{\text{Rmax}}||}
 \end{equation}
 
-The deceleration factor (eq.~\ref{eq:slowdown}) is determined by the constant \( \kappa_{\text{sec}} \) and the magnitude of the maximum repulsive velocity vectors, which is contingent upon the robot's minimal distance from an obstacle \( v_{\text{Rmax}} \). According to the equation, a small \( v_{\text{Rmax}} \) minimizes the deceleration effect, permitting the uninterrupted execution of the primary task. Conversely, large \( v_{\text{Rmax}} \) boosts the deceleration by reducing the $\xi_{p}$ factor, thereby affording the secondary task increased opportunity for obstacles avoidance motion.
+The deceleration factor (eq.~(\ref{eq:slowdown})) is determined by the constant \( \kappa_{\text{sec}} \) and the magnitude of the maximum repulsive velocity vectors, which is contingent upon the robot's minimal distance from an obstacle \( v_{\text{Rmax}} \). According to the equation, a small \( v_{\text{Rmax}} \) minimizes the deceleration effect, permitting the uninterrupted execution of the primary task. Conversely, large \( v_{\text{Rmax}} \) boosts the deceleration by reducing the $\xi_{p}$ factor, thereby affording the secondary task increased opportunity for obstacles avoidance motion.
 
 
 \subsection{AVOIDANCE VELOCITIES}
@@ -369,30 +372,30 @@ The deceleration factor (eq.~\ref{eq:slowdown}) is determined by the constant \(
 \begin{figure}
 	\centering
 	\includegraphics[width=1.0\linewidth]{manipulator-kernels-visualization-small.eps} % Replace 'example-image' with the filename of your image
-	\caption{Visualization of 3 repulsive Y-direction kernels in POI on the manipulator.}
+	\caption{Visualization of only $Y$ repulsive direction kernels ($X$,$Z$ not shown), for 3 seperate POI on the manipulator. The colours of the kernels display their absolute values. We can see, that the magnitude of the kernel values falls when approaching kernel edge.}
 	\label{fig:kernels}
 \end{figure}
 
 To enable the avoidance of obstacles by the manipulator within its operating environment, the manipulator is uniformly coated with virtual detection points (POIs). The density of these virtual points is dependent upon the dimensions of matrices. Given a matrix width $w$ perpendicular to the primary direction, it is advantageous for these points to be spaced at intervals of $\Delta = \frac{w}{3}$. This spacing ensures partial overlap between matrices, thereby achieving a uniform distribution of repulsive vectors across the entirety of the robot.
 
-During kinematic optimization, repulsive velocities for each point are computed following the methodology described in the previous section (sect. \ref{section:repulsive_vel}). This is achieved by mapping each point into the task space, where the calculation of repulsive velocity is performed. The cartesian mapping for each point comprises a kinematic transformation from the robot's base to the beginning of the segment where the point is located, followed by an additional mapping to the specific point on the segment (eq. \ref{eq:transformations}).  For each point, three components of cartesian velocity are obtained.
+During kinematic optimization, repulsive velocities for each point are computed following the methodology described in the previous section (sect. \ref{section:repulsive_vel}). This is achieved by mapping each point into the task space, where the calculation of repulsive velocity is performed. The cartesian mapping for each point comprises a kinematic transformation from the robot's base to the beginning of the segment where the point is located, followed by an additional mapping to the specific point on the segment (eq.~(\ref{eq:transformations})).  For each point, three components of cartesian velocity are obtained.
 
 \begin{equation}
 	\mathbf{T}_{0 \rightarrow \text{POI}} = \mathbf{T}_{0 \rightarrow 1} \cdot \mathbf{T}_{1 \rightarrow 2} \cdot \ldots \cdot \mathbf{T}_{(j-1) \rightarrow j} \cdot \mathbf{T}_{j \rightarrow \text{POI}}	
 	\label{eq:transformations}
 \end{equation}
 
-Upon obtaining the repulsive velocity for each point, the second norm of each velocity is calculated. For a number of $K$ points where the avoidance velocities are greatest, indicative of closest proximity to an obstacle, the resulting joint velocities that facilitate obstacle avoidance are computed using inverse kinematic equations for the selected points on the manipulator and transformed into the null-space velocities of the primary task (eq.~\ref{eq:point_nullspace}).
+Upon obtaining the repulsive velocity for each point, the second norm of each velocity is calculated. For a number of $K$ points where the avoidance velocities are greatest, indicative of closest proximity to an obstacle, the resulting joint velocities that facilitate obstacle avoidance are computed using inverse kinematic equations for the selected points on the manipulator and transformed into the null-space velocities of the primary task (eq.~(\ref{eq:point_nullspace})).
 
 \begin{equation}
 	\mathbf{J}_{d_i}^{+} = \mathbf{N} \mathbf{J}_{d_i}' (\mathbf{J}_{d_i} \mathbf{N} \mathbf{J}_{d_i}' + \sigma_{rep} \mathbf{I})^{-1}, \quad \text{for } i = 1, 2, \ldots, K;
 	\label{eq:point_nullspace}
 \end{equation}
 
-The translational velocity Jacobian is calculated for each of the $K$ selected points on the robot. Velocity space can be restricted to just one dimension, on the velocity component that directs movement away from obstacles. Consequently, the Jacobian, correlating joint space velocities \(q\) with the directional velocity \(d_i\), is represented as \(J_{d_i} = \vec{n}_i^T \mathbf{J}_i\). The normal vector, signifying the desired avoidance velocity, is essentially the unit velocity vector, derived from our matrices as \(\vec{n}_{i} = \frac{\vec{v}_{poi i}}{||\vec{v}_{poi i}||}\). This approach streamlines computational processes by avoiding the necessity for complex matrix inversions, transforming the Jacobian from a matrix to a vector of dimensions \(1 \times n\), where \(n\) signifies the count of joints preceding the POI, thus facilitating more straightforward calculations of repulsive velocities.
+The translational velocity Jacobian is calculated for each of the $K$ selected points on the robot. Velocity space can be restricted to just one dimension, on the velocity component that directs movement away from obstacles. Consequently, the Jacobian, correlating joint space velocities \(q\) with the directional velocity \(d_i\), is represented as \(\mathbf{J}_{d_i} = \mathbf{n}_i^T \mathbf{J}_i\). The normal vector, signifying the desired avoidance velocity, is essentially the unit velocity vector, derived from our matrices as \(\mathbf{n}_{i} = \frac{\mathbf{v}_{poi i}}{||\mathbf{v}_{poi i}||}\). This approach streamlines computational processes by avoiding the necessity for complex matrix inversions, transforming the Jacobian from a matrix to a vector of dimensions \(1 \times n\), where \(n\) signifies the count of joints preceding the POI, thus facilitating more straightforward calculations of repulsive velocities.
 
 \begin{equation}
-	\dot{q}_{rep} = k_r \sum_{i=1}^{K} \alpha_i J_{d_i}^{+} \left(v_i - J_{d_i} J^{+} \xi_{p} \vec{v}_{att}\right)
+	\dot{\mathbf{q}}_{rep} = k_r \sum_{i=1}^{K} \alpha_i \mathbf{J}_{d_i}^{+} \left(v_i - \mathbf{J}_{d_i} \mathbf{J}^{+} \xi_{p} \mathbf{v}_{att}\right)
 \end{equation}
 
 The overall avoidance joint velocities are obtained through a weighted sum of the avoidance joint velocities for the selected \(K\) nearest points, taking into account the influence of the primary task of manipulator EE movement on the joint velocities.
@@ -407,13 +410,13 @@ We introduce the resultant repulsive field on a two-dimensional map. While analo
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{demo-field1c.eps} % Replace 'example-image' with the filename of your image
-	\caption{Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along X (left) and Y (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance.}
+	\caption{Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along $\mathit{X}$ (left) and $\mathit{Y}$ (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance.}
 	\label{fig:example-field}
 \end{figure}
 
 \subsection{Manipulator Examples}
 
-The operation of the potential field is demonstrated on two different manipulator cases. The resolution of our voxel grid for obstacles is \( R=10cm \). The use of interpolation allows us to have a relatively coarse voxel grid, which reduces the memory demand of the space grid and accelerates the computation. We selected \( K = 7 \) POI to observe the distance from obstacles and are uniformly distributed them along the segments and joints, starting from the second joint of the robot to the tip of the manipulator. This distribution begins from the second joint because it is from this point onwards that the manipulator has the capability to avoid obstacles. POIs are indicated by dots on the manipulator in the figures. Near obstacles, vectors emanate from these points, depicting the calculated repulsive velocities at the locations. Throughout the simulation, Euler integration of the calculated joint velocities is performed with a step size of \( T_{step} = 0.1 \) s.
+The operation of the potential field is demonstrated on two different manipulator cases. The resolution of our voxel grid for obstacles is \( R=10\) cm. The use of interpolation allows us to have a relatively coarse voxel grid, which reduces the memory demand of the space grid and accelerates the computation. We selected \( K = 7 \) POI to observe the distance from obstacles and are uniformly distributed them along the segments and joints, starting from the second joint of the robot to the tip of the manipulator. This distribution begins from the second joint because it is from this point onwards that the manipulator has the capability to avoid obstacles. POIs are indicated by dots on the manipulator in the figures. Near obstacles, vectors emanate from these points, depicting the calculated repulsive velocities at the locations. Throughout the simulation, Euler integration of the calculated joint velocities is performed with a step size of \( T_{step} = 0.1 \) s.
 
 In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}), the manipulator safely 'curls' or selects a path to a point located on the other side of a column, avoiding the obstacle with the potential field calculated by the proposed method. The constants chosen for the primary task are \( k_v = 5 \) and \( k_w = 1.5 \), for the avoidance task \(k_r=20\). The weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{3}{9}, \frac{2}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9}, \frac{1}{9} ]}{10} \), where the biggest weight belongs to the point on the manipulator which is closest to the obstacle and so on. As the most direct path for the end-effector to the target passes straight through the column, an approach that would result in a collision, we implement a reduction of the primary speed in the vicinity of the obstacle, setting \( \xi_{p} = 1 \).
 
@@ -432,7 +435,7 @@ In the first case (Fig. \ref{fig:keyframes-3d-column}, \ref{fig:plots-3d-column}
 	\label{fig:plots-3d-column}
 \end{figure}
 
-In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}), our robot operates within a dynamic environment. The proposed method for calculating repulsive velocities proves to be a suitable choice when a local optimization approach is needed to accommodate dynamic changes. In this scenario, a ball moves as governed by the equation \( y_{\text{ball}} = 0.4 + (1.4 - 0.4) \frac{N_{\text{step}}}{75} \),  with \( x_{\text{ball}} = 1.25 \) and \( z_{\text{ball}} = 0.7 \). The primary task is now to maintain the robot's end-effector (EE) at a fixed point, disregarding EE orientation to enhance obstacle avoidance capability. This increases maneuverability, thereby eliminating the need for primary speed task slowdown (\( \xi_{p} = 0 \)). Constants selected for the primary task are \( k_v = 2 \) and \( k_w = 0 \), and for the avoidance task \( k_r = 3 \). Weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5} ]}{10} \).
+In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}), our robot operates within a dynamic environment. The proposed method for calculating repulsive velocities proves to be a suitable choice when a local optimization approach is needed to accommodate dynamic changes. In this scenario, a ball moves as governed by the equation \( y_{{ball}} = 0.4 + (1.4 - 0.4) \frac{N_{{step}}}{75} \),  with \( x_{{ball}} = 1.25 \) and \( z_{{ball}} = 0.7 \). The primary task is now to maintain the robot's end-effector (EE) at a fixed point, disregarding EE orientation to enhance obstacle avoidance capability. This increases maneuverability, thereby eliminating the need for primary speed task slowdown (\( \xi_{p} = 0 \)). Constants selected for the primary task are \( k_v = 2 \) and \( k_w = 0 \), and for the avoidance task \( k_r = 3 \). Weighting constants for the individual POIs are \( \alpha = \frac{[ \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5} ]}{10} \).
 
 \begin{figure}
 	\centering
@@ -482,6 +485,8 @@ Future work will focus on refining the repulsive field generation by encapsulati
 \bibitem{c23} H. Toshani and M. Farrokhi, “Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach,” Robotics and Autonomous Systems, vol. 62, no. 6, pp. 766–781, Jun. 2014. doi: 10.1016/j.robot.2014.02.005.
 
 \bibitem{haviland2021neo} J. Haviland and P. Corke, “NEO: A Novel Expeditious Optimisation Algorithm for Reactive Motion Control of Manipulators,” IEEE Robot. Autom. Lett., vol. 6, no. 2, Art. no. 2, Apr. 2021, doi: 10.1109/LRA.2021.3056060.
+
+\bibitem{a15} J. Amiryan and M. Jamzad, "Adaptive motion planning with artificial potential fields using a prior path," in 2015 3rd RSI International Conference on Robotics and Mechatronics (ICROM), Tehran, Iran, 2015, pp. 731-736, doi: 10.1109/ICRoM.2015.7367873. Keywords: Planning; Force; Motion segmentation; Vehicles; Path planning; Mobile robots; Artificial Potential Fields; Autonomous vehicle; Evolutionary Algorithms; Random Sampling; Reactive Motion Planning.
 
 \bibitem{c33} O. Khatib, “Real-time obstacle avoidance for manipulators and mobile robots,” in 1985 IEEE International Conference on Robotics and Automation Proceedings, Mar. 1985, pp. 500–505. doi: 10.1109/ROBOT.1985.1087247.
 

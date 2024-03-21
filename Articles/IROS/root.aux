@@ -20,6 +20,7 @@
 \citation{c21}
 \citation{c23}
 \citation{haviland2021neo}
+\citation{a15}
 \citation{c33}
 \citation{klancar2022robot}
 \citation{c49}
@@ -39,8 +40,8 @@
 \newlabel{eq:floor and ceil}{{7}{2}{3D INTERPOLATION}{equation.2.7}{}}
 \newlabel{eq: calc rep vel}{{8}{2}{3D INTERPOLATION}{equation.2.8}{}}
 \citation{Zlajpah2017}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Repulsive field generation via convolutional kernels. Left: Original repulsive fields in X (top) and Y (bottom) directions. Right: Corresponding fields using interpolation, showcasing enhanced smoothness.}}{3}{figure.1}\protected@file@percent }
-\newlabel{fig:interp-experiment}{{1}{3}{Repulsive field generation via convolutional kernels. Left: Original repulsive fields in X (top) and Y (bottom) directions. Right: Corresponding fields using interpolation, showcasing enhanced smoothness}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Repulsive field generation via convolutional kernels. Left: Original repulsive fields in $\mathit  {X}$ (top) and $\mathit  {Y}$ (bottom) directions. Right: Corresponding fields using interpolation, showcasing enhanced smoothness.}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:interp-experiment}{{1}{3}{Repulsive field generation via convolutional kernels. Left: Original repulsive fields in $\mathit {X}$ (top) and $\mathit {Y}$ (bottom) directions. Right: Corresponding fields using interpolation, showcasing enhanced smoothness}{figure.1}{}}
 \newlabel{eq: deltas interp}{{9}{3}{3D INTERPOLATION}{equation.2.9}{}}
 \newlabel{eq: interp z}{{12}{3}{3D INTERPOLATION}{equation.2.12}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {III}MANIPULATOR KINEMATICS}{3}{section.3}\protected@file@percent }
@@ -49,17 +50,17 @@
 \newlabel{eq: v_att}{{14}{3}{END-EFFECTOR VELOCITY}{equation.3.14}{}}
 \newlabel{eq:ee_velocity}{{15}{3}{END-EFFECTOR VELOCITY}{equation.3.15}{}}
 \newlabel{chap:primary slowdown}{{III-B}{3}{END-EFFECTOR VELOCITY}{equation.3.15}{}}
-\newlabel{eq:slowdown}{{16}{3}{END-EFFECTOR VELOCITY}{equation.3.16}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visualization of 3 repulsive Y-direction kernels in POI on the manipulator.}}{4}{figure.2}\protected@file@percent }
-\newlabel{fig:kernels}{{2}{4}{Visualization of 3 repulsive Y-direction kernels in POI on the manipulator}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visualization of only $Y$ repulsive direction kernels ($X$,$Z$ not shown), for 3 seperate POI on the manipulator. The colours of the kernels display their absolute values. We can see, that the magnitude of the kernel values falls when approaching kernel edge.}}{4}{figure.2}\protected@file@percent }
+\newlabel{fig:kernels}{{2}{4}{Visualization of only $Y$ repulsive direction kernels ($X$,$Z$ not shown), for 3 seperate POI on the manipulator. The colours of the kernels display their absolute values. We can see, that the magnitude of the kernel values falls when approaching kernel edge}{figure.2}{}}
+\newlabel{eq:slowdown}{{16}{4}{END-EFFECTOR VELOCITY}{equation.3.16}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {III-C}AVOIDANCE VELOCITIES}{4}{subsection.3.3}\protected@file@percent }
 \newlabel{eq:transformations}{{17}{4}{AVOIDANCE VELOCITIES}{equation.3.17}{}}
 \newlabel{eq:point_nullspace}{{18}{4}{AVOIDANCE VELOCITIES}{equation.3.18}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}SIMULATION RESULTS}{4}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-A}Repulsive Field Visualization}{4}{subsection.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}Manipulator Examples}{4}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along X (left) and Y (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance.}}{5}{figure.3}\protected@file@percent }
-\newlabel{fig:example-field}{{3}{5}{Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along X (left) and Y (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along $\mathit  {X}$ (left) and $\mathit  {Y}$ (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance.}}{5}{figure.3}\protected@file@percent }
+\newlabel{fig:example-field}{{3}{5}{Visualization of the potential field calculated for the entire map using the proposed approach. Top: Obstacle distribution via a 2D heatmap. Center: Induced repulsive fields along $\mathit {X}$ (left) and $\mathit {Y}$ (right) axes. Bottom: Composite vector field showcasing the resultant repulsive velocities for obstacle avoidance}{figure.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Sequential keyframes demonstrating the manipulator's path planning and column obstacle avoidance strategy.}}{5}{figure.4}\protected@file@percent }
 \newlabel{fig:keyframes-3d-column}{{4}{5}{Sequential keyframes demonstrating the manipulator's path planning and column obstacle avoidance strategy}{figure.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Visualization of the manipulator's path around the column obstacle: (a) Primary Task errors and percentage of the primary speed after applying slowdown, (b) Joint Velocities $\dot  {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$.}}{5}{figure.5}\protected@file@percent }
@@ -71,16 +72,17 @@
 \bibcite{c21}{4}
 \bibcite{c23}{5}
 \bibcite{haviland2021neo}{6}
-\bibcite{c33}{7}
-\bibcite{klancar2022robot}{8}
-\bibcite{c49}{9}
-\bibcite{park2020trajectory}{10}
-\bibcite{baumgartner2023potential}{11}
-\bibcite{oleynikova2017voxblox}{12}
-\bibcite{han2019fiesta}{13}
-\bibcite{zhou2021egoplanner}{14}
-\bibcite{han2018dynamic}{15}
-\bibcite{Zlajpah2017}{16}
+\bibcite{a15}{7}
+\bibcite{c33}{8}
+\bibcite{klancar2022robot}{9}
+\bibcite{c49}{10}
+\bibcite{park2020trajectory}{11}
+\bibcite{baumgartner2023potential}{12}
+\bibcite{oleynikova2017voxblox}{13}
+\bibcite{han2019fiesta}{14}
+\bibcite{zhou2021egoplanner}{15}
+\bibcite{han2018dynamic}{16}
+\bibcite{Zlajpah2017}{17}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Dynamic obstacle avoidance scenario: Sequential keyframes illustrating the robot’s maneuvering in response to a progressively moving ball from left to right across the workspace.}}{6}{figure.6}\protected@file@percent }
 \newlabel{fig:keyframes-3d-ball}{{6}{6}{Dynamic obstacle avoidance scenario: Sequential keyframes illustrating the robot’s maneuvering in response to a progressively moving ball from left to right across the workspace}{figure.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Performance in a dynamic obstacle avoidance scenario: (a) Primary Task error (b) Joint Velocities $\dot  {\theta }$, (c) Joint Positions $\theta $, and (d) Norms of Repulsive Velocities $v_{rep}$.}}{6}{figure.7}\protected@file@percent }
