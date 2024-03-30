@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  30 MAR 2024 19:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  30 MAR 2024 22:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -863,7 +863,7 @@ Package epstopdf Info: Output file is already uptodate.
 pdfTeX warning: pdflatex.exe (file ./manipulator-kernels-visualization-fixed-ep
 s-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most versio
 n <1.5> allowed
-<manipulator-kernels-visualization-fixed-eps-converted-to.pdf, id=118, 518.9387
+<manipulator-kernels-visualization-fixed-eps-converted-to.pdf, id=119, 518.9387
 5pt x 484.81125pt>
 File: manipulator-kernels-visualization-fixed-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -885,7 +885,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./demo-field1_fixed-eps-converted-to.pdf): P
 DF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<demo-field1_fixed-eps-converted-to.pdf, id=123, 276.03125pt x 498.86375pt>
+<demo-field1_fixed-eps-converted-to.pdf, id=124, 276.03125pt x 498.86375pt>
 File: demo-field1_fixed-eps-converted-to.pdf Graphic file (type pdf)
 <use demo-field1_fixed-eps-converted-to.pdf>
 Package pdftex.def Info: demo-field1_fixed-eps-converted-to.pdf  used on input 
@@ -976,17 +976,17 @@ Package pdftex.def Info: 4plots_ball-eps-converted-to.pdf  used on input line 4
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
 [5 <./demo-field1_fixed-eps-converted-to.pdf> <./keyframes_3D_fixed-eps-convert
 ed-to.pdf> <./4plots_column-eps-converted-to.pdf>]
-Underfull \hbox (badness 5696) in paragraph at lines 485--486
+Underfull \hbox (badness 5696) in paragraph at lines 489--490
 []\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 485--486
+Underfull \hbox (badness 1990) in paragraph at lines 489--490
 \OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
  []
 
 
-Underfull \hbox (badness 5302) in paragraph at lines 491--492
+Underfull \hbox (badness 5302) in paragraph at lines 495--496
 \OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
  []
 
@@ -1004,11 +1004,11 @@ Before submitting the final camera ready copy, remember to:
 [6 <./keyframes_3D_ball_fixed-eps-converted-to.pdf> <./4plots_ball-eps-converte
 d-to.pdf>] (root.aux)
 Package rerunfilecheck Info: File `root.out' has not changed.
-(rerunfilecheck)             Checksum: 749827BC2B878080DA471BEC541074FA;2045.
+(rerunfilecheck)             Checksum: 74B80F0E5193529B7B24BB784EBBEC03;2045.
  ) 
 Here is how much of TeX's memory you used:
- 21489 strings out of 476375
- 407352 string characters out of 5788976
+ 21490 strings out of 476375
+ 407362 string characters out of 5788976
  1876299 words of memory out of 5000000
  41436 multiletter control sequences out of 15000+600000
  554001 words of font info for 124 fonts, out of 8000000 for 9000
@@ -1037,9 +1037,9 @@ ograms/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Jakob/AppData/Local/Pr
 ograms/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData/Local/P
 rograms/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData/Local/P
 rograms/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on root.pdf (6 pages, 918149 bytes).
+Output written on root.pdf (6 pages, 918330 bytes).
 PDF statistics:
- 303 PDF objects out of 1000 (max. 8388607)
- 63 named destinations out of 1000 (max. 500000)
+ 304 PDF objects out of 1000 (max. 8388607)
+ 64 named destinations out of 1000 (max. 500000)
  152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
