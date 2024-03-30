@@ -40,6 +40,7 @@ function [f] = generate_figure_keyframes_column(grid, Tbase, control_points, out
             set(gca, 'XTick', scaleX, 'XTickLabel', arrayfun(@num2str, customTicksXY, 'UniformOutput', false));
             set(gca, 'YTick', scaleY, 'YTickLabel', arrayfun(@num2str, customTicksXY, 'UniformOutput', false));
             
+            
             % Apply custom Z-ticks based on view mode
             if viewMode == 1 % 3D view
                 set(gca, 'ZTick', customTicksZ_3D, 'ZTickLabel', arrayfun(@num2str, [0, 0.5, 1], 'UniformOutput', false));
