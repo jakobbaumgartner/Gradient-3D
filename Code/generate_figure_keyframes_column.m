@@ -4,7 +4,7 @@ function [f] = generate_figure_keyframes_column(grid, Tbase, control_points, out
     keyframes = round(linspace(1, total_frames-1, 4)); % Change number of keyframes to 4
 
     % APF field vector length
-    arrow_length = 2 % adjust the length to your preference
+    arrow_length = 2; % adjust the length to your preference
 
     %% COLORMAP for APF vectors
     cMap = interp1(0:1,[0 1 0; 1 0 0],linspace(0,1,256));
@@ -25,8 +25,28 @@ function [f] = generate_figure_keyframes_column(grid, Tbase, control_points, out
             % Set the axes limits to ensure consistency across subplots
             xlim([0 20]);
             ylim([0 20]);
-            if viewMode == 1 % Only set zlim for 3D view
-                zlim([0 10]);
+            zlim([0 10]); % Z-limits set for both views for consistency in tick labeling
+            
+            % Custom tick marks for X and Y axes
+            customTicksXY = [0, 1, 2];
+            scaleX = linspace(0, 20, numel(customTicksXY)); % Adjust scale if necessary
+            scaleY = scaleX; % Assuming similar scale for Y
+
+            % Custom tick marks for Z-axis
+            customTicksZ_3D = [0, 5, 10]; % Corresponding to Z-ticks for 3D view
+            customTicksZ_2D = [0, 2.5, 5, 7.5, 10]*2; % Corresponding to Z-ticks for 2D view, for visualization purposes
+
+            % Apply custom ticks and labels for X and Y axes
+            set(gca, 'XTick', scaleX, 'XTickLabel', arrayfun(@num2str, customTicksXY, 'UniformOutput', false));
+            set(gca, 'YTick', scaleY, 'YTickLabel', arrayfun(@num2str, customTicksXY, 'UniformOutput', false));
+            
+            % Apply custom Z-ticks based on view mode
+            if viewMode == 1 % 3D view
+                set(gca, 'ZTick', customTicksZ_3D, 'ZTickLabel', arrayfun(@num2str, [0, 0.5, 1], 'UniformOutput', false));
+            else % 2D view
+                % For 2D views, Z-ticks are conceptual here since Z-axis is not typically visualized
+                % This might be part of legend or auxiliary visualization
+                set(gca, 'ZTick', customTicksZ_2D, 'ZTickLabel', arrayfun(@num2str, [0, 0.5, 1, 1.5, 2], 'UniformOutput', false));
             end
 
             % Current keyframe index
@@ -72,9 +92,14 @@ function [f] = generate_figure_keyframes_column(grid, Tbase, control_points, out
             if viewMode == 1
                 title([num2str(kf) ' - 3D']);
                 view(50,10); % 3D view
+                xlabel('X [m]');
+                ylabel('Y [m]');
+                zlabel('Z [m]');
             else
-                title([num2str(kf) ' - Top Down']);
+                title([num2str(kf) ' - Front View']);
                 view(90, 0); % Bird's eye view (top-down view)
+                xlabel('X [m]');
+                ylabel('Y [m]');
             end
             
             hold off;
