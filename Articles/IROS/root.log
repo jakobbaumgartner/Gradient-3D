@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  30 MAR 2024 22:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  22 APR 2024 12:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -817,11 +817,11 @@ Underfull \hbox (badness 6316) in paragraph at lines 89--90
 
 ] [2]
 Package epstopdf Info: Source file: <non_and_interp_4_plots_fix.eps>
-(epstopdf)                    date: 2024-03-29 18:17:06
-(epstopdf)                    size: 150864 bytes
+(epstopdf)                    date: 2024-04-10 00:06:01
+(epstopdf)                    size: 152694 bytes
 (epstopdf)             Output file: <non_and_interp_4_plots_fix-eps-converted-t
 o.pdf>
-(epstopdf)                    date: 2024-03-29 18:18:32
+(epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 101522 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=non_and_interp_4_plo
 ts_fix-eps-converted-to.pdf non_and_interp_4_plots_fix.eps>
@@ -847,11 +847,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 290--291
 [3 <./non_and_interp_4_plots_fix-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <manipulator-kernels-visualization-fixed.ep
 s>
-(epstopdf)                    date: 2024-03-29 18:36:50
-(epstopdf)                    size: 101027 bytes
+(epstopdf)                    date: 2024-04-10 00:06:01
+(epstopdf)                    size: 102241 bytes
 (epstopdf)             Output file: <manipulator-kernels-visualization-fixed-ep
 s-converted-to.pdf>
-(epstopdf)                    date: 2024-03-29 18:37:02
+(epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 103558 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=manipulator-kernels-
 visualization-fixed-eps-converted-to.pdf manipulator-kernels-visualization-fixe
@@ -872,10 +872,10 @@ Package pdftex.def Info: manipulator-kernels-visualization-fixed-eps-converted-
 to.pdf  used on input line 374.
 (pdftex.def)             Requested size: 196.57523pt x 183.64577pt.
 Package epstopdf Info: Source file: <demo-field1_fixed.eps>
-(epstopdf)                    date: 2024-03-29 18:17:41
-(epstopdf)                    size: 97096 bytes
+(epstopdf)                    date: 2024-04-10 00:06:01
+(epstopdf)                    size: 98262 bytes
 (epstopdf)             Output file: <demo-field1_fixed-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-03-29 18:18:04
+(epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 85155 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=demo-field1_fixed-ep
 s-converted-to.pdf demo-field1_fixed.eps>
@@ -893,10 +893,10 @@ line 412.
 (pdftex.def)             Requested size: 196.57523pt x 355.28426pt.
 [4 <./manipulator-kernels-visualization-fixed-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <keyframes_3D_fixed.eps>
-(epstopdf)                    date: 2024-03-30 19:02:39
-(epstopdf)                    size: 44328 bytes
+(epstopdf)                    date: 2024-04-10 00:06:01
+(epstopdf)                    size: 44843 bytes
 (epstopdf)             Output file: <keyframes_3D_fixed-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-03-30 19:05:29
+(epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 90771 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=keyframes_3D_fixed-e
 ps-converted-to.pdf keyframes_3D_fixed.eps>
@@ -913,10 +913,10 @@ Package pdftex.def Info: keyframes_3D_fixed-eps-converted-to.pdf  used on input
  line 425.
 (pdftex.def)             Requested size: 245.71811pt x 147.43422pt.
 Package epstopdf Info: Source file: <4plots_column.eps>
-(epstopdf)                    date: 2024-03-14 23:21:15
-(epstopdf)                    size: 235703 bytes
+(epstopdf)                    date: 2024-04-10 00:06:01
+(epstopdf)                    size: 243494 bytes
 (epstopdf)             Output file: <4plots_column-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-03-15 01:49:50
+(epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 124843 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=4plots_column-eps-co
 nverted-to.pdf 4plots_column.eps>
@@ -933,11 +933,11 @@ Package pdftex.def Info: 4plots_column-eps-converted-to.pdf  used on input line
  433.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
 Package epstopdf Info: Source file: <keyframes_3D_ball_fixed.eps>
-(epstopdf)                    date: 2024-03-30 19:04:04
-(epstopdf)                    size: 31290 bytes
+(epstopdf)                    date: 2024-04-10 00:06:01
+(epstopdf)                    size: 31644 bytes
 (epstopdf)             Output file: <keyframes_3D_ball_fixed-eps-converted-to.p
 df>
-(epstopdf)                    date: 2024-03-30 19:05:30
+(epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 28764 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=keyframes_3D_ball_fi
 xed-eps-converted-to.pdf keyframes_3D_ball_fixed.eps>
@@ -955,10 +955,10 @@ Package pdftex.def Info: keyframes_3D_ball_fixed-eps-converted-to.pdf  used on
 input line 442.
 (pdftex.def)             Requested size: 245.71811pt x 147.43422pt.
 Package epstopdf Info: Source file: <4plots_ball.eps>
-(epstopdf)                    date: 2024-03-14 23:19:54
-(epstopdf)                    size: 194677 bytes
+(epstopdf)                    date: 2024-04-10 00:06:01
+(epstopdf)                    size: 201163 bytes
 (epstopdf)             Output file: <4plots_ball-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-03-15 02:59:13
+(epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 109049 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=4plots_ball-eps-conv
 erted-to.pdf 4plots_ball.eps>
@@ -1003,8 +1003,14 @@ Before submitting the final camera ready copy, remember to:
 
 [6 <./keyframes_3D_ball_fixed-eps-converted-to.pdf> <./4plots_ball-eps-converte
 d-to.pdf>] (root.aux)
-Package rerunfilecheck Info: File `root.out' has not changed.
-(rerunfilecheck)             Checksum: 74B80F0E5193529B7B24BB784EBBEC03;2045.
+
+Package rerunfilecheck Warning: File `root.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `root.out':
+(rerunfilecheck)             Before: AEF443D651F85C482AEE5154D45FBE08;2058
+(rerunfilecheck)             After:  74B80F0E5193529B7B24BB784EBBEC03;2045.
  ) 
 Here is how much of TeX's memory you used:
  21490 strings out of 476375
