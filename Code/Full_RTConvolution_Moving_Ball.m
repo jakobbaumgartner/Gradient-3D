@@ -34,19 +34,19 @@ weights_avoidance = weights_avoidance / norm(weights_avoidance,1) / 10;
 % -----------------------------------------------------------
 
 Tstep = 0.1 % time step
-Nmax = 75 % max number of iterations
+Nmax = 100 % max number of iterations
 space_resolution = grid.resolution; % resolution of the obstacles grid
 
 % weights for different tasks
 wp = 2 % primary task
-wp_or = 5 % primary task - orientation component
+wp_or = 15 % primary task - orientation component
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
 wm = 1 % mid-joints task
-wa = 6 % obstacle avoidance task
+wa = 5 % obstacle avoidance task
 
 % EE orientation goal 
-orientation_goal = Rot_z1
+orientation_goal = Rot_z2
 
 % function parameters
 goal_dist = 0.01 % distance which satisfies ending of optimization

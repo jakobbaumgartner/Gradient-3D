@@ -77,7 +77,7 @@ function showSimulatedPanda(grid, jointAngles, timeVaryingGrids)
                     view(90, 0)
 
         drawnow
-        pause(0.1)
+        % pause(0.01)
     end
     hold off
 end
