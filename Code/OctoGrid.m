@@ -158,58 +158,64 @@ classdef OctoGrid < handle
         end
 
 
-        function H = showGridVol3D(obj, grid, varargin)
+      function H = showGridVol3D(obj, grid, varargin)
+    % Displays a 3D grid using the vol3d function
+    % If the optional input argument heightColorMap is true ('heightColorMap', true), the height of the grid is used to color the voxels
+    % grid: a 3D matrix representing the grid to be displayed
 
-            % Displays a 3D grid using the vol3d function
-            % If the optional input argument heightColorMap is true ('heightColorMap', true), the height of the grid is used to color the voxels
-            % grid: a 3D matrix representing the grid to be displayed
+    % Parse the optional input arguments
+    p = inputParser;
+    addOptional(p, 'heightColorMap', false, @islogical);
+    addOptional(p, 'floor', false, @islogical);
+    addOptional(p, 'scaleFactor', 1, @isnumeric); % New parameter for scaling
+    parse(p, varargin{:});
+    
+    heightColorMap = p.Results.heightColorMap;
+    show_floor = p.Results.floor;
+    scaleFactor = p.Results.scaleFactor; % Get the scale factor
+    
+    color_floor = [33/256, 33/256, 33/256];
+    grid_size = size(grid);
 
-            % Parse the optional input argument
-            p = inputParser;
-            addOptional(p, 'heightColorMap', false, @islogical);
-            addOptional(p, 'floor', false, @islogical);
+    % If selected by the user, color the voxels based on their height
+    if heightColorMap
+        [~, ~, z] = meshgrid(1:grid_size(2), 1:grid_size(1), 1:grid_size(3));
+        grid = grid .* z / grid_size(3);
+    end
 
-            parse(p, varargin{:});
-            heightColorMap = p.Results.heightColorMap;
-            show_floor = p.Results.floor;
+    hold on
 
-            color_floor = [33/256, 33/256, 33/256];
+    % Scale the grid
+    [X, Y, Z] = meshgrid((1:grid_size(2))*scaleFactor, ...
+                         (1:grid_size(1))*scaleFactor, ...
+                         (1:grid_size(3))*scaleFactor);
+    H = vol3d('CData', grid, 'XData', X, 'YData', Y, 'ZData', Z);
 
-        
-            grid_size = size(grid);
-        
-            % If selected by the user, color the voxels based on their height
-            if heightColorMap
-                [~, ~, z] = meshgrid(1:grid_size(2), 1:grid_size(1), 1:grid_size(3));
-                grid = grid .* z / grid_size(3);
-            end
-            
-            hold on
-            H = vol3d('CData', grid);
+    % Display the floor surface if enabled
+    if show_floor
+        % Define the X and Y coordinates for the floor surface
+        [X, Y] = meshgrid(0:10*scaleFactor:size(grid,1)*scaleFactor, ...
+                          0:10*scaleFactor:size(grid,2)*scaleFactor);
+        % Define the Z coordinates for the floor surface (elevation)
+        Z = zeros(size(X));
+        % Plot the floor surface
+        surf(X, Y, Z, 'FaceColor', color_floor, 'FaceAlpha', 0.1);
+    end
 
-            % Display the floor surface if enabled
-            if show_floor
-                % Define the X and Y coordinates for the floor surface
-                [X, Y] = meshgrid(0:10:size(grid,1), 0:10:size(grid,2));
+    view([-15.5 49.3])
 
-                
-                % Define the Z coordinates for the floor surface (elevation)
-                Z = zeros(size(X));
-                
-                % Plot the floor surface
-                surf(X, Y, Z, 'FaceColor', color_floor,'FaceAlpha', 0.1);
+    % Add labels
+    xlabel('X')
+    ylabel('Y')
+    zlabel('Z')
 
-            end
-                    
-            view([-15.5 49.3])
+    % Update axis limits to reflect the new scale
+    axis([0 grid_size(2)*scaleFactor 0 grid_size(1)*scaleFactor 0 grid_size(3)*scaleFactor])
 
-            % add labels
-            xlabel('X')
-            ylabel('Y')
-            zlabel('Z')
-
-           
-        end
+    camlight('headlight');
+    lighting gouraud
+      
+      end
 
         function showSlice(obj,slice)
             
