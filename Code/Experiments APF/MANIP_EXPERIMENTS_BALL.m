@@ -81,3 +81,6 @@ plot(output.goal_orientation)
 
 [f] = showMovementPandaChangingGrid(Tbase, control_points, output)
 
+%% SHOW VISUALIZATION SIMULATION
+
+showSimulatedPanda(grid,output.joints_positions, output.grids)

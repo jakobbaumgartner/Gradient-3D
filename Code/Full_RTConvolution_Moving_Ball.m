@@ -43,7 +43,7 @@ wp_or = 5 % primary task - orientation component
 wp_att = 1 % primary task - attractive component
 wp_rep = 0 % primary task - repulsive component
 wm = 1 % mid-joints task
-wa = 3 % obstacle avoidance task
+wa = 6 % obstacle avoidance task
 
 % EE orientation goal 
 orientation_goal = Rot_z1

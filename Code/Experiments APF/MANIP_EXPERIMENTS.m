@@ -200,3 +200,7 @@ plot(output.goal_orientation)
 % ------------------------- 
 
 showMovementPandaMultiplePoints(grid, Tbase, control_points, output)
+
+%% SHOW VISUALIZATION SIMULATION
+
+showSimulatedPanda(grid,output.joints_positions)
