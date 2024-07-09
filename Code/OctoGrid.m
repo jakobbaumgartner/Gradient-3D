@@ -158,64 +158,58 @@ classdef OctoGrid < handle
         end
 
 
-      function H = showGridVol3D(obj, grid, varargin)
-    % Displays a 3D grid using the vol3d function
-    % If the optional input argument heightColorMap is true ('heightColorMap', true), the height of the grid is used to color the voxels
-    % grid: a 3D matrix representing the grid to be displayed
+        function H = showGridVol3D(obj, grid, varargin)
 
-    % Parse the optional input arguments
-    p = inputParser;
-    addOptional(p, 'heightColorMap', false, @islogical);
-    addOptional(p, 'floor', false, @islogical);
-    addOptional(p, 'scaleFactor', 1, @isnumeric); % New parameter for scaling
-    parse(p, varargin{:});
-    
-    heightColorMap = p.Results.heightColorMap;
-    show_floor = p.Results.floor;
-    scaleFactor = p.Results.scaleFactor; % Get the scale factor
-    
-    color_floor = [33/256, 33/256, 33/256];
-    grid_size = size(grid);
+            % Displays a 3D grid using the vol3d function
+            % If the optional input argument heightColorMap is true ('heightColorMap', true), the height of the grid is used to color the voxels
+            % grid: a 3D matrix representing the grid to be displayed
 
-    % If selected by the user, color the voxels based on their height
-    if heightColorMap
-        [~, ~, z] = meshgrid(1:grid_size(2), 1:grid_size(1), 1:grid_size(3));
-        grid = grid .* z / grid_size(3);
-    end
+            % Parse the optional input argument
+            p = inputParser;
+            addOptional(p, 'heightColorMap', false, @islogical);
+            addOptional(p, 'floor', false, @islogical);
 
-    hold on
+            parse(p, varargin{:});
+            heightColorMap = p.Results.heightColorMap;
+            show_floor = p.Results.floor;
 
-    % Scale the grid
-    [X, Y, Z] = meshgrid((1:grid_size(2))*scaleFactor, ...
-                         (1:grid_size(1))*scaleFactor, ...
-                         (1:grid_size(3))*scaleFactor);
-    H = vol3d('CData', grid, 'XData', X, 'YData', Y, 'ZData', Z);
+            color_floor = [33/256, 33/256, 33/256];
 
-    % Display the floor surface if enabled
-    if show_floor
-        % Define the X and Y coordinates for the floor surface
-        [X, Y] = meshgrid(0:10*scaleFactor:size(grid,1)*scaleFactor, ...
-                          0:10*scaleFactor:size(grid,2)*scaleFactor);
-        % Define the Z coordinates for the floor surface (elevation)
-        Z = zeros(size(X));
-        % Plot the floor surface
-        surf(X, Y, Z, 'FaceColor', color_floor, 'FaceAlpha', 0.1);
-    end
+        
+            grid_size = size(grid);
+        
+            % If selected by the user, color the voxels based on their height
+            if heightColorMap
+                [~, ~, z] = meshgrid(1:grid_size(2), 1:grid_size(1), 1:grid_size(3));
+                grid = grid .* z / grid_size(3);
+            end
+            
+            hold on
+            H = vol3d('CData', grid);
 
-    view([-15.5 49.3])
+            % Display the floor surface if enabled
+            if show_floor
+                % Define the X and Y coordinates for the floor surface
+                [X, Y] = meshgrid(0:10:size(grid,1), 0:10:size(grid,2));
 
-    % Add labels
-    xlabel('X')
-    ylabel('Y')
-    zlabel('Z')
+                
+                % Define the Z coordinates for the floor surface (elevation)
+                Z = zeros(size(X));
+                
+                % Plot the floor surface
+                surf(X, Y, Z, 'FaceColor', color_floor,'FaceAlpha', 0.1);
 
-    % Update axis limits to reflect the new scale
-    axis([0 grid_size(2)*scaleFactor 0 grid_size(1)*scaleFactor 0 grid_size(3)*scaleFactor])
+            end
+                    
+            view([-15.5 49.3])
 
-    camlight('headlight');
-    lighting gouraud
-      
-      end
+            % add labels
+            xlabel('X')
+            ylabel('Y')
+            zlabel('Z')
+
+           
+        end
 
         function showSlice(obj,slice)
             
@@ -271,6 +265,82 @@ classdef OctoGrid < handle
             obj.grid(y_start:y_end, x_start:x_end, z_start:z_end) = 1;
 
         end
+
+        function addSphere(obj, centerX, centerY, centerZ, radius)
+
+            %ADDSPHERE Adds a spherical object to the occupancy grid.
+            %
+            % This method colors voxels within the specified sphere's radius based
+            % on their occupancy level. For voxels fully enclosed by the sphere, they
+            % are set to 1. For voxels partially covered by the sphere, a value
+            % proportional to the volume of occupancy is assigned. This function
+            % assumes a simplistic linear model for partial volume occupancy.
+            %
+            % Parameters:
+            % obj - The instance of the OctoGrid class
+            % centerX, centerY, centerZ - The center coordinates of the sphere in meters
+            % radius - The radius of the sphere in meters
+            %
+            % Example:
+            % grid.addSphere(0.5, 0.5, 0.5, 0.1)
+            % This example adds a sphere with a radius of 0.1 meters centered at
+            % coordinates (0.5, 0.5, 0.5) meters in the occupancy grid.
+            %
+            % Note: This method modifies the grid property of the OctoGrid object,
+            % updating the occupancy values of the voxels within the sphere's influence.
+        
+            % Convert center coordinates and radius to grid indices
+            centerX_idx = round(centerX * obj.resolution);
+            centerY_idx = round(centerY * obj.resolution);
+            centerZ_idx = round(centerZ * obj.resolution);
+            radius_idx = round(radius * obj.resolution);
+        
+            % Calculate the index range to iterate over, ensuring we stay within bounds
+            x_range = max(1, centerX_idx-radius_idx):min(size(obj.grid, 2), centerX_idx+radius_idx);
+            y_range = max(1, centerY_idx-radius_idx):min(size(obj.grid, 1), centerY_idx+radius_idx);
+            z_range = max(1, centerZ_idx-radius_idx):min(size(obj.grid, 3), centerZ_idx+radius_idx);
+        
+            for x = x_range
+                for y = y_range
+                    for z = z_range
+                        % Calculate the distance from the voxel center to the sphere center in grid indices
+                        dist = sqrt((x - centerX_idx)^2 + (y - centerY_idx)^2 + (z - centerZ_idx)^2);
+        
+                        if dist < radius_idx
+                            % Calculate approximate occupancy
+                            if dist <= radius_idx - 1
+                                occupancy = 1;  % Fully within the sphere
+                            else
+                                % Simple approximation for partial occupancy
+                                % Assuming occupancy decreases linearly from the surface inward
+                                partial_volume_ratio = 1 - (dist - (radius_idx - 1)) / 1;
+                                occupancy = partial_volume_ratio;
+                            end
+                            
+                            % Set or update the voxel value
+                            obj.grid(y, x, z) = max(obj.grid(y, x, z), occupancy);
+                        end
+                    end
+                end
+            end
+        end
+
+        function clearGrid(obj)
+
+            %CLEARGRID Clears the occupancy grid, setting all voxels to unoccupied.
+            %
+            % This method resets all values in the occupancy grid to zero, effectively
+            % "emptying" the grid. It can be useful for reinitializing the grid state
+            % without creating a new OctoGrid object.
+            %
+            % Example:
+            % grid.clearGrid()
+            % This example empties the grid, setting all occupancy values to zero.
+        
+            obj.grid = zeros(round(obj.length) * obj.resolution, round(obj.width) * obj.resolution, round(obj.height) * obj.resolution);
+        end
+
+
 
     end
 end
