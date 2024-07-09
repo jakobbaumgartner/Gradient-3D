@@ -28,7 +28,7 @@ function showSimulatedPanda(grid,jointAngles)
 
     axis equal
 
-    viewOption = 1
+    viewOption = 6
      switch viewOption
         case 1
             % Default Isometric View
@@ -45,6 +45,9 @@ function showSimulatedPanda(grid,jointAngles)
         case 5
             % Custom Angled View
             view([-37.5, 30])
+        case 6
+                % axis equal
+            view([-180.9 45.0])
         otherwise
             warning('Invalid view option. Defaulting to isometric view.')
             view(3)
