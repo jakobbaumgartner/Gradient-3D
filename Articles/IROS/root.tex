@@ -44,12 +44,12 @@ Matrix Multiplication-Driven Repulsive Fields for Manipulator Kinematic Obstacle
 
 
 \author{
-	Jakob Baumgartner$^{1 *}$ and Gregor Klančar$^{2}$% <-this % stops a space
-\thanks{*Corresponding author6}% <-this % stops a space
-\thanks{$^{1}$Faculty of Electrical Engineering, University of Ljubljana, Slovenia        
-        {\tt\small jakob.baumgartner@fe.uni-lj.si}}%
-\thanks{$^{2}$Faculty of Electrical Engineering, University of Ljubljana, Slovenia        
-        {\tt\small gregor.klancar@fe.uni-lj.si}}%
+	Jakob Baumgartner$^{*}$ and Gregor Klančar% <-this % stops a space
+\thanks{*Corresponding author}% <-this % stops a space
+\thanks{J. B. Author is with the Faculty of Electrical Engineering, University of Ljubljana, Slovenia        
+         (email: jakob.baumgartner@fe.uni-lj.si)}
+\thanks{G. K. Author is with the Faculty of Electrical Engineering, University of Ljubljana, Slovenia        
+        (email: gregor.klancar@fe.uni-lj.si)}%
 }
 
 
@@ -70,7 +70,7 @@ The article presents a new method for obstacle avoidance for robotic manipulator
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{INTRODUCTION}
+\section{Introduction}
 
 Motion planning~\cite{c52} is a technique in robotics, that is used to calculate joint changes leading a manipulator from initial to a target configuration, while addressing constraints and optimization criteria. This task is facilitated by the manipulators' redundant degrees of freedom (DOF), enabling it to undertake various configurations to not only reach their End Effector (EE) target but also optimize for secondary objectives such as obstacle avoidance and minimizing joint torques~\cite{c30}.
 
@@ -88,7 +88,7 @@ The introduced approach utilizes occupancy voxel grids~\cite{han2018dynamic} to 
 
 Section II outlines the mathematical framework for generating repulsive velocities. Section III integrates this with inverse kinematic control, focusing on obstacle navigation. Section IV presents simulations demonstrating the method's effectiveness in various scenarios, highlighting its potential in robotic motion planning and obstacle avoidance.
 
-\section{REPULSIVE FIELD CALCULATION}
+\section{Repulsive Field Calculation}
 \label{section:repulsive_vel}
 
 The method leverages a voxel-based representation of the surrounding space, to dynamically assess potential collision threats and calculate repulsive velocities for smooth and safe navigation through complex environments. 
@@ -107,7 +107,7 @@ Applying the Hadamard (element-wise) product (eq.~\ref{eq:matrix-product}) betwe
 
 %\remove{If the agent is positioned at the edge of the known voxel grid, elements beyond the window's boundary must be filled. These elements, located outside the matrix's spatial domain, can either be considered vacant—encouraging the robot to explore these new areas—or occupied—thereby deterring the robot from exiting the mapped grid space.}
 
-\subsection{KERNELS AND THEIR MATRIX APPLICATIONS}
+\subsection{Kernels and Their Matrix Applications}
 
 %The fundamental concept of convolutional directional kernels lies in computing the repulsive field individually for each direction within the Cartesian coordinate system. 
 
@@ -184,7 +184,7 @@ By multiplieing weights components for primary and both orthagonal axis we get m
 	w_{\Delta i \Delta j \Delta k} = w_{\Delta i} \cdot w_{\Delta j} \cdot w_{\Delta k}
 \end{equation}
 
-\subsection{3D INTERPOLATION} 
+\subsection{3D Interpolation} 
 
 The occupancy grid's representation of the robot's environment is inherently discrete, possessing finite resolution, in contrast to the continuous nature of Cartesian space. The approximation or rounding necessary to transition from Cartesian coordinates to discrete grid representations introduces discontinuities in the calculated repulsive field. To counteract this, tri-linear interpolation is utilized, facilitating a smooth transition to a continuous repulsive field value, as illustrated in Fig. \ref{fig:interp-experiment}.
 
@@ -276,9 +276,9 @@ The end product is a uniformly smooth repulsive velocity field vector.
 	\label{fig:interp-experiment}
 \end{figure}
 
-\section{MANIPULATOR KINEMATICS}
+\section{Manipulator Kinematics}
 
-\subsection{INVERSE KINEMATIC CONTROL}
+\subsection{Inverse Kinematic Control}
 
 The desired movement of the end-effector is achieved by using inverse kinematics velocity control scheme with task prioritisation. 
 
@@ -290,7 +290,7 @@ The damped Moore-Penrose pseudo-inverse, \(\mathbf{J}^+~=~\mathbf{J}'(\mathbf{J}
 
 %\remove{We run the inverse kinematics algorithm once for every time step, until we reach the desired cost function or reach the selected time limit. }
 
-\subsection{END-EFFECTOR VELOCITY}
+\subsection{End-Effector Velocity}
 
 Prioritizing control over the end-effector's (EE) translational velocity is essential for a consistent and stable target approach. The commonly used method, where translational velocity is proportional to squared distance, leads to impractically high initial velocities, which can prevent obstacle avoidance and real-world execution, followed by disproportionately slow velocities when nearing the goal position. 
 
@@ -368,7 +368,7 @@ To mitigate the dominance of the primary task over the secondary task, a mechani
 The deceleration factor (eq.~(\ref{eq:slowdown})) is determined by the constant \( \kappa_{\text{sec}} \) and the magnitude of the maximum repulsive velocity vectors, which is contingent upon the robot's minimal distance from an obstacle \( v_{\text{Rmax}} \). According to the equation, a small \( v_{\text{Rmax}} \) minimizes the deceleration effect, permitting the uninterrupted execution of the primary task. Conversely, large \( v_{\text{Rmax}} \) boosts the deceleration by reducing the $\xi_{p}$ factor, thereby affording the secondary task increased opportunity for obstacles avoidance motion.
 
 
-\subsection{AVOIDANCE VELOCITIES}
+\subsection{Avoidance Velocities}
 
 \begin{figure}
 	\centering
@@ -404,7 +404,7 @@ The translational velocity Jacobian is calculated for each of the $K$ selected p
 The overall avoidance joint velocities are obtained through a weighted sum of the avoidance joint velocities for the selected \(K\) nearest points, taking into account the influence of the primary task of manipulator EE movement on the joint velocities.
 
 
-\section{SIMULATION RESULTS}
+\section{Simulation Results}
 
 \subsection{Repulsive Field Visualization}
 
@@ -455,7 +455,7 @@ In the second scenario (Fig. \ref{fig:keyframes-3d-ball}, \ref{fig:plots-ball}),
 \end{figure}
 %
 
-\section{DISCUSSION}
+\section{Discussion}
 
 %Future work will focus on refining the repulsive field generation by encapsulating the manipulator within a singular kernel, rather than relying on separate directional kernels at points of interest. Given the complexity of balancing multiple repulsive velocities, a learning-based approach is proposed for developing a unified controller for primary tasks and obstacle avoidance. Additionally, the exploration of a Model Predictive Control (MPC) strategy is anticipated, aiming to extend the manipulator's motion planning capabilities beyond immediate step considerations.
 
@@ -473,7 +473,7 @@ A significant limitation of the inverse kinematics method is its short-sighted, 
 
 In summary, while the current approach has demonstrated effectiveness, there is clear potential for improvement. By refining the repulsive field combination, incorporating learning-based methods, and exploring predictive control strategies, we can develop a more robust and efficient motion planning system for robotic manipulators.
 
-\section{CONCLUSION}
+\section{Conclusion}
 
 %The article proposes a new method for calculating repulsive velocities for obstacle avoidance when path planning using for robotic manipulators. The environment is presented using discretized voxel grids, that represent obstacles. The presented method uses matrix multiplication to generate values for the repuslive field in each of the centers of this voxels. Tri-linear interpolation is than used to generate a smooth and continues velocity field for the points located between the centers of voxels. This method was than combined with an modified inverse-kinematics optimization approach, that combines EE goal task execution and obstacle avoidance using these fields. Method is highely efficient, as the voxels can be quite big, which speeds up the calculation of the avoidance velocities and makes lower grid representation size. The method was tested in the simulated environemnt, where it was shown that the mathod is applicable for local path planning and for dynamic enviornemt path corrections. 
 %
@@ -485,7 +485,7 @@ This study presents a new method for computing repulsive velocities to aid obsta
 
 
 
-\section*{ACKNOWLEDGMENT}
+\section*{Acknowledgement}
 
 The authors acknowledge the financial support from the Slovenian Research Agency (Ph.D. grant for Jakob Baumgartner funding number P2-0219).
 
@@ -499,42 +499,101 @@ The authors acknowledge the financial support from the Slovenian Research Agency
 
 \begin{thebibliography}{99}
 	
-\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, “A review of recent trend in motion planning of industrial robots,” Int J Intell Robot Appl, vol. 7, no. 2, Art. no. 2, Jun. 2023. doi: 10.1007/s41315-023-00274-2.
+\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, "A review of recent trend in motion planning of industrial robots," \textit{Int. J. Intell. Robot. Appl.}, vol. 7, no. 2, pp. 1-30, Jun. 2023.
+\bibitem{c30} L. Žlajpah and T. Petrič, "Obstacle avoidance for redundant manipulators as control problem," in \textit{Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization}, S. Kucuk, Ed. IntechOpen, 2012, pp. 303-330.
+\bibitem{c38} Y. Nakamura, H. Hanafusa, and T. Yoshikawa, "Task-priority based redundancy control of robot manipulators," \textit{Int. J. Robot. Res.}, vol. 6, no. 2, pp. 3–15, Jun. 1987.
+\bibitem{c21} E. A. Basso and K. Y. Pettersen, "Task-priority control of redundant robotic systems using control Lyapunov and control barrier function based quadratic programs," \textit{IFAC-PapersOnLine}, vol. 53, no. 2, pp. 9037–9044, 2020.
+\bibitem{c23} H. Toshani and M. Farrokhi, "Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach," \textit{Robot. Auton. Syst.}, vol. 62, no. 6, pp. 766–781, Jun. 2014.
+\bibitem{haviland2021neo} J. Haviland and P. Corke, "NEO: A novel expeditious optimisation algorithm for reactive motion control of manipulators," \textit{IEEE Robot. Autom. Lett.}, vol. 6, no. 2, pp. 2470-2477, Apr. 2021.
+\bibitem{a15} J. Amiryan and M. Jamzad, "Adaptive motion planning with artificial potential fields using a prior path," in \textit{Proc. 3rd RSI Int. Conf. Robot. Mechatronics (ICROM)}, Tehran, Iran, 2015, pp. 731-736.
+\bibitem{c33} O. Khatib, "Real-time obstacle avoidance for manipulators and mobile robots," in \textit{Proc. IEEE Int. Conf. Robot. Autom.}, St. Louis, MO, USA, Mar. 1985, pp. 500–505.
+\bibitem{klancar2022robot} G. Klančar, A. Zdešar, and M. Krishnan, "Robot navigation based on potential field and gradient obtained by bilinear interpolation and a grid-based search," \textit{Sensors}, vol. 22, no. 9, pp. 1-24, 2022.
+\bibitem{c49} X. Xia et al., "Path planning for obstacle avoidance of robot arm based on improved potential field method," \textit{Sensors}, vol. 23, no. 7, pp. 1-20, Apr. 2023.
+\bibitem{park2020trajectory} S.-O. Park, M. C. Lee, and J. Kim, "Trajectory planning with collision avoidance for redundant robots using Jacobian and artificial potential field-based real-time inverse kinematics," \textit{Int. J. Control Autom. Syst.}, vol. 18, no. 8, pp. 2095-2107, Aug. 2020.
+\bibitem{baumgartner2023potential} J. Baumgartner, T. Petrič, and G. Klančar, "Potential field control of a redundant nonholonomic mobile manipulator with corridor-constrained base motion," \textit{Machines}, vol. 11, no. 2, pp. 1-28, 2023.
+\bibitem{oleynikova2017voxblox} H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, "Voxblox: Incremental 3D Euclidean signed distance fields for on-board MAV planning," in \textit{Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. (IROS)}, Vancouver, BC, Canada, Sep. 2017, pp. 1366–1373.
+\bibitem{han2019fiesta} L. Han, F. Gao, B. Zhou, and S. Shen, "FIESTA: Fast incremental Euclidean distance fields for online motion planning of aerial robots," arXiv, Jul. 26, 2019. [Online]. Available: http://arxiv.org/abs/1903.02144
+\bibitem{zhou2021egoplanner} X. Zhou, Z. Wang, H. Ye, C. Xu, and F. Gao, "EGO-Planner: An ESDF-free gradient-based local planner for quadrotors," \textit{IEEE Robot. Autom. Lett.}, vol. 6, no. 2, pp. 478–485, Apr. 2021.
+\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, "Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection," \textit{Robot. Comput. Integr. Manuf.}, vol. 49, pp. 98–104, Feb. 2018.
+\bibitem{Zlajpah2017} L. Žlajpah, "On orientation control of functional redundant robots," in \textit{Proc. IEEE Int. Conf. Robot. Autom. (ICRA)}, Singapore, May 2017, pp. 2475–2482.		
+	
 
-\bibitem{c30} L. Žlajpah and T. Petrič, “Obstacle Avoidance for Redundant Manipulators as Control Problem,” in Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization, S. Kucuk, Ed. InTech, 2012. doi: 10.5772/32651.
+%\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, "A review of recent trend in motion planning of industrial robots," \textit{International Journal of Intelligent Robotics and Applications}. vol. 7. no. 2. pp. 1-30. June 2023.
+%\bibitem{c30} L. Žlajpah and T. Petrič, "Obstacle avoidance for redundant manipulators as control problem," in \textit{Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization}. S. Kucuk, Ed. IntechOpen. 2012. pp. 303-330.
+%\bibitem{c38} Y. Nakamura, H. Hanafusa, and T. Yoshikawa, "Task-priority based redundancy control of robot manipulators," \textit{The International Journal of Robotics Research}. vol. 6. no. 2. pp. 3–15. June 1987.
+%\bibitem{c21} E. A. Basso and K. Y. Pettersen, "Task-priority control of redundant robotic systems using control Lyapunov and control barrier function based quadratic programs," \textit{IFAC-PapersOnLine}. vol. 53. no. 2. pp. 9037–9044. 2020.
+%\bibitem{c23} H. Toshani and M. Farrokhi, "Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach," \textit{Robotics and Autonomous Systems}. vol. 62. no. 6. pp. 766–781. June 2014.
+%\bibitem{haviland2021neo} J. Haviland and P. Corke, "NEO: A novel expeditious optimisation algorithm for reactive motion control of manipulators," \textit{IEEE Robotics and Automation Letters}. vol. 6. no. 2. pp. 2470-2477. April 2021.
+%\bibitem{a15} J. Amiryan and M. Jamzad, "Adaptive motion planning with artificial potential fields using a prior path," in \textit{Proceedings of the 2015 3rd RSI International Conference on Robotics and Mechatronics (ICROM)}. Tehran, Iran. 2015. pp. 731-736.
+%\bibitem{c33} O. Khatib, "Real-time obstacle avoidance for manipulators and mobile robots," in \textit{Proceedings of the 1985 IEEE International Conference on Robotics and Automation}. St. Louis, MO, USA. March 1985. pp. 500–505.
+%\bibitem{klancar2022robot} G. Klančar, A. Zdešar, and M. Krishnan, "Robot navigation based on potential field and gradient obtained by bilinear interpolation and a grid-based search," \textit{Sensors}. vol. 22. no. 9. pp. 1-24. 2022.
+%\bibitem{c49} X. Xia et al., "Path planning for obstacle avoidance of robot arm based on improved potential field method," \textit{Sensors}. vol. 23. no. 7. pp. 1-20. April 2023.
+%\bibitem{park2020trajectory} S.-O. Park, M. C. Lee, and J. Kim, "Trajectory planning with collision avoidance for redundant robots using Jacobian and artificial potential field-based real-time inverse kinematics," \textit{International Journal of Control, Automation and Systems}. vol. 18. no. 8. pp. 2095-2107. August 2020.
+%\bibitem{baumgartner2023potential} J. Baumgartner, T. Petrič, and G. Klančar, "Potential field control of a redundant nonholonomic mobile manipulator with corridor-constrained base motion," \textit{Machines}. vol. 11. no. 2. pp. 1-28. 2023.
+%\bibitem{oleynikova2017voxblox} H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, "Voxblox: Incremental 3D Euclidean signed distance fields for on-board MAV planning," in \textit{Proceedings of the 2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}. Vancouver, BC, Canada. September 2017. pp. 1366–1373.
+%\bibitem{han2019fiesta} L. Han, F. Gao, B. Zhou, and S. Shen, "FIESTA: Fast incremental Euclidean distance fields for online motion planning of aerial robots," arXiv. July 26, 2019. [Online]. Available: http://arxiv.org/abs/1903.02144
+%\bibitem{zhou2021egoplanner} X. Zhou, Z. Wang, H. Ye, C. Xu, and F. Gao, "EGO-Planner: An ESDF-free gradient-based local planner for quadrotors," \textit{IEEE Robotics and Automation Letters}. vol. 6. no. 2. pp. 478–485. April 2021.
+%\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, "Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection," \textit{Robotics and Computer-Integrated Manufacturing}. vol. 49. pp. 98–104. February 2018.
+%\bibitem{Zlajpah2017} L. Žlajpah, "On orientation control of functional redundant robots," in \textit{Proceedings of the 2017 IEEE International Conference on Robotics and Automation (ICRA)}. Singapore. May 2017. pp. 2475–2482.
+%	
+	
+%\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, "A review of recent trend in motion planning of industrial robots," Int. J. Intell. Robot. Appl., vol. 7, no. 2, Jun. 2023.
+%\bibitem{c30} L. Žlajpah and T. Petrič, "Obstacle Avoidance for Redundant Manipulators as Control Problem," in Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization, S. Kucuk, Ed. InTech, 2012.
+%\bibitem{c38} Y. Nakamura, H. Hanafusa, and T. Yoshikawa, "Task-Priority Based Redundancy Control of Robot Manipulators," The International Journal of Robotics Research, vol. 6, no. 2, pp. 3–15, Jun. 1987.
+%\bibitem{c21} E. A. Basso and K. Y. Pettersen, "Task-Priority Control of Redundant Robotic Systems using Control Lyapunov and Control Barrier Function based Quadratic Programs," in IFAC-PapersOnLine, vol. 53, no. 2, pp. 9037–9044, 2020.
+%\bibitem{c23} H. Toshani and M. Farrokhi, "Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach," Robotics and Autonomous Systems, vol. 62, no. 6, pp. 766–781, Jun. 2014.
+%\bibitem{haviland2021neo} J. Haviland and P. Corke, "NEO: A Novel Expeditious Optimisation Algorithm for Reactive Motion Control of Manipulators," IEEE Robot. Autom. Lett., vol. 6, no. 2, Apr. 2021.
+%\bibitem{a15} J. Amiryan and M. Jamzad, "Adaptive motion planning with artificial potential fields using a prior path," in Proc. 2015 3rd RSI Int. Conf. on Robotics and Mechatronics (ICROM), Tehran, Iran, 2015, pp. 731-736.
+%\bibitem{c33} O. Khatib, "Real-time obstacle avoidance for manipulators and mobile robots," in Proc. 1985 IEEE Int. Conf. on Robotics and Automation, Mar. 1985, pp. 500–505.
+%\bibitem{klancar2022robot} G. Klančar, A. Zdešar, and M. Krishnan, "Robot Navigation Based on Potential Field and Gradient Obtained by Bilinear Interpolation and a Grid-Based Search," Sensors, vol. 22, no. 9, pp. 1-24, 2022.
+%\bibitem{c49} X. Xia et al., "Path Planning for Obstacle Avoidance of Robot Arm Based on Improved Potential Field Method," Sensors, vol. 23, no. 7, Apr. 2023.
+%\bibitem{park2020trajectory} S.-O. Park, M. C. Lee, and J. Kim, "Trajectory Planning with Collision Avoidance for Redundant Robots Using Jacobian and Artificial Potential Field-based Real-time Inverse Kinematics," Int. J. Control Autom. Syst., vol. 18, no. 8, Aug. 2020.
+%\bibitem{baumgartner2023potential} J. Baumgartner, T. Petrič, and G. Klančar, "Potential Field Control of a Redundant Nonholonomic Mobile Manipulator with Corridor-Constrained Base Motion," Machines, vol. 11, no. 2, pp. 1-28, 2023.
+%\bibitem{oleynikova2017voxblox} H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, "Voxblox: Incremental 3D Euclidean Signed Distance Fields for on-board MAV planning," in Proc. 2017 IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS), Vancouver, BC, Sep. 2017, pp. 1366–1373.
+%\bibitem{han2019fiesta} L. Han, F. Gao, B. Zhou, and S. Shen, "FIESTA: Fast Incremental Euclidean Distance Fields for Online Motion Planning of Aerial Robots," arXiv, Jul. 26, 2019. [Online]. Available: http://arxiv.org/abs/1903.02144
+%\bibitem{zhou2021egoplanner} X. Zhou, Z. Wang, H. Ye, C. Xu, and F. Gao, "EGO-Planner: An ESDF-Free Gradient-Based Local Planner for Quadrotors," IEEE Robot. Autom. Lett., vol. 6, no. 2, pp. 478–485, Apr. 2021.
+%\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, "Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection," Robotics and Computer-Integrated Manufacturing, vol. 49, pp. 98–104, Feb. 2018.
+%\bibitem{Zlajpah2017} L. Žlajpah, "On orientation control of functional redundant robots," in Proc. 2017 IEEE Int. Conf. on Robotics and Automation (ICRA), Singapore, May 2017, pp. 2475–2482.
 
-\bibitem{c38} Y. Nakamura, H. Hanafusa, and T. Yoshikawa, “Task-Priority Based Redundancy Control of Robot Manipulators,” The International Journal of Robotics Research, vol. 6, no. 2, pp. 3–15, Jun. 1987. doi: 10.1177/027836498700600201.
 
-\bibitem{c21} E. A. Basso and K. Y. Pettersen, “Task-Priority Control of Redundant Robotic Systems using Control Lyapunov and Control Barrier Function based Quadratic Programs,” in IFAC-PapersOnLine, vol. 53, no. 2, pp. 9037–9044, 2020. doi: 10.1016/j.ifacol.2020.12.2024.
 
-\bibitem{c23} H. Toshani and M. Farrokhi, “Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach,” Robotics and Autonomous Systems, vol. 62, no. 6, pp. 766–781, Jun. 2014. doi: 10.1016/j.robot.2014.02.005.
-
-\bibitem{haviland2021neo} J. Haviland and P. Corke, “NEO: A Novel Expeditious Optimisation Algorithm for Reactive Motion Control of Manipulators,” IEEE Robot. Autom. Lett., vol. 6, no. 2, Art. no. 2, Apr. 2021, doi: 10.1109/LRA.2021.3056060.
-
-\bibitem{a15} J. Amiryan and M. Jamzad, "Adaptive motion planning with artificial potential fields using a prior path," in 2015 3rd RSI International Conference on Robotics and Mechatronics (ICROM), Tehran, Iran, 2015, pp. 731-736, doi: 10.1109/ICRoM.2015.7367873. Keywords: Planning; Force; Motion segmentation; Vehicles; Path planning; Mobile robots; Artificial Potential Fields; Autonomous vehicle; Evolutionary Algorithms; Random Sampling; Reactive Motion Planning.
-
-\bibitem{c33} O. Khatib, “Real-time obstacle avoidance for manipulators and mobile robots,” in 1985 IEEE International Conference on Robotics and Automation Proceedings, Mar. 1985, pp. 500–505. doi: 10.1109/ROBOT.1985.1087247.
-
-\bibitem{klancar2022robot}
-G. Klančar, A. Zdešar, and M. Krishnan, “Robot Navigation Based on Potential Field and Gradient Obtained by Bilinear Interpolation and a Grid-Based Search,” Sensors, vol. 22, no. 9, art. no. 3295, pp. 1-24, 2022. doi: 10.3390/s22093295.
-
-\bibitem{c49} X. Xia et al., “Path Planning for Obstacle Avoidance of Robot Arm Based on Improved Potential Field Method,” Sensors, vol. 23, no. 7, Art. no. 7, Apr. 2023. doi: 10.3390/s23073754.
-
-\bibitem{park2020trajectory} S.-O. Park, M. C. Lee, and J. Kim, “Trajectory Planning with Collision Avoidance for Redundant Robots Using Jacobian and Artificial Potential Field-based Real-time Inverse Kinematics,” Int. J. Control Autom. Syst., vol. 18, no. 8, Art. no. 8, Aug. 2020, doi: 10.1007/s12555-019-0076-7.
-
-\bibitem{baumgartner2023potential}
-J. Baumgartner, T. Petrič, and G. Klančar, “Potential Field Control of a Redundant Nonholonomic Mobile Manipulator with Corridor-Constrained Base Motion,” Machines, vol. 11, no. 2, art. no. 293, pp. 1-28, 2023. doi: 10.3390/machines11020293.
-
-\bibitem{oleynikova2017voxblox} H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, “Voxblox: Incremental 3D Euclidean Signed Distance Fields for on-board MAV planning,” in Proc. of the 2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Vancouver, BC, Sep. 2017, pp. 1366–1373. doi: 10.1109/IROS.2017.8202315.
-
-\bibitem{han2019fiesta} L. Han, F. Gao, B. Zhou, and S. Shen, “FIESTA: Fast Incremental Euclidean Distance Fields for Online Motion Planning of Aerial Robots,” arXiv, Jul. 26, 2019. Accessed: Jan. 11, 2024. [Online]. Available: http://arxiv.org/abs/1903.02144
-
-\bibitem{zhou2021egoplanner} X. Zhou, Z. Wang, H. Ye, C. Xu, and F. Gao, “EGO-Planner: An ESDF-Free Gradient-Based Local Planner for Quadrotors,” IEEE Robot. Autom. Lett., vol. 6, no. 2, pp. 478–485, Apr. 2021, doi: 10.1109/LRA.2020.3047728.
-
-\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, “Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection,” Robotics and Computer-Integrated Manufacturing, vol. 49, pp. 98–104, Feb. 2018, doi: 10.1016/j.rcim.2017.05.013.
-
-\bibitem{Zlajpah2017}
-L. Žlajpah, “On orientation control of functional redundant robots,” in Proc. of the 2017 IEEE International Conference on Robotics and Automation (ICRA), Singapore, May 2017, pp. 2475–2482. doi: 10.1109/ICRA.2017.7989288.
+%	
+%\bibitem{c52} M. G. Tamizi, M. Yaghoubi, and H. Najjaran, “A review of recent trend in motion planning of industrial robots,” Int J Intell Robot Appl, vol. 7, no. 2, Art. no. 2, Jun. 2023. doi: 10.1007/s41315-023-00274-2.
+%
+%\bibitem{c30} L. Žlajpah and T. Petrič, “Obstacle Avoidance for Redundant Manipulators as Control Problem,” in Serial and Parallel Robot Manipulators - Kinematics, Dynamics, Control and Optimization, S. Kucuk, Ed. InTech, 2012. doi: 10.5772/32651.
+%
+%\bibitem{c38} Y. Nakamura, H. Hanafusa, and T. Yoshikawa, “Task-Priority Based Redundancy Control of Robot Manipulators,” The International Journal of Robotics Research, vol. 6, no. 2, pp. 3–15, Jun. 1987. doi: 10.1177/027836498700600201.
+%
+%\bibitem{c21} E. A. Basso and K. Y. Pettersen, “Task-Priority Control of Redundant Robotic Systems using Control Lyapunov and Control Barrier Function based Quadratic Programs,” in IFAC-PapersOnLine, vol. 53, no. 2, pp. 9037–9044, 2020. doi: 10.1016/j.ifacol.2020.12.2024.
+%
+%\bibitem{c23} H. Toshani and M. Farrokhi, “Real-time inverse kinematics of redundant manipulators using neural networks and quadratic programming: A Lyapunov-based approach,” Robotics and Autonomous Systems, vol. 62, no. 6, pp. 766–781, Jun. 2014. doi: 10.1016/j.robot.2014.02.005.
+%
+%\bibitem{haviland2021neo} J. Haviland and P. Corke, “NEO: A Novel Expeditious Optimisation Algorithm for Reactive Motion Control of Manipulators,” IEEE Robot. Autom. Lett., vol. 6, no. 2, Art. no. 2, Apr. 2021, doi: 10.1109/LRA.2021.3056060.
+%
+%\bibitem{a15} J. Amiryan and M. Jamzad, "Adaptive motion planning with artificial potential fields using a prior path," in 2015 3rd RSI International Conference on Robotics and Mechatronics (ICROM), Tehran, Iran, 2015, pp. 731-736, doi: 10.1109/ICRoM.2015.7367873. Keywords: Planning; Force; Motion segmentation; Vehicles; Path planning; Mobile robots; Artificial Potential Fields; Autonomous vehicle; Evolutionary Algorithms; Random Sampling; Reactive Motion Planning.
+%
+%\bibitem{c33} O. Khatib, “Real-time obstacle avoidance for manipulators and mobile robots,” in 1985 IEEE International Conference on Robotics and Automation Proceedings, Mar. 1985, pp. 500–505. doi: 10.1109/ROBOT.1985.1087247.
+%
+%\bibitem{klancar2022robot}
+%G. Klančar, A. Zdešar, and M. Krishnan, “Robot Navigation Based on Potential Field and Gradient Obtained by Bilinear Interpolation and a Grid-Based Search,” Sensors, vol. 22, no. 9, art. no. 3295, pp. 1-24, 2022. doi: 10.3390/s22093295.
+%
+%\bibitem{c49} X. Xia et al., “Path Planning for Obstacle Avoidance of Robot Arm Based on Improved Potential Field Method,” Sensors, vol. 23, no. 7, Art. no. 7, Apr. 2023. doi: 10.3390/s23073754.
+%
+%\bibitem{park2020trajectory} S.-O. Park, M. C. Lee, and J. Kim, “Trajectory Planning with Collision Avoidance for Redundant Robots Using Jacobian and Artificial Potential Field-based Real-time Inverse Kinematics,” Int. J. Control Autom. Syst., vol. 18, no. 8, Art. no. 8, Aug. 2020, doi: 10.1007/s12555-019-0076-7.
+%
+%\bibitem{baumgartner2023potential}
+%J. Baumgartner, T. Petrič, and G. Klančar, “Potential Field Control of a Redundant Nonholonomic Mobile Manipulator with Corridor-Constrained Base Motion,” Machines, vol. 11, no. 2, art. no. 293, pp. 1-28, 2023. doi: 10.3390/machines11020293.
+%
+%\bibitem{oleynikova2017voxblox} H. Oleynikova, Z. Taylor, M. Fehr, R. Siegwart, and J. Nieto, “Voxblox: Incremental 3D Euclidean Signed Distance Fields for on-board MAV planning,” in Proc. of the 2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Vancouver, BC, Sep. 2017, pp. 1366–1373. doi: 10.1109/IROS.2017.8202315.
+%
+%\bibitem{han2019fiesta} L. Han, F. Gao, B. Zhou, and S. Shen, “FIESTA: Fast Incremental Euclidean Distance Fields for Online Motion Planning of Aerial Robots,” arXiv, Jul. 26, 2019. Accessed: Jan. 11, 2024. [Online]. Available: http://arxiv.org/abs/1903.02144
+%
+%\bibitem{zhou2021egoplanner} X. Zhou, Z. Wang, H. Ye, C. Xu, and F. Gao, “EGO-Planner: An ESDF-Free Gradient-Based Local Planner for Quadrotors,” IEEE Robot. Autom. Lett., vol. 6, no. 2, pp. 478–485, Apr. 2021, doi: 10.1109/LRA.2020.3047728.
+%
+%\bibitem{han2018dynamic} D. Han, H. Nie, J. Chen, and M. Chen, “Dynamic obstacle avoidance for manipulators using distance calculation and discrete detection,” Robotics and Computer-Integrated Manufacturing, vol. 49, pp. 98–104, Feb. 2018, doi: 10.1016/j.rcim.2017.05.013.
+%
+%\bibitem{Zlajpah2017}
+%L. Žlajpah, “On orientation control of functional redundant robots,” in Proc. of the 2017 IEEE International Conference on Robotics and Automation (ICRA), Singapore, May 2017, pp. 2475–2482. doi: 10.1109/ICRA.2017.7989288.
 
 
 

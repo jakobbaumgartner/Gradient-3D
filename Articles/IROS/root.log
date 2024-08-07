@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  1 JUN 2024 02:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.2.3)  7 AUG 2024 21:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -808,12 +808,6 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 61.
 (C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 6
-1.
-
-(C:\Users\Jakob\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
 Underfull \hbox (badness 6316) in paragraph at lines 87--88
 []\OT1/ptm/m/n/10 The in-tro-duced ap-proach uti-lizes oc-cu-pancy voxel
  []
@@ -838,7 +832,7 @@ Package epstopdf Info: Output file is already uptodate.
 pdfTeX warning: pdflatex.exe (file ./non_and_interp_4_plots_fix-eps-converted-t
 o.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allow
 ed
-<non_and_interp_4_plots_fix-eps-converted-to.pdf, id=105, 421.575pt x 316.18124
+<non_and_interp_4_plots_fix-eps-converted-to.pdf, id=103, 421.575pt x 316.18124
 pt>
 File: non_and_interp_4_plots_fix-eps-converted-to.pdf Graphic file (type pdf)
 <use non_and_interp_4_plots_fix-eps-converted-to.pdf>
@@ -850,7 +844,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 289--290
 []\OT1/ptm/m/n/10 The damped Moore-Penrose pseudo-inverse,
  []
 
-[3 <./non_and_interp_4_plots_fix-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <manipulator-kernels-visualization-fixed.ep
 s>
 (epstopdf)                    date: 2024-04-10 00:06:01
@@ -869,7 +862,7 @@ Package epstopdf Info: Output file is already uptodate.
 pdfTeX warning: pdflatex.exe (file ./manipulator-kernels-visualization-fixed-ep
 s-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most versio
 n <1.5> allowed
-<manipulator-kernels-visualization-fixed-eps-converted-to.pdf, id=127, 518.9387
+<manipulator-kernels-visualization-fixed-eps-converted-to.pdf, id=106, 518.9387
 5pt x 484.81125pt>
 File: manipulator-kernels-visualization-fixed-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -877,6 +870,7 @@ File: manipulator-kernels-visualization-fixed-eps-converted-to.pdf Graphic file
 Package pdftex.def Info: manipulator-kernels-visualization-fixed-eps-converted-
 to.pdf  used on input line 375.
 (pdftex.def)             Requested size: 196.57523pt x 183.64577pt.
+[3 <./non_and_interp_4_plots_fix-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <demo-field1_fixed.eps>
 (epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 98262 bytes
@@ -891,13 +885,12 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./demo-field1_fixed-eps-converted-to.pdf): P
 DF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<demo-field1_fixed-eps-converted-to.pdf, id=132, 276.03125pt x 498.86375pt>
+<demo-field1_fixed-eps-converted-to.pdf, id=129, 276.03125pt x 498.86375pt>
 File: demo-field1_fixed-eps-converted-to.pdf Graphic file (type pdf)
 <use demo-field1_fixed-eps-converted-to.pdf>
 Package pdftex.def Info: demo-field1_fixed-eps-converted-to.pdf  used on input 
 line 415.
 (pdftex.def)             Requested size: 196.57523pt x 355.28426pt.
-[4 <./manipulator-kernels-visualization-fixed-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <keyframes_3D_fixed.eps>
 (epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 44843 bytes
@@ -912,7 +905,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_3D_fixed-eps-converted-to.pdf): 
 PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_3D_fixed-eps-converted-to.pdf, id=153, 376.40625pt x 225.84375pt>
+<keyframes_3D_fixed-eps-converted-to.pdf, id=132, 376.40625pt x 225.84375pt>
 File: keyframes_3D_fixed-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_3D_fixed-eps-converted-to.pdf>
 Package pdftex.def Info: keyframes_3D_fixed-eps-converted-to.pdf  used on input
@@ -932,12 +925,13 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./4plots_column-eps-converted-to.pdf): PDF i
 nclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_column-eps-converted-to.pdf, id=154, 421.575pt x 316.18124pt>
+<4plots_column-eps-converted-to.pdf, id=133, 421.575pt x 316.18124pt>
 File: 4plots_column-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_column-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_column-eps-converted-to.pdf  used on input line
  436.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
+[4 <./manipulator-kernels-visualization-fixed-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <keyframes_3D_ball_fixed.eps>
 (epstopdf)                    date: 2024-04-10 00:06:01
 (epstopdf)                    size: 31644 bytes
@@ -953,7 +947,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./keyframes_3D_ball_fixed-eps-converted-to.p
 df): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<keyframes_3D_ball_fixed-eps-converted-to.pdf, id=157, 376.40625pt x 225.84375p
+<keyframes_3D_ball_fixed-eps-converted-to.pdf, id=156, 376.40625pt x 225.84375p
 t>
 File: keyframes_3D_ball_fixed-eps-converted-to.pdf Graphic file (type pdf)
 <use keyframes_3D_ball_fixed-eps-converted-to.pdf>
@@ -974,30 +968,28 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex.exe (file ./4plots_ball-eps-converted-to.pdf): PDF inc
 lusion: found PDF version <1.7>, but at most version <1.5> allowed
-<4plots_ball-eps-converted-to.pdf, id=158, 421.575pt x 316.18124pt>
+<4plots_ball-eps-converted-to.pdf, id=157, 421.575pt x 316.18124pt>
 File: 4plots_ball-eps-converted-to.pdf Graphic file (type pdf)
 <use 4plots_ball-eps-converted-to.pdf>
 Package pdftex.def Info: 4plots_ball-eps-converted-to.pdf  used on input line 4
 52.
 (pdftex.def)             Requested size: 245.71811pt x 184.29225pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [5 <./demo-field1_fixed-eps-converted-to.pdf> <./keyframes_3D_fixed-eps-conver
-ted-to.pdf> <./4plots_column-eps-converted-to.pdf> <./keyframes_3D_ball_fixed-e
-ps-converted-to.pdf>]
-Underfull \hbox (badness 5696) in paragraph at lines 510--511
-[]\OT1/ptm/m/n/8 H. Toshani and M. Far-rokhi, \Real-time in-verse kine-mat-ics
+[5 <./demo-field1_fixed-eps-converted-to.pdf> <./keyframes_3D_fixed-eps-convert
+ed-to.pdf> <./4plots_column-eps-converted-to.pdf> <./keyframes_3D_ball_fixed-ep
+s-converted-to.pdf>]
+Underfull \hbox (badness 2158) in paragraph at lines 515--516
+[]\OT1/ptm/m/n/8 L. Han, F. Gao, B. Zhou, and S. Shen, "FI-ESTA: Fast in-
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 510--511
-\OT1/ptm/m/n/8 pro-gram-ming: A Lyapunov-based ap-proach," Robotics and Au-
+Underfull \hbox (badness 1496) in paragraph at lines 515--516
+\OT1/ptm/m/n/8 cre-men-tal Eu-clidean dis-tance fields for on-line mo-tion plan
+-ning
  []
 
 
-Underfull \hbox (badness 5302) in paragraph at lines 516--517
-\OT1/ptm/m/n/8 and Au-toma-tion Pro-ceed-ings, Mar. 1985, pp. 500{505. doi:
+Underfull \hbox (badness 4872) in paragraph at lines 515--516
+\OT1/ptm/m/n/8 of aerial robots," arXiv, Jul. 26, 2019. [On-line]. Avail-able:
  []
 
 
@@ -1013,16 +1005,16 @@ Before submitting the final camera ready copy, remember to:
 
 [6 <./4plots_ball-eps-converted-to.pdf>] (root.aux)
 Package rerunfilecheck Info: File `root.out' has not changed.
-(rerunfilecheck)             Checksum: 709AA42BECBD653175071DB25B401386;2139.
+(rerunfilecheck)             Checksum: 8B3425D5137AC6DD248FA92ED7B0419B;2139.
  ) 
 Here is how much of TeX's memory you used:
- 21531 strings out of 476375
- 407966 string characters out of 5788976
- 1876299 words of memory out of 5000000
- 41471 multiletter control sequences out of 15000+600000
- 555239 words of font info for 128 fonts, out of 8000000 for 9000
+ 21494 strings out of 476375
+ 407402 string characters out of 5788976
+ 1877299 words of memory out of 5000000
+ 41438 multiletter control sequences out of 15000+600000
+ 555644 words of font info for 126 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 132i,11n,132p,1051b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 132i,11n,132p,1051b,439s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:
 /Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
@@ -1036,22 +1028,20 @@ rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Jakob/AppData
 /AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Use
 rs/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb>
 <C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-r6.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmr7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmr8.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Jakob/AppData/Local/Programs/Mi
-KTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Jakob/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/Jakob/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Users/Jakob/A
-ppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Jakob
-/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Jakob
-/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Jako
-b/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Jako
-b/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on root.pdf (6 pages, 945104 bytes).
+r7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmr8.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmsy10.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Jakob/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Jakob/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/Jakob/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Users/Jakob/AppData/
+Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Jakob/AppData/
+Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Jakob/AppData
+/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Jakob/AppData
+/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on root.pdf (6 pages, 926092 bytes).
 PDF statistics:
- 324 PDF objects out of 1000 (max. 8388607)
+ 314 PDF objects out of 1000 (max. 8388607)
  65 named destinations out of 1000 (max. 500000)
  160 words of extra memory for PDF output out of 10000 (max. 10000000)
 
